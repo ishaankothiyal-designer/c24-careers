@@ -1,0 +1,68 @@
+[
+  {
+    "file": "00-transition.html",
+    "main": false
+  },
+  {
+    "file": "01-tsnav.html",
+    "main": false,
+    "navbarVersion": "Navbar-V1"
+  },
+  {
+    "file": "01-navbar-v2.html",
+    "main": false,
+    "navbarVersion": "Navbar-V2"
+  },
+  {
+    "file": "02-00-hero.html",
+    "main": true
+  },
+  {
+    "file": "career-01-invitation.html",
+    "main": true
+  },
+  {
+    "file": "career-03-beliefs.html",
+    "main": true
+  },
+  {
+    "file": "career-04-support.html",
+    "main": true
+  },
+  {
+    "file": "career-05-growth.html",
+    "main": true
+  },
+  {
+    "file": "career-06-letter.html",
+    "main": true
+  },
+  {
+    "file": "career-07-exchange.html",
+    "main": true
+  },
+  {
+    "file": "career-08-roles.html",
+    "main": true
+  },
+  {
+    "file": "career-09-hiring.html",
+    "main": true
+  },
+  {
+    "file": "career-10-closing.html",
+    "main": true
+  },
+  {
+    "file": "02-09-faq.html",
+    "main": true
+  },
+  {
+    "file": "03-site-footer.html",
+    "main": false
+  },
+  {
+    "file": "04-consent.html",
+    "main": false
+  }
+]

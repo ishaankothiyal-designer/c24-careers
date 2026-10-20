@@ -1,0 +1,11 @@
+/* Current brand layer. Import after all preserved reference/section styles. */
+:root { --blue: #4736fe; }
+
+/* These source components used literal blues instead of the native token. */
+.society-footer { background-color: var(--blue); }
+.society-window-links a:hover { color: var(--blue); }
+.society-window a:focus-visible,
+.society-window button:focus-visible { outline-color: var(--blue); }
+.btn-bubble-arrow.craft-button:hover,
+.btn-bubble-arrow.craft-button:focus-visible { background-color: var(--blue); }
+.craft-tag--weave { --tag-bg: var(--blue); }
