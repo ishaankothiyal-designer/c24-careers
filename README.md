@@ -1,6 +1,4 @@
-# C24 Careers — Backup Version 2
-
-The preserved Version 2 careers prototype, prepared for GitHub Pages at:
+# C24 Careers
 
 https://mayank12-dotcom.github.io/c24-careers/
 
