@@ -1,0 +1,25 @@
+/* Requested content refinements; preserve original Legacy type sizes and motion. */
+.hero .hero__title { max-width:none; }
+.hero .hero__stage[data-astro-cid-lcdefpme] .hero__sub[data-astro-cid-lcdefpme] { margin-top:var(--sp-4); }
+
+/* Match Craft builder controls: edge inset, image-center offset, and pointer availability. */
+.roles-reel .craft-work__viewport { padding-block:42px; }
+.roles-reel .craft-work__arrow {
+  display:none; top:50%; bottom:auto; transform:translateY(-50%);
+  width:42px; height:42px; z-index:6;
+}
+.roles-reel .craft-work__previous { left:16px; }
+.roles-reel .craft-work__next { right:16px; }
+@media(hover:hover) and (pointer:fine) { .roles-reel .craft-work__arrow { display:flex; } }
+.roles-reel .tier__cta .craft-button.btn-bubble-arrow--tertiary { background:#eee; color:var(--black); }
+.roles-reel .tier__cta .craft-button.btn-bubble-arrow--tertiary:hover,
+.roles-reel .tier__cta .craft-button.btn-bubble-arrow--tertiary:focus-visible { background:#e4e4e4; color:var(--black); }
+
+#enterprise-faq .faq__intro { margin-top:var(--sp-3); max-width:32ch; font-size:var(--para); line-height:1.4; }
+#enterprise-faq .faq__icon::before {
+  width:8px; height:8px; background:transparent;
+  border-right:2px solid currentColor; border-bottom:2px solid currentColor;
+  transform:translateY(-2px) rotate(45deg);
+}
+#enterprise-faq .faq__icon::after { display:none; }
+#enterprise-faq .faq__btn[aria-expanded=true] .faq__icon::before { transform:translateY(2px) rotate(225deg); }

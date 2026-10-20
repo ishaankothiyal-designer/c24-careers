@@ -1,0 +1,636 @@
+[
+  {
+    "slug": "manvi-mehrotra",
+    "name": "Manvi Mehrotra",
+    "team": "Founder’s Office",
+    "asset": "/img/builders/manvi-mehrotra.png",
+    "description": "Built HTMLHub so teammates can securely host and share the HTML prototypes they create with AI.",
+    "title": "A secure home for AI-built prototypes.",
+    "challengeTitle": "Sharing a prototype needs more than an HTML file.",
+    "challenge": [
+      "Teams were using Claude, GPT and other AI tools to create interactive HTML dashboards, reports, prototypes and pitch decks. Creating the file was only the first step: the people who needed to review it still needed a reliable way to open it.",
+      "A localhost link worked only on the creator’s machine. Emailing an attachment moved the file around, while a screenshot lost the interactivity that made the prototype useful. Sharing the output in a Slack thread did not solve the hosting or access problem.",
+      "Manvi built HTMLHub as a central place to upload, host and share those outputs inside Cars24. The next challenge was helping that collection grow into team-owned workspaces, where people could find the right document, update it without changing its link, and discuss it in context."
+    ],
+    "solutions": [
+      [
+        "Upload once, share a live link",
+        "HTMLHub turns an uploaded HTML file into a hosted page, so teammates can review the interactive output without running it on their own machine or needing engineering help. V1 supported sharing with specific teammates or the approved company domains, with access that could be revoked."
+      ],
+      [
+        "Put access controls around the work",
+        "The launch placed files behind Cloudflare Access for employee-only access. V2 added administrator controls for viewing versus downloading, alongside visibility into users, shares and permissions. That made access management part of the hosting workflow."
+      ],
+      [
+        "Give teams a lasting workspace",
+        "V2 introduced Spaces so the team, rather than only an individual, could own its collection of documents. HTML updates retained the same share link, letting people return to an updated dashboard or report without chasing a replacement URL."
+      ],
+      [
+        "Keep review beside the document",
+        "V2 brought comments, teammate mentions and resolved discussions into the HTML itself. CLI uploads and Markdown support extended the workflow to reports, RFCs and AI-generated outputs, while dark mode followed the user’s system preference."
+      ]
+    ],
+    "outcomeTitle": "From shared files to a team workspace.",
+    "outcomes": [
+      [
+        "A platform people were using",
+        "In her 28 April 2026 update, Manvi reported 770+ users, 760+ documents and 850 share links since the V1 launch. The same update reported 461 new users and 507 uploads over the preceding 30 days."
+      ],
+      [
+        "A broader workflow in V2",
+        "The V2 release combined team-owned Spaces, stable links, access controls and in-document collaboration. These were reported product capabilities; external sharing, direct AI integrations and version history were listed as future V3 work."
+      ]
+    ],
+    "facts": [
+      "HTMLHub",
+      "Internal hosting",
+      "March 2026"
+    ],
+    "productAsset": "/img/builder-story/htmlhub-spaces.png",
+    "productAlt": "HTMLHub V2 Spaces interface with team workspaces and project collections",
+    "productWidth": 2940,
+    "productHeight": 1596,
+    "stats": [
+      {
+        "value": "770+",
+        "label": "Reported users"
+      },
+      {
+        "value": "760+",
+        "label": "Documents hosted"
+      },
+      {
+        "value": "850",
+        "label": "Share links created"
+      }
+    ],
+    "statsAsOf": "Reported 28 April 2026, following the V1 launch."
+  },
+  {
+    "slug": "nishant-arora",
+    "name": "Nishant Arora",
+    "team": "Finance",
+    "asset": "/img/builders/nishant-arora.png",
+    "description": "Built a financial consolidation tool and deployed it on Launchpad during the Finance AI war room.",
+    "title": "Taking financial consolidation from a recurring task to a working tool.",
+    "challengeTitle": "A recurring finance workflow to build around.",
+    "challenge": [
+      "Financial consolidation was one of the controllership workflows tackled during the Finance, Legal and People & Culture AI war room. The aim of that session was to turn recurring business tasks into working tools, using the team’s finance knowledge alongside AI.",
+      "Nishant’s contribution was the Consolidation Tool. The August update distinguished this from an idea or a prototype: it had already been deployed on Launchpad. Further refinement was planned over the following weeks."
+    ],
+    "solutions": [
+      [
+        "Build for financial consolidation",
+        "Nishant built the Consolidation Tool around a specific controllership workflow. It was listed alongside other reporting and reconciliation solutions built during the war room, with Nishant explicitly credited for this tool."
+      ],
+      [
+        "Deploy the working tool",
+        "The August update confirmed that the Consolidation Tool had been deployed on Launchpad. This moved the contribution beyond an experiment into a hosted tool the team could continue to refine."
+      ],
+      [
+        "Refine after the first release",
+        "The release update described further refinement over the coming weeks as the next step. That gives the project a clear sequence: build the tool, deploy it, and continue improving it around the finance workflow."
+      ]
+    ],
+    "outcomeTitle": "Built and deployed on Launchpad.",
+    "outcomes": [
+      [
+        "A deployed consolidation tool",
+        "The 19 August 2026 war-room update confirmed that Nishant had built the Consolidation Tool and deployed it on Launchpad."
+      ],
+      [
+        "A starting point for further refinement",
+        "The next step in the release update was to refine the tool over the following weeks, continuing the work around the recurring consolidation process."
+      ]
+    ],
+    "facts": [
+      "Consolidation",
+      "Launchpad",
+      "August 2026"
+    ]
+  },
+  {
+    "slug": "vishal-thakur",
+    "name": "Vishal Thakur",
+    "team": "IT",
+    "asset": "/img/builders/vishal-thakur.png",
+    "description": "Built an AI support bot that reads Slack threads, suggests troubleshooting and routes unresolved issues to the right team.",
+    "title": "Bringing IT support into the Slack conversation.",
+    "challengeTitle": "The support request starts in a thread.",
+    "challenge": [
+      "IT and product-support requests arrive as Slack threads containing error messages, URLs, screenshots and follow-up explanations. A useful first response needs that context and should leave room for the support team to answer first.",
+      "Vishal built an in-house support bot with Claude as a co-pilot. It monitors support channels, waits for a human response and, when needed, offers issue-specific troubleshooting before routing unresolved cases to the correct owner.",
+      "The design also needed clear limits. Access requests must reach the right team rather than trigger an automated access change, and a bot should not confirm an outage without evidence or recommend bypassing security controls."
+    ],
+    "solutions": [
+      [
+        "Read the whole support thread",
+        "The bot considers the full thread, including error messages, shared URLs and usable screenshots. It also detects duplicate or recurring issues, preserves thread context and restores recently unanswered tickets after a restart."
+      ],
+      [
+        "Give the team the first response",
+        "The workflow allows a five-minute response window for IT or support engineers. If an engineer replies, the bot stays silent. Otherwise it posts safe, issue-specific troubleshooting rather than competing with a human response."
+      ],
+      [
+        "Route unresolved work to its owner",
+        "Unresolved cases are directed to the correct team or owner under defined SOPs. Access changes are routed to a support mailbox or team and are never performed by the bot. Optional network diagnosis can use read-only device-status data."
+      ],
+      [
+        "Roll out channel by channel",
+        "The August launch reported active monitoring in three support channels. A fourth channel remained in silent-study mode, learning from approved engineer resolutions without posting replies. Internal-platform integration was described as a later phase."
+      ]
+    ],
+    "outcomeTitle": "An AI support bot, launched in production.",
+    "outcomes": [
+      [
+        "Production support inside Slack",
+        "Vishal reported the production launch on 28 August 2026. The bot covered connectivity, VPN, workplace-tool requests, access and mapping requests, SIM issues, and application or login errors."
+      ],
+      [
+        "A staged rollout with defined boundaries",
+        "The release separated active support channels from silent study and kept access changes with the responsible people. The next planned steps were API/authentication integration, user-context mapping and a controlled internal-platform pilot."
+      ]
+    ],
+    "facts": [
+      "IT support",
+      "Slack bot",
+      "August 2026"
+    ]
+  },
+  {
+    "slug": "anshul-sharma",
+    "name": "Anshul Sharma",
+    "team": "Engineering",
+    "asset": "/img/builders/anshul-sharma.jpg",
+    "description": "Built Assembly’s MCP connector, enabling teams to publish CMS pages directly from Claude, Codex and Figma.",
+    "title": "Connecting the tools people create in to the pages they publish.",
+    "challengeTitle": "Close the gap between authoring and publishing.",
+    "challenge": [
+      "Teams were creating pages with AI tools while Assembly remained the CMS where those pages needed to be published. The missing connection was a way to move from authoring in those tools to publishing through Assembly.",
+      "Anshul built an MCP connector for Assembly. The October update credited him with enabling publishing directly from Claude, Codex or Figma, and he subsequently confirmed that the connector had been released."
+    ],
+    "solutions": [
+      [
+        "Connect Assembly through MCP",
+        "Anshul built the connector that exposes the Assembly publishing workflow to the tools teams use to author pages. His contribution was specifically credited as the MCP for Assembly."
+      ],
+      [
+        "Publish from the authoring workflow",
+        "The update described direct CMS-page publishing from Claude, Codex and Figma. This connects the page-creation environment to the destination CMS instead of leaving the output in the authoring tool."
+      ],
+      [
+        "Take the connector to release",
+        "The work was reported complete in the 8 October update, and Anshul confirmed release on 16 October. Other responsive-design and migration work in that update belonged to the wider team."
+      ]
+    ],
+    "outcomeTitle": "A new path to publishing CMS pages.",
+    "outcomes": [
+      [
+        "Assembly publishing connected to AI tools",
+        "The released connector enables a page-authoring workflow across Claude, Codex and Figma with Assembly as the publishing destination."
+      ],
+      [
+        "A connector within the wider platform",
+        "Anshul’s MCP contribution connects AI authoring tools to Assembly publishing. It sits alongside the wider team’s responsive-layout and page-migration work."
+      ]
+    ],
+    "facts": [
+      "Assembly",
+      "MCP connector",
+      "October 2026"
+    ]
+  },
+  {
+    "slug": "ayush-gupta",
+    "name": "Ayush Gupta",
+    "team": "Customer & Dealer",
+    "asset": "/img/builders/ayush-gupta.png",
+    "description": "Led an AI dealer-engagement pilot that uses conversation and inventory context to personalise outreach, then added a daily improvement loop.",
+    "title": "Making dealer outreach respond to the conversation.",
+    "challengeTitle": "Outreach needs the context behind it.",
+    "challenge": [
+      "Dealer outreach was being scheduled largely through judgement and routine calls. The launch post described a gap in deciding the right time and frequency for each dealer using the information the business already held.",
+      "Ayush built a pilot that uses previous conversations, new inventory and Zendesk context to decide whom to call and prepare a personalised briefing for the voicebot. It connects Snowflake data to AutoLMS through Helios.",
+      "The next step was to improve the outreach agent using the calls themselves. A July update described a second agent that reviews call transcripts and outcomes, diagnoses problems, proposes changes and tests them before they go live."
+    ],
+    "solutions": [
+      [
+        "Choose the dealer using context",
+        "The pilot scans previous conversations, new inventory and Zendesk information to identify eligible dealers. It prepares a short dealer-specific context for the voicebot to read before a call, rather than treating each outreach attempt as a fresh conversation."
+      ],
+      [
+        "Connect the calling workflow",
+        "The workflow pushes data from Snowflake to AutoLMS through Helios. The voicebot can use curated inventory, production tools and a retrieval-based knowledge base covering dealer SOPs, pricing data and tool specifications. Priyanshu Jha built and delivered the integration APIs."
+      ],
+      [
+        "Run outreach on a schedule",
+        "The July update reported three daily runs across two Helios jobs, with panel-editable rules. The workflow selects eligible dealers, writes personalised context and dispatches calls without a manual trigger for each run."
+      ],
+      [
+        "Test improvements before release",
+        "A daily improvement agent reads transcripts, call evaluations and downstream outcomes from Snowflake, then identifies a funnel leak and updates the voicebot. The reported release gate used 17 evaluation criteria and 17 automated tests, with backups, diffs and safety checks."
+      ]
+    ],
+    "outcomeTitle": "A production pilot with a daily improvement loop.",
+    "outcomes": [
+      [
+        "A pilot followed by an improvement loop",
+        "The Gujarat and Pune pilot was reported live on 27 June 2026. By the 12 July update, the outreach workflow was running automatically and the daily improvement agent was reviewing and testing changes."
+      ],
+      [
+        "Early signals, with uncertainty kept visible",
+        "Ayush reported an early increase in bids per dealer in the called group, while explicitly saying the held-out control still had limited statistical significance. This was an early pilot signal, rather than a proven conversion uplift."
+      ]
+    ],
+    "facts": [
+      "Dealer outreach",
+      "Production pilot",
+      "June–July 2026"
+    ],
+    "productAsset": "/img/builder-story/dealer-engagement-workflow.png",
+    "productAlt": "Dealer engagement workflow shared with the June pilot: context selection, call briefing and dispatch",
+    "productWidth": 1540,
+    "productHeight": 729
+  },
+  {
+    "slug": "ayush-upadhyay",
+    "name": "Ayush Upadhyay",
+    "team": "Retail AI",
+    "asset": "/img/builders/ayush-upadhyay.png",
+    "description": "Built an automated build–test–fix–validate loop for voice agents. His July update reported two follow-up campaigns deployed to production.",
+    "title": "Building an agent that builds and tests voice agents.",
+    "challengeTitle": "The work continues after the first build.",
+    "challenge": [
+      "An ElevenLabs voice agent needs more than an initial prompt. Its workflow and tools must be configured, tested and evaluated, and any issues need to be fixed and tested again before deployment.",
+      "Ayush built an automation agent around that complete lifecycle. It starts from an agent’s purpose and required tools, builds the workflow, runs evaluations and repeats the fix-and-validation loop until the agent is ready to deploy.",
+      "A later inbound-campaign update described the same direction of continuous improvement: analyse previous call transcriptions, identify issues and improve future calls. It also distinguished the measured campaign results from rollout experiments and future plans."
+    ],
+    "solutions": [
+      [
+        "Build the workflow from its purpose",
+        "The automation takes the intended purpose and tools of an ElevenLabs agent and creates the workflow around them. It brings workflow creation and test/evaluation setup into the same process."
+      ],
+      [
+        "Close the test-and-fix loop",
+        "The agent runs evaluations, identifies issues, makes fixes and reruns the evaluations. The July update described this as a complete build–test–fix–validate loop supporting deployment readiness."
+      ],
+      [
+        "Deploy the follow-up campaigns",
+        "The update reported the BC2V Missed Visit Long Follow-up agent and the workflow-based A2I Missed Inspection campaign deployed to production. A separate BI2BC Customer Finance flow was described as production-ready, rather than already deployed."
+      ],
+      [
+        "Use conversations to improve future calls",
+        "The later inbound-campaign update described transcription analysis feeding issue identification and agent improvements. Customer context from Chronicle was also integrated, with the contextualised agent launched at 10% of volume across India."
+      ]
+    ],
+    "outcomeTitle": "Two follow-up campaigns deployed.",
+    "outcomes": [
+      [
+        "Two campaigns deployed through the workflow",
+        "The 12 July update reported two follow-up campaigns in production after the build-and-validation loop. The separate Customer Finance flow had reached production readiness."
+      ],
+      [
+        "Campaign results reported with their measurement period",
+        "The 27 July update reported AI V2 visit conversion of 5.24% and delivery conversion of 0.66%, against human-calling figures of 5.12% and 0.62%. The data covered 27 April–20 July, and the latest delivery results were still maturing."
+      ]
+    ],
+    "facts": [
+      "Voice agents",
+      "2 campaigns",
+      "July 2026"
+    ],
+    "productAsset": "/img/builder-story/voice-agent-results.png",
+    "productAlt": "Published AI V2 inbound campaign results shared in the July release update",
+    "stats": [
+      {
+        "value": "5.24%",
+        "label": "AI V2 visit conversion"
+      },
+      {
+        "value": "0.66%",
+        "label": "AI V2 delivery conversion"
+      },
+      {
+        "value": "10%",
+        "label": "Contextual-agent rollout volume"
+      }
+    ],
+    "statsAsOf": "27 July 2026 update: conversion data covers 27 April–20 July; contextual-agent rollout reported separately.",
+    "productWidth": 785,
+    "productHeight": 425
+  },
+  {
+    "slug": "priyanshu-jha",
+    "name": "Priyanshu Jha",
+    "team": "Engineering",
+    "asset": "/img/builders/priyanshu-jha.jpg",
+    "description": "Built and delivered the APIs behind an AI-led dealer engagement pilot, connecting the tools that made personalized outreach possible.",
+    "title": "Building the APIs behind contextual dealer engagement.",
+    "challengeTitle": "An outreach pilot needs connected systems.",
+    "challenge": [
+      "The dealer-engagement pilot needed to connect business data and calling tools so an AI voicebot could act on relevant dealer context. The visible calling workflow depended on the APIs behind that integration.",
+      "Priyanshu built and delivered those APIs. Akshay Sethi explicitly credited him in the pilot thread, clarifying the engineering contribution behind the initiative led by Ayush Gupta.",
+      "The project brought together conversation history, inventory and Zendesk context with a Snowflake-to-AutoLMS dispatch workflow on Helios. Priyanshu’s contribution is the integration work supporting that shared system."
+    ],
+    "solutions": [
+      [
+        "Deliver the integration APIs",
+        "Priyanshu was credited as the person who built and delivered the APIs that made the dealer-engagement integration possible. This is the concrete engineering contribution behind his project story."
+      ],
+      [
+        "Support the contextual calling flow",
+        "The shared pilot prepares a dealer-specific briefing before a voicebot call and dispatches the calling data through Helios. The APIs connect the tools involved in that flow; the broader agent and outreach logic were a team effort."
+      ],
+      [
+        "Build as part of the pilot team",
+        "The thread distinguishes Ayush Gupta’s initiative from the API work delivered by Priyanshu. Keeping those roles visible shows how domain knowledge and engineering came together to ship the pilot."
+      ]
+    ],
+    "outcomeTitle": "The connections behind the pilot.",
+    "outcomes": [
+      [
+        "APIs delivered for a live pilot",
+        "The pilot was reported live in Gujarat and Pune in June 2026. Priyanshu’s delivered APIs were explicitly acknowledged in the follow-up discussion."
+      ],
+      [
+        "Domain knowledge and engineering together",
+        "Ayush Gupta led the dealer-engagement initiative, while Priyanshu delivered the APIs connecting its tools. The pilot brought those contributions together in the calling workflow."
+      ]
+    ],
+    "facts": [
+      "Dealer engagement",
+      "APIs delivered",
+      "June 2026"
+    ],
+    "productAsset": "/img/builder-story/dealer-engagement-workflow.png",
+    "productAlt": "Dealer engagement workflow shared with the June pilot: context selection, call briefing and dispatch",
+    "productWidth": 1540,
+    "productHeight": 729
+  },
+  {
+    "slug": "gaurav-saxena",
+    "name": "Gaurav Saxena",
+    "team": "People & Culture",
+    "asset": "/img/builders/gaurav-saxena.png",
+    "description": "Helped create a People & Culture agent hub bringing SOPs, running agents and data together. He also organized a two-day hackathon around practical employee workflows.",
+    "title": "Bringing employee workflows into one agent hub.",
+    "challengeTitle": "Bring the process, agents and data together.",
+    "challenge": [
+      "People & Culture workflows involved SOPs, running agents and employee data that teams needed to use together. The October hackathon focused on practical employee and manager workflows rather than isolated AI experiments.",
+      "Gaurav helped create a master agent hub, alongside Vivek Naiwal, bringing those SOPs, agents and data into one place. The follow-up described connections to the Cars24 data lake and Darwinbox.",
+      "The two-day session also brought teams together around payroll inputs, compliance, recurring WeCare requests and manager feedback. Gaurav organised the hackathon and helped make this collaborative way of building possible."
+    ],
+    "solutions": [
+      [
+        "Bring the operating material together",
+        "The master hub brings SOPs, running agents and data into a single place. Gaurav and Vivek Naiwal were explicitly credited for this shared hub in the hackathon follow-up."
+      ],
+      [
+        "Connect the hub to existing data",
+        "The follow-up described direct connections with the Cars24 data lake and Darwinbox. That places the hub alongside the employee systems teams already use, rather than treating the agents as a separate collection of experiments."
+      ],
+      [
+        "Organise a focused build session",
+        "Gaurav organised the two-day People & Culture hackathon. Teams worked together on payroll inputs, compliance tracking, recurring WeCare requests and a Manager Hub for feedback and performance reviews."
+      ],
+      [
+        "Build with domain and technical partners",
+        "The update credited multiple contributors who shared expertise and helped teams develop practical solutions. The intention was to make the hackathon a recurring practice; future sessions were a plan rather than a completed outcome."
+      ]
+    ],
+    "outcomeTitle": "A shared hub for People & Culture workflows.",
+    "outcomes": [
+      [
+        "A shared People & Culture agent hub",
+        "The October follow-up credited Gaurav and Vivek Naiwal with the master hub connecting SOPs, agents and data to existing employee systems."
+      ],
+      [
+        "Connected to existing employee systems",
+        "The hub brings SOPs, running agents and data together, with connections to the Cars24 data lake and Darwinbox. The hackathon created space for the teams to build around real employee workflows."
+      ]
+    ],
+    "facts": [
+      "Agent hub",
+      "People workflows",
+      "October 2026"
+    ]
+  },
+  {
+    "slug": "mayank",
+    "name": "Mayank",
+    "team": "Design",
+    "asset": "/img/builders/mayank.png",
+    "description": "Created Design Audit, a reusable skill that checks design-system usage, content and accessibility, then adds Dev Mode findings and proposes fixes for review.",
+    "title": "Making design review a reusable skill.",
+    "challengeTitle": "Check the details before handoff.",
+    "challenge": [
+      "A design review needs to establish whether a screen uses approved components and tokens, while also checking copy, calculations, image–text consistency and basic usability. A component that looks correct can still be detached from its source library.",
+      "Mayank created Design Audit as a reusable skill across Codex, Claude Code and Figma Agent. It checks actual library usage, finds inconsistencies and makes findings visible through Dev Mode annotations and a report.",
+      "The first version was shared for small-screen trials. Its proposed fixes are reviewed before being applied, and its results depend on the agent’s Figma access and ability to inspect the required libraries."
+    ],
+    "solutions": [
+      [
+        "Check the approved design-system sources",
+        "The skill checks widgets, components, atoms, icons, tokens and typography against five approved libraries. It distinguishes actual source identifiers from a visual or naming match and looks for detached instances and hard-coded values."
+      ],
+      [
+        "Review content and interface consistency",
+        "The checks cover placeholders, inconsistent copy, calculations and image–text mismatches. They also consider contrast, touch-target sizes, spacing and component variants, making the review broader than a token-only check."
+      ],
+      [
+        "Put findings where designers review them",
+        "Findings appear as Dev Mode annotations with a summary report. The reusable skill file works across the three supported agents, provided the Figma connection has the required access and script-execution support."
+      ],
+      [
+        "Keep fixes reviewable",
+        "The skill can propose supported token fixes and apply them after approval. The initial release invited trials on a small screen and feedback on missed issues, false positives and setup problems."
+      ]
+    ],
+    "outcomeTitle": "An initial version ready for trials.",
+    "outcomes": [
+      [
+        "An initial version shared for trials",
+        "Mayank shared Design Audit on 19 October 2026, with a team guide covering installation, commands and capabilities. It was an initial release, rather than a claim of broad adoption."
+      ],
+      [
+        "A repeatable review workflow",
+        "The contribution combines source-library checks, content review and Dev Mode findings in one reusable skill. Supported fixes remain subject to approval rather than being applied without review."
+      ]
+    ],
+    "facts": [
+      "Design Audit",
+      "Reusable skill",
+      "October 2026"
+    ]
+  },
+  {
+    "slug": "nikhil-meena",
+    "name": "Nikhil Meena",
+    "team": "Finance",
+    "asset": "/img/builders/nikhil-meena.jpg",
+    "description": "Helped teams build solutions for recurring WeCare requests during the People & Culture hackathon, turning everyday support problems into practical automation ideas.",
+    "title": "Turning recurring employee requests into automation ideas.",
+    "challengeTitle": "Start with the requests that keep coming back.",
+    "challenge": [
+      "Recurring WeCare requests were one of the employee-support problems tackled during the People & Culture hackathon. The session brought people with different areas of expertise together to work on familiar operational problems.",
+      "Nikhil helped teams build solutions for those recurring requests. The follow-up specifically credited him for work intended to reduce WeCare tickets, while Gaurav’s update acknowledged his help with the wider build session.",
+      "The project’s stated reduction goal should be kept separate from a measured result. The available update describes the solutions and the intention behind them, rather than publishing a before-and-after ticket total."
+    ],
+    "solutions": [
+      [
+        "Focus on recurring WeCare requests",
+        "Nikhil helped teams develop solutions around repeat employee-support requests. The work started from a named operational problem within the hackathon, rather than an abstract AI demonstration."
+      ],
+      [
+        "Help teams turn the problem into solutions",
+        "The organiser credited Nikhil with sharing expertise and helping the People & Culture teams build. His contribution was part of the collaborative two-day effort alongside payroll, compliance and manager-workflow projects."
+      ],
+      [
+        "Keep the goal separate from the result",
+        "The follow-up described solutions intended to reduce WeCare tickets by 40%. That is presented as the goal of the work, not as an achieved reduction or a measured usage total."
+      ]
+    ],
+    "outcomeTitle": "Practical solutions explored at the hackathon.",
+    "outcomes": [
+      [
+        "WeCare solutions credited in the follow-up",
+        "Nikhil was specifically acknowledged for the recurring-ticket solutions in the October hackathon update."
+      ],
+      [
+        "Build together around the support problem",
+        "The two-day session brought People & Culture teams together with colleagues sharing technical and domain expertise. Nikhil’s contribution focused on the recurring WeCare support work."
+      ]
+    ],
+    "facts": [
+      "WeCare",
+      "Employee support",
+      "October 2026"
+    ]
+  },
+  {
+    "slug": "saumy-omar",
+    "name": "Saumy Omar",
+    "team": "Business Finance",
+    "asset": "/img/builders/saumy-omar.jpg",
+    "description": "Built invoice-approval automation for the Australia team, turning a recurring finance task into a working tool.",
+    "title": "Turning invoice approvals into a working automation.",
+    "challengeTitle": "Take on a recurring finance task.",
+    "challenge": [
+      "The Finance, Legal and People & Culture war room focused on practical business workflows that teams could turn into working tools. Invoice approval for the Australia team was one of those named workflows.",
+      "Saumy built Aerchain invoice-approval automation for that team. The August update credited her with the tool as part of the approvals and process-automation work completed during the session."
+    ],
+    "solutions": [
+      [
+        "Automate the Aerchain approval workflow",
+        "Saumy’s named contribution was invoice-approval automation in Aerchain for the Australia team. The tool targets a specific finance process rather than a general-purpose finance assistant."
+      ],
+      [
+        "Build with the Australia workflow in scope",
+        "The release update explicitly identified AUS as the team served by the automation. Saumy’s work brought that team’s invoice-approval process into the approvals and automation work completed during the war room."
+      ]
+    ],
+    "outcomeTitle": "Invoice-approval automation, built.",
+    "outcomes": [
+      [
+        "Invoice-approval automation built",
+        "The 19 August 2026 update credited Saumy with the Aerchain invoice-approval automation for AUS."
+      ],
+      [
+        "Built alongside other operational tools",
+        "The shared war room covered approvals, reporting and employee processes. Saumy’s Aerchain tool was the named contribution serving the Australia invoice-approval workflow."
+      ]
+    ],
+    "facts": [
+      "Invoice approval",
+      "Australia team",
+      "August 2026"
+    ]
+  },
+  {
+    "slug": "shyamal-anand",
+    "name": "Shyamal Anand",
+    "team": "Legal",
+    "asset": "/img/builders/shyamal-anand.png",
+    "description": "Built Barrister Babu, an in-house legal agent that helps draft submissions and research applicable law and citations.",
+    "title": "Building a legal agent for drafting and research.",
+    "challengeTitle": "Support the work behind a submission.",
+    "challenge": [
+      "Legal submission work brings together drafting, applicable law and supporting citations. The August war-room update identified consumer, insurance, MACT and RC-transfer litigation as the areas supported by Barrister Babu.",
+      "Shyamal built the in-house legal agent to assist that preparation: draft submissions, connect the arguments to applicable law and support rebuttals with verified citations. The contribution supports legal work rather than replacing legal judgement."
+    ],
+    "solutions": [
+      [
+        "Draft submissions for named litigation areas",
+        "Barrister Babu was described as supporting consumer, insurance, MACT and RC-transfer litigation. It helps prepare filing-ready submissions within those named areas."
+      ],
+      [
+        "Connect the draft to applicable law",
+        "The agent maps submissions to relevant law, bringing legal research into the drafting workflow rather than treating the generated text as a standalone answer."
+      ],
+      [
+        "Support rebuttals with verified citations",
+        "The update described citation-backed support for rebuttals. The agent’s role is assistance with drafting and research; legal review and decisions remain with the responsible people."
+      ]
+    ],
+    "outcomeTitle": "Barrister Babu, built in-house.",
+    "outcomes": [
+      [
+        "An in-house drafting and research agent",
+        "The 19 August 2026 war-room update credited Shyamal with building Barrister Babu and described its litigation-support capabilities."
+      ],
+      [
+        "Drafting, research and rebuttals in one flow",
+        "Barrister Babu combines submission drafting, mapping to applicable law and citation-backed rebuttal support across the four named litigation areas, assisting the legal team’s preparation."
+      ]
+    ],
+    "facts": [
+      "Barrister Babu",
+      "Legal assistance",
+      "August 2026"
+    ]
+  },
+  {
+    "slug": "suraj-hatwal",
+    "name": "Suraj Hatwal",
+    "team": "Finance",
+    "asset": "/img/builders/suraj-hatwal.jpg",
+    "description": "Co-built three finance tools for challan-level reporting, receipt reconciliation and dealer-wallet reconciliation.",
+    "title": "Building three tools around finance reconciliation and reporting.",
+    "challengeTitle": "Focus on the recurring finance work.",
+    "challenge": [
+      "The controllership work in the August war room included reporting, entry preparation and reconciliation. Suraj worked with Abhishek Singh and Hukam Sen on three tools addressing different parts of that finance workflow.",
+      "The shared contribution covered challan-level P&Ls, Razorpay dealer-based receipt reconciliation and dealer-wallet reconciliation. These were distinct tools with a common focus on recurring finance work.",
+      "The update credited the three builders together. That shared ownership matters when describing what Suraj made: he co-built the solutions, rather than being presented as the sole author of each tool."
+    ],
+    "solutions": [
+      [
+        "Build challan-level reporting",
+        "The VAS RTO P&L Agent creates challan-level P&Ls and supports entry uploads. It was one of the three tools co-built by Suraj, Abhishek Singh and Hukam Sen."
+      ],
+      [
+        "Reconcile dealer-based receipts",
+        "The group built a Razorpay dealer-based receipt-reconciliation solution. This is a separate contribution from the challan-based reconciliation work credited to other people in the same update."
+      ],
+      [
+        "Reconcile dealer-wallet records",
+        "Dealer Wallet Reconciliation was the third tool attributed to the shared team. Together the three tools cover reporting, receipt reconciliation and wallet reconciliation."
+      ]
+    ],
+    "outcomeTitle": "Three finance tools, co-built.",
+    "outcomes": [
+      [
+        "Three finance tools co-built",
+        "The 19 August 2026 update credited Suraj, Abhishek and Hukam with the three named solutions."
+      ],
+      [
+        "Reporting and reconciliation, together",
+        "The shared build covers challan-level P&Ls and entry uploads, dealer-based Razorpay receipt reconciliation, and dealer-wallet reconciliation. Suraj, Abhishek Singh and Hukam Sen were credited together."
+      ]
+    ],
+    "facts": [
+      "3 tools",
+      "Co-built",
+      "August 2026"
+    ]
+  }
+]

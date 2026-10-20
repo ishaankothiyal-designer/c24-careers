@@ -1,0 +1,41 @@
+/* October 20 review: local layout changes using the existing Legacy controls. */
+.hero .hero__stage[data-astro-cid-lcdefpme] .hero__sub[data-astro-cid-lcdefpme] { margin-bottom:var(--sp-3); }
+.hero .hero__actions {
+  display:flex; align-items:center; flex-wrap:wrap; gap:var(--sp-3);
+  margin-bottom:var(--sp-6);
+}
+.hero .hero__letter-link {
+  color:var(--black); text-decoration:underline; text-underline-offset:4px;
+  font-family:var(--font-body); font-size:var(--para-sm); line-height:1.4;
+}
+.hero .hero__letter-link:hover,
+.hero .hero__letter-link:focus-visible { color:#4736fe; }
+
+@media(min-width:901px) {
+  .hero .hero__roles { min-width:200px; }
+}
+
+#roles .cases__head {
+  display:flex; justify-content:space-between; align-items:center;
+  gap:var(--sp-4);
+}
+#roles .cases__title { margin:0; }
+#roles .roles-reel__heading-cta { flex:none; }
+
+#next-chapter { text-align:center; }
+#next-chapter .closing-pixels__copy .challenge__text { margin-inline:auto; }
+#next-chapter .closing-pixels__copy .craft-button { margin-inline:auto; }
+
+@media(max-width:900px) {
+  #roles .cases__head { flex-wrap:wrap; gap:var(--sp-3); }
+  .hero .hero__actions { margin-bottom:var(--sp-4); }
+}
+
+@media(max-width:680px) {
+  .hero .hero__title br { display:none; }
+  .hero .hero__actions { flex-direction:column; align-items:stretch; gap:16px; }
+  .hero .hero__actions > a {
+    display:flex; align-items:center; justify-content:center;
+    width:100%; box-sizing:border-box; min-height:48px;
+  }
+}

@@ -1,0 +1,23 @@
+/* Hallmark · pre-emit critique: P5 H4 E5 S5 R5 V4 */
+.careers-page{background:var(--bg);min-height:100svh}
+.careers-listing{padding-top:clamp(150px,16vw,210px)}
+.careers-listing__head{display:flex;align-items:flex-start;flex-direction:column;gap:var(--sp-4);margin-bottom:var(--sp-3)}
+.careers-listing__head h1{font-size:var(--h1);min-width:0;overflow-wrap:anywhere;letter-spacing:-.04em;line-height:1.15}
+.careers-filters{display:flex;flex-wrap:wrap;gap:var(--sp-1)}
+.careers-filter{background:var(--white);color:var(--black);border-radius:var(--radius-sm);font-size:var(--para-sm);letter-spacing:-.02em;padding:.55em 1.3em;white-space:nowrap;transition:background-color .2s,color .2s}
+.careers-filter[aria-pressed=true]{background:var(--ink);color:var(--white);box-shadow:0 0 0 2px var(--ink)}
+.careers-filter:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
+.careers-listing__status{font-size:var(--para-sm);opacity:.65;margin-bottom:var(--sp-3)}
+.careers-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp-3)}
+.careers-card{min-width:0;background:var(--white);border-radius:var(--radius);overflow:hidden}
+.careers-card[hidden]{display:none}
+.careers-card .careers-card__inner{display:flex;flex-direction:column;height:100%;padding:var(--sp-3);background:var(--white)}
+.careers-card .tier__head{margin-bottom:var(--sp-3)}
+.careers-card .tier__chip{display:inline-block;font-size:var(--para-sm);color:var(--blue)}
+.careers-card .tier__title{font-size:var(--h5);margin-bottom:var(--sp-4);min-height:3.45em;overflow-wrap:anywhere}
+.careers-card .tier__body{display:flex;flex-direction:column;flex:1;gap:var(--sp-3)}
+.careers-card .tier__lead{font-size:var(--para-sm);font-weight:700}
+.careers-card .tier__note{font-size:var(--para-sm);opacity:.8}
+.careers-card .tier__cta{margin-top:auto;padding-top:var(--sp-2)}
+.careers-card .craft-button{width:100%;background:var(--bg);color:var(--black);white-space:nowrap}
+@media(max-width:900px){.careers-grid{grid-template-columns:minmax(0,1fr)}.careers-card .tier__title{min-height:0}.careers-listing__head{align-items:flex-start;flex-direction:column}}

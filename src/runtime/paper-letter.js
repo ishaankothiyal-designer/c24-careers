@@ -6,17 +6,16 @@ export function initializePaperLetter() {
     const motion = matchMedia('(prefers-reduced-motion: reduce)');
     const crampedViewport = matchMedia('(max-width:1050px), (max-height:700px) and (orientation:landscape)');
     const isStatic = () => motion.matches || crampedViewport.matches;
-    const button = root.querySelector('[data-paper-letter-read]');
-    let scene, loading = false, visible = false, keepOpen = false, current = 1, writing = 0, frame = 0, lastTick = 0;
+    let scene, loading = false, visible = false, current = 1, writing = 0, frame = 0, lastTick = 0;
     const smooth = (a, b, value) => { const x = Math.max(0, Math.min(1, (value-a)/(b-a))); return x*x*(3-2*x); };
     const getTarget = () => {
       const rect = root.getBoundingClientRect();
       const progress = Math.max(0, Math.min(1, (innerHeight-rect.top)/(rect.height+innerHeight)));
       root.dataset.paperProgress = progress.toFixed(3);
       if (rect.top > innerHeight + 80) writing = 0;
-      else writing = Math.max(writing, keepOpen ? 1 : progress < .29 ? .5*smooth(.11,.29,progress) : .5+.5*smooth(.29,.46,progress));
+      else writing = Math.max(writing, progress < .29 ? .5*smooth(.11,.29,progress) : .5+.5*smooth(.29,.46,progress));
       root.dataset.paperWriting = writing.toFixed(3);
-      return keepOpen ? 0 : 1 - smooth(.08,.29,progress)*(1-smooth(.53,.72,progress));
+      return 1 - smooth(.08,.29,progress)*(1-smooth(.53,.72,progress));
     };
     const tick = now => {
       frame = 0;
@@ -41,7 +40,10 @@ export function initializePaperLetter() {
       loading = true;
       try {
         const { createPaperLetterScene } = await import('./paper-letter-scene.js');
-        await document.fonts.load('300 20px "Playwrite ZA"');
+        await Promise.all([
+          document.fonts.load('400 20px "Pine Words"'),
+          document.fonts.load('400 34px "Motterdam"'),
+        ]);
         await document.fonts.ready;
         if (isStatic()) return;
         scene = await createPaperLetterScene(root);
@@ -54,11 +56,14 @@ export function initializePaperLetter() {
         console.warn('Paper animation unavailable; showing the letter.', error.message);
       } finally { loading = false; }
     };
-    button.addEventListener('click', () => {
-      keepOpen = !keepOpen; button.setAttribute('aria-pressed', String(keepOpen));
-      button.textContent = keepOpen ? 'Resume the scroll animation' : 'Keep the letter open';
-      request();
+    // Source PaperCrumble graph-paper proportions, shared with static fallback.
+    const sheet = root.querySelector('[data-paper-sheet]');
+    const paperSurface = new ResizeObserver(() => {
+      const width = sheet.getBoundingClientRect().width;
+      sheet.style.setProperty('--paper-grid', `${width/16}px`);
+      sheet.style.setProperty('--paper-grid-line', `${width/512}px`);
     });
+    paperSurface.observe(sheet);
     const preload = new IntersectionObserver(entries => {
       if (entries.some(e=>e.isIntersecting)) { load(); preload.disconnect(); }
     }, {rootMargin:'1600px'}); preload.observe(root);
@@ -67,7 +72,7 @@ export function initializePaperLetter() {
       else {
         cancelAnimationFrame(frame);frame=0;
         // Retreat above the section creates a fresh entrance, not an exit erase.
-        if (!keepOpen && root.getBoundingClientRect().top >= innerHeight) {
+        if (root.getBoundingClientRect().top >= innerHeight) {
           writing = 0;current = 1;root.dataset.paperWriting = '0.000';
           root.dataset.paperCrumple = '1.000';root.classList.remove('is-paper-readable');
         }

@@ -41,7 +41,7 @@ export async function initializeSocietyFooter() {
   }
   footer.dataset.motionState = 'ready'; footer.dataset.gsapVersion = gsap.version;
 
-  const labelReveals = [...footer.querySelectorAll('.society-window-handle')].map(handle => {
+  const labelReveals = [...footer.querySelectorAll('.society-window:not([hidden]) .society-window-handle')].map(handle => {
     const label = handle.firstElementChild, holder = document.createElement('span'), mask = document.createElement('span');
     holder.className = 'society-window-label-reveal'; mask.className = 'society-window-label-mask'; mask.setAttribute('aria-hidden','true');
     label.before(holder); holder.append(label,mask); return {label,holder,mask};
@@ -72,20 +72,22 @@ export async function initializeSocietyFooter() {
     ScrollTrigger.refresh();
   }
   configureMotion();
-  // Same pointer deformation parameters as source, including return curve.
-  title.addEventListener('pointermove', event => {
-    if (reduce.matches || event.pointerType === 'touch') return;
-    const rect = title.getBoundingClientRect();
-    const x = (event.clientX - rect.left - rect.width/2)/(rect.width/2);
-    const y = (event.clientY - rect.top - rect.height/2)/(rect.height/2);
-    title.style.transition = 'transform .1s ease-out';
-    title.style.transform = `perspective(1000px) scale(1.05) rotateX(${-y*15}deg) rotateY(${x*15}deg) skew(${x*5}deg, ${y*5}deg)`;
-  });
-  title.addEventListener('pointerleave', () => {
-    title.style.transition = 'transform .6s cubic-bezier(.25,1,.5,1)';
-    title.style.transform = 'perspective(1000px) scale(1) rotateX(0deg) rotateY(0deg) skew(0deg,0deg)';
-  });
-
+  // The source parallax moves the entire footer above its clipped wrapper.
+  // Keep the revealing title intact inside the currently visible blue stage;
+  // independent CSS translate leaves its trigger and source GSAP curve unchanged.
+  function keepTitleWhole() {
+    if (reduce.matches) { words.forEach(word=>{word.style.translate='';word.style.visibility='';word.dataset.visibleClearance='0';}); return; }
+    const bounds=wrap.getBoundingClientRect(),stage=footer.querySelector('.society-stage').getBoundingClientRect();
+    const top=Math.max(0,bounds.top,stage.top)+8,bottom=Math.min(innerHeight,bounds.bottom,stage.bottom)-8;
+    words.forEach(word=>{
+      const previous=Number(word.dataset.visibleClearance||0),rect=word.getBoundingClientRect();
+      const baseTop=rect.top-previous,shift=Math.max(0,top-baseTop);
+      word.style.visibility=bottom-top>=rect.height&&baseTop+shift+rect.height<=bottom?'visible':'hidden';
+      word.style.translate=`0 ${shift}px`;word.dataset.visibleClearance=String(shift);
+    });
+  }
+  gsap.ticker.add(keepTitleWhole);
+  keepTitleWhole();
   // Original scramble plugin: enter 1.2s, leave 1s (rather than instant reset).
   const scrambleLabels = [];
   footer.querySelectorAll('[data-society-scramble]').forEach(link => {
@@ -102,7 +104,7 @@ export async function initializeSocietyFooter() {
   });
 
   // Source stickers drag as whole windows, with magnetism + lift + velocity tilt.
-  footer.querySelectorAll('[data-society-window]').forEach(panel => {
+  footer.querySelectorAll('[data-society-window]:not([hidden])').forEach(panel => {
     const handle=panel.querySelector('[data-society-drag]');
     gsap.set(panel,{xPercent:0,yPercent:0});
     const [drag]=Draggable.create(panel,{bounds:document.body,dragResistance:.1,minimumMovement:8,allowEventDefault:true,zIndexBoost:false,dragClickables:false,
@@ -130,11 +132,14 @@ export async function initializeSocietyFooter() {
 
   // Source CSS marquee moves at a constant 75px/s and pauses offscreen.
   const marquee=footer.querySelector('.society-marquee'),track=footer.querySelector('.society-marquee-track');
+  let updateMarquee=()=>{};
+  if(marquee&&track){
   let list=track.querySelector('.society-marquee-list');
   if(!list){list=document.createElement('div');list.className='society-marquee-list';while(track.firstChild)list.append(track.firstChild);track.append(list);const clone=list.cloneNode(true);clone.setAttribute('aria-hidden','true');track.append(clone);}
   const lists=[...track.children];let marqueeVisible=false;
-  const updateMarquee=()=>{lists.forEach(el=>{el.style.animationDuration=`${el.offsetWidth/75}s`;el.style.animationPlayState=marqueeVisible&&!document.hidden&&!reduce.matches?'running':'paused';});};
+  updateMarquee=()=>{lists.forEach(el=>{el.style.animationDuration=`${el.offsetWidth/75}s`;el.style.animationPlayState=marqueeVisible&&!document.hidden&&!reduce.matches?'running':'paused';});};
   const marqueeObserver=new IntersectionObserver(entries=>{marqueeVisible=entries.some(e=>e.isIntersecting);updateMarquee();},{threshold:0});marqueeObserver.observe(marquee);
+  }
   const footerObserver=new IntersectionObserver(entries=>{const visible=entries.some(e=>e.isIntersecting);footer.classList.toggle('is-in-view',visible);document.body.classList.toggle('society-footer-visible',visible);},{threshold:0});footerObserver.observe(wrap);
   document.addEventListener('visibilitychange',updateMarquee);
   reduce.addEventListener('change',()=>{configureMotion();updateMarquee();scrambleLabels.forEach(({label,original})=>{gsap.killTweensOf(label);label.textContent=original;});});

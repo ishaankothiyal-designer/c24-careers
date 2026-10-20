@@ -12,18 +12,40 @@ function initializeReel(root) {
   const viewport = root.querySelector('[data-craft-work-viewport]');
   const track = root.querySelector('[data-craft-work-track]');
   const cards = [...track.querySelectorAll('.craft-work__card')];
+  const autoReel = root.id === 'builder';
+  // Recycle the original cards around a virtual ring. A builder has one card
+  // and one set of hover/focus handlers, rather than a duplicated visual set.
   const prev = root.querySelector('.craft-work__previous');
   const next = root.querySelector('.craft-work__next');
-  let x = 0, velocity = 0, minX = 0, step = 448, target = null, frame = 0, drag = null;
-  const clamp = value => Math.max(minX, Math.min(0, value));
+  let x = 0, velocity = 0, minX = 0, step = 448, target = null, frame = 0, drag = null, lastFrame = 0;
+  let cardMetrics=[];
+  let loopWidth = 0, hovered = false, autoVisible = false, autoFrame = 0, autoLast = 0, autoSpeed = 0, manualUntil = 0;
+  const manual = () => { manualUntil = performance.now() + 3000; autoSpeed = 0; };
+  const isLoop = () => autoReel && loopWidth > viewport.clientWidth;
+  const clamp = value => isLoop() ? value : Math.max(minX, Math.min(0, value));
   const snap = value => clamp(Math.round(value / step) * step);
   const apply = () => {
+    if (isLoop()) {
+      const wrapped = -(((-x % loopWidth) + loopWidth) % loopWidth);
+      if (target !== null) target += wrapped - x;
+      x = wrapped;
+      cardMetrics.forEach(({card,offset,width}) => {
+        const left = x + offset;
+        const ringLeft = ((left + width) % loopWidth + loopWidth) % loopWidth - width;
+        const shift=Math.round((ringLeft-left)/loopWidth)*loopWidth;
+        const transform=`translate3d(${shift}px,0,0)`;
+        if(card.style.transform!==transform)card.style.transform=transform;
+      });
+    } else if (autoReel) cards.forEach(card => { card.style.transform = ''; });
     track.style.transform = `translate3d(${x}px,0,0)`;
-    prev.disabled = x >= -.5; next.disabled = x <= minX + .5;
+    prev.disabled = autoReel && loopWidth > viewport.clientWidth ? false : x >= -.5;
+    next.disabled = autoReel && loopWidth > viewport.clientWidth ? false : x <= minX + .5;
   };
   const bounds = () => {
-    minX = Math.min(0, viewport.clientWidth - track.scrollWidth);
+    cardMetrics=cards.map(card=>({card,offset:card.offsetLeft,width:card.offsetWidth}));
     step = cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : viewport.clientWidth;
+    loopWidth = autoReel ? cards.length * step : 0;
+    minX = autoReel ? -loopWidth : Math.min(0, viewport.clientWidth - track.scrollWidth);
     x = clamp(x); apply();
     if (gridSnap) {
       viewport.style.transform = 'none';
@@ -36,57 +58,71 @@ function initializeReel(root) {
       }
     }
   };
-  const animate = () => {
+  const animate = time => {
     frame = 0;
+    const scale=lastFrame?Math.min(48,time-lastFrame)/(1000/60):1;
+    lastFrame=time;
+    const ease=1-Math.pow(.88,scale);
     if (drag) { apply(); return; }
     if (target !== null) {
-      x += (target - x) * .18;
+      x += (target - x) * ease;
       if (Math.abs(target - x) < .3) { x = target; target = null; apply(); return; }
     } else {
-      x += velocity; velocity *= .94;
-      if (x > 0) { x += -x * .18; velocity *= .5; }
-      else if (x < minX) { x += (minX - x) * .18; velocity *= .5; }
-      if (Math.abs(velocity) <= .06 && x <= .5 && x >= minX - .5) { x = clamp(gridSnap ? Math.round(x / 14) * 14 : x); velocity = 0; apply(); return; }
+      x += velocity*scale; velocity *= Math.pow(.94,scale);
+      if (!isLoop()) {
+        if (x > 0) { x += -x * ease; velocity *= Math.pow(.5,scale); }
+        else if (x < minX) { x += (minX - x) * ease; velocity *= Math.pow(.5,scale); }
+      }
+      if (Math.abs(velocity) <= .06 && (isLoop() || x <= .5 && x >= minX - .5)) { x = clamp(gridSnap ? Math.round(x / 14) * 14 : x); velocity = 0; apply(); return; }
     }
     apply(); frame = requestAnimationFrame(animate);
   };
+  const startAnimation=()=>{cancelAnimationFrame(frame);lastFrame=0;frame=requestAnimationFrame(animate);};
   const go = direction => {
+    manual();
     target = snap(x - direction * step); velocity = 0;
-    cancelAnimationFrame(frame);
+    cancelAnimationFrame(frame);frame=0;
     if (reduce.matches) { x = target; target = null; apply(); }
-    else frame = requestAnimationFrame(animate);
+    else startAnimation();
   };
   prev.addEventListener('pointerdown', event => event.stopPropagation());
   next.addEventListener('pointerdown', event => event.stopPropagation());
   prev.addEventListener('click', () => go(-1)); next.addEventListener('click', () => go(1));
   viewport.addEventListener('keydown', event => {
     if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+    manual();
     event.preventDefault();
     if (event.key.startsWith('Arrow')) go(event.key === 'ArrowRight' ? 1 : -1);
-    else { target = event.key === 'Home' ? 0 : minX; cancelAnimationFrame(frame); if (reduce.matches) { x = target; target = null; apply(); } else frame = requestAnimationFrame(animate); }
+    else { target = event.key === 'Home' ? 0 : autoReel ? clamp(viewport.clientWidth - cards.at(-1).offsetLeft - cards.at(-1).offsetWidth - parseFloat(getComputedStyle(track).paddingRight)) : minX; cancelAnimationFrame(frame); frame=0; if (reduce.matches) { x = target; target = null; apply(); } else startAnimation(); }
   });
   viewport.addEventListener('pointerdown', event => {
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     const control = event.target.closest('a[href], button, input, select, textarea, summary, [role="button"]');
     if (control && !control.matches('a.craft-work__card')) return;
-    event.preventDefault(); cancelAnimationFrame(frame); velocity = 0; target = null;
-    drag = { id: event.pointerId, start: event.clientX, last: event.clientX, time: performance.now(), moved: false, link: event.target.closest('a.craft-work__card[href]') };
+    manual();
+    event.preventDefault(); cancelAnimationFrame(frame); frame=0; velocity = 0; target = null;
+    drag = { id: event.pointerId, start: event.clientX, last: event.clientX, time: performance.now(), moved: false, link: event.target.closest('a.craft-work__card[href], .craft-work__card[data-builder-href]') };
     viewport.setPointerCapture(event.pointerId); viewport.classList.add('is-dragging');
   });
   viewport.addEventListener('pointermove', event => {
     if (!drag || event.pointerId !== drag.id) return;
     const now = performance.now(), dx = event.clientX - drag.last, dt = Math.max(1, now - drag.time);
     if (Math.abs(event.clientX - drag.start) > 5) drag.moved = true;
-    const desired = x + dx; x += dx * (desired > 0 || desired < minX ? .35 : 1);
+    const desired = x + dx; x += dx * (!isLoop() && (desired > 0 || desired < minX) ? .35 : 1);
     velocity = dx / dt * 16; drag.last = event.clientX; drag.time = now; apply();
   });
   const release = (event, navigate) => {
     if (!drag || event.pointerId !== drag.id) return;
     const finished = drag; drag = null; viewport.classList.remove('is-dragging');
+    manual();
     if (viewport.hasPointerCapture(event.pointerId)) viewport.releasePointerCapture(event.pointerId);
     if (reduce.matches) { x = clamp(x); velocity = 0; apply(); }
-    else { if (coarse.matches) { target = snap(x + velocity * 8); velocity = 0; } frame = requestAnimationFrame(animate); }
-    if (navigate && !finished.moved && finished.link) window.open(finished.link.href, '_blank', 'noopener');
+    else { if (coarse.matches) { target = snap(x + velocity * 8); velocity = 0; } startAnimation(); }
+    if (navigate && !finished.moved && finished.link) {
+      const href = finished.link.dataset.builderHref || finished.link.href;
+      if (finished.link.dataset.builderHref && !event.ctrlKey && !event.metaKey) location.assign(href);
+      else window.open(href, '_blank', 'noopener');
+    }
   };
   viewport.addEventListener('pointerup', event => release(event, true));
   viewport.addEventListener('pointercancel', event => release(event, false));
@@ -95,16 +131,73 @@ function initializeReel(root) {
     if (control && control !== card) return;
     if (event.detail !== 0) event.preventDefault();
   }));
+  cards.filter(card => card.dataset.builderHref).forEach(card => card.addEventListener('keydown', event => {
+    if (event.key !== 'Enter' || event.target !== card) return;
+    event.preventDefault(); location.assign(card.dataset.builderHref);
+  }));
+  // Keep one trackpad gesture on its starting axis, including its momentum tail.
+  // Otherwise diagonal deltas alternate between the reel and Lenis page scrolling.
+  let wheelAxis = null, lastWheelAt = -Infinity;
   viewport.addEventListener('wheel', event => {
-    if (Math.abs(event.deltaX) <= Math.abs(event.deltaY)) return;
-    event.preventDefault(); cancelAnimationFrame(frame); target = null; velocity = 0; x = clamp(x - event.deltaX); apply();
+    if (event.ctrlKey || (!event.deltaX && !event.deltaY)) return;
+    const now = performance.now();
+    if (now - lastWheelAt > 180) wheelAxis = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? 'x' : 'y';
+    lastWheelAt = now;
+    if (wheelAxis !== 'x') return;
+    manual();
+    event.preventDefault();
+    event.stopPropagation();
+    const scale = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? viewport.clientWidth : 1;
+    velocity=0;
+    target=clamp((target??x)-event.deltaX*scale);
+    if(reduce.matches){cancelAnimationFrame(frame);frame=0;x=target;target=null;apply();}
+    else if(!frame)startAnimation();
   }, { passive: false });
   viewport.addEventListener('focusin', event => {
     const card = event.target.closest('.craft-work__card'); if (!card) return;
     const rect = card.getBoundingClientRect(), area = viewport.getBoundingClientRect();
-    if (rect.left < area.left || rect.right > area.right) { x = clamp(-cards.indexOf(card) * step); target = null; cancelAnimationFrame(frame); apply(); }
+    if (rect.left < area.left || rect.right > area.right) { x = clamp(-cards.indexOf(card) * step); target = null; cancelAnimationFrame(frame); frame=0; apply(); }
   });
   new ResizeObserver(bounds).observe(viewport); bounds();
+
+  if (autoReel || root.id === 'roles') {
+    const edges = event => {
+      const rect = viewport.getBoundingClientRect(), zone = Math.min(180, rect.width * .22), localX = event.clientX - rect.left;
+      viewport.classList.toggle('is-near-left', localX <= zone);
+      viewport.classList.toggle('is-near-right', localX >= rect.width - zone);
+    };
+    viewport.addEventListener('pointerenter', event => { hovered = true; edges(event); });
+    viewport.addEventListener('pointermove', edges);
+    viewport.addEventListener('pointerleave', () => { hovered = false; viewport.classList.remove('is-near-left', 'is-near-right'); });
+  }
+
+  if (autoReel) {
+    const tick = time => {
+      autoFrame = 0;
+      const dt = autoLast ? Math.min(48, time - autoLast) / 1000 : 0;
+      autoLast = time;
+      const keyboardFocus = viewport.matches(':focus') || !!viewport.querySelector('.craft-work__card:focus, :focus-visible');
+      const blocked = reduce.matches || coarse.matches || document.hidden || !autoVisible || keyboardFocus || drag || frame || target !== null || time < manualUntil;
+      if (!blocked && loopWidth > viewport.clientWidth) {
+        const speed = hovered ? 4 : 28;
+        autoSpeed += (speed - autoSpeed) * (1 - Math.exp(-dt * 6));
+        x -= autoSpeed * dt;
+        apply();
+      } else autoSpeed = 0;
+      if (autoVisible && !document.hidden && !reduce.matches && !coarse.matches) autoFrame = requestAnimationFrame(tick);
+    };
+    const startAuto = () => {
+      if (!autoFrame && autoVisible && !document.hidden && !reduce.matches && !coarse.matches) { autoLast = 0; autoFrame = requestAnimationFrame(tick); }
+    };
+    new IntersectionObserver(entries => {
+      autoVisible = entries.some(entry => entry.isIntersecting);
+      if (!autoVisible) { cancelAnimationFrame(autoFrame); autoFrame = 0; autoLast = 0; }
+      else startAuto();
+    }, { threshold: .05 }).observe(viewport);
+    document.addEventListener('visibilitychange', startAuto);
+    reduce.addEventListener('change', startAuto);
+    coarse.addEventListener('change', startAuto);
+  }
 
   const lead = root.querySelector('[data-craft-work-lead]');
   let splitLead = () => {};

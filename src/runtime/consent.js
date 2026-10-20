@@ -1,3 +1,6 @@
+// Temporarily hide the cookie popover. Restore by setting this flag to true.
+const CONSENT_POPOVER_ENABLED = false;
+
 export function initializeConsent() {
 (function(){const GA_MEASUREMENT_ID = "G-DZ2LML1S9W";
 const CONSENT_VERSION = "2";
@@ -89,6 +92,7 @@ const STORAGE_KEY = "lm-consent";
     if (prior && prior.state === 'granted') grant();
 
     function show() {
+      if (!CONSENT_POPOVER_ENABLED) return;
       var el = document.getElementById('consent-banner');
       if (!el) return;
       el.querySelector('[data-consent-analytics]').checked = !!choice && choice.state === 'granted';

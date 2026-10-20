@@ -1,0 +1,25 @@
+/* Hallmark · pre-emit critique: P5 H4 E5 S5 R5 V4
+ * Section scope: original reference copy-left / white-graph-right composition. */
+#ai-adoption {
+  --ai-chart-grid:var(--ink,#201d1d);
+  --ai-chart-label:var(--ink,#201d1d);
+}
+#ai-adoption .proof__grid { display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(32px,5vw,80px); align-items:center; }
+#ai-adoption .proof__heading { font-size:var(--h4); margin-bottom:var(--sp-3); max-width:none; }
+#ai-adoption .proof__text p { font-size:var(--para-sm); max-width:86ch; margin-bottom:var(--sp-2); }
+#ai-adoption .line { min-width:0; margin:0; padding:var(--sp-4); border-radius:var(--radius); background:var(--white); }
+#ai-adoption .line__plot svg { display:block; width:100%; height:auto; overflow:visible; }
+#ai-adoption .line__grid { stroke:var(--ai-chart-grid); stroke-opacity:.12; stroke-width:1; }
+#ai-adoption .line__ytick,#ai-adoption .line__xtick {
+  font-family:var(--font-body); fill:var(--ai-chart-label); fill-opacity:.65; font-size:12px;
+}
+#ai-adoption .line__unit { font-family:var(--font-body); fill:var(--ai-chart-label); fill-opacity:.7; font-size:13px; }
+#ai-adoption .line__path { stroke:var(--blue); }
+#ai-adoption .line__dot { fill:var(--blue); stroke:var(--white); stroke-width:2px; }
+#ai-adoption .line__grad-a { stop-color:var(--blue); stop-opacity:.2; }
+#ai-adoption .line__grad-b { stop-color:var(--blue); stop-opacity:0; }
+#ai-adoption .line__vlabel { font-family:var(--font-title); fill:var(--ink,var(--black)); font-size:20px; font-weight:500; }
+@media(max-width:900px){
+  #ai-adoption .proof__grid{grid-template-columns:minmax(0,1fr);gap:var(--sp-4)}
+}
+@media(max-width:600px){#ai-adoption .line{padding:var(--sp-3) var(--sp-2)}}

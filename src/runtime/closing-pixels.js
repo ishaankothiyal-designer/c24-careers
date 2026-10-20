@@ -1,47 +1,102 @@
-// Craft's 18px text-mask / colored-cell marquee, scoped to the closing section.
-// Adapted from the inspected craft.wild.as stampText/buildTxt source.
-export function initializeClosingPixels(){
-  document.querySelectorAll('[data-closing-pixels]').forEach(root=>{
-    if(root.dataset.pixelsInitialized)return;
-    root.dataset.pixelsInitialized='true';
-    const canvas=root.querySelector('[data-closing-pixel-canvas]');
-    const stage=root.querySelector('[data-closing-pixel-stage]');
-    const ctx=canvas.getContext('2d');if(!ctx)return;
-    const mask=document.createElement('canvas'),paint=mask.getContext('2d');
-    const reduce=matchMedia('(prefers-reduced-motion: reduce)');
-    let cells=[],maskWidth=1,width=0,height=0,cell=9,scroll=0,frame=0,previous=0,visible=false;
-    const colors=['#1c2541',getComputedStyle(root).getPropertyValue('--blue').trim()||'#4736fe','#f5c518','#e0492a','#d8ff00'];
-    function build(){
-      const text=root.querySelector('h2').textContent.trim()+'     ';
-      const family=getComputedStyle(root.querySelector('h2')).fontFamily;
-      paint.font=`400 18px ${family}`;maskWidth=Math.ceil(paint.measureText(text).width);
-      mask.width=maskWidth;mask.height=24;paint.font=`400 18px ${family}`;paint.textBaseline='middle';paint.fillStyle='#000';paint.fillText(text,0,12);
-      const data=paint.getImageData(0,0,maskWidth,24).data;cells=[];
-      for(let y=0;y<24;y++)for(let x=0;x<maskWidth;x++)if(data[(y*maskWidth+x)*4+3]>80)cells.push([x,y]);
-    }
-    function size(){
-      width=stage.clientWidth;height=stage.clientHeight;cell=innerWidth<=900?6:9;
-      const ratio=Math.min(devicePixelRatio||1,2);canvas.width=Math.round(width*ratio);canvas.height=Math.round(height*ratio);ctx.setTransform(ratio,0,0,ratio,0,0);draw(performance.now());
-    }
-    function draw(time){
-      ctx.clearRect(0,0,width,height);
-      const period=maskWidth*cell,offset=scroll*cell,top=Math.round((height-24*cell)/2);
-      for(const [x,y] of cells){
-        let px=((x*cell-offset)%period+period)%period;
-        // Source shimmer changes the heat band independently in each square.
-        const heat=.63+.33*Math.sin((x*.6+y*.6)-time*.006);
-        const index=heat>=.86?4:heat>=.78?3:heat>=.62?2:heat>=.46?1:0;
-        ctx.fillStyle=colors[index];
-        while(px<width){ctx.fillRect(px,top+y*cell,cell-1,cell-1);px+=period;}
+// Craft's screen-space heat stamping, without its horizontal text phase.
+export function initializeClosingPixels() {
+  document.querySelectorAll('[data-closing-pixels]').forEach(root => {
+    if (root.dataset.pixelsInitialized) return;
+    const stage = root.querySelector('[data-closing-pixel-stage]');
+    const canvas = root.querySelector('[data-closing-pixel-canvas]');
+    const title = root.querySelector('.closing-pixels__title');
+    const ctx = canvas?.getContext('2d');
+    if (!ctx || !stage || !title) return;
+    root.dataset.pixelsInitialized = 'true';
+    root.dataset.closingMotion = 'vertical-heat-trail';
+    // Screen-fixed heat is what leaves Craft's short vertical trails as the
+    // document moves underneath it. The stage only reserves the text's space.
+    canvas.className = 'closing-pixel-overlay';
+    document.body.appendChild(canvas);
+    const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    const coarse = matchMedia('(hover: none), (pointer: coarse)');
+    const mask = document.createElement('canvas'), paint = mask.getContext('2d');
+    if (!paint) return;
+    const lines = [...title.childNodes].filter(n => n.nodeType === Node.TEXT_NODE)
+      .map(n => n.textContent.trim()).filter(Boolean);
+    let points = [], cell = 1, columns = 0, width = 0, height = 0;
+    let heat = new Map(), frame = 0, last = 0, visible = false;
+    function render(now) {
+      frame = 0;
+      if (reduce.matches || document.hidden) return;
+      const scale = Math.min(3, (now - (last || now - 1000 / 60)) / (1000 / 60));
+      last = now;
+      const decay = Math.pow(coarse.matches ? .85 : .878, scale);
+      for (const [key, value] of heat) {
+        const next = value * decay;
+        if (next * .9 < .3) heat.delete(key); else heat.set(key, next);
       }
+      const rect = stage.getBoundingClientRect();
+      const stamped = new Set();
+      if (visible) for (const p of points) {
+        const column = Math.round((rect.left + p.left) / cell);
+        const row = Math.round((rect.top + p.top) / cell);
+        if (row < 0 || row * cell >= height || column < 0 || column >= columns) continue;
+        const key = row * columns + column;
+        const value = .84 + (coarse.matches ? .05 : .14) * Math.sin(p.x * .6 + p.y * .6 - now * .006);
+        heat.set(key, Math.max(heat.get(key) || 0, value));
+        stamped.add(key);
+      }
+      ctx.clearRect(0, 0, width, height);
+      let trails = 0;
+      for (const [key, heatValue] of heat) {
+        const value = heatValue * .9;
+        if (value < .3) continue;
+        ctx.fillStyle = value >= .86 && value < 1.02 ? '#d8ff00' : value >= .78 ? '#e0492a' : value >= .62 ? '#f5c518' : value >= .46 ? '#4736fe' : '#1c2541';
+        ctx.fillRect(key % columns * cell, Math.floor(key / columns) * cell, Math.max(1, cell - 1), Math.max(1, cell - 1));
+        if (!stamped.has(key)) trails++;
+      }
+      canvas.dataset.trailCells = String(trails);
+      if (visible || heat.size) frame = requestAnimationFrame(render);
+      else last = 0;
     }
-    function tick(time){frame=0;if(!visible||document.hidden||reduce.matches)return;const delta=previous?Math.min(time-previous,50):0;previous=time;scroll+=delta*.0084;draw(time);frame=requestAnimationFrame(tick);}
-    function request(){previous=0;if(!frame&&visible&&!reduce.matches&&!document.hidden)frame=requestAnimationFrame(tick);}
-    function preference(){root.classList.toggle('is-pixels-ready',!reduce.matches);cancelAnimationFrame(frame);frame=0;if(!reduce.matches){size();request();}}
-    new IntersectionObserver(entries=>{visible=entries.some(e=>e.isIntersecting);if(visible)request();else{cancelAnimationFrame(frame);frame=0;}}).observe(root);
+    function request() { if (!frame && !reduce.matches && !document.hidden) frame = requestAnimationFrame(render); }
+    function size() {
+      if (reduce.matches) return;
+      paint.font = `18px ${getComputedStyle(title).fontFamily}`;
+      const mw = Math.ceil(Math.max(...lines.map(line => paint.measureText(line).width))) + 4;
+      const lineStep = 21;
+      const mh = (lines.length - 1) * lineStep + 24;
+      mask.width = mw; mask.height = mh;
+      paint.font = `18px ${getComputedStyle(title).fontFamily}`;
+      paint.textBaseline = 'top'; paint.textAlign = 'center'; paint.fillStyle = '#000';
+      lines.forEach((line, i) => paint.fillText(line, mw / 2, i * lineStep));
+      cell = Math.max(1, Math.min(8, Math.floor((stage.clientWidth - 32) / mw)));
+      const pixels = paint.getImageData(0, 0, mw, mh).data;
+      let firstRow = mh, lastRow = 0;
+      for (let y = 0; y < mh; y++) for (let x = 0; x < mw; x++) {
+        if (pixels[(y * mw + x) * 4 + 3] > 80) { firstRow = Math.min(firstRow, y); lastRow = Math.max(lastRow, y); }
+      }
+      root.style.setProperty('--closing-pixel-height', `${(lastRow - firstRow + 1) * cell + 32}px`);
+      width = innerWidth; height = innerHeight; columns = Math.ceil(width / cell);
+      const ratio = Math.min(devicePixelRatio || 1, 2);
+      canvas.width = Math.round(width * ratio); canvas.height = Math.round(height * ratio);
+      ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+      const left = Math.floor((stage.clientWidth - mw * cell) / 2);
+      points = [];
+      for (let y = 0; y < mh; y++) for (let x = 0; x < mw; x++) {
+        if (pixels[(y * mw + x) * 4 + 3] > 80) points.push({ x, y, left: left + x * cell, top: 16 + (y - firstRow) * cell });
+      }
+      heat.clear(); request();
+    }
+    function preference() {
+      root.classList.toggle('is-pixels-ready', !reduce.matches);
+      canvas.hidden = reduce.matches;
+      cancelAnimationFrame(frame); frame = 0; last = 0; heat.clear();
+      ctx.clearRect(0, 0, width, height);
+      if (!reduce.matches) size();
+    }
     new ResizeObserver(size).observe(stage);
-    document.addEventListener('visibilitychange',()=>{if(document.hidden){cancelAnimationFrame(frame);frame=0;}else request();});
-    reduce.addEventListener('change',preference);
-    document.fonts.ready.then(()=>{build();preference();});
+    new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; request(); }).observe(stage);
+    addEventListener('resize', size, { passive: true });
+    addEventListener('scroll', request, { passive: true });
+    document.addEventListener('visibilitychange', () => { last = 0; request(); });
+    reduce.addEventListener('change', preference);
+    document.fonts.ready.then(preference);
   });
 }

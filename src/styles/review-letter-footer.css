@@ -1,0 +1,89 @@
+/* Scoped review: source graph paper belongs to the letter, never page surfaces. */
+@font-face{
+  font-family:"Pine Words";
+  src:url('/fonts/pine-words/PineWords-xRZZR.ttf') format('truetype');
+  font-style:normal;font-weight:400;font-display:swap;
+}
+.paper-letter__sheet p{font-family:"Pine Words",cursive;font-weight:400}
+@font-face{
+  font-family:"Motterdam";
+  src:url('/fonts/motterdam/Motterdam-K74zp.ttf') format('truetype');
+  font-style:normal;font-weight:400;font-display:swap;
+}
+.paper-letter__signature{font-family:"Motterdam",cursive;margin-left:auto}
+.paper-letter__sheet{padding-top:calc(clamp(28px,3vw,44px) + 24px)}
+@media(max-width:1050px){.paper-letter__sheet{padding-top:48px}}
+@media(max-width:360px){.paper-letter__sheet{padding-top:42px}}
+/* A single sheet sits across a quiet wall/floor horizon. Keep the backdrop on
+   the existing pin so it follows the letter without changing its scroll range. */
+.paper-letter__pin{isolation:isolate}
+.paper-letter__intro{
+  align-self:start;
+  padding-top:0;
+  top:var(--paper-intro-center,calc((100svh - 80px)*.32));
+  transform:translateY(-50%);
+}
+@media(max-width:1050px),(prefers-reduced-motion:reduce){.paper-letter__intro{top:auto;transform:none}}
+.paper-letter:is(.is-paper-short,.is-paper-reduced) .paper-letter__intro,
+.paper-letter[data-paper-state="fallback"] .paper-letter__intro{top:auto;transform:none}
+@media(max-width:1050px){.paper-letter__intro{padding-top:0}}
+.paper-letter__pin::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  z-index:-1;
+  pointer-events:none;
+  background:linear-gradient(to bottom,var(--bg,#f2f2f2) 0 var(--paper-horizon,64%),#fff var(--paper-horizon,64%) 100%);
+}
+.paper-letter__sheet{
+  background-color:#f5f3ec;
+  background-image:linear-gradient(rgba(130,150,135,.3) var(--paper-grid-line,1px),transparent var(--paper-grid-line,1px)),linear-gradient(90deg,rgba(130,150,135,.3) var(--paper-grid-line,1px),transparent var(--paper-grid-line,1px));
+  background-size:var(--paper-grid,40px) var(--paper-grid,40px);
+  background-position:calc(var(--paper-grid,40px)/2) calc(var(--paper-grid,40px)/2);
+  border-radius:22px 8px 25px 14px / 35px 17px 30px 15px;
+  box-shadow:0 3px 9px rgb(34 31 24 / .025),0 15px 35px rgb(34 31 24 / .065);
+}
+/* Silhouette shadow stays present while the same sheet opens and crumples. */
+.paper-letter__canvas canvas{filter:drop-shadow(0 12px 16px rgb(34 31 24 / var(--paper-shadow-opacity,.09)))}
+/* Keep moving/fading source glyphs intact instead of slicing through the word. */
+.society-title-mask{overflow:visible}
+.society-legal > div{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:12px 20px}
+@media(max-width:767px){.society-legal > div{justify-content:center}}
+@media(max-width:768px){.society-title{font-size:clamp(32px,8.7vw,60px)}}
+
+/* The stage, ticker and monogram share one viewport instead of each claiming
+   independent viewport heights/minimums. Reserve the legal row inside stage. */
+.society-footer-wrap{height:100svh}
+.society-footer{
+  height:100svh;
+  display:grid;
+  grid-template-rows:minmax(0,1fr) auto 30svh;
+}
+.society-stage{height:auto;min-height:0}
+.society-monogram{height:auto;min-height:0}
+.society-monogram > span{font-size:min(40vw,35svh)}
+.society-title{font-size:clamp(48px,min(8.7vw,12svh),125px)}
+.society-window-connect{top:clamp(104px,12svh,136px)}
+.society-window-site{top:auto;bottom:68px}
+@media(max-width:767px){
+  .society-footer{grid-template-rows:minmax(0,1fr) auto 16svh}
+  .society-stage-inner{gap:clamp(16px,3svh,32px);padding:clamp(16px,4svh,40px) 16px 84px}
+  .society-title{font-size:clamp(32px,8.7vw,60px)}
+  .society-window-connect{inset:auto}
+  .society-monogram > span{font-size:min(37vw,18svh)}
+}
+@media(min-width:768px) and (max-height:600px){
+  .society-footer{grid-template-rows:minmax(0,1fr) auto 22svh}
+  .society-monogram > span{font-size:min(40vw,25svh)}
+  .society-title{font-size:clamp(32px,min(6vw,9svh),60px)}
+  .society-window-connect{left:24px;top:96px}
+  .society-window-site{left:auto;right:24px;top:96px;bottom:auto}
+}
+@media(min-width:768px) and (max-height:450px){
+  .society-footer{grid-template-rows:minmax(0,1fr) auto 14svh}
+  .society-monogram > span{font-size:min(40vw,16svh)}
+  .society-window-connect,.society-window-site{top:88px}
+  .society-window-grip{height:20px;padding-top:6px}
+  .society-window-handle{padding:6px 10px}
+  .society-window-links{padding:8px 10px}
+}

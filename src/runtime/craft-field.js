@@ -18,8 +18,7 @@ export function initializeCraftField() {
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const coarse = matchMedia('(hover: none), (pointer: coarse)');
   const CELL = 9;
-  const reviews = document.querySelectorAll('#letter, .greviews');
-  const builder = document.querySelector('#builder');
+  const letterRegions = document.querySelectorAll('#letter');
   const COLORS = ['#1c2541', '#4736fe', '#f5c518', '#e0492a'];
   const seed = Math.random() * 1000;
   const events = new AbortController();
@@ -27,6 +26,7 @@ export function initializeCraftField() {
   let width, height, columns, rows, heat, dissolve, fieldWidth, fieldHeight, density;
   let pointer = null, previous = null, lastMove = 0, charge = null, shake = 0;
   let pacman = null, animation = 0, lastFrame = 0, firstFrame = performance.now(), visible = true;
+  let heartSparks = [], wasHeart = false;
   let waves = [], targets = [], needsLayout = true, overControl = false, lastLayout = 0;
 
   let activeHeadline = null, arrowAngle = null, lastArrowFrame = 0;
@@ -151,19 +151,23 @@ export function initializeCraftField() {
     }
   }
   const HEART = [[2,1],[3,1],[5,1],[6,1],[1,2],[2,2],[3,2],[4,2],[5,2],[6,2],[7,2],[1,3],[2,3],[3,3],[4,3],[5,3],[6,3],[7,3],[2,4],[3,4],[4,4],[5,4],[6,4],[3,5],[4,5],[5,5],[4,6]];
-  function overBuilder(point) {
-    if (!point || !builder) return false;
-    const rect=builder.getBoundingClientRect();
-    return point.x>=rect.left&&point.x<=rect.right&&point.y>=rect.top&&point.y<=rect.bottom;
-  }
-  function overReviews(point) {
+  function overLetter(point) {
     if (!point) return false;
-    return [...reviews].some(region => {
+    return [...letterRegions].some(region => {
       const rect = region.getBoundingClientRect();
       return point.x >= rect.left && point.x <= rect.right && point.y >= rect.top && point.y <= rect.bottom;
     });
   }
+  function heartBoom(point) {
+    // Craft's 16 radial sparks: 7–14px/frame, .88 drag, .06 life/frame.
+    for (let i = 0; i < 16; i++) {
+      const angle = i / 16 * Math.PI * 2, speed = 10 * (.7 + hash(i, point.x) * .7);
+      heartSparks.push({ x: point.x, y: point.y, vx: Math.cos(angle) * speed, vy: Math.sin(angle) * speed, life: 1 });
+    }
+  }
   function drawSprite(point, time, pattern = HEART) {
+    if (!wasHeart) heartBoom(point);
+    wasHeart = true;
     const column = Math.round(point.x / CELL), row = Math.round(point.y / CELL);
     for (const [x, y] of pattern) for (let dy = 0; dy < 2; dy++) for (let dx = 0; dx < 2; dx++) {
       const c = column + x * 2 + dx - 8, r = row + y * 2 + dy - 8;
@@ -234,11 +238,10 @@ export function initializeCraftField() {
     const hit = !coarse.matches && pointer ? document.elementFromPoint(pointer.x, pointer.y) : null;
     const intro = document.querySelector('.hero__inner')?.getBoundingClientRect();
     const inHeroCopy = pointer && intro && pointer.x >= intro.left && pointer.x <= intro.right && pointer.y >= intro.top && pointer.y <= intro.bottom;
-    const control = hit?.closest('a, button, [role="button"], [role="link"], .craft-button, input, select, textarea, summary, [data-nav-toggle], [data-cursor-exclude]');
-    const builderRect = builder?.getBoundingClientRect();
-    const builderVisible = builderRect && builderRect.bottom > 0 && builderRect.top < height;
-    if (control || inHeroCopy || overBuilder(pointer) || coarse.matches && builderVisible) {
-      if (!overControl) { heat.fill(0); dissolve.fill(0); waves = []; charge = null; shake = 0; pacman = null; previous = null; }
+    const controlTarget = hit?.closest('a, button, [role="button"], [role="link"], .craft-button, input, select, textarea, summary, [data-nav-toggle], [data-cursor-exclude]');
+    const control = controlTarget && !controlTarget.matches('#builder .craft-work__card[data-builder-href]');
+    if (control || inHeroCopy) {
+      if (!overControl) { heat.fill(0); dissolve.fill(0); waves = []; heartSparks = []; wasHeart = false; charge = null; shake = 0; pacman = null; previous = null; }
       overControl = true; overlay.dataset.cursorMode = 'disabled';
       if (heroRect.bottom > 0 && heroRect.top < height) drawField(now);
       return;
@@ -261,17 +264,30 @@ export function initializeCraftField() {
         { x: width * (.5 + .3 * Math.sin(scrollY * .0026)), y: height * (.5 + .15 * Math.sin(scrollY * .0052)) };
       pointer ||= desired;
       pointer.x += (desired.x - pointer.x) * .1; pointer.y += (desired.y - pointer.y) * .1;
-      if (overReviews(pointer)) drawSprite(pointer, now);
+      if (overLetter(pointer)) drawSprite(pointer, now);
       else if (target) arrow(pointer, { x: target.left + target.width / 2, y: target.top + target.height / 2 }, now);
       else trail(pointer, dt);
     } else if (pointer) {
       const headline = nearestHeadline(pointer), idle = now - lastMove;
-      if (overReviews(pointer)) drawSprite(pointer, now);
+      if (overLetter(pointer)) drawSprite(pointer, now);
       else if (idle > (headline ? 2400 : 1500) && !charge) drawPacman(pointer, dt, now);
       else if (headline) { arrow(pointer, headline, now); previous = { ...pointer }; }
       else trail(pointer, dt);
     }
-    overlay.dataset.cursorMode = overReviews(pointer) ? 'heart' : 'default';
+    const heartActive = overLetter(pointer);
+    if (!heartActive) wasHeart = false;
+    overlay.dataset.cursorMode = heartActive ? 'heart' : 'default';
+    // Deposit narrow moving sparks into the existing heat field so their
+    // trails use the same color bands and fade as the reference.
+    const drag = Math.pow(.88, frameScale);
+    const travel = (1 - drag) / (1 - .88);
+    for (let i = heartSparks.length - 1; i >= 0; i--) {
+      const spark = heartSparks[i];
+      spark.x += spark.vx * travel; spark.y += spark.vy * travel;
+      spark.vx *= drag; spark.vy *= drag; spark.life -= .06 * frameScale;
+      if (spark.life <= 0) { heartSparks.splice(i, 1); continue; }
+      deposit(spark.x, spark.y, .45 + .45 * spark.life, CELL * 1.6);
+    }
     if (charge) {
       const amount = clamp((now - charge.started) / 2200);
       deposit(charge.x, charge.y, (.45 + amount * .5) * frameScale, 90 * (2 + amount * 8));
@@ -322,8 +338,6 @@ export function initializeCraftField() {
     }
     context.restore(); context.globalAlpha = 1;
     if (intro && intro.bottom > 0 && intro.top < height) context.clearRect(intro.left, intro.top, intro.width, intro.height);
-    // Builder is an effect-free section, including spill from outside shockwaves.
-    if (builderVisible) context.clearRect(builderRect.left,builderRect.top,builderRect.width,builderRect.height);
     // The transient cursor paints above content; no rectangular text masks.
   }
   listen(window, 'pointermove', event => {
@@ -331,11 +345,11 @@ export function initializeCraftField() {
     pointer = { x: event.clientX, y: event.clientY }; lastMove = performance.now(); pacman = null;
   }, { passive: true });
   listen(window, 'pointerdown', event => {
-    if (motion.matches || coarse.matches || event.button !== 0 || event.target.closest('.hero__inner') || event.target.closest('a, button, [role=button], input, textarea, select, [data-cursor-exclude], .tsnav, .consent')) return;
+    if (motion.matches || coarse.matches || event.button !== 0 || event.target.closest('.hero__inner, [data-craft-work-viewport]') || event.target.closest('a, button, [role=button], input, textarea, select, [data-cursor-exclude], .tsnav, .consent')) return;
     charge = { x: event.clientX, y: event.clientY, started: performance.now() };
   }, { passive: true });
   listen(window, 'pointerup', event => {
-    if (event.target.closest('.hero__inner, a, button, [role=button], input, textarea, select, [data-cursor-exclude], .tsnav, .consent')) { charge = null; return; }
+    if (event.target.closest('.hero__inner, [data-craft-work-viewport], a, button, [role=button], input, textarea, select, [data-cursor-exclude], .tsnav, .consent')) { charge = null; return; }
     if (!charge) return;
     const amount = clamp((performance.now() - charge.started) / 2200);
     const power = .35 + amount * 2.1;
@@ -346,13 +360,13 @@ export function initializeCraftField() {
   listen(window, 'pointercancel', () => { charge = null; });
   listen(window, 'blur', () => { charge = null; });
   listen(window, 'dblclick', event => {
-    if (motion.matches || event.target.closest('.hero__inner, a, button, [role=button], input, [data-cursor-exclude], .tsnav, .consent')) return;
+    if (motion.matches || event.target.closest('.hero__inner, [data-craft-work-viewport], a, button, [role=button], input, [data-cursor-exclude], .tsnav, .consent')) return;
     waves.push({ x: event.clientX, y: event.clientY, started: performance.now(), power: 2.8 }); shake = 1.4;
   });
   listen(window, 'scroll', () => { needsLayout = true; if (!coarse.matches) { lastMove = performance.now(); pacman = null; } }, { passive: true });
   listen(window, 'resize', resize, { passive: true });
   listen(document, 'visibilitychange', () => { visible = !document.hidden; });
-  listen(motion, 'change', () => { heat.fill(0); dissolve.fill(0); waves = []; charge = null; delete field.dataset.staticRendered; });
+  listen(motion, 'change', () => { heat.fill(0); dissolve.fill(0); waves = []; heartSparks = []; wasHeart = false; charge = null; delete field.dataset.staticRendered; });
   const observer = new ResizeObserver(resize); observer.observe(field);
   const uiObserver = new MutationObserver(() => { needsLayout = true; });
   uiObserver.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['data-nav-status', 'hidden', 'open'] });

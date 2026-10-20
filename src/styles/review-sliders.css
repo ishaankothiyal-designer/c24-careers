@@ -1,0 +1,44 @@
+/* Review scope: retain Legacy type, spacing and mobile reel anatomy. */
+@media(min-width:901px){.builder-craft .craft-work__card{width:368px}}
+/* Smaller portraits leave a visible preview of the next story on narrow screens. */
+@media(max-width:900px){
+  .builder-craft{--builder-card-width:min(78vw,320px)}
+  .builder-craft .craft-work__card{width:var(--builder-card-width)}
+  .builder-craft .craft-work__media{height:auto;aspect-ratio:1}
+  .builder-craft .craft-work__track{gap:20px}
+  .builder-craft .craft-work__description{margin-inline:16px}
+  .builder-craft .craft-experiments__tags{margin-inline:12px;flex-wrap:wrap}
+  .builder-craft .craft-work__arrow{top:calc(42px + var(--builder-card-width)/2)}
+}
+@media(max-width:680px){
+  .builder-craft{--builder-card-width:min(78vw,300px)}
+}
+.builder-craft .craft-work__shade,.builder-craft .craft-work__caption{display:none!important}
+.builder-pixel-illustration,.builder-pixel-grid{position:absolute;inset:0;width:100%;height:100%;pointer-events:none}
+#builder .craft-work__media .builder-pixel-illustration{visibility:hidden;z-index:1;object-fit:cover;transform:none;image-rendering:pixelated}
+#builder .craft-work__media .builder-pixel-illustration.is-active{visibility:visible}
+.builder-pixel-grid{z-index:2}
+.builder-pixel-grid i{position:absolute;display:none;width:12.5%;height:12.5%;background:var(--blue,#4736fe)}
+.closing-pixels__marquee{height:180px}
+@media(max-width:900px){.closing-pixels__marquee{height:160px}}
+
+/* Profile photos retain their full framing instead of the abstract-image zoom. */
+#builder .craft-work__media img[data-builder-portrait] { transform:none; }
+
+/* Reveal manual controls at the matching pointer edge without covering portraits. */
+@media (hover:hover) and (pointer:fine) {
+  :is(#builder,#roles) .craft-work__arrow { opacity:0; pointer-events:none; }
+  :is(#builder,#roles) .craft-work__viewport.is-near-left .craft-work__previous,
+  :is(#builder,#roles) .craft-work__viewport.is-near-right .craft-work__next,
+  :is(#builder,#roles) .craft-work__arrow:hover,
+  :is(#builder,#roles) .craft-work__arrow:focus-visible,
+  :is(#builder,#roles) .craft-work__viewport:has(:focus-visible) .craft-work__arrow,
+  :is(#builder,#roles) .craft-work__viewport:focus-visible .craft-work__arrow {
+    opacity:1;
+    pointer-events:auto;
+  }
+}
+@media (hover:none), (pointer:coarse) {
+  :is(#builder,#roles) .craft-work__arrow { display:flex; opacity:1; pointer-events:auto; }
+}
+:is(#builder,#roles) .craft-work__arrow:disabled { opacity:0; pointer-events:none; }

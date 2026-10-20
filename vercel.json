@@ -3,5 +3,15 @@
   "framework": "vite",
   "installCommand": "npm ci",
   "buildCommand": "npm run build",
-  "outputDirectory": "dist/client"
+  "outputDirectory": "dist/client",
+  "rewrites": [
+    {
+      "source": "/builders/:slug",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/careers/:path*",
+      "destination": "/index.html"
+    }
+  ]
 }
