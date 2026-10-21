@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import test from 'node:test';
 import { deferredImage } from '../src/runtime/deferred-image.js';
-import { performanceProfile, staticPaperDevice } from '../src/runtime/performance-profile.js';
+import { performanceProfile } from '../src/runtime/performance-profile.js';
 import { initializePageTransition } from '../src/runtime/page-transition.js';
 
 function transitionFixture(t) {
@@ -100,15 +100,5 @@ test('performance limits tolerate missing Safari hints and constrain touch/low-m
   for (const nav of [{deviceMemory:4},{hardwareConcurrency:2},{connection:{saveData:true}},{connection:{effectiveType:'slow-2g'}}]) {
     assert.equal(performanceProfile(nav,desktop).constrained,true);
     assert.equal(performanceProfile(nav,desktop).pixelRatio,1);
-  }
-});
-
-test('letter animation uses reduced rendering on four-thread desktops rather than disabling it', () => {
-  const nav = {hardwareConcurrency:4,deviceMemory:4};
-  assert.equal(performanceProfile(nav,()=>({matches:false})).constrained,true);
-  assert.equal(staticPaperDevice(nav),false);
-  assert.equal(staticPaperDevice({}),false);
-  for(const device of [{deviceMemory:2},{connection:{saveData:true}},{connection:{effectiveType:'2g'}}]) {
-    assert.equal(staticPaperDevice(device),true);
   }
 });

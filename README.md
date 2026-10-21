@@ -27,4 +27,4 @@ The existing Sites build wrapper is retained; Vite generates `dist/client`, and 
 
 Fonts and core media are local. Ishaan's builder card uses his Slack profile image with a local initials fallback. Third-party license files remain with their assets, including the paper-crumple VAT and Three.js notices. The expected lazy Three.js chunk size warning does not fail the build.
 
-Run `npm test` after building for the route, hosting, loading, and performance regressions. The readable letter is the default; its optional 3D enhancement has a bounded preparation budget and is skipped if the reader reaches it before it is ready. Alternate builder portraits load on interaction, and resource-constrained devices use reduced rendering work.
+Run `npm test` after building for the route, hosting, loading, and performance regressions. The letter uses its original scroll-driven paper animation, with the original readable fallback for small screens, reduced motion, or unavailable WebGL/assets. Alternate builder portraits load on interaction, and resource-constrained devices use reduced rendering work.

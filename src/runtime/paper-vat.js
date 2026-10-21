@@ -18,26 +18,17 @@ const NORMALS_MODE = _debugParams.get("normals") || "smooth";
  *
  * animData: { vertexCount, frameCount, indices, uvs, positions, normals }
  */
-export async function loadVATData(basePath, { signal } = {}) {
+export async function loadVATData(basePath) {
   const fbxLoader = new FBXLoader();
   const exrLoader = new EXRLoader();
   exrLoader.setDataType(THREE.FloatType);
 
   // FBX と Position EXR を並列ロード
   console.log("[VAT] loading FBX + EXR from:", basePath);
-  const bytes = async path => {
-    const response = await fetch(basePath + path, { signal });
-    if (!response.ok) throw new Error(`Paper asset unavailable (${response.status}).`);
-    return response.arrayBuffer();
-  };
-  const [fbxBytes, positionBytes] = await Promise.all([
-    bytes("geo/vertex_animation_textures1_mesh.fbx"),
-    bytes("tex/vertex_animation_textures1_pos.exr"),
+  const [fbxGroup, posTex] = await Promise.all([
+    fbxLoader.loadAsync(basePath + "geo/vertex_animation_textures1_mesh.fbx"),
+    exrLoader.loadAsync(basePath + "tex/vertex_animation_textures1_pos.exr"),
   ]);
-  if (signal?.aborted) throw new Error('Paper animation cancelled.');
-  const fbxGroup = fbxLoader.parse(fbxBytes, basePath);
-  const parsedPosition = exrLoader.parse(positionBytes);
-  const posTex = { image: parsedPosition.image || parsedPosition };
   console.log("[VAT] FBX + EXR loaded");
 
   // FBX からメッシュを取得
