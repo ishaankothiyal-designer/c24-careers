@@ -32,10 +32,20 @@
 }
 
 @media(max-width:680px) {
-  .hero .hero__title br { display:none; }
   .hero .hero__actions { flex-direction:column; align-items:stretch; gap:16px; }
   .hero .hero__actions > a {
     display:flex; align-items:center; justify-content:center;
     width:100%; box-sizing:border-box; min-height:48px;
   }
+}
+
+/* Small-screen hero reads as continuous text, with natural wrapping. */
+@media(max-width:900px) {
+  .hero .hero__title[data-astro-cid-lcdefpme] { max-width:none; line-height:1.12; }
+  .hero .hero__title br { display:none; }
+  .hero .hero__title .hero__title-accent { display:inline; }
+  .hero .hero__stage[data-astro-cid-lcdefpme] .hero__sub[data-astro-cid-lcdefpme] { line-height:1.5; }
+  /* Also reflow a title already animated before the window was narrowed. */
+  .hero .hero__title .roll-line { display:inline!important; line-height:inherit!important; margin-bottom:0!important; overflow:visible!important; }
+  .hero .hero__title .roll-line::after { content:" "; }
 }

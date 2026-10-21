@@ -45,6 +45,10 @@
 }
 /* Silhouette shadow stays present while the same sheet opens and crumples. */
 .paper-letter__canvas canvas{filter:drop-shadow(0 12px 16px rgb(34 31 24 / var(--paper-shadow-opacity,.09)))}
+/* Use the original HTML for reading once the animated paper is open. The
+   canvas texture must never be the only visible copy of the letter's text. */
+.paper-letter.is-paper-ready.is-paper-readable .paper-letter__sheet{opacity:1;pointer-events:auto;z-index:1;height:auto;min-height:var(--paper-height,0px)}
+.paper-letter.is-paper-ready.is-paper-readable .paper-letter__canvas{visibility:hidden}
 /* Readable, compact HTML is the default before animation scripts run.
    Reserve the long scroll choreography only for a prepared animation. */
 .paper-letter:not(.is-paper-ready){height:auto}
