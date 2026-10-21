@@ -12,3 +12,10 @@ export function performanceProfile(nav = navigator, media = matchMedia) {
     pixelRatio: constrained ? 1 : touch ? 1.5 : 2,
   };
 }
+
+// A four-thread desktop can still render the letter at a reduced frame rate.
+// Reserve the static-only experience for explicit data saving or very low memory.
+export function staticPaperDevice(nav = navigator) {
+  return !!nav.connection?.saveData || /^(slow-)?2g$/.test(nav.connection?.effectiveType || '') ||
+    (nav.deviceMemory > 0 && nav.deviceMemory <= 2);
+}

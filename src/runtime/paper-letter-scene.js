@@ -2,14 +2,14 @@
 import * as THREE from 'three';
 import {loadVATData} from './paper-vat.js';
 
-export async function createPaperLetterScene(root, { signal } = {}) {
+export async function createPaperLetterScene(root, { signal, profile } = {}) {
   const host = root.querySelector('[data-paper-canvas]');
   const stage = root.querySelector('[data-paper-stage]');
   const sheet = root.querySelector('[data-paper-sheet]');
   const data = await loadVATData('/paper-crumple/vat/', { signal });
   if (signal?.aborted) throw new Error('Paper animation cancelled.');
-  const renderer = new THREE.WebGLRenderer({alpha:true,antialias:true});
-  renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
+  const renderer = new THREE.WebGLRenderer({alpha:true,antialias:!profile?.constrained});
+  renderer.setPixelRatio(Math.min(devicePixelRatio, profile?.pixelRatio || 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   renderer.setClearColor(0x000000,0);
@@ -116,7 +116,7 @@ export async function createPaperLetterScene(root, { signal } = {}) {
   document.fonts?.addEventListener('loadingdone',resize);
   const lost = event=>{event.preventDefault();root.classList.remove('is-paper-ready');root.dataset.paperState='fallback';};
   renderer.domElement.addEventListener('webglcontextlost',lost);
-  return {update,dispose(){
+  return {update,resize,dispose(){
     observer.disconnect();document.fonts?.removeEventListener('loadingdone',resize);
     renderer.domElement.removeEventListener('webglcontextlost',lost);
     geometry.dispose();material.dispose();texture.dispose();

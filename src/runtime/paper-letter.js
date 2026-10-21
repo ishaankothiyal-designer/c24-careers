@@ -1,4 +1,4 @@
-import { performanceProfile } from './performance-profile.js';
+import { performanceProfile, staticPaperDevice } from './performance-profile.js';
 import { paperEnhancement, prepareLetterFonts } from './paper-enhancement.js';
 // Scroll choreography for the source VAT paper, with readable DOM fallback.
 export function initializePaperLetter() {
@@ -8,7 +8,7 @@ export function initializePaperLetter() {
     const motion = matchMedia('(prefers-reduced-motion: reduce)');
     const crampedViewport = matchMedia('(max-width:1050px), (max-height:700px) and (orientation:landscape)');
     const profile = performanceProfile();
-    const isStatic = () => motion.matches || crampedViewport.matches || profile.constrained;
+    const isStatic = () => motion.matches || crampedViewport.matches || staticPaperDevice();
     let scene, visible = false, current = 1, writing = 0, frame = 0, lastTick = 0;
     const smooth = (a, b, value) => { const x = Math.max(0, Math.min(1, (value-a)/(b-a))); return x*x*(3-2*x); };
     const getTarget = () => {
@@ -22,6 +22,7 @@ export function initializePaperLetter() {
     };
     const tick = now => {
       frame = 0;
+      if (lastTick && now-lastTick < profile.frameInterval-1) {frame=requestAnimationFrame(tick);return;}
       const elapsed = lastTick ? Math.min(.05,(now-lastTick)/1000) : 0; lastTick = now;
       if (!scene || isStatic() || !visible || document.hidden || root.dataset.paperState === 'fallback') return;
       const target = getTarget(); current += (target-current)*.14;
@@ -38,24 +39,29 @@ export function initializePaperLetter() {
       if (current !== target || writingWhileOpen && writing < 1) frame = requestAnimationFrame(tick);
     };
     const request = () => { if (!frame) {lastTick=0;frame=requestAnimationFrame(tick);} };
-    const enhancement = paperEnhancement({
+    const createEnhancement = () => paperEnhancement({
       load: async signal => {
         const { createPaperLetterScene } = await import('./paper-letter-scene.js');
         await prepareLetterFonts(document.fonts, signal);
         if (signal.aborted || isStatic()) throw new Error('Use the readable letter.');
-        return createPaperLetterScene(root, { signal });
+        return createPaperLetterScene(root, { signal, profile });
       },
       ready: prepared => {
         scene = prepared;
-        current = getTarget(); scene.update(current, writing); root.classList.toggle('is-paper-ready', !isStatic());
-        root.dataset.paperState = 'ready'; request();
+        // Measure the animated layout, not the compact readable fallback.
+        root.dataset.paperState = 'ready';
+        root.classList.toggle('is-paper-ready', !isStatic());
+        scene.resize();
+        current = getTarget(); scene.update(current, writing); request();
       },
       fallback: () => {
         root.dataset.paperState = 'fallback';
         root.classList.remove('is-paper-ready');
         cancelAnimationFrame(frame); frame = 0;
       },
+      timeout: 12000,
     });
+    let enhancement = createEnhancement();
     const load = () => {
       if (isStatic()) { enhancement.showText(); return; }
       root.dataset.paperState ||= 'loading';
@@ -71,7 +77,12 @@ export function initializePaperLetter() {
     paperSurface.observe(sheet);
     const preload = new IntersectionObserver(entries => {
       if (entries.some(e=>e.isIntersecting)) { load(); preload.disconnect(); }
-    }, {rootMargin:'1600px'}); preload.observe(root);
+    }, {rootMargin:'4000px'}); preload.observe(root);
+    // Prepare on desktop after the initial page has settled, rather than racing
+    // the reader's scroll against downloads, font preparation and VAT decoding.
+    const prepare = () => { if (!isStatic()) return load(); };
+    if ('requestIdleCallback' in window) requestIdleCallback(prepare, {timeout:2000});
+    else setTimeout(prepare, 1000);
     const observer = new IntersectionObserver(entries => {
       visible = entries.some(e=>e.isIntersecting);
       if (visible) {
@@ -95,7 +106,15 @@ export function initializePaperLetter() {
       root.classList.toggle('is-paper-reduced', motion.matches);
       root.classList.toggle('is-paper-short', crampedViewport.matches);
       if (isStatic()) {enhancement.showText();cancelAnimationFrame(frame);frame=0;root.classList.remove('is-paper-ready');}
-      else {if(scene)root.classList.add('is-paper-ready');else load();request();}
+      else {
+        if(scene){root.classList.add('is-paper-ready');scene.resize();}
+        else {
+          // Resizing a narrow pane to desktop must be able to prepare again.
+          if(root.dataset.paperState === 'fallback') enhancement = createEnhancement();
+          root.dataset.paperState = 'loading'; load();
+        }
+        request();
+      }
     };
     motion.addEventListener('change', updateMode);
     crampedViewport.addEventListener('change', updateMode);
