@@ -1,3 +1,4 @@
+import { performanceProfile } from './performance-profile.js';
 // Canvas 2D interactions adapted from the inspected Craft pixel system.
 // One animation loop owns the hero field and transparent page-wide companion.
 export function initializeCraftField() {
@@ -17,7 +18,8 @@ export function initializeCraftField() {
 
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const coarse = matchMedia('(hover: none), (pointer: coarse)');
-  const CELL = 9;
+  const profile = performanceProfile();
+  const CELL = profile.constrained ? 12 : 9;
   const letterRegions = document.querySelectorAll('#letter');
   const COLORS = ['#1c2541', '#4736fe', '#f5c518', '#e0492a'];
   const seed = Math.random() * 1000;
@@ -37,7 +39,7 @@ export function initializeCraftField() {
     return n - Math.floor(n);
   };
   function resize() {
-    width = innerWidth; height = innerHeight; density = Math.min(devicePixelRatio || 1, 2);
+    width = innerWidth; height = innerHeight; density = Math.min(devicePixelRatio || 1, profile.pixelRatio);
     overlay.width = Math.round(width * density); overlay.height = Math.round(height * density);
     context.setTransform(density, 0, 0, density, 0, 0);
     const rect = field.getBoundingClientRect();
@@ -226,7 +228,8 @@ export function initializeCraftField() {
   }
   function frame(now) {
     animation = requestAnimationFrame(frame);
-    if (!visible || now === lastFrame) return;
+    if (!visible || (lastFrame && now - lastFrame < profile.frameInterval - 1)) return;
+    if (motion.matches && field.dataset.staticRendered) return;
     const dt = Math.min(50, now - (lastFrame || now)); lastFrame = now;
     if (needsLayout || now - lastLayout > 100) { layout(); lastLayout = now; }
     const heroRect = hero.getBoundingClientRect();

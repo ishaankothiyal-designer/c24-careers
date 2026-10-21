@@ -2,7 +2,7 @@
 
 https://mayank12-dotcom.github.io/c24-careers/
 
-The original source and public assets are unchanged. GitHub Pages has a repository subpath, so a deployment-only postprocessor prefixes local asset URLs in the generated build. Fonts, native runtime imports, media, scene JSON, and paper-animation assets are included.
+GitHub Pages has a repository subpath, so a deployment-only postprocessor prefixes local asset URLs and sets the application's navigation base in the generated build. Fonts, native runtime imports, media, scene JSON, and paper-animation assets are included.
 
 ## GitHub Pages
 
@@ -11,6 +11,8 @@ In repository Settings → Pages, select **GitHub Actions** as the source. The w
 The workflow runs Node.js 22, `npm ci`, `npm run build`, and `node scripts/prepare-github-pages.mjs /c24-careers/`, then publishes `dist/client` through GitHub’s official Pages actions. Keep the final slash in the site URL.
 
 If the repository is renamed or a custom domain is added, update the postprocessor base path in the workflow. Do not change the original source URLs just to adapt hosting.
+
+The build emits static entry documents for `/careers/` and all `/builders/<slug>/` project pages, so links, direct visits, and refreshes work on GitHub Pages. The existing Find roles buttons and builder cards stay under the configured repository base. Run `npm run test:routes` after building to verify route handling and the emitted documents.
 
 ## Local development
 
@@ -23,4 +25,6 @@ For a production build at a root-domain URL, run `npm run build`. For the GitHub
 
 The existing Sites build wrapper is retained; Vite generates `dist/client`, and the wrapper copies the Sites worker/config into `dist/server` and `dist/.openai`. GitHub Pages publishes only the static client. No backend or real application form is included; role buttons link to the existing external careers site.
 
-All fonts and media are local. Third-party license files remain with their assets, including the paper-crumple VAT and Three.js notices. The expected lazy Three.js chunk size warning does not fail the build.
+Fonts and core media are local. Ishaan's builder card uses his Slack profile image with a local initials fallback. Third-party license files remain with their assets, including the paper-crumple VAT and Three.js notices. The expected lazy Three.js chunk size warning does not fail the build.
+
+Run `npm test` after building for the route, hosting, loading, and performance regressions. The readable letter is the default; its optional 3D enhancement has a bounded preparation budget and is skipped if the reader reaches it before it is ready. Alternate builder portraits load on interaction, and resource-constrained devices use reduced rendering work.

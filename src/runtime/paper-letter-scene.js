@@ -2,19 +2,18 @@
 import * as THREE from 'three';
 import {loadVATData} from './paper-vat.js';
 
-export async function createPaperLetterScene(root) {
+export async function createPaperLetterScene(root, { signal } = {}) {
   const host = root.querySelector('[data-paper-canvas]');
   const stage = root.querySelector('[data-paper-stage]');
   const sheet = root.querySelector('[data-paper-sheet]');
+  const data = await loadVATData('/paper-crumple/vat/', { signal });
+  if (signal?.aborted) throw new Error('Paper animation cancelled.');
   const renderer = new THREE.WebGLRenderer({alpha:true,antialias:true});
   renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
   renderer.outputColorSpace = THREE.SRGBColorSpace;
   renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
   renderer.setClearColor(0x000000,0);
   renderer.domElement.setAttribute('aria-hidden','true');
-  let data;
-  try { data = await loadVATData('/paper-crumple/vat/'); }
-  catch (error) { renderer.dispose(); throw error; }
   const geometry = new THREE.BufferGeometry();
   const position = new THREE.BufferAttribute(new Float32Array(data.vertexCount*3),3).setUsage(THREE.DynamicDrawUsage);
   const normal = new THREE.BufferAttribute(new Float32Array(data.vertexCount*3),3).setUsage(THREE.DynamicDrawUsage);
@@ -111,9 +110,17 @@ export async function createPaperLetterScene(root) {
     root.style.setProperty('--paper-intro-center',`${pin.clientHeight*horizon/200-stageTop}px`);
     root.style.setProperty('--paper-width',`${data.flat.width*scale*height/2}px`);root.style.setProperty('--paper-height',`${data.flat.depth*scale*height/2}px`);drawTexture();update(last);
   }
-  host.append(renderer.domElement);new ResizeObserver(resize).observe(stage);resize();
+  host.append(renderer.domElement);
+  const observer = new ResizeObserver(resize);observer.observe(stage);resize();
   // A later font load must refresh the same canvas rather than reveal a second UI.
-  document.fonts.addEventListener('loadingdone',resize);
-  renderer.domElement.addEventListener('webglcontextlost',event=>{event.preventDefault();root.classList.remove('is-paper-ready');root.dataset.paperState='fallback';});
-  return {update};
+  document.fonts?.addEventListener('loadingdone',resize);
+  const lost = event=>{event.preventDefault();root.classList.remove('is-paper-ready');root.dataset.paperState='fallback';};
+  renderer.domElement.addEventListener('webglcontextlost',lost);
+  return {update,dispose(){
+    observer.disconnect();document.fonts?.removeEventListener('loadingdone',resize);
+    renderer.domElement.removeEventListener('webglcontextlost',lost);
+    geometry.dispose();material.dispose();texture.dispose();
+    shadowReceiver.geometry.dispose();shadowReceiver.material.dispose();key.shadow.map?.dispose();
+    renderer.dispose();renderer.domElement.remove();
+  }};
 }

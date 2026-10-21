@@ -21,6 +21,7 @@ jobs:
         uses: actions/configure-pages@v5
       - run: npm ci
       - run: npm run build
+      - run: npm test
       - name: Adapt compiled asset paths for the repository URL
         run: node scripts/prepare-github-pages.mjs /c24-careers/
       - name: Upload compiled site

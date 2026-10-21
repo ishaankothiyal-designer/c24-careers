@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Deployment-only transformation. Original src/ and public/ remain byte-identical to Backup V2.
+// Deployment-only transformation; keep source asset URLs relative to the site root.
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -20,7 +20,8 @@ async function visit(dir) {
     if (entry.isDirectory()) await visit(file);
     else if (/\.(?:html|css|js|mjs|json|svg|webmanifest|txt)$/.test(entry.name)) {
       const before = await readFile(file, 'utf8');
-      const after = before.replace(pattern, match => base + match.slice(1));
+      const after = before.replace(pattern, match => base + match.slice(1))
+        .replace(/(<meta name="site-base" content=")[^"]*(")/g, `$1${base}$2`);
       if (after !== before) { await writeFile(file, after); changed++; }
     }
   }

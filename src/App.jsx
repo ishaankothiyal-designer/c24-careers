@@ -16,6 +16,8 @@ import { initializeSocietyFooter } from './runtime/society-footer.js';
 import { initializeExchangeDither } from './runtime/exchange-dither.js';
 import { configureSmoothScrolling } from './runtime/smooth-scroll.js';
 import { builderDetailPage } from './builder-detail.js';
+import { routePath, siteLinks } from './site-routing.js';
+import { initializePageTransition } from './runtime/page-transition.js';
 
 // Original semantic sections are kept as separate editable source files.
 const sections = import.meta.glob('./sections/*.html', { query: '?raw', import: 'default', eager: true });
@@ -31,30 +33,34 @@ const page = sectionIndex.reduce((state, item, index) => {
   return state + fragment;
 }, '');
 
-const detail = careersPage(location.pathname, page.split('<main>')[0], page.split('</main>')[1]?.replace(/href="#/g, 'href="/#') || '', sections['./sections/career-08-roles.html']) || builderDetailPage(location.pathname, page.split('<main>')[0], page.split('</main>')[1]?.replace(/href="#/g, 'href="/#') || '');
+const base = document.querySelector('meta[name="site-base"]')?.content || '/';
+const pathname = routePath(location.pathname, base);
+const header = page.split('<main>')[0];
+const footer = page.split('</main>')[1]?.replace(/href="#/g, 'href="/#') || '';
+const detail = careersPage(pathname, header, footer, sections['./sections/career-08-roles.html']) || builderDetailPage(pathname, header, footer);
+const html = siteLinks(detail?.html || page, base);
 
 export function App() {
   const started = useRef(false);
   useEffect(() => {
-    if (detail) {
-      document.title = 'Cars24 Careers';
-      document.querySelector('meta[name="description"]')?.setAttribute('content', location.pathname.startsWith('/careers') ? 'Explore Cars24 roles by department and find a problem to own.' : 'Meet the Cars24 builders and explore the workflows, tools and automation they built.');
-    }
-    initializeCareersFilters();
-    initializePaperLetter();
-    initializeClosingPixels();
-    initializeCraftField();
-    initializeCraftButtons();
-    initializeCraftWork();
-    initializeBuilderPixels();
-    initializeAiAdoption();
-    initializeExchangeDither();
-    initializeCareBandCursor();
-    initializeSocietyFooter();
     if (started.current) return;
     started.current = true;
-    initializeConsent();
-    initializeFaq();
+    const dismissTransition = initializePageTransition();
+    if (detail) {
+      document.title = detail.title || 'Open roles | Cars24 Careers';
+      document.querySelector('meta[name="description"]')?.setAttribute('content', pathname.startsWith('/careers') ? 'Explore Cars24 roles by department and find a problem to own.' : 'Meet the Cars24 builders and explore the workflows, tools and automation they built.');
+    }
+    for (const initialize of [initializeCareersFilters, initializePaperLetter,
+      initializeClosingPixels, initializeCraftField, initializeCraftButtons,
+      initializeCraftWork, initializeBuilderPixels, initializeAiAdoption,
+      initializeExchangeDither, initializeCareBandCursor, initializeSocietyFooter,
+      initializeConsent, initializeFaq]) {
+      try { initialize(); }
+      catch (error) {
+        dismissTransition();
+        console.warn(`${initialize.name} unavailable; continuing with the page.`, error);
+      }
+    }
     // Source modules initialize against the restored semantic DOM. The visual
     // runtime retains the captured GSAP, Lenis, and WebGL implementations.
     for (const src of [
@@ -65,8 +71,9 @@ export function App() {
       script.type = 'module';
       script.src = src;
       script.addEventListener('load',configureSmoothScrolling,{once:true});
+      script.addEventListener('error',dismissTransition,{once:true});
       document.body.appendChild(script);
     }
   }, []);
-  return <div className="page-root" dangerouslySetInnerHTML={{ __html: detail?.html || page }} />;
+  return <div className="page-root" dangerouslySetInnerHTML={{ __html: html }} />;
 }

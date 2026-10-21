@@ -1,3 +1,5 @@
+import { performanceProfile } from './performance-profile.js';
+import { paperEnhancement, prepareLetterFonts } from './paper-enhancement.js';
 // Scroll choreography for the source VAT paper, with readable DOM fallback.
 export function initializePaperLetter() {
   document.querySelectorAll('[data-paper-letter]').forEach(root => {
@@ -5,8 +7,9 @@ export function initializePaperLetter() {
     root.dataset.paperInitialized = 'true';
     const motion = matchMedia('(prefers-reduced-motion: reduce)');
     const crampedViewport = matchMedia('(max-width:1050px), (max-height:700px) and (orientation:landscape)');
-    const isStatic = () => motion.matches || crampedViewport.matches;
-    let scene, loading = false, visible = false, current = 1, writing = 0, frame = 0, lastTick = 0;
+    const profile = performanceProfile();
+    const isStatic = () => motion.matches || crampedViewport.matches || profile.constrained;
+    let scene, visible = false, current = 1, writing = 0, frame = 0, lastTick = 0;
     const smooth = (a, b, value) => { const x = Math.max(0, Math.min(1, (value-a)/(b-a))); return x*x*(3-2*x); };
     const getTarget = () => {
       const rect = root.getBoundingClientRect();
@@ -20,7 +23,7 @@ export function initializePaperLetter() {
     const tick = now => {
       frame = 0;
       const elapsed = lastTick ? Math.min(.05,(now-lastTick)/1000) : 0; lastTick = now;
-      if (!scene || isStatic() || !visible || document.hidden) return;
+      if (!scene || isStatic() || !visible || document.hidden || root.dataset.paperState === 'fallback') return;
       const target = getTarget(); current += (target-current)*.14;
       if (Math.abs(target-current)<.001) current = target;
       // Continue handwriting while the fully opened paper is being read, even
@@ -35,26 +38,28 @@ export function initializePaperLetter() {
       if (current !== target || writingWhileOpen && writing < 1) frame = requestAnimationFrame(tick);
     };
     const request = () => { if (!frame) {lastTick=0;frame=requestAnimationFrame(tick);} };
-    const load = async () => {
-      if (scene || loading || isStatic()) return;
-      loading = true;
-      try {
+    const enhancement = paperEnhancement({
+      load: async signal => {
         const { createPaperLetterScene } = await import('./paper-letter-scene.js');
-        await Promise.all([
-          document.fonts.load('400 20px "Pine Words"'),
-          document.fonts.load('400 34px "Motterdam"'),
-        ]);
-        await document.fonts.ready;
-        if (isStatic()) return;
-        scene = await createPaperLetterScene(root);
+        await prepareLetterFonts(document.fonts, signal);
+        if (signal.aborted || isStatic()) throw new Error('Use the readable letter.');
+        return createPaperLetterScene(root, { signal });
+      },
+      ready: prepared => {
+        scene = prepared;
         current = getTarget(); scene.update(current, writing); root.classList.toggle('is-paper-ready', !isStatic());
         root.dataset.paperState = 'ready'; request();
-      } catch (error) {
+      },
+      fallback: () => {
         root.dataset.paperState = 'fallback';
         root.classList.remove('is-paper-ready');
-        // The real letter remains readable when WebGL/assets are unavailable.
-        console.warn('Paper animation unavailable; showing the letter.', error.message);
-      } finally { loading = false; }
+        cancelAnimationFrame(frame); frame = 0;
+      },
+    });
+    const load = () => {
+      if (isStatic()) { enhancement.showText(); return; }
+      root.dataset.paperState ||= 'loading';
+      return enhancement.start();
     };
     // Source PaperCrumble graph-paper proportions, shared with static fallback.
     const sheet = root.querySelector('[data-paper-sheet]');
@@ -68,7 +73,12 @@ export function initializePaperLetter() {
       if (entries.some(e=>e.isIntersecting)) { load(); preload.disconnect(); }
     }, {rootMargin:'1600px'}); preload.observe(root);
     const observer = new IntersectionObserver(entries => {
-      visible = entries.some(e=>e.isIntersecting); if (visible) {load();request();}
+      visible = entries.some(e=>e.isIntersecting);
+      if (visible) {
+        // Never make a reader wait, or swap a readable sheet for a late animation.
+        if (!scene) enhancement.showText();
+        else request();
+      }
       else {
         cancelAnimationFrame(frame);frame=0;
         // Retreat above the section creates a fresh entrance, not an exit erase.
@@ -84,12 +94,13 @@ export function initializePaperLetter() {
     const updateMode = () => {
       root.classList.toggle('is-paper-reduced', motion.matches);
       root.classList.toggle('is-paper-short', crampedViewport.matches);
-      if (isStatic()) {cancelAnimationFrame(frame);frame=0;root.classList.remove('is-paper-ready');}
+      if (isStatic()) {enhancement.showText();cancelAnimationFrame(frame);frame=0;root.classList.remove('is-paper-ready');}
       else {if(scene)root.classList.add('is-paper-ready');else load();request();}
     };
     motion.addEventListener('change', updateMode);
     crampedViewport.addEventListener('change', updateMode);
     root.classList.toggle('is-paper-reduced', motion.matches);
     root.classList.toggle('is-paper-short', crampedViewport.matches);
+    if (isStatic()) enhancement.showText();
   });
 }

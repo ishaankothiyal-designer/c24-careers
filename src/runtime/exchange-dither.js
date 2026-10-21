@@ -1,5 +1,7 @@
+import { performanceProfile } from './performance-profile.js';
 // Pixel rendition of the official Cars24 mark, with eased pointer distortion.
 export function initializeExchangeDither() {
+  const profile = performanceProfile();
   document.querySelectorAll('[data-about-dither]').forEach(host => {
     if (host.dataset.exchangeInitialized) return;
     host.dataset.exchangeInitialized = 'true';
@@ -75,17 +77,18 @@ export function initializeExchangeDither() {
     function resize() {
       const rect = host.getBoundingClientRect();
       width = rect.width; height = rect.height;
-      const dpr = Math.min(devicePixelRatio || 1, 2);
+      const dpr = Math.min(devicePixelRatio || 1, profile.pixelRatio);
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
       draw();
     }
     function tick(now) {
+      frame = requestAnimationFrame(tick);
+      if (last && now - last < profile.frameInterval - 1) return;
       const dt = last ? Math.min((now - last) / 1000, .05) : 1 / 60;
       last = now; phase += dt;
       draw(dt);
-      frame = requestAnimationFrame(tick);
     }
     function sync() {
       cancelAnimationFrame(frame); last = 0;

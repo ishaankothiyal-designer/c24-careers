@@ -3,7 +3,7 @@
     "slug": "manvi-mehrotra",
     "name": "Manvi Mehrotra",
     "team": "Founder’s Office",
-    "asset": "/img/builders/manvi-mehrotra.png",
+    "asset": "/img/builders/manvi-mehrotra.webp",
     "description": "Built HTMLHub so teammates can securely host and share the HTML prototypes they create with AI.",
     "title": "A secure home for AI-built prototypes.",
     "challengeTitle": "Sharing a prototype needs more than an HTML file.",
@@ -70,7 +70,7 @@
     "slug": "nishant-arora",
     "name": "Nishant Arora",
     "team": "Finance",
-    "asset": "/img/builders/nishant-arora.png",
+    "asset": "/img/builders/nishant-arora.webp",
     "description": "Built a financial consolidation tool and deployed it on Launchpad during the Finance AI war room.",
     "title": "Taking financial consolidation from a recurring task to a working tool.",
     "challengeTitle": "A recurring finance workflow to build around.",
@@ -113,7 +113,7 @@
     "slug": "vishal-thakur",
     "name": "Vishal Thakur",
     "team": "IT",
-    "asset": "/img/builders/vishal-thakur.png",
+    "asset": "/img/builders/vishal-thakur.webp",
     "description": "Built an AI support bot that reads Slack threads, suggests troubleshooting and routes unresolved issues to the right team.",
     "title": "Bringing IT support into the Slack conversation.",
     "challengeTitle": "The support request starts in a thread.",
@@ -161,7 +161,7 @@
     "slug": "anshul-sharma",
     "name": "Anshul Sharma",
     "team": "Engineering",
-    "asset": "/img/builders/anshul-sharma.jpg",
+    "asset": "/img/builders/anshul-sharma.webp",
     "description": "Built Assembly’s MCP connector, enabling teams to publish CMS pages directly from Claude, Codex and Figma.",
     "title": "Connecting the tools people create in to the pages they publish.",
     "challengeTitle": "Close the gap between authoring and publishing.",
@@ -204,7 +204,7 @@
     "slug": "ayush-gupta",
     "name": "Ayush Gupta",
     "team": "Customer & Dealer",
-    "asset": "/img/builders/ayush-gupta.png",
+    "asset": "/img/builders/ayush-gupta.webp",
     "description": "Led an AI dealer-engagement pilot that uses conversation and inventory context to personalise outreach, then added a daily improvement loop.",
     "title": "Making dealer outreach respond to the conversation.",
     "challengeTitle": "Outreach needs the context behind it.",
@@ -256,7 +256,7 @@
     "slug": "ayush-upadhyay",
     "name": "Ayush Upadhyay",
     "team": "Retail AI",
-    "asset": "/img/builders/ayush-upadhyay.png",
+    "asset": "/img/builders/ayush-upadhyay.webp",
     "description": "Built an automated build–test–fix–validate loop for voice agents. His July update reported two follow-up campaigns deployed to production.",
     "title": "Building an agent that builds and tests voice agents.",
     "challengeTitle": "The work continues after the first build.",
@@ -323,7 +323,7 @@
     "slug": "priyanshu-jha",
     "name": "Priyanshu Jha",
     "team": "Engineering",
-    "asset": "/img/builders/priyanshu-jha.jpg",
+    "asset": "/img/builders/priyanshu-jha.webp",
     "description": "Built and delivered the APIs behind an AI-led dealer engagement pilot, connecting the tools that made personalized outreach possible.",
     "title": "Building the APIs behind contextual dealer engagement.",
     "challengeTitle": "An outreach pilot needs connected systems.",
@@ -371,7 +371,7 @@
     "slug": "gaurav-saxena",
     "name": "Gaurav Saxena",
     "team": "People & Culture",
-    "asset": "/img/builders/gaurav-saxena.png",
+    "asset": "/img/builders/gaurav-saxena.webp",
     "description": "Helped create a People & Culture agent hub bringing SOPs, running agents and data together. He also organized a two-day hackathon around practical employee workflows.",
     "title": "Bringing employee workflows into one agent hub.",
     "challengeTitle": "Bring the process, agents and data together.",
@@ -419,7 +419,7 @@
     "slug": "mayank",
     "name": "Mayank",
     "team": "Design",
-    "asset": "/img/builders/mayank.png",
+    "asset": "/img/builders/mayank.webp",
     "description": "Created Design Audit, a reusable skill that checks design-system usage, content and accessibility, then adds Dev Mode findings and proposes fixes for review.",
     "title": "Making design review a reusable skill.",
     "challengeTitle": "Check the details before handoff.",
@@ -467,7 +467,7 @@
     "slug": "nikhil-meena",
     "name": "Nikhil Meena",
     "team": "Finance",
-    "asset": "/img/builders/nikhil-meena.jpg",
+    "asset": "/img/builders/nikhil-meena.webp",
     "description": "Helped teams build solutions for recurring WeCare requests during the People & Culture hackathon, turning everyday support problems into practical automation ideas.",
     "title": "Turning recurring employee requests into automation ideas.",
     "challengeTitle": "Start with the requests that keep coming back.",
@@ -511,7 +511,7 @@
     "slug": "saumy-omar",
     "name": "Saumy Omar",
     "team": "Business Finance",
-    "asset": "/img/builders/saumy-omar.jpg",
+    "asset": "/img/builders/saumy-omar.webp",
     "description": "Built invoice-approval automation for the Australia team, turning a recurring finance task into a working tool.",
     "title": "Turning invoice approvals into a working automation.",
     "challengeTitle": "Take on a recurring finance task.",
@@ -550,7 +550,7 @@
     "slug": "shyamal-anand",
     "name": "Shyamal Anand",
     "team": "Legal",
-    "asset": "/img/builders/shyamal-anand.png",
+    "asset": "/img/builders/shyamal-anand.webp",
     "description": "Built Barrister Babu, an in-house legal agent that helps draft submissions and research applicable law and citations.",
     "title": "Building a legal agent for drafting and research.",
     "challengeTitle": "Support the work behind a submission.",
@@ -593,7 +593,7 @@
     "slug": "suraj-hatwal",
     "name": "Suraj Hatwal",
     "team": "Finance",
-    "asset": "/img/builders/suraj-hatwal.jpg",
+    "asset": "/img/builders/suraj-hatwal.webp",
     "description": "Co-built three finance tools for challan-level reporting, receipt reconciliation and dealer-wallet reconciliation.",
     "title": "Building three tools around finance reconciliation and reporting.",
     "challengeTitle": "Focus on the recurring finance work.",
@@ -632,5 +632,56 @@
       "Co-built",
       "August 2026"
     ]
+  },
+  {
+    "slug": "ishaan-kothiyal",
+    "name": "Ishaan Kothiyal",
+    "team": "Design",
+    "asset": "https://avatars.slack-edge.com/2026-07-15/11582819992455_d0dbef070c0f8d74cbc9_original.png",
+    "description": "Shared reusable design-system skills and a Design Audit guide to help teams build and review AI-assisted interfaces.",
+    "title": "Making the design system usable by AI.",
+    "challengeTitle": "AI output needs a shared design foundation.",
+    "challenge": [
+      "An AI-generated interface can look plausible without using the approved components, typography or tokens. Teams need reusable instructions and a reliable way to check what an agent produces.",
+      "Ishaan shared a collection of ten design-system skill packages and a team guide for Design Audit. The materials give designers and engineers a common starting point for AI-assisted UI work."
+    ],
+    "solutions": [
+      [
+        "Share reusable design-system skills",
+        "The collection covers platform UI, components, design tokens, desktop and mobile typography, icons, primitive and semantic colors, borders and radius. Ishaan shared the ten packages with the design team in March 2026."
+      ],
+      [
+        "Make review repeatable",
+        "His Design Audit team guide explains how to check Figma designs against approved source libraries, inspect tokens and UI consistency, and review findings through Dev Mode annotations and a report. It also explains when checks must remain unverified."
+      ],
+      [
+        "Test the workflow with a team",
+        "In October, Ishaan shared the team’s Codex and Figma experiment for generating a V3 homepage draft directly in the CMS, including page creation, asset uploads, token mapping and visual QA."
+      ],
+      [
+        "Be clear about the remaining work",
+        "The demo was an early prototype. Ishaan identified gaps in pixel accuracy, carousel and asset extraction, unsupported effects and component coverage. Manual review and developer input were still needed."
+      ]
+    ],
+    "outcomeTitle": "Reusable foundations, with the limits made visible.",
+    "outcomes": [
+      [
+        "A shared starting point",
+        "The uploaded skill packages and audit guide make design-system guidance available for repeated AI-assisted building and review, rather than relying only on one-off prompts."
+      ],
+      [
+        "A tested direction for the team",
+        "The CMS proof of concept produced a usable homepage draft. Ishaan credited the team behind the experiment and described broader page coverage and team training as next steps, not completed production automation."
+      ]
+    ],
+    "facts": [
+      "Design-system skills",
+      "Design Audit",
+      "Team enablement"
+    ],
+    "productAsset": "/img/builder-story/ishaan-design-skills.svg",
+    "productAlt": "Ten design-system skill packages shared by Ishaan Kothiyal in March 2026",
+    "productWidth": 1000,
+    "productHeight": 700
   }
 ]

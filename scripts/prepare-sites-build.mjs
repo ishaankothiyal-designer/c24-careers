@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { copyFileSync, existsSync, mkdirSync } from "node:fs";
+import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -11,6 +12,14 @@ const hosting = path.join(root, ".openai", "hosting.json");
 
 for (const file of [index, worker, hosting]) {
   if (!existsSync(file)) throw new Error("Missing Sites build input: " + file);
+}
+
+// Static hosts need actual documents for direct visits and refreshes on app routes.
+const stories = JSON.parse(await readFile(path.join(root, 'src/builder-stories.json'), 'utf8'));
+for (const route of ['careers', ...stories.map(story => `builders/${story.slug}`)]) {
+  const directory = path.join(dist, 'client', route);
+  mkdirSync(directory, { recursive: true });
+  copyFileSync(index, path.join(directory, 'index.html'));
 }
 
 mkdirSync(path.join(dist, "server"), { recursive: true });
