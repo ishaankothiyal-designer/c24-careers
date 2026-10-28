@@ -8,7 +8,7 @@ import { initializeConsent } from './runtime/consent.js';
 import sectionIndex from './sections.json';
 import { initializeCraftWork } from './runtime/craft-work.js';
 import { initializeBuilderPixels } from './runtime/builder-pixels.js';
-import { initializeAiAdoption } from './runtime/ai-adoption.js';
+import { initializeProblemFilters } from './runtime/problem-filters.js';
 import { ACTIVE_NAVBAR } from './navbar-config.js';
 import { initializeCraftField } from './runtime/craft-field.js';
 import { initializeCraftButtons } from './runtime/craft-buttons.js';
@@ -52,7 +52,7 @@ export function App() {
     }
     for (const initialize of [initializeCareersFilters, initializePaperLetter,
       initializeClosingPixels, initializeCraftField, initializeCraftButtons,
-      initializeCraftWork, initializeBuilderPixels, initializeAiAdoption,
+      initializeCraftWork, initializeBuilderPixels, initializeProblemFilters,
       initializeExchangeDither, initializeCareBandCursor, initializeSocietyFooter,
       initializeConsent, initializeFaq]) {
       try { initialize(); }

@@ -7,7 +7,8 @@ test('every builder card resolves to a real project story with unique IDs',async
   const html=await readFile(new URL('../src/sections/career-01-invitation.html',import.meta.url),'utf8');
   const stories=JSON.parse(await readFile(new URL('../src/builder-stories.json',import.meta.url),'utf8'));
   const routes=[...html.matchAll(/data-builder-href="([^"]+)"/g)].map(m=>m[1]);
-  assert.equal(routes.length,stories.length);
+  assert.equal(routes.length,stories.filter(story=>story.slug!=='ishaan-kothiyal').length);
+  assert.doesNotMatch(html,/Ishaan Kothiyal|ishaan-kothiyal/);
   assert.equal(new Set(routes).size,routes.length);
   for(const route of routes){
     const page=builderDetailPage(route,'','');
