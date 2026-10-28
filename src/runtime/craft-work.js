@@ -1,3 +1,4 @@
+import { requestProject } from './project-drawer.js';
 // Scoped adaptation of Craft's project carousel and line reveal.
 export function initializeCraftWork() {
   document.querySelectorAll('[data-craft-work]').forEach(initializeReel);
@@ -98,7 +99,7 @@ function initializeReel(root) {
   viewport.addEventListener('pointerdown', event => {
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     const control = event.target.closest('a[href], button, input, select, textarea, summary, [role="button"]');
-    if (control && !control.matches('a.craft-work__card')) return;
+    if (control && !control.matches('a.craft-work__card, .craft-work__card[data-builder-href]')) return;
     manual();
     event.preventDefault(); cancelAnimationFrame(frame); frame=0; velocity = 0; target = null;
     drag = { id: event.pointerId, start: event.clientX, last: event.clientX, time: performance.now(), moved: false, link: event.target.closest('a.craft-work__card[href], .craft-work__card[data-builder-href]') };
@@ -120,7 +121,7 @@ function initializeReel(root) {
     else { if (coarse.matches) { target = snap(x + velocity * 8); velocity = 0; } startAnimation(); }
     if (navigate && !finished.moved && finished.link) {
       const href = finished.link.dataset.builderHref || finished.link.href;
-      if (finished.link.dataset.builderHref && !event.ctrlKey && !event.metaKey) location.assign(href);
+      if (finished.link.dataset.builderHref && !event.ctrlKey && !event.metaKey) requestProject(href,finished.link);
       else window.open(href, '_blank', 'noopener');
     }
   };
@@ -129,11 +130,12 @@ function initializeReel(root) {
   cards.forEach(card => card.addEventListener('click', event => {
     const control = event.target.closest('a[href], button, input, select, textarea, summary, [role="button"]');
     if (control && control !== card) return;
-    if (event.detail !== 0) event.preventDefault();
+    if (card.dataset.builderHref && event.detail === 0) {event.preventDefault();requestProject(card.dataset.builderHref,card);}
+    else if (event.detail !== 0) event.preventDefault();
   }));
   cards.filter(card => card.dataset.builderHref).forEach(card => card.addEventListener('keydown', event => {
-    if (event.key !== 'Enter' || event.target !== card) return;
-    event.preventDefault(); location.assign(card.dataset.builderHref);
+    if (!['Enter',' '].includes(event.key) || event.target !== card) return;
+    event.preventDefault(); requestProject(card.dataset.builderHref,card);
   }));
   // Keep one trackpad gesture on its starting axis, including its momentum tail.
   // Otherwise diagonal deltas alternate between the reel and Lenis page scrolling.

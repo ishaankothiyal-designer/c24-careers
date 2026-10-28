@@ -6,6 +6,7 @@ import { initializePaperLetter } from './runtime/paper-letter.js';
 import { initializeFaq } from './runtime/faq.js';
 import { initializeConsent } from './runtime/consent.js';
 import sectionIndex from './sections.json';
+import pageSections from './page-sections.js';
 import { initializeCraftWork } from './runtime/craft-work.js';
 import { initializeBuilderPixels } from './runtime/builder-pixels.js';
 import { initializeAiAdoption } from './runtime/ai-adoption.js';
@@ -15,12 +16,13 @@ import { initializeCraftButtons } from './runtime/craft-buttons.js';
 import { initializeSocietyFooter } from './runtime/society-footer.js';
 import { initializeExchangeDither } from './runtime/exchange-dither.js';
 import { configureSmoothScrolling } from './runtime/smooth-scroll.js';
-import { builderDetailPage } from './builder-detail.js';
+import { initializeProjectDrawer } from './runtime/project-drawer.js';
 import { routePath, siteLinks } from './site-routing.js';
 import { initializePageTransition } from './runtime/page-transition.js';
 
 // Original semantic sections are kept as separate editable source files.
-const sections = import.meta.glob('./sections/*.html', { query: '?raw', import: 'default', eager: true });
+// Only the fragments listed in page-sections.js are included in the client.
+const sections = pageSections;
 const page = sectionIndex.reduce((state, item, index) => {
   const wasMain = sectionIndex[index - 1]?.main;
   if (item.main && !wasMain) state += '<main>';
@@ -37,7 +39,7 @@ const base = document.querySelector('meta[name="site-base"]')?.content || '/';
 const pathname = routePath(location.pathname, base);
 const header = page.split('<main>')[0];
 const footer = page.split('</main>')[1]?.replace(/href="#/g, 'href="/#') || '';
-const detail = careersPage(pathname, header, footer, sections['./sections/career-08-roles.html']) || builderDetailPage(pathname, header, footer);
+const detail = careersPage(pathname, header, footer, sections['./sections/career-08-roles.html']);
 const html = siteLinks(detail?.html || page, base);
 
 export function App() {
@@ -50,7 +52,7 @@ export function App() {
       document.title = detail.title || 'Open roles | Cars24 Careers';
       document.querySelector('meta[name="description"]')?.setAttribute('content', pathname.startsWith('/careers') ? 'Explore Cars24 roles by department and find a problem to own.' : 'Meet the Cars24 builders and explore the workflows, tools and automation they built.');
     }
-    for (const initialize of [initializeCareersFilters, initializePaperLetter,
+    for (const initialize of [initializeProjectDrawer, initializeCareersFilters, initializePaperLetter,
       initializeClosingPixels, initializeCraftField, initializeCraftButtons,
       initializeCraftWork, initializeBuilderPixels, initializeAiAdoption,
       initializeExchangeDither, initializeCareBandCursor, initializeSocietyFooter,
@@ -64,7 +66,7 @@ export function App() {
     // Source modules initialize against the restored semantic DOM. The visual
     // runtime retains the captured GSAP, Lenis, and WebGL implementations.
     for (const src of [
-      '/_astro/Nav.astro_astro_type_script_index_0_lang.BTi8Y4C0.js',
+      ...(ACTIVE_NAVBAR === 'Navbar-V1' ? ['/_astro/Nav.astro_astro_type_script_index_0_lang.BTi8Y4C0.js'] : []),
       '/_astro/Base.astro_astro_type_script_index_0_lang.BUtqXeGZ.js',
     ]) {
       const script = document.createElement('script');

@@ -1,0 +1,277 @@
+{
+  "method": "Static inventory only. Candidates may be used by dynamic DOM, responsive states, or third-party runtime; do not automatically delete.",
+  "inactiveFragments": [
+    "src/sections/02-00a-challenge.html",
+    "src/sections/02-00a-craft-experiments.html",
+    "src/sections/02-00a-craft-work.html",
+    "src/sections/02-00b-hero-proof.html",
+    "src/sections/02-01-support-tiers.html",
+    "src/sections/02-02-client-result.html",
+    "src/sections/02-03-client-reviews.html",
+    "src/sections/02-04-selected-work.html",
+    "src/sections/02-05-marquee.html",
+    "src/sections/02-06-working-process.html",
+    "src/sections/02-07-features.html",
+    "src/sections/02-08-articles.html",
+    "src/sections/career-02-builders.html",
+    "src/sections/career-03-ai-adoption.html",
+    "src/sections/career-05-growth.html"
+  ],
+  "inertReferenceFragments": [
+    "src/sections/01-tsnav.html"
+  ],
+  "cssCandidates": [
+    {
+      "file": "src/styles/brand.css",
+      "classes": [
+        "craft-tag--weave"
+      ]
+    },
+    {
+      "file": "src/styles/builder-detail.css",
+      "classes": [
+        "sol-card",
+        "out-card",
+        "sol-card__top",
+        "sol-card__heading",
+        "sol-card__text",
+        "out-card__top",
+        "out-card__heading",
+        "out-card__text"
+      ]
+    },
+    {
+      "file": "src/styles/careers-sliders.css",
+      "classes": [
+        "craft-work__shade",
+        "craft-work__caption",
+        "roles-reel__more"
+      ]
+    },
+    {
+      "file": "src/styles/review-home-oct21.css",
+      "classes": [
+        "ring--on-dark",
+        "separates__row"
+      ]
+    },
+    {
+      "file": "src/styles/review-sliders.css",
+      "classes": [
+        "craft-work__shade",
+        "craft-work__caption"
+      ]
+    },
+    {
+      "file": "src/styles.css",
+      "classes": [
+        "hero__bottom",
+        "craft-work__intro",
+        "craft-work__lead",
+        "craft-work__shade",
+        "craft-work__caption",
+        "craft-work__caption-text",
+        "craft-experiments__intro",
+        "craft-experiments__heading",
+        "craft-experiments__description",
+        "craft-experiments",
+        "craft-tag--weave",
+        "craft-tag--aframe",
+        "craft-tag--comfy",
+        "craft-tag--replit",
+        "ctaband",
+        "ctaband__scene",
+        "ctaband__inner",
+        "ctaband__heading",
+        "ctaband__body",
+        "ctaband__points",
+        "ctaband__actions",
+        "ctaband__quiet",
+        "paper-letter__read"
+      ]
+    },
+    {
+      "file": "public/_astro/Base.Cz7aN_E5.css",
+      "classes": [
+        "btn-bubble-arrow__content",
+        "closer__scene",
+        "closer__wave",
+        "closer__ring",
+        "closer__ring-spin",
+        "closer__content",
+        "closer__mark",
+        "closer__title",
+        "closer__copy",
+        "footer__grid",
+        "footer__home",
+        "footer__logo",
+        "footer__prefsrc",
+        "site-footer__shade",
+        "footer__col",
+        "footer__place",
+        "footer__bottom",
+        "footer__legal",
+        "footer__consent",
+        "footer__brand"
+      ]
+    },
+    {
+      "file": "public/_astro/ConsentBanner.Bjqg_HPr.css",
+      "classes": [
+        "btn-bubble-arrow__arrow",
+        "is--duplicate",
+        "btn-bubble-arrow__arrow-svg",
+        "btn-bubble-arrow__content",
+        "btn-bubble-arrow__content-text",
+        "btn-bubble-arrow--white"
+      ]
+    },
+    {
+      "file": "public/_astro/global.Btqt_PqA.css",
+      "classes": [
+        "filter-btn",
+        "post-card__tag",
+        "featured__chip",
+        "reset-btn",
+        "filter-list__item",
+        "fig__eyebrow",
+        "fig__title",
+        "fig-mark",
+        "fig-mark--wide",
+        "fig-cols",
+        "fig-col__title",
+        "fig-stats",
+        "fig-stat",
+        "fig-bars",
+        "fig-bar",
+        "fig-bar__label",
+        "fig-bar__track",
+        "fig-bar__fill",
+        "fig-bar__value",
+        "fig-when",
+        "fig-matrix",
+        "fig-matrix__row",
+        "fig-dot",
+        "fig-dot--yes",
+        "fig-dot--part",
+        "fig-dot--no",
+        "fig-flow",
+        "fig-flow__in",
+        "fig-flow__node",
+        "fig-col",
+        "fig-flow__arrow",
+        "fig-flow__out",
+        "task-list-item",
+        "why",
+        "pts",
+        "pts--high",
+        "pts--mid",
+        "pts--low",
+        "band--easy",
+        "band--target",
+        "band--hard",
+        "band--worst",
+        "rowicon",
+        "callout",
+        "callout__label",
+        "statrow",
+        "stat--down",
+        "band-scene"
+      ]
+    },
+    {
+      "file": "public/_astro/index.CfaRJiv9.css",
+      "classes": [
+        "hero__planet",
+        "hero__bottom",
+        "hero__proof",
+        "hero__bottom-inner",
+        "hero__proof-label",
+        "hero__partners",
+        "hero__partners-label",
+        "hero__partners-context",
+        "tiers",
+        "tiers__head",
+        "tiers__title",
+        "tiers__intro",
+        "tiers__grid",
+        "tier--dark",
+        "tier__video",
+        "tier__video-shade",
+        "tier__toggle",
+        "tier__plus",
+        "tier__list",
+        "btn-bubble-arrow__content",
+        "btn-bubble-arrow__content-text",
+        "quote",
+        "quote__scene",
+        "quote__head",
+        "quote__title",
+        "quote__slider",
+        "quote__controls",
+        "quote__arrow",
+        "quote__counter",
+        "quote__list",
+        "quote__card",
+        "quote__source",
+        "quote__link",
+        "cases__pending",
+        "cases__more",
+        "cases__grid",
+        "case-card",
+        "case-card__img",
+        "case-card__img--alt",
+        "case-card__chips",
+        "case-card__bar",
+        "case-card__context",
+        "case-card__client",
+        "arc",
+        "arc__scene",
+        "team__inner",
+        "team__title",
+        "team__grid",
+        "sys-card",
+        "separates",
+        "separates__bg",
+        "separates__title",
+        "separates__item",
+        "separates__num",
+        "separates__visuals",
+        "separates__progress",
+        "separates__panel",
+        "separates__text-col",
+        "separates__items",
+        "separates__visual",
+        "separates__visual--1",
+        "separates__visual--2",
+        "separates__visual--3",
+        "blogteaser__title",
+        "blogteaser__grid",
+        "post-card",
+        "post-card__media",
+        "post-card__img",
+        "post-card__img--tex",
+        "post-card__meta",
+        "post-card__tag",
+        "post-card__link"
+      ]
+    }
+  ],
+  "externalReferences": [
+    {
+      "file": "src/builder-stories.json",
+      "url": "https://avatars.slack-edge.com/2026-07-15/11582819992455_d0dbef070c0f8d74cbc9_original.png",
+      "kind": "remote portrait"
+    },
+    {
+      "file": "src/sections/career-01-invitation.html",
+      "url": "https://avatars.slack-edge.com/2026-07-15/11582819992455_d0dbef070c0f8d74cbc9_original.png",
+      "kind": "remote portrait"
+    },
+    {
+      "file": "src/sections/career-08-roles.html",
+      "url": "https://careers.cars24.com/",
+      "kind": "outbound application link"
+    }
+  ]
+}

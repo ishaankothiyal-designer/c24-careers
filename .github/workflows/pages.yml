@@ -1,7 +1,7 @@
-name: Deploy Backup Version 2 to GitHub Pages
+name: Deploy Careers staging to GitHub Pages
 on:
   push:
-    branches: [main]
+    branches: [staging-mynk]
   workflow_dispatch:
 permissions:
   contents: read
@@ -10,6 +10,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   build:
+    if: github.ref == 'refs/heads/staging-mynk'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -17,11 +18,11 @@ jobs:
         with:
           node-version: '22'
           cache: npm
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
       - run: npm ci
       - run: npm run build
       - run: npm test
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
       - name: Adapt compiled asset paths for the repository URL
         run: node scripts/prepare-github-pages.mjs /c24-careers/
       - name: Upload compiled site
