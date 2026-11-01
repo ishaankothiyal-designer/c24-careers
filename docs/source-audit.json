@@ -15,12 +15,24 @@
     "src/sections/02-08-articles.html",
     "src/sections/career-02-builders.html",
     "src/sections/career-03-ai-adoption.html",
-    "src/sections/career-05-growth.html"
+    "src/sections/career-03-beliefs.html",
+    "src/sections/career-05-growth.html",
+    "src/sections/career-07-ai-progress.html",
+    "src/sections/career-08-roles.html"
   ],
   "inertReferenceFragments": [
     "src/sections/01-tsnav.html"
   ],
   "cssCandidates": [
+    {
+      "file": "src/styles/ai-adoption.css",
+      "classes": [
+        "proof__grid",
+        "proof__heading",
+        "proof__text",
+        "line__plot"
+      ]
+    },
     {
       "file": "src/styles/brand.css",
       "classes": [
@@ -41,18 +53,71 @@
       ]
     },
     {
+      "file": "src/styles/careers-page.css",
+      "classes": [
+        "tier__title",
+        "tier__note",
+        "tier__cta"
+      ]
+    },
+    {
       "file": "src/styles/careers-sliders.css",
       "classes": [
+        "roles-reel",
         "craft-work__shade",
         "craft-work__caption",
+        "tier__title",
+        "tier__note",
+        "tier__cta",
         "roles-reel__more"
+      ]
+    },
+    {
+      "file": "src/styles/review-content.css",
+      "classes": [
+        "roles-reel",
+        "tier__cta"
       ]
     },
     {
       "file": "src/styles/review-home-oct21.css",
       "classes": [
+        "ring__plot",
+        "ring__track",
         "ring--on-dark",
-        "separates__row"
+        "ring__arc--blue",
+        "ring__arc--lime",
+        "ring__arc--ink",
+        "ring__value",
+        "ring__num",
+        "ring__suffix",
+        "ring__caption",
+        "ring__label",
+        "ring__source",
+        "panel__head",
+        "panel__heading",
+        "panel__sub",
+        "panel__rings",
+        "separates__row",
+        "hiring-pixels",
+        "exchange-c-visual",
+        "about-dither",
+        "beliefs__intro",
+        "belief-list",
+        "belief-list__row",
+        "belief-list__number",
+        "care-summary__grid",
+        "care-summary__intro",
+        "care-summary__item",
+        "care-summary__note"
+      ]
+    },
+    {
+      "file": "src/styles/review-layout-oct20.css",
+      "classes": [
+        "cases__head",
+        "cases__title",
+        "roles-reel__heading-cta"
       ]
     },
     {
@@ -60,6 +125,23 @@
       "classes": [
         "craft-work__shade",
         "craft-work__caption"
+      ]
+    },
+    {
+      "file": "src/styles/story-flow.css",
+      "classes": [
+        "story-section-head",
+        "story-kicker",
+        "story-beliefs",
+        "story-belief",
+        "story-belief__example",
+        "builder-directory",
+        "builder-directory__grid",
+        "builder-directory__person",
+        "story-bridge",
+        "tier__title",
+        "tier__note",
+        "tier__cta"
       ]
     },
     {
@@ -162,7 +244,6 @@
         "fig-flow__arrow",
         "fig-flow__out",
         "task-list-item",
-        "why",
         "pts",
         "pts--high",
         "pts--mid",
@@ -198,9 +279,12 @@
         "tier--dark",
         "tier__video",
         "tier__video-shade",
+        "tier__title",
         "tier__toggle",
         "tier__plus",
         "tier__list",
+        "tier__note",
+        "tier__cta",
         "btn-bubble-arrow__content",
         "btn-bubble-arrow__content-text",
         "quote",
@@ -215,6 +299,8 @@
         "quote__card",
         "quote__source",
         "quote__link",
+        "cases__head",
+        "cases__title",
         "cases__pending",
         "cases__more",
         "cases__grid",
@@ -264,12 +350,7 @@
       "kind": "remote portrait"
     },
     {
-      "file": "src/sections/career-01-invitation.html",
-      "url": "https://avatars.slack-edge.com/2026-07-15/11582819992455_d0dbef070c0f8d74cbc9_original.png",
-      "kind": "remote portrait"
-    },
-    {
-      "file": "src/sections/career-08-roles.html",
+      "file": "src/role-previews.json",
       "url": "https://careers.cars24.com/",
       "kind": "outbound application link"
     }

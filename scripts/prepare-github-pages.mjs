@@ -1,5 +1,6 @@
 #!/usr/bin/env node
-// Deployment-only transformation; keep source asset URLs relative to the site root.
+// Legacy GitHub Pages compatibility only. Do not run for the active Vercel app
+// at https://c24-careers-chi.vercel.app; it serves assets at the domain root.
 import { readdir, readFile, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';

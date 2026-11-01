@@ -42,3 +42,14 @@
   :is(#builder,#roles) .craft-work__arrow { display:flex; opacity:1; pointer-events:auto; }
 }
 :is(#builder,#roles) .craft-work__arrow:disabled { opacity:0; pointer-events:none; }
+
+/* Restore only the builder section's 29 October carousel layout. */
+#builder {
+  --work-gutter:var(--pad-x);
+  --work-max:calc(var(--max-w) - 2 * var(--pad-x));
+  --builder-anchor-clearance:calc(var(--pad-x) + var(--sp-5) + var(--sp-3));
+  scroll-margin-top:var(--builder-anchor-clearance);
+}
+#builder #how-we-work { background:transparent; align-items:start; gap:var(--sp-4); }
+#builder .craft-work__track { padding-inline:max(var(--work-gutter),calc((100vw - var(--work-max))/2)); }
+#builder :is(#builders,#how-we-work) { scroll-margin-top:var(--builder-anchor-clearance); }

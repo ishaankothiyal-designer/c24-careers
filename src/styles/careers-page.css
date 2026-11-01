@@ -1,4 +1,47 @@
-/* Hallmark · pre-emit critique: P5 H4 E5 S5 R5 V4 */
+/* Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 */
+:root{--role-panel-width:760px;--role-overlay:rgb(32 29 29 / .4);--role-panel-inset:var(--sp-3);--role-panel-motion:240ms;--role-panel-ease:cubic-bezier(.2,.7,.2,1)}
+.role-dialog{position:fixed;inset:0 0 0 auto;margin:0;width:min(var(--role-panel-width),90vw);max-width:none;height:100dvh;max-height:100dvh;border:0;background:var(--white);color:var(--ink);padding:0;overflow-y:auto;overscroll-behavior:contain}
+.role-dialog::backdrop{background:var(--role-overlay)}
+.role-dialog[open]{animation:role-panel-enter var(--role-panel-motion) var(--role-panel-ease)}
+.role-dialog__toolbar{position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);padding:var(--sp-2) var(--sp-4);background:var(--white);border-bottom:var(--section-divider-height) solid var(--section-divider-color);font-size:var(--para-sm)}
+.role-dialog__close .craft-button-label{display:flex;align-items:center;gap:var(--sp-2)}
+.role-dialog .role-detail{min-height:0;padding-bottom:0}
+.role-dialog .container{padding-inline:var(--sp-4)}
+.role-dialog .role-detail__hero{padding-top:var(--sp-4);padding-bottom:var(--sp-4)}
+.role-dialog .role-detail h1{font-size:var(--h3)}
+.role-dialog .role-detail__layout{grid-template-columns:minmax(0,1fr);gap:0;padding-inline:0}
+.role-dialog .role-detail__content section{padding:var(--sp-4);border-top:var(--section-divider-height) solid var(--section-divider-color)}
+.role-dialog .role-detail__application{padding:var(--sp-4);background:var(--section-quiet-bg);border-top:var(--section-divider-height) solid var(--section-divider-color);border-radius:0}
+@keyframes role-panel-enter{from{transform:translateX(100%)}to{transform:translateX(0)}}
+@media(max-width:1024px){
+  .role-dialog{inset:0;margin:auto;width:calc(100% - var(--role-panel-inset)*2);max-width:var(--role-panel-width);height:fit-content;max-height:calc(100dvh - var(--role-panel-inset)*2);border-radius:var(--radius)}
+  .role-dialog[open]{animation-name:role-popover-enter}
+  @keyframes role-popover-enter{from{opacity:0;transform:translateY(var(--sp-2))}to{opacity:1;transform:translateY(0)}}
+}
+@media(max-width:480px){
+  :root{--role-panel-inset:var(--sp-2)}
+  .role-dialog__toolbar,.role-dialog .role-detail__hero,.role-dialog .role-detail__content section,.role-dialog .role-detail__application{padding-inline:var(--sp-3)}
+  .role-dialog .role-detail h1{font-size:var(--h4)}
+}
+@media(prefers-reduced-motion:reduce){.role-dialog[open]{animation:none}}
+.role-detail{background:var(--white);min-height:100svh;padding-bottom:var(--sp-6)}
+.role-detail__hero{padding-top:clamp(150px,16vw,210px);padding-bottom:var(--sp-5)}
+.role-detail__back{display:inline-flex;align-items:center;min-height:44px;font-size:var(--para-sm);text-decoration:underline;text-underline-offset:.25em}
+.role-labels{justify-content:flex-start;margin:var(--sp-3) 0 0}
+.role-labels>span{font-family:var(--font-body)}
+.role-detail__preview{font-size:var(--story-small);line-height:var(--story-line);color:var(--story-muted);margin-top:var(--sp-3)}
+.role-detail h1{font-size:var(--h1);line-height:1.1;letter-spacing:-.04em;max-width:20ch;overflow-wrap:anywhere}
+.role-detail__summary{font-size:var(--para);max-width:52ch;margin-top:var(--sp-3)}
+.role-detail__layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(0,1fr);gap:var(--sp-5);align-items:start}
+.role-detail__content{min-width:0}
+.role-detail__content section{padding-block:var(--sp-4);border-top:var(--section-divider-height) solid var(--section-divider-color)}
+.role-detail h2{font-size:var(--h5);margin-bottom:var(--sp-3)}
+.role-detail__content p,.role-detail__application p{font-size:var(--para);line-height:1.5;max-width:60ch;overflow-wrap:anywhere}
+.role-detail__application{padding:var(--sp-4);background:var(--section-quiet-bg);min-width:0}
+.role-detail__availability{margin-block:var(--sp-3);font-weight:700}
+.role-detail a:focus-visible,.problem-card__detail:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
+.problem-card__detail{display:inline-flex;gap:var(--sp-2);align-items:center;min-height:44px;margin-top:auto;text-decoration:underline;text-underline-offset:.25em}
+@media(max-width:768px){.role-detail__layout{grid-template-columns:minmax(0,1fr)}.role-detail h1{font-size:var(--h3)}}
 .careers-page{background:var(--bg);min-height:100svh}
 .careers-listing{padding-top:clamp(150px,16vw,210px)}
 .careers-listing__head{display:flex;align-items:flex-start;flex-direction:column;gap:var(--sp-4);margin-bottom:var(--sp-3)}

@@ -1,6 +1,6 @@
 # Code ownership and dependency audit
 
-The deployment source for this work is `ishaankothiyal-designer/c24-careers`, branch `staging-mynk`. No CMS, admin editor, Darwinbox integration, or API credentials are included.
+The source repository is `ishaankothiyal-designer/c24-careers`. Staging review uses `staging-ishaan`; Vercel production tracks `main` at `https://c24-careers-chi.vercel.app`. No CMS, admin editor, Darwinbox integration, or API credentials are included.
 
 ## Where to make changes
 
@@ -18,7 +18,7 @@ The deployment source for this work is `ishaankothiyal-designer/c24-careers`, br
 | Additional styles and overrides | `src/styles.css`, `src/styles/*.css`; import order is explicit in `src/main.jsx` |
 | Original recovered styles | Local `public/_astro/*.css`, linked by `index.html` |
 | Original recovered animation behavior | Local `public/_astro/Base.astro_astro_type_script_index_0_lang.BUtqXeGZ.js` |
-| Build and hosting | `vite.config.js`, `scripts/prepare-sites-build.mjs`, `vercel.json`, `.github/workflows/pages.yml` |
+| Build and hosting | `vite.config.mjs`, `scripts/prepare-sites-build.mjs`, `vercel.json`, `.github/workflows/ci.yml` |
 
 `builder-detail.js` keeps its original name for compatibility; builder cards now open a native modal sidebar rather than navigating to separate project pages. Previously shared `/builders/<slug>/` links render home and open the corresponding sidebar. The sidebar uses native dialog focus management and Escape dismissal, restores focus on close, pauses the page's existing smooth-scroll controller, and keeps the sidebar content independently scrollable.
 
@@ -45,7 +45,7 @@ The project runs React and Vite. It does not need the original website, Webflow 
 
 ### Outbound destination
 
-- Apply buttons open `https://careers.cars24.com/`. This is an application destination after a user clicks; it is not a script, stylesheet, or rendering dependency.
+- Role and problem cards open local illustrative previews. Applications are unavailable for these previews. Original external source URLs remain recorded in `src/role-previews.json`; they are not rendering dependencies.
 
 ### Local third-party code
 
@@ -59,7 +59,7 @@ The authored consent module still contains legacy Google Analytics naming and a 
 
 ## Confirmed cleanup
 
-- Replaced the eager wildcard import of every HTML fragment with explicit imports of the 16 indexed fragments. The 15 unindexed reference/experiment fragments stay editable in Git but are no longer shipped in the application JavaScript.
+- Replaced the eager wildcard import of every HTML fragment with explicit imports of the indexed fragments. The careers listing separately imports its role-card source in `src/App.jsx`. Other unindexed reference/experiment fragments stay editable in Git without being bundled.
 - The preserved Navbar-V1 fragment remains inside an inert template while Navbar-V2 is selected. Its original navigation script now loads only when Navbar-V1 is selected, rather than doing unused work on every visit.
 - Removed five unreferenced legacy JavaScript files: the old footer, unused attribution entry point/helper, old consent entry point, and LinkedIn loader. The active footer uses `src/runtime/society-footer.js` instead.
 - Removed three selectors for the absent Navbar-V2 roles CTA, plus 12 obsolete selectors for the unused builder detail side card, client badge/logo, and credit markup. Active project cards and their dynamic selectors remain.

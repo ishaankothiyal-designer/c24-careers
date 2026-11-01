@@ -18,11 +18,15 @@
     "main": true
   },
   {
+    "file": "career-02-ambition.html",
+    "main": true
+  },
+  {
     "file": "career-01-invitation.html",
     "main": true
   },
   {
-    "file": "career-07-ai-progress.html",
+    "file": "career-02-problems.html",
     "main": true
   },
   {
@@ -30,15 +34,7 @@
     "main": true
   },
   {
-    "file": "career-03-beliefs.html",
-    "main": true
-  },
-  {
     "file": "career-06-letter.html",
-    "main": true
-  },
-  {
-    "file": "career-07-exchange.html",
     "main": true
   },
   {
@@ -46,7 +42,7 @@
     "main": true
   },
   {
-    "file": "career-08-roles.html",
+    "file": "career-07-exchange.html",
     "main": true
   },
   {

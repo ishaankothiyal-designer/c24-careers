@@ -197,6 +197,8 @@ body.society-footer-visible .badge-pin { visibility: hidden; pointer-events: non
 
 /* Leaptree reference: equal-column challenge section directly after the field. */
 .challenge { background: var(--white); padding-block: var(--sp-6); }
+/* Frozen global section-intro standard: builder reference layout, title and body.
+   Reuse challenge__grid, challenge__title and challenge__text without local type overrides. */
 .challenge__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: var(--sp-4); }
 .challenge .label { color: #625e5e; }
 .challenge__title { font-size: var(--h3); max-width: 14ch; }
