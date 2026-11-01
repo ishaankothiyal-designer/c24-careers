@@ -64,3 +64,31 @@
 .careers-card .tier__cta{margin-top:auto;padding-top:var(--sp-2)}
 .careers-card .craft-button{width:100%;background:var(--bg);color:var(--black);white-space:nowrap}
 @media(max-width:900px){.careers-grid{grid-template-columns:minmax(0,1fr)}.careers-card .tier__title{min-height:0}.careers-listing__head{align-items:flex-start;flex-direction:column}}
+
+/* Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V4 */
+:root{--careers-control-height:48px;--careers-focus-offset:3px;--careers-field-border:1px solid var(--story-muted)}
+.careers-search{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp-3);width:100%}
+.careers-search label,.application-field{display:flex;flex-direction:column;gap:var(--sp-1);min-width:0;font-size:var(--para-sm)}
+.careers-search input,.careers-search select,.application-field input,.application-field select{min-width:0;width:100%;min-height:var(--careers-control-height);padding:var(--sp-2);border:var(--careers-field-border);border-radius:var(--radius-sm);background:var(--white);color:var(--ink);font:inherit;box-sizing:border-box}
+.careers-filter{min-height:var(--careers-control-height);white-space:normal}
+.careers-action{display:inline-flex;align-items:center;justify-content:center;min-height:var(--careers-control-height);padding:var(--sp-2) var(--sp-3);border-radius:var(--radius-sm);background:var(--ink);color:var(--white);font:inherit;cursor:pointer}
+.careers-action:disabled{opacity:.6;cursor:wait}
+.application-fields{border:0;padding:0;margin:var(--sp-3) 0;display:grid;gap:var(--sp-3);min-width:0}
+.application-fields:disabled{opacity:.65}
+.application-field small{font-size:var(--story-small);color:var(--story-muted)}
+.application-consent{display:flex;align-items:flex-start;gap:var(--sp-2);font-size:var(--para-sm);line-height:var(--story-line)}
+.application-consent input{appearance:auto;width:var(--sp-3);height:var(--sp-3);flex-shrink:0;margin-top:var(--sp-1)}
+.application-consent a{text-decoration:underline}
+.application-trap{display:none}
+.job-description{overflow-wrap:anywhere}
+.job-description ul,.job-description ol{padding-inline-start:var(--sp-4);margin-block:var(--sp-3);list-style:revert}
+.job-description li{display:list-item;margin-block:var(--sp-1);line-height:var(--story-line)}
+.job-description p{margin-block:var(--sp-2)}
+.job-description h2,.job-description h3,.job-description h4{margin-block:var(--sp-3) var(--sp-2)}
+.job-description a{text-decoration:underline}
+.problem-grid .problem-card[hidden]{display:none}
+.problem-grid[aria-busy=true]{min-height:var(--careers-control-height)}
+[data-application-status]{margin-top:var(--sp-3)}
+.careers-card .role-labels{margin-bottom:var(--sp-3)}
+.careers-search :focus-visible,.application-fields :focus-visible,.careers-action:focus-visible{outline:2px solid var(--blue);outline-offset:var(--careers-focus-offset)}
+@media(max-width:600px){.careers-search{grid-template-columns:minmax(0,1fr)}}

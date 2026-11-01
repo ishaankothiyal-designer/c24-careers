@@ -15,14 +15,12 @@ test('landing story moves from ambition through builders and problems to support
   for(const name of ['Autonaut Future Fund','CareHer','Health','Wellbeing','Compassionate Support','Mission Elevate','Founders’ Awards'])assert.ok(support.includes(`<h3>${name}</h3>`));
 });
 
-test('every problem links to an internal role preview with ownership, collaborators and an outcome',async()=>{
-  const html=await read('sections/career-02-problems.html');
-  const cards=[...html.matchAll(/<article\b[\s\S]*?<\/article>/g)];
-  assert.equal(cards.length,6);
-  for(const [card] of cards){
-    assert.match(card,/href="\/careers\/roles\/preview-problem-\d+\/"/);
-    assert.doesNotMatch(card,/<details>|target="_blank"/);
-  }
+test('homepage role carousel loads live roles without shipping invented briefs', async () => {
+  const html = await read('sections/career-02-problems.html');
+  assert.match(html, /data-live-jobs="carousel"/);
+  assert.match(html, /data-job-results/);
+  assert.match(html, /data-job-retry/);
+  assert.doesNotMatch(html, /preview-problem|illustrative|<article/);
 });
 
 test('native carousels leave vertical wheel input with the page scroll controller',async()=>{

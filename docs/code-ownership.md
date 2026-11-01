@@ -1,6 +1,6 @@
 # Code ownership and dependency audit
 
-The source repository is `ishaankothiyal-designer/c24-careers`. Staging review uses `staging-ishaan`; Vercel production tracks `main` at `https://c24-careers-chi.vercel.app`. No CMS, admin editor, Darwinbox integration, or API credentials are included.
+The source repository is `ishaankothiyal-designer/c24-careers`. Staging review uses `staging-ishaan`; Vercel production tracks `main` at `https://c24-careers-chi.vercel.app`. No CMS or admin editor is included. Darwinbox integration lives in `api/`, `server/`, and `src/runtime/live-jobs.js` / `live-role.js`; credentials are server-only environment variables, never repository content. See [integration setup](darwinbox-integration.md).
 
 ## Where to make changes
 
