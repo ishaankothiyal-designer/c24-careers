@@ -28,6 +28,8 @@ Use `npm ci` and `npm run dev`. Vite's development middleware serves the same AP
 
 Build with `npm run build` and test with `npm test`. Do not run the GitHub Pages postprocessor. The existing Sites worker is compatibility packaging and does not implement the Darwinbox routes.
 
+Node 22 is explicit in `package.json`. The sanitizer stays on its patched 2.18.1 release, with its HTML parser pinned to the CommonJS-compatible 10.0.0 export because Vercel's function loader rejects the parser's newer ESM-only release when required by the sanitizer. A subprocess test disables `require(ESM)` to reproduce this runtime constraint. Recheck the override when upgrading either package or Vercel's loader.
+
 ## Role detail experience
 
 Role links retain their shareable `/careers/roles/:id/` URLs and open the editorial detail panel over the careers listing, including on direct visits. The detail view reads the live API rather than preview data, retains the complete sanitized description, and displays employment, experience, department, country, job reference, all cities, and expandable workplace details. Word-style description headings are normalized for reading without rewriting the published copy.
@@ -40,7 +42,7 @@ System field names follow the supplied Submit Job API Version 3 PDF. The job-det
 
 On 1 November 2026, the live feed contained seven public roles. Key Accounts and Listing had fully mapped required fields. The other five required “Applied for Location,” whose submit key was not documented. Counts and schemas are fetched dynamically, not hardcoded. A 2 November read-only recheck confirmed that these required flags come from Darwinbox itself. The requested removal of the fallback cannot be implemented by treating the field as optional while that upstream requirement remains in place and its key is unknown. See [location requirement investigation](darwinbox-location-requirement.md) for the evidence and supported resolution paths.
 
-If a confirmed Profile View Settings export becomes available, set `DARWINBOX_FIELD_MAP_JSON` to an object mapping display labels to verified backend keys. Do not infer a key from the label. Example structure: `{"Display label":"verified_backend_key"}`. Complex dependent or array fields continue to use the external form until supported.
+If a confirmed Profile View Settings export becomes available, set `DARWINBOX_FIELD_MAP_JSON` to an object mapping display labels to verified backend keys. Do not infer a key from the label. Example structure: `{"Display label":"verified_backend_key"}`. Complex dependent or array fields remain unavailable for inline submission until supported; applicants are not redirected externally.
 
 The role-specific external URL follows the link builder observed in the official `careers.cars24.com` application on 1 November 2026. It includes the actual job ID and preserves that site's title slug route. Dropdown submissions use exact option labels, as the supplied PDF specifies. The requested UAE (+971) phone choice uses the tenant-provided +971 label when present, otherwise `+971 United Arab Emirates`. As of 1 November 2026, the tenant lists only India, Australia, and Other; acceptance of the added UAE label is unverified and must be included in the controlled recruitment submission. Local validation permits the UAE choice, but this is not evidence of tenant-side acceptance.
 

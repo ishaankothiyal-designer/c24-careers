@@ -1,10 +1,11 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { spawnSync } from 'node:child_process';
 import { unzipSync, strFromU8 } from 'fflate';
 import { applicationSchema, createCareersService, descriptionHtml, validateApplication } from '../server/careers.js';
 import { darwinbox } from '../server/darwinbox.js';
 import { once, sameOrigin } from '../server/http.js';
-import { liveJobCard } from '../src/runtime/live-jobs.js';
+import { apiJson, liveJobCard } from '../src/runtime/live-jobs.js';
 import { liveRoleHtml } from '../src/runtime/live-role.js';
 
 const id = 'a6a477f915ac86';
@@ -289,4 +290,16 @@ test('optional unmapped location preserves the working contact-only form and map
   const html = liveRoleHtml(mappedDetail);
   assert.doesNotMatch(html, /data-application-blocked|local-location-preference|type="submit" disabled/);
   assert.match(html, /name="confirmed_test_location_key"/);
+});
+
+test('unexpected hosting error pages produce a recoverable public message', async t => {
+  const original = globalThis.fetch;
+  t.after(() => { globalThis.fetch = original; });
+  globalThis.fetch = async () => ({ ok: false, json: async () => { throw new SyntaxError('Internal platform details'); } });
+  await assert.rejects(apiJson('/api/jobs'), /temporarily unavailable/);
+});
+
+test('server imports work when require(ESM) is disabled, matching the Vercel loader', () => {
+  const result = spawnSync(process.execPath, ['--no-experimental-require-module', '--input-type=module', '-e', `await import(${JSON.stringify(new URL('../server/careers.js', import.meta.url).href)})`], { encoding: 'utf8' });
+  assert.equal(result.status, 0, result.stderr);
 });
