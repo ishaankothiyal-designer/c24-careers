@@ -14,6 +14,8 @@ After deployment, verify the home page, `/careers/`, and a `/builders/<slug>/` d
 
 The workflow in `.github/workflows/ci.yml` runs build and regression checks on pushes to `main`, pull requests, and manual runs. It does not publish the site. The former automatic GitHub Pages deployment has been removed.
 
+Builder cards open projects in an accessible sidebar. Shared `/builders/<slug>/` URLs open the matching sidebar over the homepage. See [Code ownership and dependency audit](docs/code-ownership.md) for editing locations and inherited dependencies.
+
 ## Local development
 
 ```sh

@@ -13,6 +13,8 @@ This release updates the Cars24 careers experience for review on `staging-ishaan
 - Open role details in a desktop side panel or a tablet/mobile popover, with direct links, browser-history support, Escape dismissal, scroll locking, and focus restoration.
 - Link the closing call to action to the careers listing and simplify the four-step hiring explanation.
 
+- Preserve the latest `main` builder-project sidebar, explicit section imports, source-audit tooling, and removal of unused legacy scripts.
+
 ## Hosting and maintenance
 
 - Keep the existing Vercel project and production URL, `https://c24-careers-chi.vercel.app`.
@@ -24,7 +26,7 @@ This release updates the Cars24 careers experience for review on `staging-ishaan
 ## Validation
 
 - `npm run build`
-- `npm test`
+- `npm test` — 35 tests passed after incorporating the latest `main` changes.
 - `git diff --check`
 
 The build retains the known warning about the lazy Three.js paper-animation chunk exceeding 500 kB.

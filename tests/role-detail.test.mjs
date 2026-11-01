@@ -15,6 +15,11 @@ test('every homepage and listing role link resolves to a distinct preview and a 
       assert.ok(page);
       assert.doesNotMatch(page.html, /Role not found/);
       assert.match(page.html, /Role preview/);
+      assert.match(page.html, /class="role-labels craft-experiments__tags"/);
+      assert.match(page.html, /class="craft-tag--claude">Role<\/span>/);
+      assert.match(page.html, /class="craft-tag--framer"/);
+      assert.match(page.html, /class="craft-button btn-bubble-arrow btn-bubble-arrow--black" href="\/careers\/"/);
+      assert.match(page.html, />View all roles /);
       assert.match(page.html, /Applications aren’t open/);
       assert.doesNotMatch(page.html, /href="https:\/\/careers.cars24.com/);
       assert.equal((page.html.match(/<h1\b/g) || []).length, 1);

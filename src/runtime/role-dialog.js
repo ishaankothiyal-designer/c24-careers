@@ -15,7 +15,6 @@ export function initializeRoleDialog({ base = '/', initialPath = null } = {}) {
   let previousOverflow;
   let previousTitle;
   let clearButtons;
-  let backgroundPath;
 
   const open = (pathname, source, updateHistory = true) => {
     const page = roleDetailPage(pathname, '', '');
@@ -31,7 +30,6 @@ export function initializeRoleDialog({ base = '/', initialPath = null } = {}) {
       trigger = source || document.activeElement;
       previousOverflow = document.body.style.overflow;
       previousTitle = document.title;
-      backgroundPath ??= initialPath ? '/careers/' : routePath(location.pathname, base);
       document.body.style.overflow = 'hidden';
       window.lenis?.stop?.();
       dialog.showModal();
@@ -72,9 +70,7 @@ export function initializeRoleDialog({ base = '/', initialPath = null } = {}) {
     open(routePath(url.pathname, base), link);
   }, true);
   dialog.addEventListener('click', event => {
-    const allRoles = event.target.closest('a[href]');
-    const returnsToListing = allRoles && /^\/careers\/?$/.test(backgroundPath) && routePath(new URL(allRoles.href, location.href).pathname, base) === '/careers/';
-    if (event.target.closest('.role-dialog__close') || returnsToListing) {
+    if (event.target.closest('.role-dialog__close')) {
       event.preventDefault();
       dismiss();
     } else if (event.target === dialog) {

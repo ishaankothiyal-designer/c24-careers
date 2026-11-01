@@ -179,23 +179,20 @@ body.society-footer-visible .badge-pin { visibility: hidden; pointer-events: non
   .hero__art[data-astro-cid-lcdefpme] { height: clamp(320px, 50svh, 500px); }
 }
 
-/* Navbar-V2: compact brand/Careers group and a single roles CTA. */
+/* Navbar-V2: compact brand and Careers label. */
 .navbar-v2 { position: fixed; z-index: 900; top: var(--pad-x); left: var(--pad-x); right: var(--pad-x); pointer-events: none; }
 .navbar-v2__inner { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
 .navbar-v2__brand { display: flex; align-items: center; width: fit-content; min-height: 64px; padding: 10px 20px; border: 1px solid #e4e4e4; border-radius: 12px; background: var(--white); pointer-events: auto; }
 .navbar-v2__home { display: flex; align-items: center; flex: none; }
 #Navbar-V2 .navbar-v2-logo { display: block; width: 132.390625px; height: 40px; object-fit: contain; object-position: left center; }
 .navbar-v2__label { margin-left: 16px; padding-left: 16px; border-left: 1px solid #e4e4e4; color: var(--black); font-family: var(--font-body); font-size: 18px; line-height: 1.4; }
-.navbar-v2__roles { pointer-events: auto; flex: none; }
 @media (max-width: 767px) {
   .navbar-v2__brand { min-height: 56px; padding: 9px 12px; }
   #Navbar-V2 .navbar-v2-logo { width: 118.109375px; height: 35px; }
   .navbar-v2__label { margin-left: 9px; padding-left: 9px; font-size: 14px; }
-  #Navbar-V2 .navbar-v2__roles { min-height: 48px; padding: 12px 18px; font-size: 14px; }
 }
 @media (max-width: 360px) {
   .navbar-v2__inner { flex-wrap: wrap; gap: 8px; }
-  .navbar-v2__roles { margin-left: auto; }
 }
 
 /* Leaptree reference: equal-column challenge section directly after the field. */
