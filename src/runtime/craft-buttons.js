@@ -1,8 +1,9 @@
 // The inspected Craft button: stepped silhouette + random 9px hover pixels.
-export function initializeCraftButtons() {
+export function initializeCraftButtons(root = document) {
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
   const palette = ['#d8ff00', '#f5c518', '#e0492a', '#0a0a0a'];
-  document.querySelectorAll('.craft-button').forEach(button => {
+  const cleanups = [];
+  root.querySelectorAll('.craft-button').forEach(button => {
     if (button.dataset.craftWired) return;
     button.dataset.craftWired = 'true';
     const effect = document.createElement('span');
@@ -27,5 +28,12 @@ export function initializeCraftButtons() {
     button.addEventListener('focus', start);
     button.addEventListener('blur', clear);
     reduce.addEventListener('change', clear);
+    // Dynamic panels release observers and timers when their content closes.
+    cleanups.push(() => {
+      clear();
+      observer.disconnect();
+      reduce.removeEventListener('change', clear);
+    });
   });
+  return () => cleanups.forEach(cleanup => cleanup());
 }

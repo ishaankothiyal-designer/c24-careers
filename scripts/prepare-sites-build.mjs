@@ -16,7 +16,8 @@ for (const file of [index, worker, hosting]) {
 
 // Static hosts need actual documents for direct visits and refreshes on app routes.
 const stories = JSON.parse(await readFile(path.join(root, 'src/builder-stories.json'), 'utf8'));
-for (const route of ['careers', ...stories.map(story => `builders/${story.slug}`)]) {
+const roles = JSON.parse(await readFile(path.join(root, 'src/role-previews.json'), 'utf8'));
+for (const route of ['careers', ...roles.map(role => `careers/roles/${role.slug}`), ...stories.map(story => `builders/${story.slug}`)]) {
   const directory = path.join(dist, 'client', route);
   mkdirSync(directory, { recursive: true });
   copyFileSync(index, path.join(directory, 'index.html'));

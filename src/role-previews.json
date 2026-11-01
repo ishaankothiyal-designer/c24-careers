@@ -1,0 +1,170 @@
+[
+  {
+    "slug": "preview-problem-1",
+    "title": "Help a customer find the right car in their own words.",
+    "preview": true,
+    "sourceUrl": "https://careers.cars24.com/",
+    "department": "AI",
+    "summary": "Buying a car starts with questions, often across languages. Make the first conversation more useful.",
+    "sections": [
+      {
+        "title": "You’d own",
+        "text": "The conversation from a customer’s first question to a useful next step."
+      },
+      {
+        "title": "A first 90-day outcome",
+        "text": "Prototype one conversational journey and evaluate the quality of its recommendations."
+      },
+      {
+        "title": "You’d build with",
+        "text": "AI engineers, product managers and customer teams."
+      }
+    ]
+  },
+  {
+    "slug": "preview-problem-2",
+    "title": "Make the next step clear for a first-time buyer.",
+    "preview": true,
+    "sourceUrl": "https://careers.cars24.com/",
+    "department": "Product",
+    "summary": "A car purchase involves unfamiliar decisions. Help buyers understand what to do next and why.",
+    "sections": [
+      {
+        "title": "You’d own",
+        "text": "One journey from discovering a car to planning a test drive."
+      },
+      {
+        "title": "A first 90-day outcome",
+        "text": "Map the friction, test a simpler flow and agree how to measure improvement."
+      },
+      {
+        "title": "You’d build with",
+        "text": "Designers, researchers, engineering and retail teams."
+      }
+    ]
+  },
+  {
+    "slug": "preview-problem-3",
+    "title": "Make an inspection report understandable in ten seconds.",
+    "preview": true,
+    "sourceUrl": "https://careers.cars24.com/",
+    "department": "Design",
+    "summary": "A detailed report only helps if a buyer can understand the condition of the car.",
+    "sections": [
+      {
+        "title": "You’d own",
+        "text": "How inspection findings become a clear, useful picture for a buyer."
+      },
+      {
+        "title": "A first 90-day outcome",
+        "text": "Test a redesigned report with buyers and evaluators on one vehicle category."
+      },
+      {
+        "title": "You’d build with",
+        "text": "Researchers, product managers and vehicle evaluators."
+      }
+    ]
+  },
+  {
+    "slug": "preview-problem-4",
+    "title": "Keep the buying journey dependable when a service fails.",
+    "preview": true,
+    "sourceUrl": "https://careers.cars24.com/",
+    "department": "Engineering",
+    "summary": "Customers should be able to move forward even when one part of a system is unavailable.",
+    "sections": [
+      {
+        "title": "You’d own",
+        "text": "The reliability of a critical service and the experience around its failures."
+      },
+      {
+        "title": "A first 90-day outcome",
+        "text": "Identify failure points, demonstrate a recovery path and document what the team learns."
+      },
+      {
+        "title": "You’d build with",
+        "text": "Product engineers, platform teams and customer support."
+      }
+    ]
+  },
+  {
+    "slug": "preview-problem-5",
+    "title": "Turn inspection data into a better decision.",
+    "preview": true,
+    "sourceUrl": "https://careers.cars24.com/",
+    "department": "Data",
+    "summary": "Every inspection creates information. Help teams use it to spot patterns and act with confidence.",
+    "sections": [
+      {
+        "title": "You’d own",
+        "text": "A useful signal that connects vehicle condition to a real business decision."
+      },
+      {
+        "title": "A first 90-day outcome",
+        "text": "Validate a dataset, test one signal and put the findings in front of the team using it."
+      },
+      {
+        "title": "You’d build with",
+        "text": "Analysts, evaluators, operations and product teams."
+      }
+    ]
+  },
+  {
+    "slug": "preview-problem-6",
+    "title": "Give an evaluator more time with the car.",
+    "preview": true,
+    "sourceUrl": "https://careers.cars24.com/",
+    "department": "Operations",
+    "summary": "Repeated admin steps compete with careful inspection. Find the work that can become simpler.",
+    "sections": [
+      {
+        "title": "You’d own",
+        "text": "One everyday inspection workflow, from preparation to handover."
+      },
+      {
+        "title": "A first 90-day outcome",
+        "text": "Pilot a simpler workflow with evaluators and compare it with how they work today."
+      },
+      {
+        "title": "You’d build with",
+        "text": "Field evaluators, training, product and engineering teams."
+      }
+    ]
+  },
+  {
+    "slug": "preview-role-1",
+    "title": "Make support easier to navigate",
+    "preview": true,
+    "sourceUrl": "https://careers.cars24.com/",
+    "department": "Customer Experience",
+    "summary": "First 90 days: Create a support guide and test how easily a teammate can use it.",
+    "sections": []
+  },
+  {
+    "slug": "preview-role-2",
+    "title": "Create better feedback habits",
+    "preview": true,
+    "sourceUrl": "https://careers.cars24.com/",
+    "department": "People",
+    "summary": "First 90 days: Run a project review and refine its feedback prompts.",
+    "sections": []
+  },
+  {
+    "slug": "preview-role-3",
+    "title": "Simplify inspection workflows",
+    "preview": true,
+    "sourceUrl": "https://careers.cars24.com/",
+    "department": "Operations",
+    "summary": "First 90 days: Pilot an inspection checklist and share what the team learned.",
+    "sections": []
+  },
+  {
+    "slug": "preview-role-4",
+    "title": "Improve service reliability",
+    "preview": true,
+    "sourceUrl": "https://careers.cars24.com/",
+    "department": "Engineering",
+    "summary": "First 90 days: Demonstrate a resilient service and document its failure handling.",
+    "sections": []
+  }
+]

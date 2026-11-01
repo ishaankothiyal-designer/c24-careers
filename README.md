@@ -1,18 +1,18 @@
 # C24 Careers
 
-https://mayank12-dotcom.github.io/c24-careers/
+[Live app: c24-careers-chi.vercel.app](https://c24-careers-chi.vercel.app)
 
-GitHub Pages has a repository subpath, so a deployment-only postprocessor prefixes local asset URLs and sets the application's navigation base in the generated build. Fonts, native runtime imports, media, scene JSON, and paper-animation assets are included.
+As of 28 October 2026, this Vercel app is the active destination for development reviews, shared links, and all future deployments. Deploy updates to the existing Vercel project serving this domain. Keep production on this URL unless the project owner explicitly changes it.
 
-## GitHub Pages
+## Vercel deployment
 
-In repository Settings → Pages, select **GitHub Actions** as the source. The workflow in `.github/workflows/pages.yml` builds and deploys on pushes to `main`, and also supports a manual run. No personal access token or custom secret is required by the workflow; it uses GitHub’s scoped workflow token and Pages OIDC permissions.
+The checked-in `vercel.json` configures Vite, `npm ci`, `npm run build`, and the `dist/client` output directory. It also rewrites builder and careers routes to the app shell. The application runs at the domain root with `site-base` set to `/`; no repository subpath transformation is needed.
 
-The workflow runs Node.js 22, `npm ci`, `npm run build`, and `node scripts/prepare-github-pages.mjs /c24-careers/`, then publishes `dist/client` through GitHub’s official Pages actions. Keep the final slash in the site URL.
+Before deploying, run `npm run build` and `npm test`. Use the existing Vercel project's configured Git integration or deploy from a checkout linked to that project. Check the project's Production Branch setting before relying on a push to publish; this setting is managed in Vercel, not in this repo. If using the Vercel CLI, link to the existing project before running `vercel --prod`; do not create a replacement project.
 
-If the repository is renamed or a custom domain is added, update the postprocessor base path in the workflow. Do not change the original source URLs just to adapt hosting.
+After deployment, verify the home page, `/careers/`, and a `/builders/<slug>/` detail page, including direct visits and refreshes. Share the stable live URL above for production reviews.
 
-The build emits static entry documents for `/careers/` and all `/builders/<slug>/` project pages, so links, direct visits, and refreshes work on GitHub Pages. The existing Find roles buttons and builder cards stay under the configured repository base. Run `npm run test:routes` after building to verify route handling and the emitted documents.
+The workflow in `.github/workflows/ci.yml` runs build and regression checks on pushes to `main`, pull requests, and manual runs. It does not publish the site. The former automatic GitHub Pages deployment has been removed.
 
 ## Local development
 
@@ -21,9 +21,9 @@ npm ci
 npm run dev
 ```
 
-For a production build at a root-domain URL, run `npm run build`. For the GitHub Pages repository URL, also run `node scripts/prepare-github-pages.mjs /c24-careers/` after building.
+For a production build, run `npm run build`. To review it locally, run `npm run preview`.
 
-The existing Sites build wrapper is retained; Vite generates `dist/client`, and the wrapper copies the Sites worker/config into `dist/server` and `dist/.openai`. GitHub Pages publishes only the static client. No backend or real application form is included; role buttons link to the existing external careers site.
+The build emits static entry documents for `/careers/` and all `/builders/<slug>/` project pages. The existing Sites build wrapper is retained for compatibility; it also copies the Sites worker/config into `dist/server` and `dist/.openai`. Vercel publishes only `dist/client`. The legacy `scripts/prepare-github-pages.mjs` helper is retained for compatibility and must not run for Vercel deployments. No backend or real application form is included. Role cards open local `/careers/roles/preview-*/` details in a modal overlay: a right side panel above 1024px and an inset popover on tablet/mobile. Close, Escape, backdrop click and browser Back dismiss the overlay; shared URLs reopen it over the careers listing. These are explicitly illustrative previews, with applications unavailable until live Darwin records and canonical application URLs are supplied. Original source URLs are retained in `src/role-previews.json`.
 
 Fonts and core media are local. Ishaan's builder card uses his Slack profile image with a local initials fallback. Third-party license files remain with their assets, including the paper-crumple VAT and Three.js notices. The expected lazy Three.js chunk size warning does not fail the build.
 

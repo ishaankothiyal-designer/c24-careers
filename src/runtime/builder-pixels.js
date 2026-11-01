@@ -1,5 +1,5 @@
 // Design Society's published reveal: 8×8 cells, .4s randomized cover,
-// swap to an individually illustrated portrait, .4s randomized uncover.
+// reveal the real photo over the default pixel portrait, .4s uncover.
 import { deferredImage } from './deferred-image.js';
 import { performanceProfile } from './performance-profile.js';
 
@@ -14,7 +14,7 @@ export function initializeBuilderPixels(){
   const fine=matchMedia('(hover:hover) and (pointer:fine)');
   document.querySelectorAll('#builder [data-builder-pixel-reveal]').forEach(media=>{
     if(media.dataset.pixelRevealInitialized)return;
-    const source=media.dataset.builderPixelSrc,card=media.closest('article');
+    const source=media.dataset.builderRealSrc||media.dataset.builderPixelSrc,card=media.closest('article');
     if(!source||!card)return;
     media.dataset.pixelRevealInitialized='true';
     let portrait, blocks=[];
@@ -25,10 +25,10 @@ export function initializeBuilderPixels(){
       media.append(grid);
     };
     let active=false,wanted=false,hovered=false,focused=false,tapped=false,timers=[],revision=0,dragStart=null;
-    // Decode before covering the photograph. A missing or invalid alternate never
-    // conceals the original, including when the pointer arrives during loading.
+    // Decode before covering the default portrait. A failed photo never
+    // conceals the pixel illustration.
     const loadPortrait=deferredImage(source,image=>{
-      portrait=image;portrait.className='builder-pixel-illustration';
+      portrait=image;portrait.className='builder-pixel-illustration'+(media.dataset.builderRealSrc?' builder-real-portrait':'');
       portrait.alt='';portrait.setAttribute('aria-hidden','true');media.append(portrait);
     });
     function cancel(){timers.forEach(clearTimeout);timers=[];blocks.forEach(b=>b.style.display='none');}
@@ -46,7 +46,7 @@ export function initializeBuilderPixels(){
       shuffled().forEach((block,i)=>timers.push(setTimeout(()=>block.style.display='none',400+i*400/64)));
     }
     const update=()=>transition(hovered||focused||tapped);
-    // Keep the illustrated face visible across the photo, name and story copy.
+    // Keep the revealed photo visible across the image, name and story copy.
     // The whole moving card owns hover, so crossing its internal elements does
     // not reverse the reveal while the user is reading.
     card.addEventListener('pointerenter',()=>{if(fine.matches){hovered=true;update();}});

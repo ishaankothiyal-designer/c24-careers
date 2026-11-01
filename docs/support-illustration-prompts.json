@@ -1,0 +1,35 @@
+{
+  "tool": "Built-in Imagegen",
+  "date": "2026-10-30",
+  "palette": "#4736FE, white, pale lavender, charcoal",
+  "assets": [
+    {
+      "file": "future.webp",
+      "prompt": "Use case: illustration-story. Asset type: Cars24 careers employee support carousel artwork, landscape 3:2 composition. Create a premium editorial illustration in a consistent cut-paper and restrained pixel-halftone visual language. Brand palette: electric blue-violet #4736FE, white and very pale lavender, small charcoal details. Flat pale lavender backdrop, bold blue silhouettes, tactile paper grain, crisp confident shapes, generous breathing room. Contemporary Indian workplace context, warm and human, polished and adult. No text, letters, numbers, logos, watermarks, gradients or UI. Keep all main subjects within central 80% so cropping works. Subject: A person placing solid geometric building blocks into a rising architectural structure, symbolising building a shared future through work."
+    },
+    {
+      "file": "care.webp",
+      "prompt": "Use case: illustration-story. Asset type: Cars24 careers employee support carousel artwork, landscape 3:2 composition. Create a premium editorial illustration in a consistent cut-paper and restrained pixel-halftone visual language. Brand palette: electric blue-violet #4736FE, white and very pale lavender, small charcoal details. Flat pale lavender backdrop, bold blue silhouettes, tactile paper grain, crisp confident shapes, generous breathing room. Contemporary Indian workplace context, warm and human, polished and adult. No text, letters, numbers, logos, watermarks, gradients or UI. Keep all main subjects within central 80% so cropping works. Subject: Two colleagues seated together in a quiet rest space beside a generous leafy plant, one offering the other a cup, conveying care, health and human support."
+    },
+    {
+      "file": "health.webp",
+      "prompt": "Use case: illustration-story. Asset type: Cars24 employee support carousel artwork, landscape 3:2. Premium editorial illustration with cut-paper forms and restrained pixel halftone grain. Palette strictly electric blue-violet #4736FE, white, very pale lavender and small charcoal details. Flat pale lavender backdrop. Contemporary Indian people, polished adult aesthetic, generous breathing room. Central composition that can crop. No text, logos, letters, watermark, gradients or UI. Subject: A person walking outdoors beneath a sculptural protective arch, beside a leafy tree and small abstract medical cross, symbolising health and protection."
+    },
+    {
+      "file": "wellbeing.webp",
+      "prompt": "Use case: illustration-story. Asset type: Cars24 employee support carousel artwork, landscape 3:2. Premium editorial illustration with cut-paper forms and restrained pixel halftone grain. Palette strictly electric blue-violet #4736FE, white, very pale lavender and small charcoal details. Flat pale lavender backdrop. Contemporary Indian people, polished adult aesthetic, generous breathing room. Central composition that can crop. No text, logos, letters, watermark, gradients or UI. Subject: A person resting on a sculptural seat by an open window and leafy plant, calm balanced posture, conveying a quiet pause and wellbeing."
+    },
+    {
+      "file": "compassion.webp",
+      "prompt": "Use case: illustration-story. Asset type: Cars24 employee support carousel artwork, landscape 3:2. Premium editorial illustration with cut-paper forms and restrained pixel halftone grain. Palette strictly electric blue-violet #4736FE, white, very pale lavender and small charcoal details. Flat pale lavender backdrop. Contemporary Indian people, polished adult aesthetic, generous breathing room. Central composition that can crop. No text, logos, letters, watermark, gradients or UI. Subject: Two people in a quiet moment, one gently resting a hand on the other's shoulder beside an open doorway, conveying compassionate support."
+    },
+    {
+      "file": "growth.webp",
+      "prompt": "Use case: illustration-story. Asset type: Cars24 careers employee support carousel artwork, landscape 3:2 composition. Create a premium editorial illustration in a consistent cut-paper and restrained pixel-halftone visual language. Brand palette: electric blue-violet #4736FE, white and very pale lavender, small charcoal details. Flat pale lavender backdrop, bold blue silhouettes, tactile paper grain, crisp confident shapes, generous breathing room. Contemporary Indian workplace context, warm and human, polished and adult. No text, letters, numbers, logos, watermarks, gradients or UI. Keep all main subjects within central 80% so cropping works. Subject: A person ascending broad geometric steps toward an open architectural doorway, supported by another colleague nearby, conveying learning and expanding opportunity."
+    },
+    {
+      "file": "recognition.webp",
+      "prompt": "Use case: illustration-story. Asset type: Cars24 careers employee support carousel artwork, landscape 3:2 composition. Create a premium editorial illustration in a consistent cut-paper and restrained pixel-halftone visual language. Brand palette: electric blue-violet #4736FE, white and very pale lavender, small charcoal details. Flat pale lavender backdrop, bold blue silhouettes, tactile paper grain, crisp confident shapes, generous breathing room. Contemporary Indian workplace context, warm and human, polished and adult. No text, letters, numbers, logos, watermarks, gradients or UI. Keep all main subjects within central 80% so cropping works. Subject: Two colleagues celebrating a third colleague's contribution with a sculptural star award, restrained confident joy and teamwork."
+    }
+  ]
+}

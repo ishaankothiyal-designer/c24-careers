@@ -19,6 +19,8 @@ export function initializeCraftField() {
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const coarse = matchMedia('(hover: none), (pointer: coarse)');
   const profile = performanceProfile();
+  const openingArt = hero.closest('.hero')?.nextElementSibling?.id === 'ambition' ? hero.querySelector('.hero__art') : null;
+  let parallaxRate = 0, parallaxLimit = 0;
   const CELL = profile.constrained ? 12 : 9;
   const letterRegions = document.querySelectorAll('#letter');
   const COLORS = ['#1c2541', '#4736fe', '#f5c518', '#e0492a'];
@@ -39,6 +41,11 @@ export function initializeCraftField() {
     return n - Math.floor(n);
   };
   function resize() {
+    if (openingArt) {
+      const style = getComputedStyle(openingArt);
+      parallaxRate = parseFloat(style.getPropertyValue('--opening-parallax-rate')) || 0;
+      parallaxLimit = parseFloat(style.getPropertyValue('--opening-parallax-limit')) || 0;
+    }
     width = innerWidth; height = innerHeight; density = Math.min(devicePixelRatio || 1, profile.pixelRatio);
     overlay.width = Math.round(width * density); overlay.height = Math.round(height * density);
     context.setTransform(density, 0, 0, density, 0, 0);
@@ -229,10 +236,15 @@ export function initializeCraftField() {
   function frame(now) {
     animation = requestAnimationFrame(frame);
     if (!visible || (lastFrame && now - lastFrame < profile.frameInterval - 1)) return;
+    const heroRect = hero.getBoundingClientRect();
+    if (openingArt) {
+      const offset = motion.matches || profile.constrained ? 0 : Math.min(parallaxLimit, Math.max(0, -heroRect.top) * parallaxRate);
+      const transform = `translate3d(0,${offset}px,0)`;
+      if (openingArt.style.transform !== transform) openingArt.style.transform = transform;
+    }
     if (motion.matches && field.dataset.staticRendered) return;
     const dt = Math.min(50, now - (lastFrame || now)); lastFrame = now;
     if (needsLayout || now - lastLayout > 100) { layout(); lastLayout = now; }
-    const heroRect = hero.getBoundingClientRect();
     context.clearRect(0, 0, width, height);
     if (motion.matches) {
       if (!field.dataset.staticRendered) { drawField(now); field.dataset.staticRendered = 'true'; }
@@ -374,6 +386,6 @@ export function initializeCraftField() {
   const uiObserver = new MutationObserver(() => { needsLayout = true; });
   uiObserver.observe(document.body, { subtree: true, attributes: true, attributeFilter: ['data-nav-status', 'hidden', 'open'] });
   resize(); animation = requestAnimationFrame(frame);
-  window.__craftFieldCleanup = () => { cancelAnimationFrame(animation); events.abort(); observer.disconnect(); uiObserver.disconnect(); overlay.remove(); delete window.__craftFieldCleanup; delete window.__craftFieldCanvas; };
+  window.__craftFieldCleanup = () => { cancelAnimationFrame(animation); events.abort(); observer.disconnect(); uiObserver.disconnect(); openingArt?.style.removeProperty('transform'); overlay.remove(); delete window.__craftFieldCleanup; delete window.__craftFieldCanvas; };
 }
 

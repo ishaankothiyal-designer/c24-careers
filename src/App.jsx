@@ -1,4 +1,6 @@
 import { careersPage, initializeCareersFilters } from './careers-page.js';
+import { roleDetailPage } from './role-detail.js';
+import { initializeRoleDialog } from './runtime/role-dialog.js';
 import { initializeCareBandCursor } from './runtime/care-band-cursor.js';
 import { initializeClosingPixels } from './runtime/closing-pixels.js';
 import { useEffect, useRef } from 'react';
@@ -8,7 +10,7 @@ import { initializeConsent } from './runtime/consent.js';
 import sectionIndex from './sections.json';
 import { initializeCraftWork } from './runtime/craft-work.js';
 import { initializeBuilderPixels } from './runtime/builder-pixels.js';
-import { initializeProblemFilters } from './runtime/problem-filters.js';
+import { initializeProblemFilters, initializeSupportCarousel } from './runtime/problem-filters.js';
 import { ACTIVE_NAVBAR } from './navbar-config.js';
 import { initializeCraftField } from './runtime/craft-field.js';
 import { initializeCraftButtons } from './runtime/craft-buttons.js';
@@ -37,7 +39,8 @@ const base = document.querySelector('meta[name="site-base"]')?.content || '/';
 const pathname = routePath(location.pathname, base);
 const header = page.split('<main>')[0];
 const footer = page.split('</main>')[1]?.replace(/href="#/g, 'href="/#') || '';
-const detail = careersPage(pathname, header, footer, sections['./sections/career-08-roles.html']) || builderDetailPage(pathname, header, footer);
+const initialRole = roleDetailPage(pathname, '', '');
+const detail = careersPage(initialRole ? '/careers/' : pathname, header, footer, sections['./sections/career-08-roles.html']) || builderDetailPage(pathname, header, footer);
 const html = siteLinks(detail?.html || page, base);
 
 export function App() {
@@ -50,9 +53,10 @@ export function App() {
       document.title = detail.title || 'Open roles | Cars24 Careers';
       document.querySelector('meta[name="description"]')?.setAttribute('content', pathname.startsWith('/careers') ? 'Explore Cars24 roles by department and find a problem to own.' : 'Meet the Cars24 builders and explore the workflows, tools and automation they built.');
     }
+    initializeRoleDialog({ base, initialPath: initialRole ? pathname : null });
     for (const initialize of [initializeCareersFilters, initializePaperLetter,
       initializeClosingPixels, initializeCraftField, initializeCraftButtons,
-      initializeCraftWork, initializeBuilderPixels, initializeProblemFilters,
+      initializeCraftWork, initializeBuilderPixels, initializeProblemFilters, initializeSupportCarousel,
       initializeExchangeDither, initializeCareBandCursor, initializeSocietyFooter,
       initializeConsent, initializeFaq]) {
       try { initialize(); }
