@@ -5,7 +5,9 @@ import { initializeCraftButtons } from './craft-buttons.js';
 export const escape = value => String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 export async function apiJson(path, options = {}) {
   const response = await fetch(path, options);
-  const body = await response.json();
+  let body;
+  try { body = await response.json(); }
+  catch { throw new Error('The careers service is temporarily unavailable. Please try again.'); }
   if (!response.ok) throw new Error(body.error || 'We couldn’t load the open roles. Please try again.');
   return body;
 }

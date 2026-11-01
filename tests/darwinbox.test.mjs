@@ -4,7 +4,7 @@ import { unzipSync, strFromU8 } from 'fflate';
 import { applicationSchema, createCareersService, descriptionHtml, validateApplication } from '../server/careers.js';
 import { darwinbox } from '../server/darwinbox.js';
 import { once, sameOrigin } from '../server/http.js';
-import { liveJobCard } from '../src/runtime/live-jobs.js';
+import { apiJson, liveJobCard } from '../src/runtime/live-jobs.js';
 import { liveRoleHtml } from '../src/runtime/live-role.js';
 
 const id = 'a6a477f915ac86';
@@ -132,4 +132,11 @@ test('rendered role cards escape upstream text and unsupported forms have no sub
   assert.match(inline, /data-application-form/);
   assert.match(inline, /applicant privacy notice/);
   assert.doesNotMatch(inline, /Aadhaar|bank_pan_num/);
+});
+
+test('unexpected hosting error pages produce a recoverable public message', async t => {
+  const original = globalThis.fetch;
+  t.after(() => { globalThis.fetch = original; });
+  globalThis.fetch = async () => ({ ok: false, json: async () => { throw new SyntaxError('Internal platform details'); } });
+  await assert.rejects(apiJson('/api/jobs'), /temporarily unavailable/);
 });
