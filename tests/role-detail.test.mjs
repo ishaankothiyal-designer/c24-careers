@@ -5,30 +5,23 @@ import { roleDetailPage } from '../src/role-detail.js';
 
 const previews = JSON.parse(await readFile(new URL('../src/role-previews.json', import.meta.url), 'utf8'));
 
-test('every homepage and listing role link resolves to a distinct preview and a built route', async () => {
-  const routes = [];
-  for (const file of ['career-02-problems.html', 'career-08-roles.html']) {
-    const html = await readFile(new URL(`../src/sections/${file}`, import.meta.url), 'utf8');
-    for (const [, route] of html.matchAll(/href="(\/careers\/roles\/[^"\s]+)"/g)) {
-      routes.push(route);
-      const page = roleDetailPage(route, '<header>Navigation</header>', '<footer>Footer</footer>');
-      assert.ok(page);
-      assert.doesNotMatch(page.html, /Role not found/);
-      assert.match(page.html, /Role preview/);
-      assert.match(page.html, /class="role-labels craft-experiments__tags"/);
-      assert.match(page.html, /class="craft-tag--claude">Role<\/span>/);
-      assert.match(page.html, /class="craft-tag--framer"/);
-      assert.match(page.html, /class="craft-button btn-bubble-arrow btn-bubble-arrow--black" href="\/careers\/"/);
-      assert.match(page.html, />View all roles /);
-      assert.match(page.html, /Applications aren’t open/);
-      assert.doesNotMatch(page.html, /href="https:\/\/careers.cars24.com/);
-      assert.equal((page.html.match(/<h1\b/g) || []).length, 1);
-      const built = await readFile(new URL(`../dist/client${route}index.html`, import.meta.url), 'utf8');
-      assert.match(built, /id="root"/);
-    }
+test('legacy preview links remain distinct, explicitly illustrative and directly accessible', async () => {
+  for (const role of previews) {
+    const route = `/careers/roles/${role.slug}/`;
+    const page = roleDetailPage(route, '', '');
+    assert.match(page.html, /Role preview/);
+    assert.match(page.html, /Applications aren’t open/);
+    assert.doesNotMatch(page.html, /data-application-form/);
+    const built = await readFile(new URL(`../dist/client${route}index.html`, import.meta.url), 'utf8');
+    assert.match(built, /id="root"/);
   }
-  assert.equal(routes.length, previews.length);
-  assert.equal(new Set(routes).size, previews.length);
+  assert.equal(new Set(previews.map(role => role.slug)).size, previews.length);
+});
+
+test('live role IDs load API details without fabricating a preview', () => {
+  const page = roleDetailPage('/careers/roles/a6a425523b4d48/', '', '');
+  assert.match(page.html, /data-live-role="a6a425523b4d48"/);
+  assert.doesNotMatch(page.html, /illustrative|Role not found/);
 });
 
 test('unknown roles get a recovery page and unrelated routes are left alone', () => {

@@ -1,0 +1,109 @@
+/* Shared layout rules after the preserved section styles.
+ * Hallmark · pre-emit critique: P4 H4 E4 S4 R5 V4
+ * Keep the existing visual system; only normalize geometry and reflow. */
+:root {
+  --layout-head-gap: clamp(24px, 3vw, 40px);
+  --layout-column-gap: clamp(24px, 4vw, 64px);
+  --layout-track-inset: var(--sp-1);
+  --layout-panel-inset: clamp(20px, 3vw, 32px);
+  --layout-anchor-clearance: calc(var(--pad-x) + var(--sp-5) + var(--sp-3));
+  --career-card-body-gap: var(--sp-2);
+}
+
+/* Give navigation targets the same clearance as the builder anchor. */
+main > section[id] { scroll-margin-top: var(--layout-anchor-clearance); }
+
+/* Shrink text/grid children within their track instead of widening the page. */
+:is(.challenge__grid, .ambition__grid, .story-section-head,
+    .shape__grid, .faq > .container, .bands__grid) > * {
+  min-width: 0;
+}
+:is(.challenge__title, .ambition h2, .shape__heading, .faq__heading,
+    .bands__heading, .craft-work__title, .policy-card h3, .problem-card h3) {
+  overflow-wrap: anywhere;
+}
+.challenge__grid, .ambition__grid, .story-section-head,
+#hiring .shape__grid, #enterprise-faq > .container {
+  column-gap: var(--layout-column-gap);
+}
+
+/* One introduction-to-content rhythm and one track-to-controls rhythm. */
+#builder .craft-work__carousel { margin-top: var(--layout-head-gap); }
+#builder .craft-work__viewport { padding-block: var(--layout-track-inset); }
+.support-section__head, #expectations .exchange-head {
+  margin-bottom: var(--layout-head-gap);
+}
+.problem-grid, .policy-grid {
+  padding-block: var(--layout-track-inset);
+}
+.landing-carousel__toolbar { margin-top: var(--sp-3); }
+#builder .craft-work__media { flex-shrink: 0; }
+.problem-card__top, .craft-experiments__tags { min-width: 0; }
+.craft-experiments__tags > span { max-width: 100%; overflow-wrap: anywhere; }
+
+/* Listing cards fill the available tracks, retaining the carousel card
+ * minimum and shared inset. The final row keeps the same column widths. */
+.careers-page .careers-grid {
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, var(--career-card-width)), 1fr));
+}
+.careers-page .careers-card .role-labels { margin-top: 0; }
+.careers-page .careers-card .tier__cta { margin-top: auto; }
+.careers-page .careers-card :is(.tier__lead, .tier__note) { overflow-wrap: anywhere; }
+.careers-filters { gap: var(--sp-1); }
+.careers-filter { max-width: 100%; overflow-wrap: anywhere; }
+
+/* Both detail flows use a single inset for the toolbar, title and content. */
+.project-drawer__bar, .role-dialog__toolbar {
+  padding-inline: var(--layout-panel-inset);
+}
+.project-drawer .container, .role-dialog .container,
+.role-dialog .role-detail__content section,
+.role-dialog .role-detail__application {
+  padding-inline: var(--layout-panel-inset);
+}
+.role-dialog .role-detail__layout { padding-inline: 0; }
+.project-drawer__close { min-height: var(--story-control); flex-shrink: 0; }
+.role-dialog__close { flex-shrink: 0; }
+.project-drawer .builder-detail :is(h1, h2, h3, p, a) { overflow-wrap: anywhere; }
+.project-drawer .builder-detail .solution__lead { position: static; }
+.application-field :is(input, select) { font-size: var(--para-sm); }
+.application-consent { min-height: var(--story-control); }
+.role-detail__back { overflow-wrap: anywhere; }
+
+/* Collapse editorial splits together before either column becomes cramped. */
+@media (max-width: 900px) {
+  .ambition__grid, #hiring .shape__grid, #enterprise-faq > .container {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--layout-head-gap);
+  }
+  .ambition__destination { justify-self: start; }
+  #expectations .bands__grid { grid-template-columns: minmax(0, 1fr); }
+  #enterprise-faq .faq__head { gap: var(--sp-3); }
+  #hiring .shape__intro { margin-top: var(--sp-3); }
+}
+
+/* Legal actions retain comfortable targets on tablets and touch desktops too. */
+.society-legal a { display: inline-flex; align-items: center; min-height: var(--story-control); }
+.society-legal a:focus-visible { outline: var(--story-focus) solid var(--lime); outline-offset: var(--sp-1); }
+
+@media (max-width: 600px) {
+  /* Narrow panel headers and CTAs retain their original shape and fit 320px. */
+  .role-dialog__toolbar { gap: var(--sp-2); }
+  .role-dialog__toolbar .craft-button { padding-inline: var(--sp-3); }
+  .role-dialog .role-detail__application .craft-button {
+    max-width: 100%;
+    padding-inline: var(--sp-2);
+  }
+  .society-legal {
+    padding-inline: var(--pad-x);
+    justify-content: center;
+    text-align: center;
+  }
+  .society-legal > div { gap: var(--sp-1) var(--sp-2); }
+}
+
+/* Short landscape viewports must have enough room for the title and legal
+ * row; let the existing footer grow instead of forcing content to overlap. */
+@media (max-height: 500px) {
+  .society-footer-wrap, .society-footer { min-height: 500px; }
+}

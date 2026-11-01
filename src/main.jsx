@@ -14,6 +14,8 @@ import "./styles/review-home-oct21.css";
 import "./styles/careers-page.css";
 import "./styles/project-drawer.css";
 import "./styles/story-flow.css";
+import "./styles/responsive-layout.css";
+import "./styles/role-detail.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

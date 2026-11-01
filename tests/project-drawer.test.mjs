@@ -89,3 +89,17 @@ test('next-project links update the open sidebar and All builders closes it',t=>
   assert.equal(f.dialog.open,false);
   assert.equal(f.doc.activeElement,f.opener);
 });
+
+test('modified next-project links preserve normal browser navigation', t => {
+  const f = fixture(t);
+  requestProject('/builders/manvi-mehrotra/');
+  const previous = f.body.innerHTML;
+  for (const modifier of ['ctrlKey', 'metaKey', 'shiftKey', 'altKey']) {
+    const event = new Event('click', { cancelable: true });
+    Object.defineProperty(event, modifier, { value: true });
+    Object.defineProperty(event, 'target', { value: { closest: () => ({ href: 'https://example.test/builders/mayank/' }) } });
+    f.dialog.dispatchEvent(event);
+    assert.equal(event.defaultPrevented, false);
+    assert.equal(f.body.innerHTML, previous);
+  }
+});

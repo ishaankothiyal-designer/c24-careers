@@ -36,10 +36,10 @@ export function initializeProjectDrawer() {
   dialog.addEventListener('click',event=>{
     if(event.target===dialog){const rect=dialog.getBoundingClientRect();if(event.clientX<rect.left || event.clientX>rect.right || event.clientY<rect.top || event.clientY>rect.bottom)close();}
     const link=event.target.closest('a[href]');
-    if(!link)return;
+    if(!link || event.defaultPrevented || (event.button != null && event.button !== 0) || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || link.hasAttribute?.('download') || (link.target && link.target !== '_self'))return;
     const path=routePath(new URL(link.href,location.href).pathname,base);
     if(path.startsWith('/builders/')){event.preventDefault();event.stopPropagation();open(link.href);}
-    else if(new URL(link.href,location.href).hash==='#builders'){event.preventDefault();event.stopPropagation();close();}
+    else if(['#builder','#builders'].includes(new URL(link.href,location.href).hash)){event.preventDefault();event.stopPropagation();close();}
   });
   dialog.addEventListener('close',()=>{document.documentElement.style.overflow=previousOverflow || '';if(restartScroll)scrollController?.start?.();body.innerHTML='';trigger?.focus({preventScroll:true});});
   // Existing shared project URLs still work, opening the same sidebar on home.

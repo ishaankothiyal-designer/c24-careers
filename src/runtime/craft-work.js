@@ -41,6 +41,8 @@ function initializeReel(root) {
     track.style.transform = `translate3d(${x}px,0,0)`;
     prev.disabled = autoReel && loopWidth > viewport.clientWidth ? false : x >= -.5;
     next.disabled = autoReel && loopWidth > viewport.clientWidth ? false : x <= minX + .5;
+    viewport.setAttribute('data-carousel-before', String(!prev.disabled));
+    viewport.setAttribute('data-carousel-after', String(!next.disabled));
   };
   const bounds = () => {
     cardMetrics=cards.map(card=>({card,offset:card.offsetLeft,width:card.offsetWidth}));

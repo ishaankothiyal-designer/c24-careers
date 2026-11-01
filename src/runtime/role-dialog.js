@@ -1,6 +1,7 @@
 import { roleDetailPage } from '../role-detail.js';
 import { routePath, siteLinks } from '../site-routing.js';
 import { initializeCraftButtons } from './craft-buttons.js';
+import { loadLiveRole } from './live-role.js';
 
 export function initializeRoleDialog({ base = '/', initialPath = null } = {}) {
   if (document.querySelector('[data-role-dialog]')) return;
@@ -15,10 +16,12 @@ export function initializeRoleDialog({ base = '/', initialPath = null } = {}) {
   let previousOverflow;
   let previousTitle;
   let clearButtons;
+  let liveRequest;
 
   const open = (pathname, source, updateHistory = true) => {
     const page = roleDetailPage(pathname, '', '');
     if (!page) return false;
+    liveRequest?.abort();
     clearButtons?.();
     const content = page.html.replace(/^<main[^>]*>/, '<div class="role-detail">').replace(/<\/main>$/, '</div>')
       .replace('id="role-title"', 'id="role-dialog-title"')
@@ -38,6 +41,11 @@ export function initializeRoleDialog({ base = '/', initialPath = null } = {}) {
     document.title = page.title;
     dialog.scrollTop = 0;
     dialog.querySelector('button').focus({ preventScroll: true });
+    const liveId = page.html.match(/data-live-role="([^"]+)"/)?.[1];
+    if (liveId) {
+      liveRequest = new AbortController();
+      loadLiveRole(dialog.querySelector('.role-detail'), liveId, liveRequest.signal);
+    }
     if (updateHistory) {
       history.pushState({ roleDialog: true }, '', base + pathname.slice(1));
       pushed = true;
@@ -46,6 +54,7 @@ export function initializeRoleDialog({ base = '/', initialPath = null } = {}) {
   };
   const dismiss = (updateHistory = true) => {
     if (!dialog.open) return;
+    liveRequest?.abort();
     dialog.close();
     clearButtons?.();
     document.body.style.overflow = previousOverflow;
