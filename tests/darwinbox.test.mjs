@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { spawnSync } from 'node:child_process';
 import { unzipSync, strFromU8 } from 'fflate';
 import { applicationSchema, createCareersService, descriptionHtml, validateApplication } from '../server/careers.js';
 import { darwinbox } from '../server/darwinbox.js';
@@ -139,4 +140,9 @@ test('unexpected hosting error pages produce a recoverable public message', asyn
   t.after(() => { globalThis.fetch = original; });
   globalThis.fetch = async () => ({ ok: false, json: async () => { throw new SyntaxError('Internal platform details'); } });
   await assert.rejects(apiJson('/api/jobs'), /temporarily unavailable/);
+});
+
+test('server imports work when require(ESM) is disabled, matching the Vercel loader', () => {
+  const result = spawnSync(process.execPath, ['--no-experimental-require-module', '--input-type=module', '-e', `await import(${JSON.stringify(new URL('../server/careers.js', import.meta.url).href)})`], { encoding: 'utf8' });
+  assert.equal(result.status, 0, result.stderr);
 });

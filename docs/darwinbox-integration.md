@@ -28,6 +28,8 @@ Use `npm ci` and `npm run dev`. Vite's development middleware serves the same AP
 
 Build with `npm run build` and test with `npm test`. Do not run the GitHub Pages postprocessor. The existing Sites worker is compatibility packaging and does not implement the Darwinbox routes.
 
+Node 22 is explicit in `package.json`. The sanitizer stays on its patched 2.18.1 release, with its HTML parser pinned to the CommonJS-compatible 10.0.0 export because Vercel's function loader rejects the parser's newer ESM-only release when required by the sanitizer. A subprocess test disables `require(ESM)` to reproduce this runtime constraint. Recheck the override when upgrading either package or Vercel's loader.
+
 ## Application field mapping and fallback
 
 System field names follow the supplied Submit Job API Version 3 PDF. The job-detail API returns display labels, types, required flags, and options, but does not return every submission field key. Required fields with unknown keys, unsupported types, or dependencies make the inline form unavailable for that role. The visitor continues to the corresponding existing Cars24 application page instead. Optional fields outside the essential contact/resume set are omitted to minimize personal data collection.
