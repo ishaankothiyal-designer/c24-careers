@@ -47,6 +47,13 @@ function optionsFor(field) {
     ? Object.values(field.options).map(label => ({ value: text(label), label: text(label) })) : [];
 }
 
+// Default only an unambiguous, tenant-provided Gurgaon/Gurugram workplace.
+// The option label is the Submit Job V3 value, not its workplace ID.
+function preferredLocation(options) {
+  const matching = options.filter(option => /^(?:gurgaon|gurugram)(?=$|[\s,(])/i.test(option.label));
+  return matching.length === 1 ? matching[0].value : undefined;
+}
+
 export function applicationSchema(raw, env = process.env) {
   let configured = {};
   try {
@@ -61,17 +68,34 @@ export function applicationSchema(raw, env = process.env) {
     const supported = typeof key === 'string' && /^[a-zA-Z0-9_]+$/.test(key) && !['__proto__', 'constructor', 'prototype'].includes(key)
       && supportedType && (field.type !== 'attachment' || key === 'resume') && !field.has_dependency && !field.hasDependentDropdown && !field.is_calculation_active;
     if (!supported) { if (required) unsupported.push(label); continue; }
-    if (!required && !essentialFields.has(key)) continue;
+    const isLocation = label === 'Applied for Location' && field.type === 'select';
+    if (!required && !essentialFields.has(key) && !isLocation) continue;
     const options = optionsFor(field).filter(option => !['other', 'others'].includes(option.label.toLowerCase()));
+    // Requested UAE choice; preserve a tenant-provided label when available.
+    // Acceptance of the fallback label must be checked in the controlled submission.
+    if (key === 'phone_country_code' && !options.some(option => /^\+971(?:\s|$)/.test(option.value))) {
+      options.push({ value: '+971 United Arab Emirates', label: '+971 United Arab Emirates' });
+    }
     if (required && field.type === 'select' && !options.length) { unsupported.push(label); continue; }
-    fields.push({ key, label, required: required || essentialFields.has(key), type: field.type, options });
+    fields.push({ key, label, required: required || essentialFields.has(key), type: field.type, options,
+      ...(isLocation ? { purpose: 'application-location', displayLabel: 'Application location', defaultValue: preferredLocation(options) } : {}),
+    });
   }
   // A missing schema is not permission to submit an incomplete application.
   for (const key of ['firstname', 'email_id', 'phone_country_code', 'phone', 'resume']) {
     if (!fields.some(field => field.key === key)) unsupported.push(key);
   }
+  const locationField = raw.applicant_fields?.['Applied for Location'];
+  const locationOptions = locationField?.type === 'select' ? optionsFor(locationField) : [];
+  const mappedLocation = fields.find(field => field.purpose === 'application-location');
+  // Expose role-approved choices for the selectable UI even while its submit key
+  // is unknown. A local preference is never a guessed Darwinbox field mapping.
+  const locationPreference = locationOptions.length ? {
+    options: locationOptions, defaultValue: preferredLocation(locationOptions),
+    mappedKey: mappedLocation?.key || null,
+  } : undefined;
   const extensions = raw.attachment_fields?.resume_details?.fields?.resume?.validation?.valid_extentions;
-  return { fields, supported: unsupported.length === 0, unsupported,
+  return { fields, supported: unsupported.length === 0, unsupported, locationPreference,
     resumeExtensions: Array.isArray(extensions) ? extensions.filter(extension => ['pdf', 'doc', 'docx'].includes(extension)) : ['pdf', 'doc', 'docx'],
     maxResumeBytes: MAX_RESUME_BYTES };
 }
@@ -127,7 +151,9 @@ export function validateApplication(body, schema) {
   const fields = {};
   for (const field of schema.fields) {
     if (field.key === 'resume') continue;
-    const value = body.fields[field.key];
+    // Apply defaults only for an omitted mapped field. An explicit choice or
+    // explicit clearing remains the applicant's choice and is validated below.
+    const value = Object.hasOwn(body.fields, field.key) ? body.fields[field.key] : field.defaultValue;
     if (value != null && typeof value !== 'string') throw new CareersError(400, `Please check ${field.label}.`);
     let cleaned = text(value);
     if (!cleaned) { if (field.required) throw new CareersError(400, `${field.label} is required.`); continue; }

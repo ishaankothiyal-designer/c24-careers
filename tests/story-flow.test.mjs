@@ -50,7 +50,7 @@ test('problem carousel steps through visible cards, handles boundaries and reset
   const globals=['document','window','matchMedia','ResizeObserver'];
   const previous=globals.map(key=>[key,Object.getOwnPropertyDescriptor(globalThis,key)]);
   t.after(()=>previous.forEach(([key,value])=>value?Object.defineProperty(globalThis,key,value):delete globalThis[key]));
-  const control=()=>({addEventListener(name,handler){this[name]=handler;},setAttribute(){}});
+  const control=()=>({addEventListener(name,handler){this[name]=handler;},setAttribute(name,value){this[name]=value;}});
   const back=control(),next=control();
   const buttons=['All','Design'].map(craft=>({...control(),dataset:{problemFilter:craft}}));
   const cards=['AI','Design','Product','Engineering','Data','Operations'].map((craft,i)=>({dataset:{problemCraft:craft},hidden:false,get offsetLeft(){return cards.filter(c=>!c.hidden).indexOf(this)*320;}}));
@@ -62,9 +62,20 @@ test('problem carousel steps through visible cards, handles boundaries and reset
   globalThis.matchMedia=()=>({matches:true});globalThis.ResizeObserver=class{observe(){}};
   initializeProblemFilters();
   assert.equal(back.disabled,true);assert.equal(next.disabled,false);
+  assert.equal(track['data-carousel-before'],'false');assert.equal(track['data-carousel-after'],'true');
   next.click();assert.equal(track.scrollLeft,320);assert.equal(track.behavior,'instant');
-  track.keydown({key:'End',target:track,preventDefault(){}});assert.equal(next.disabled,true);
+  track.keydown({key:'End',target:track,preventDefault(){}});assert.equal(next.disabled,true);assert.equal(track['data-carousel-after'],'false');
   track.keydown({key:'ArrowLeft',target:track,preventDefault(){}});assert.equal(track.scrollLeft,960);
   buttons[1].click();assert.equal(track.scrollLeft,0);assert.equal(back.disabled,true);assert.equal(next.disabled,true);
+  assert.equal(track['data-carousel-before'],'false');assert.equal(track['data-carousel-after'],'false');
   buttons[0].click();assert.equal(next.disabled,false);
+});
+
+
+test('landing carousel controls follow their tracks in document and keyboard order',async()=>{
+  for(const [file,track] of [['career-01-invitation.html','builder-viewport'],['career-02-problems.html','problem-track'],['career-04-support.html','support-track']]){
+    const html=await read(`sections/${file}`);
+    assert.ok(html.indexOf('landing-carousel__toolbar')>html.indexOf(`id="${track}"`),file);
+    assert.match(html,new RegExp(`aria-controls="${track}"`));
+  }
 });

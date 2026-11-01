@@ -29,6 +29,8 @@ export function initializeProblemCarousel(root, cards, prefix = 'problem') {
   const update = () => {
     previous.disabled = track.scrollLeft <= 1;
     next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 1;
+    track.setAttribute('data-carousel-before', String(!previous.disabled));
+    track.setAttribute('data-carousel-after', String(!next.disabled));
   };
   const go = direction => {
     const visible = cards.filter(card => !card.hidden);

@@ -1,5 +1,5 @@
 /* Current brand layer. Import after all preserved reference/section styles. */
-:root { --blue: #4736fe; }
+:root { --blue: #4736fe; --tag-orange-base: #e0492a; --tag-orange-accessible: color-mix(in srgb, var(--tag-orange-base) 90%, var(--black)); }
 
 /* These source components used literal blues instead of the native token. */
 .society-footer { background-color: var(--blue); }
@@ -9,3 +9,6 @@
 .btn-bubble-arrow.craft-button:hover,
 .btn-bubble-arrow.craft-button:focus-visible { background-color: var(--blue); }
 .craft-tag--weave { --tag-bg: var(--blue); }
+
+/* Preserve the source orange while meeting small-label contrast on white text. */
+.craft-tag--claude { --tag-bg: var(--tag-orange-accessible); }

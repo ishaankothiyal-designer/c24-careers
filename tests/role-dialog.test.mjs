@@ -54,3 +54,14 @@ test('direct links open without adding history, while modified clicks retain bro
   assert.equal(click('https://example.test/careers/roles/preview-role-2/', { metaKey: true }).event.prevented, undefined);
   assert.equal(click('https://other.test/careers/roles/preview-role-2/').event.prevented, undefined);
 });
+
+test('whole-card links keep modifier and middle-click browser behavior and activate once with an ordinary click', t => {
+  const { click } = setup(t);
+  initializeRoleDialog();
+  for (const event of [{ metaKey: true }, { ctrlKey: true }, { shiftKey: true }, { altKey: true }, { button: 1 }]) {
+    assert.equal(click('https://example.test/careers/roles/preview-role-1/', event).event.prevented, undefined);
+  }
+  assert.equal(history.pushes.length, 0);
+  assert.equal(click('https://example.test/careers/roles/preview-role-1/').event.prevented, true);
+  assert.equal(history.pushes.length, 1);
+});
