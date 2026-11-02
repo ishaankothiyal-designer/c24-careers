@@ -11,7 +11,6 @@ import sectionIndex from './sections.json';
 import pageSections from './page-sections.js';
 import { initializeCraftWork } from './runtime/craft-work.js';
 import { initializeBuilderPixels } from './runtime/builder-pixels.js';
-import { initializeSupportCarousel } from './runtime/problem-filters.js';
 import { ACTIVE_NAVBAR } from './navbar-config.js';
 import { initializeCraftField } from './runtime/craft-field.js';
 import { initializeCraftButtons } from './runtime/craft-buttons.js';
@@ -58,7 +57,7 @@ export function App() {
     initializeRoleDialog({ base, initialPath: initialRole ? pathname : null });
     for (const initialize of [initializeProjectDrawer, initializeLiveJobs, initializePaperLetter,
       initializeClosingPixels, initializeCraftField, initializeCraftButtons,
-      initializeCraftWork, initializeBuilderPixels, initializeSupportCarousel,
+      initializeCraftWork, initializeBuilderPixels,
       initializeExchangeDither, initializeSocietyFooter,
       initializeConsent, initializeFaq]) {
       try { initialize(); }

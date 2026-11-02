@@ -71,13 +71,12 @@ html{overflow-x:clip}body{overflow-x:clip}
 .problem-card details a{display:inline-flex;align-items:center;min-height:var(--story-control);margin-top:var(--sp-3);color:var(--blue);text-underline-offset:.25em}
 .support-carousel__toolbar{display:flex;justify-content:flex-end;align-items:center;gap:var(--sp-3);margin-bottom:var(--sp-3)}
 .support-carousel__toolbar .story-kicker{margin:0}
-.policy-grid{--support-card-width:var(--career-card-width);display:flex;gap:var(--sp-3);overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;padding:var(--sp-1) 0 var(--sp-3);scroll-padding-inline:0}
-.policy-card{background:var(--bg);border-radius:var(--radius);min-width:0;flex:0 0 var(--support-card-width);scroll-snap-align:start;overflow:hidden}
+.policy-card{background:var(--bg);border-radius:var(--radius);min-width:0;overflow:hidden}
 .policy-card__image{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}
 .policy-card__copy{padding:var(--sp-3)}
 .policy-card h3{font-size:var(--h6);line-height:1.2;margin-bottom:var(--sp-3)}
 .policy-card__copy>p:last-child{line-height:var(--story-line);max-width:40ch}
-.policy-grid:focus-visible,.policy-section button:focus-visible{outline:var(--story-focus) solid var(--blue);outline-offset:var(--story-focus)}
+#support [data-craft-work-viewport]:focus-visible,.policy-section button:focus-visible{outline:var(--story-focus) solid var(--blue);outline-offset:var(--story-focus)}
 /* Honest exchange follows the shared square card treatment on soft gray. */
 #expectations{--exchange-rule:var(--story-rule);--exchange-muted:var(--story-muted);background:var(--section-quiet-bg);color:var(--ink)}
 #expectations .exchange-head{margin-bottom:var(--sp-5)}
@@ -98,8 +97,8 @@ html{overflow-x:clip}body{overflow-x:clip}
 
 /* Frozen carousel card standard, taken from the builder story card. */
 :root{--career-card-width:368px;--career-card-gap:28px;--career-card-inset:26px;--career-card-bottom:26px;--career-card-title-gap:20px;--career-card-copy-gap:9px;--career-card-tag-gap:14px;--career-card-media-height:350px;--career-card-title-size:clamp(22px,2.2vw,30px);--career-card-title-line:1.15;--career-card-title-letter:-.02em;--career-card-copy-size:14.5px;--career-card-copy-color:#2a2a2a}
-#builder .craft-work__card,.problem-grid>.problem-card,.policy-grid>.policy-card{width:var(--career-card-width);flex:0 0 var(--career-card-width);min-width:0;border:var(--card-stroke);border-radius:0;background:var(--white);color:var(--black);text-align:center;padding:0 0 var(--career-card-bottom)}
-.problem-grid,.policy-grid,#builder .craft-work__track{gap:var(--career-card-gap)}
+#builder .craft-work__card,.problem-grid>.problem-card,#support .policy-card{width:var(--career-card-width);flex:0 0 var(--career-card-width);min-width:0;border:var(--card-stroke);border-radius:0;background:var(--white);color:var(--black);text-align:center;padding:0 0 var(--career-card-bottom)}
+.problem-grid,#support .craft-work__track,#builder .craft-work__track{gap:var(--career-card-gap)}
 #builder .craft-work__title,.problem-card h3,.policy-card h3{font-family:var(--font-title);font-size:var(--career-card-title-size);font-weight:500;line-height:var(--career-card-title-line);letter-spacing:var(--career-card-title-letter);margin:var(--career-card-title-gap) var(--career-card-inset) 0}
 #builder .craft-work__description,.problem-card>p,.policy-card__copy>p{font-size:var(--career-card-copy-size);line-height:var(--story-line);color:var(--career-card-copy-color);max-width:32ch;margin:var(--career-card-copy-gap) var(--career-card-inset) 0}
 .policy-card__copy{display:flex;flex-direction:column;align-items:center;padding:0}
@@ -160,7 +159,7 @@ html{overflow-x:clip}body{overflow-x:clip}
 #hiring .shape__item:first-child{padding-top:0}
 
 /* Shared cards now read left to right, with labels next to their context. */
-#builder .craft-work__card,.problem-grid>.problem-card,.policy-grid>.policy-card{align-items:stretch;text-align:left}
+#builder .craft-work__card,.problem-grid>.problem-card,#support .policy-card{align-items:stretch;text-align:left}
 #builder .craft-experiments__tags,.problem-card__top,.policy-card .craft-experiments__tags{justify-content:flex-start;margin-inline:var(--career-card-inset)}
 .problem-card__top{order:2;margin-top:var(--career-card-tag-gap)}
 .problem-card summary{justify-content:flex-start}
@@ -216,5 +215,5 @@ html{overflow-x:clip}body{overflow-x:clip}
 #builder .builder-carousel__toolbar .craft-work__arrow:disabled{opacity:.3;pointer-events:none}
 
 /* Keep native horizontal scrolling without drawing a scrollbar in sliders. */
-:is([data-craft-work-viewport],.problem-grid,.policy-grid,.problem-filters){scrollbar-width:none;-ms-overflow-style:none}
-:is([data-craft-work-viewport],.problem-grid,.policy-grid,.problem-filters)::-webkit-scrollbar{display:none;width:0;height:0}
+:is([data-craft-work-viewport],.problem-grid,.problem-filters){scrollbar-width:none;-ms-overflow-style:none}
+:is([data-craft-work-viewport],.problem-grid,.problem-filters)::-webkit-scrollbar{display:none;width:0;height:0}

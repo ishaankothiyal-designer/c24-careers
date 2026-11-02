@@ -33,7 +33,7 @@ main > section[id] { scroll-margin-top: var(--layout-anchor-clearance); }
 .support-section__head, #expectations .exchange-head {
   margin-bottom: var(--layout-head-gap);
 }
-.problem-grid, .policy-grid {
+.problem-grid {
   padding-block: var(--layout-track-inset);
 }
 .landing-carousel__toolbar { margin-top: var(--sp-3); }
@@ -108,12 +108,12 @@ main > section[id] { scroll-margin-top: var(--layout-anchor-clearance); }
   .society-footer-wrap, .society-footer { min-height: 500px; }
 }
 
-/* Support programmes occupy whole slots: no faded or partial next card. */
-.policy-grid{--support-visible-cards:3;--support-card-width:calc((100% - (var(--support-visible-cards) - 1)*var(--career-card-gap))/var(--support-visible-cards))}
-.policy-grid>.policy-card{width:var(--support-card-width);flex-basis:var(--support-card-width);overflow:visible}
+/* Support uses the builder's full-bleed track, card widths and drag loop. */
+#support .craft-work__carousel{margin-top:0}
+#support .craft-work__viewport{padding-block:var(--layout-track-inset)}
+#support .support-carousel__toolbar .craft-work__arrow{position:static;display:flex;transform:none;inset:auto;width:var(--story-control);height:var(--story-control)}
+#support .policy-card{overflow:visible}
 .policy-card__copy>:is(h3,p){max-width:calc(100% - 2*var(--career-card-inset));overflow-wrap:anywhere}
-@media(max-width:1100px){.policy-grid{--support-visible-cards:2}}
-@media(max-width:700px){.policy-grid{--support-visible-cards:1}}
 
 /* Keep the closing message readable without a canvas on smaller devices. */
 @media(max-width:900px){
