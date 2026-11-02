@@ -2,7 +2,13 @@
 
 [Live app: c24-careers-chi.vercel.app](https://c24-careers-chi.vercel.app)
 
-As of 28 October 2026, this Vercel app is the active destination for development reviews, shared links, and all future deployments. Deploy updates to the existing Vercel project serving this domain. Keep production on this URL unless the project owner explicitly changes it.
+[Private review preview — staging-mynk](https://c24-careers-preview-mayank.cars24.chatgpt.site/)
+
+Use the private preview to review our branch changes before Ishaan merges them. Work is made and pushed on `staging-mynk`; Ishaan handles the merge to production. The preview is published separately and is updated during our review workflow, rather than automatically on every GitHub push. It requires the preview owner's signed-in access.
+
+The separate review host uses `preview/worker.js` with the branch's compiled frontend. It reads public job listings and details from the existing live careers API, so it reflects staging frontend changes rather than copying the production frontend. Application submissions are disabled on the review host; use the live app to apply. Production hosting and server credentials are unchanged.
+
+The Vercel app remains the production destination. The separate private preview above is for reviewing branch changes before a merge. Keep production on the existing Vercel project and URL unless the project owner explicitly changes it.
 
 ## Vercel deployment
 
