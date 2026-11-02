@@ -14,7 +14,7 @@
 main > section[id] { scroll-margin-top: var(--layout-anchor-clearance); }
 
 /* Shrink text/grid children within their track instead of widening the page. */
-:is(.challenge__grid, .ambition__grid, .story-section-head,
+:is(.challenge__grid, .story-section-head,
     .shape__grid, .faq > .container, .bands__grid) > * {
   min-width: 0;
 }
@@ -22,7 +22,7 @@ main > section[id] { scroll-margin-top: var(--layout-anchor-clearance); }
     .bands__heading, .craft-work__title, .policy-card h3, .problem-card h3) {
   overflow-wrap: anywhere;
 }
-.challenge__grid, .ambition__grid, .story-section-head,
+.challenge__grid, .story-section-head,
 #hiring .shape__grid, #enterprise-faq > .container {
   column-gap: var(--layout-column-gap);
 }
@@ -72,11 +72,10 @@ main > section[id] { scroll-margin-top: var(--layout-anchor-clearance); }
 
 /* Collapse editorial splits together before either column becomes cramped. */
 @media (max-width: 900px) {
-  .ambition__grid, #hiring .shape__grid, #enterprise-faq > .container {
+  #hiring .shape__grid, #enterprise-faq > .container {
     grid-template-columns: minmax(0, 1fr);
     gap: var(--layout-head-gap);
   }
-  .ambition__destination { justify-self: start; }
   #expectations .bands__grid { grid-template-columns: minmax(0, 1fr); }
   #enterprise-faq .faq__head { gap: var(--sp-3); }
   #hiring .shape__intro { margin-top: var(--sp-3); }

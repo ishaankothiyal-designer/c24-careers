@@ -16,6 +16,7 @@ import "./styles/project-drawer.css";
 import "./styles/story-flow.css";
 import "./styles/responsive-layout.css";
 import "./styles/role-detail.css";
+import "./styles/ambition-stack.css";
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>

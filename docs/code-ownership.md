@@ -4,6 +4,8 @@ The source repository is `ishaankothiyal-designer/c24-careers`. Staging review u
 
 ## Where to make changes
 
+The ambition story uses five sticky cards: edit `src/sections/career-02-ambition.html` for copy, `src/styles/ambition-stack.css` for card layout and responsive fallbacks, and `src/runtime/ambition-stack.js` for the light scroll-driven scale effect. Reduced motion and short viewports retain an ordinary reading order.
+
 | Concern | Files you control |
 | --- | --- |
 | Homepage content and section order | `src/sections/*.html`, `src/sections.json` |
