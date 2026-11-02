@@ -107,3 +107,22 @@ main > section[id] { scroll-margin-top: var(--layout-anchor-clearance); }
 @media (max-height: 500px) {
   .society-footer-wrap, .society-footer { min-height: 500px; }
 }
+
+/* Support programmes occupy whole slots: no faded or partial next card. */
+.policy-grid{--support-visible-cards:3;--support-card-width:calc((100% - (var(--support-visible-cards) - 1)*var(--career-card-gap))/var(--support-visible-cards))}
+.policy-grid>.policy-card{width:var(--support-card-width);flex-basis:var(--support-card-width);overflow:visible}
+.policy-card__copy>:is(h3,p){max-width:calc(100% - 2*var(--career-card-inset));overflow-wrap:anywhere}
+@media(max-width:1100px){.policy-grid{--support-visible-cards:2}}
+@media(max-width:700px){.policy-grid{--support-visible-cards:1}}
+
+/* Keep the closing message readable without a canvas on smaller devices. */
+@media(max-width:900px){
+  #next-chapter .closing-pixels__title{position:static;width:auto;height:auto;margin:var(--sp-3) 0;padding:0;clip-path:none;overflow:visible;white-space:normal;color:var(--blue);font-size:clamp(28px,6vw,48px);line-height:1.15}
+  #next-chapter .closing-pixels__marquee,.closing-pixel-overlay{display:none}
+}
+
+/* Each letter must fit its own third of the footer, including narrow phones. */
+@media(max-width:767px){
+  .society-monogram>.society-monogram-cell{min-width:0;display:grid;place-items:center;padding:8px 4px;font-size:min(25vw,22svh);line-height:1;overflow:visible}
+  .society-monogram-cell>span{max-width:100%}
+}

@@ -2,7 +2,6 @@ import { careersPage } from './careers-page.js';
 import { initializeLiveJobs } from './runtime/live-jobs.js';
 import { roleDetailPage } from './role-detail.js';
 import { initializeRoleDialog } from './runtime/role-dialog.js';
-import { initializeCareBandCursor } from './runtime/care-band-cursor.js';
 import { initializeClosingPixels } from './runtime/closing-pixels.js';
 import { useEffect, useRef } from 'react';
 import { initializePaperLetter } from './runtime/paper-letter.js';
@@ -60,7 +59,7 @@ export function App() {
     for (const initialize of [initializeProjectDrawer, initializeLiveJobs, initializePaperLetter,
       initializeClosingPixels, initializeCraftField, initializeCraftButtons,
       initializeCraftWork, initializeBuilderPixels, initializeSupportCarousel,
-      initializeExchangeDither, initializeCareBandCursor, initializeSocietyFooter,
+      initializeExchangeDither, initializeSocietyFooter,
       initializeConsent, initializeFaq]) {
       try { initialize(); }
       catch (error) {

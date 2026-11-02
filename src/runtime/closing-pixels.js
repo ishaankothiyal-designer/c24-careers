@@ -15,6 +15,8 @@ export function initializeClosingPixels() {
     document.body.appendChild(canvas);
     const reduce = matchMedia('(prefers-reduced-motion: reduce)');
     const coarse = matchMedia('(hover: none), (pointer: coarse)');
+    const compact = matchMedia('(max-width:900px)');
+    const isStatic = () => reduce.matches || compact.matches;
     const mask = document.createElement('canvas'), paint = mask.getContext('2d');
     if (!paint) return;
     const lines = [...title.childNodes].filter(n => n.nodeType === Node.TEXT_NODE)
@@ -23,7 +25,7 @@ export function initializeClosingPixels() {
     let heat = new Map(), frame = 0, last = 0, visible = false;
     function render(now) {
       frame = 0;
-      if (reduce.matches || document.hidden) return;
+      if (isStatic() || document.hidden) return;
       const scale = Math.min(3, (now - (last || now - 1000 / 60)) / (1000 / 60));
       last = now;
       const decay = Math.pow(coarse.matches ? .85 : .878, scale);
@@ -55,9 +57,9 @@ export function initializeClosingPixels() {
       if (visible || heat.size) frame = requestAnimationFrame(render);
       else last = 0;
     }
-    function request() { if (!frame && !reduce.matches && !document.hidden) frame = requestAnimationFrame(render); }
+    function request() { if (!frame && !isStatic() && !document.hidden) frame = requestAnimationFrame(render); }
     function size() {
-      if (reduce.matches) return;
+      if (isStatic()) return;
       paint.font = `18px ${getComputedStyle(title).fontFamily}`;
       const mw = Math.ceil(Math.max(...lines.map(line => paint.measureText(line).width))) + 4;
       const lineStep = 21;
@@ -85,11 +87,11 @@ export function initializeClosingPixels() {
       heat.clear(); request();
     }
     function preference() {
-      root.classList.toggle('is-pixels-ready', !reduce.matches);
-      canvas.hidden = reduce.matches;
+      root.classList.toggle('is-pixels-ready', !isStatic());
+      canvas.hidden = isStatic();
       cancelAnimationFrame(frame); frame = 0; last = 0; heat.clear();
       ctx.clearRect(0, 0, width, height);
-      if (!reduce.matches) size();
+      if (!isStatic()) size();
     }
     new ResizeObserver(size).observe(stage);
     new IntersectionObserver(([entry]) => { visible = entry.isIntersecting; request(); }).observe(stage);
@@ -97,6 +99,7 @@ export function initializeClosingPixels() {
     addEventListener('scroll', request, { passive: true });
     document.addEventListener('visibilitychange', () => { last = 0; request(); });
     reduce.addEventListener('change', preference);
+    compact.addEventListener('change', preference);
     document.fonts.ready.then(preference);
   });
 }

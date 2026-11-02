@@ -210,17 +210,7 @@ html{overflow-x:clip}body{overflow-x:clip}
 .ambition__number .ambition__timeline{font:inherit;letter-spacing:inherit;color:inherit}
 
 /* All landing carousels share navigation below the cards, on every device. */
-:root{--carousel-edge-width:clamp(20px,4vw,48px)}
 .landing-carousel__toolbar{display:flex;justify-content:center;align-items:center;gap:var(--sp-3);margin:var(--sp-3) 0 0}
 #builder .builder-carousel__toolbar{margin-inline:auto}
 #builder .builder-carousel__toolbar .craft-work__arrow{position:static;display:flex;transform:none;inset:auto;width:var(--story-control);height:var(--story-control);opacity:1;pointer-events:auto}
 #builder .builder-carousel__toolbar .craft-work__arrow:disabled{opacity:.3;pointer-events:none}
-/* Fade only an edge that has more cards beyond it; completed ends stay crisp. */
-:is(#builder [data-craft-work-viewport],#problem-track,#support-track)[data-carousel-before]{
-  --carousel-edge-left:0px;--carousel-edge-right:0px;
-  mask-image:linear-gradient(to right,transparent,black var(--carousel-edge-left),black calc(100% - var(--carousel-edge-right)),transparent);
-}
-:is(#builder [data-craft-work-viewport],#problem-track,#support-track)[data-carousel-before=true]{--carousel-edge-left:var(--carousel-edge-width)}
-:is(#builder [data-craft-work-viewport],#problem-track,#support-track)[data-carousel-after=true]{--carousel-edge-right:var(--carousel-edge-width)}
-:is(#builder [data-craft-work-viewport],#problem-track,#support-track):is(:focus-visible,:has(:focus-visible)){mask-image:none}
-@media(forced-colors:active){:is(#builder [data-craft-work-viewport],#problem-track,#support-track){mask-image:none!important}}

@@ -7,6 +7,7 @@ export async function initializeSocietyFooter() {
   const wrap = footer.closest('[data-society-footer-parallax]');
   const dark = wrap.querySelector('[data-society-footer-dark]');
   const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+  const compact = matchMedia('(max-width:767px)');
   const title = footer.querySelector('.society-title');
   const words = [...title.querySelectorAll('.society-title-mask > span')];
   const letters = [...footer.querySelectorAll('[data-society-letter]')];
@@ -61,7 +62,8 @@ export async function initializeSocietyFooter() {
     parallax.fromTo(footer,{yPercent:-55},{yPercent:0,ease:'power1.in'});
     parallax.fromTo(dark,{opacity:.3},{opacity:0,ease:'power1.in'},'<'); triggers.push(parallax);
     triggers.push(gsap.fromTo(words,{opacity:0,y:0,yPercent:100},{opacity:1,y:0,yPercent:0,duration:.45,stagger:.05,ease:'power1.in',scrollTrigger:{trigger:title,start:'clamp(top bottom)',end:'clamp(bottom top)',scrub:.8,invalidateOnRefresh:true}}));
-    letters.forEach(letter=>triggers.push(gsap.fromTo(letter,{opacity:1,yPercent:-40},{yPercent:0,duration:.45,ease:'power1.in',scrollTrigger:{trigger:letter,start:'clamp(top bottom)',end:'clamp(bottom top)',scrub:.8,invalidateOnRefresh:true}})));
+    if(compact.matches) gsap.set(letters,{yPercent:0,opacity:1});
+    else letters.forEach(letter=>triggers.push(gsap.fromTo(letter,{opacity:1,yPercent:-40},{yPercent:0,duration:.45,ease:'power1.in',scrollTrigger:{trigger:letter,start:'clamp(top bottom)',end:'clamp(bottom top)',scrub:.8,invalidateOnRefresh:true}})));
     // Footer window labels carry the source data-effect=swipe-reveal mapping.
     labelReveals.forEach(({label,holder,mask})=>{
       gsap.set(label,{autoAlpha:0});gsap.set(mask,{scaleX:0,transformOrigin:'left'});
@@ -72,6 +74,7 @@ export async function initializeSocietyFooter() {
     ScrollTrigger.refresh();
   }
   configureMotion();
+  compact.addEventListener('change',configureMotion);
   // The source parallax moves the entire footer above its clipped wrapper.
   // Keep the revealing title intact inside the currently visible blue stage;
   // independent CSS translate leaves its trigger and source GSAP curve unchanged.

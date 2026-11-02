@@ -111,8 +111,6 @@
 #support .care-summary__note{max-width:68ch;font-size:var(--para-sm);opacity:.65}
 @media(max-width:900px){#support .care-summary__grid{grid-template-columns:1fr;gap:var(--sp-4)}}
 @media(max-width:520px){#support .care-summary__band{grid-template-columns:1fr}}
-.care-band-dither{position:absolute;inset:0;width:100%;height:100%;image-rendering:pixelated;pointer-events:none;z-index:0}
-.care-band-dither[hidden]{display:none}
 #support .care-summary__item{position:relative;z-index:1}
 
 /* Adoption is a subsection of the AI snapshots, separated by a single rule. */
