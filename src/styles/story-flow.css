@@ -54,7 +54,7 @@ html{overflow-x:clip}body{overflow-x:clip}
 .problem-carousel__controls{display:flex;gap:var(--sp-1);flex-shrink:0}
 .problem-carousel__controls .craft-work__arrow{position:static;transform:none;width:var(--story-control);height:var(--story-control);border:0;cursor:pointer}
 .problem-carousel__controls .craft-work__arrow:disabled{opacity:.3;cursor:default;pointer-events:none}
-.problem-grid{--problem-card-width:var(--career-card-width);display:flex;gap:var(--sp-3);overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--story-rule) transparent;padding:var(--sp-1) var(--sp-1) var(--sp-3);scroll-padding-inline:var(--sp-1)}
+.problem-grid{--problem-card-width:var(--career-card-width);display:flex;gap:var(--sp-3);overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;padding:var(--sp-1) var(--sp-1) var(--sp-3);scroll-padding-inline:var(--sp-1)}
 .problem-grid:focus-visible{outline:var(--story-focus) solid var(--blue);outline-offset:var(--story-focus)}
 .problem-grid>.problem-card{flex:0 0 var(--problem-card-width);scroll-snap-align:start;display:flex;flex-direction:column}
 .problem-card>p{flex:1}
@@ -71,7 +71,7 @@ html{overflow-x:clip}body{overflow-x:clip}
 .problem-card details a{display:inline-flex;align-items:center;min-height:var(--story-control);margin-top:var(--sp-3);color:var(--blue);text-underline-offset:.25em}
 .support-carousel__toolbar{display:flex;justify-content:flex-end;align-items:center;gap:var(--sp-3);margin-bottom:var(--sp-3)}
 .support-carousel__toolbar .story-kicker{margin:0}
-.policy-grid{--support-card-width:var(--career-card-width);display:flex;gap:var(--sp-3);overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--story-rule) transparent;padding:var(--sp-1) var(--sp-1) var(--sp-3);scroll-padding-inline:var(--sp-1)}
+.policy-grid{--support-card-width:var(--career-card-width);display:flex;gap:var(--sp-3);overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;padding:var(--sp-1) 0 var(--sp-3);scroll-padding-inline:0}
 .policy-card{background:var(--bg);border-radius:var(--radius);min-width:0;flex:0 0 var(--support-card-width);scroll-snap-align:start;overflow:hidden}
 .policy-card__image{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}
 .policy-card__copy{padding:var(--sp-3)}
@@ -214,3 +214,7 @@ html{overflow-x:clip}body{overflow-x:clip}
 #builder .builder-carousel__toolbar{margin-inline:auto}
 #builder .builder-carousel__toolbar .craft-work__arrow{position:static;display:flex;transform:none;inset:auto;width:var(--story-control);height:var(--story-control);opacity:1;pointer-events:auto}
 #builder .builder-carousel__toolbar .craft-work__arrow:disabled{opacity:.3;pointer-events:none}
+
+/* Keep native horizontal scrolling without drawing a scrollbar in sliders. */
+:is([data-craft-work-viewport],.problem-grid,.policy-grid,.problem-filters){scrollbar-width:none;-ms-overflow-style:none}
+:is([data-craft-work-viewport],.problem-grid,.policy-grid,.problem-filters)::-webkit-scrollbar{display:none;width:0;height:0}
