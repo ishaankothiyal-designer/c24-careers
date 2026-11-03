@@ -27,3 +27,14 @@
 .project-drawer .builder-detail .out-card__heading{font-size:20px}
 .project-drawer .builder-detail .out-card__text{padding-top:16px}
 .project-drawer .builder-detail .builder-story-next{gap:16px}
+
+/* Animate the modal itself so its content and close control travel together. */
+@keyframes project-drawer-in{from{transform:translateX(100%)}to{transform:translateX(0)}}
+@keyframes project-drawer-out{from{transform:var(--drawer-exit-from,translateX(0))}to{transform:translateX(100%)}}
+@keyframes project-backdrop-in{from{opacity:0}to{opacity:1}}
+@keyframes project-backdrop-out{from{opacity:1}to{opacity:0}}
+.project-drawer[open][data-motion="enter"]{animation:project-drawer-in 320ms cubic-bezier(.22,1,.36,1) both}
+.project-drawer[open][data-motion="exit"]{animation:project-drawer-out 240ms cubic-bezier(.4,0,1,1) both}
+.project-drawer[data-motion="enter"]::backdrop{animation:project-backdrop-in 320ms ease both}
+.project-drawer[data-motion="exit"]::backdrop{animation:project-backdrop-out 240ms ease both}
+@media(prefers-reduced-motion:reduce){.project-drawer[open][data-motion],.project-drawer[data-motion]::backdrop{animation:none}}
