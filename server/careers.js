@@ -143,7 +143,9 @@ export function createCareersService({ call = darwinbox, env = process.env, now 
       return { outcome: hasErrors ? 'created_with_errors' : 'submitted', reference: text(result.success.candidate_id),
         message: hasErrors ? 'Your application was received, but some details need review. Please contact your recruiter before applying again.' : 'Your application has been received. Thank you for your interest in Cars24.' };
     }
-    if (result && Number(result.status) === 0) return { outcome: 'rejected', message: 'The recruitment service could not accept this application. Please review your details before trying again.' };
+    // Only an explicit rejection permits a fresh application attempt. Coercing
+    // null, false or an empty status to zero could duplicate an uncertain write.
+    if (result?.status === 0 || result?.status === '0') return { outcome: 'rejected', message: 'The recruitment service could not accept this application. Please review your details before trying again.' };
     return { outcome: 'unknown', message: 'We could not confirm the result. Please check your email or contact your recruiter before applying again.' };
   }
   return { jobs, detail, submit };

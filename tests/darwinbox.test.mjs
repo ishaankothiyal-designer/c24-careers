@@ -99,7 +99,9 @@ test('missing consent, mandatory fields, invalid dropdowns and disguised files f
 test('submission refreshes publication status and handles clean, partial and uncertain outcomes without retries', async () => {
   for (const [upstream, outcome] of [[{ success: { status: 1, candidate_id: 'TEST-1' }, errors: '' }, 'submitted'],
     [{ success: { status: 1, candidate_id: 'TEST-1' }, errors: { firstname: 'error' } }, 'created_with_errors'],
-    [new Error('timeout after candidate creation'), 'unknown'], [null, 'unknown'], [{}, 'unknown'], [{ status: 0, message: 'invalid' }, 'rejected']]) {
+    [new Error('timeout after candidate creation'), 'unknown'], [null, 'unknown'], [{}, 'unknown'],
+    [{ status: null }, 'unknown'], [{ status: '' }, 'unknown'], [{ status: false }, 'unknown'],
+    [{ status: 0, message: 'invalid' }, 'rejected'], [{ status: '0', message: 'invalid' }, 'rejected']]) {
     const { instance, calls } = service(upstream);
     const result = await instance.submit(application());
     assert.equal(result.outcome, outcome);
