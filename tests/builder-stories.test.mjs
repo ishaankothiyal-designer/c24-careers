@@ -50,7 +50,10 @@ test('project navigation has previous and next neighbors without wrapping at eit
     assert.equal((nav.match(/<a\b/g)||[]).length,(i>0?1:0)+(i<stories.length-1?1:0));
     if(i>0)assert.ok(nav.includes(`href="/builders/${stories[i-1].slug}/" rel="prev"`));
     if(i<stories.length-1)assert.ok(nav.includes(`href="/builders/${stories[i+1].slug}/" rel="next"`));
-    assert.doesNotMatch(nav,/All builders/);
+    assert.doesNotMatch(nav,/All builders|>Previous builder:|>Next builder:/);
+    for(const link of nav.matchAll(/<a[^>]+>([^<]+)<\/a>/g)){assert.ok(stories.some(story=>story.name===link[1]));}
+    assert.match(page.html,/<ol class="solution__list">/);
+    assert.doesNotMatch(page.html,/class="solution__cards"/);
     assert.doesNotMatch(page.html,/<span class="label[^\"]*">The (?:challenge|work|outcome)<\/span>/);
   }
 });

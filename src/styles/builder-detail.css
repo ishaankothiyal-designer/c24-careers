@@ -26,3 +26,9 @@
 #builder .craft-work__card[data-builder-href]{cursor:pointer}
 #builder .craft-work__card[data-builder-href]:focus-visible{outline:2px solid var(--blue);outline-offset:6px}
 @media(max-width:900px){.builder-detail .cs-hero__media{min-height:0}.builder-detail .cs-hero__title{max-width:18ch}}
+
+.builder-detail .solution__list{margin:0;padding-left:1.25em;display:grid;gap:24px}
+.builder-detail .solution__item{padding-left:8px}
+.builder-detail .solution__item::marker{color:var(--blue);font-weight:500}
+.builder-detail .solution__item h3{font-family:var(--font-title);font-size:clamp(18px,1.5vw,24px);line-height:1.25;margin:0 0 12px}
+.builder-detail .solution__item p{margin:0;line-height:1.55}
