@@ -13,8 +13,12 @@ export default {
       const timer=controller?setTimeout(()=>controller.abort(),15000):null;
       try {
         const response=await fetch(new URL(url.pathname,LIVE_ORIGIN).href,{
-          method:request.method,headers:{Accept:'application/json'},redirect:'error',...(controller?{signal:controller.signal}:{}),
+          method:request.method,headers:{Accept:'application/json'},redirect:'manual',...(controller?{signal:controller.signal}:{}),
         });
+        if(response.status>=300 && response.status<400) {
+          console.error('preview_jobs_redirect',JSON.stringify({path:url.pathname,status:response.status}));
+          return json('Live job details are temporarily unavailable in the review preview.',502);
+        }
         if(!response.headers.get('content-type')?.includes('application/json')) {
           console.error('preview_jobs_non_json',JSON.stringify({path:url.pathname,status:response.status}));
           return json('Live job details are temporarily unavailable in the review preview.',502);

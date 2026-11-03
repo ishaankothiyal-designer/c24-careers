@@ -9,7 +9,7 @@ test('review preview forwards only public job reads without visitor credentials'
   assert.equal(response.status,200);assert.deepEqual(await response.json(),{jobs:[]});
   assert.equal(upstream,'https://c24-careers-chi.vercel.app/api/jobs');
   assert.deepEqual(options.headers,{Accept:'application/json'});
-  assert.equal(options.redirect,'error');
+  assert.equal(options.redirect,'manual');
 });
 
 test('review preview works on hosts without AbortSignal.timeout',async t=>{
@@ -38,4 +38,13 @@ test('review preview serves direct frontend routes through the app shell',async(
   const paths=[];
   const response=await worker.fetch(new Request('https://preview.test/careers/roles/a123/',{headers:{Accept:'text/html'}}),{ASSETS:{fetch:async request=>{const path=new URL(request.url).pathname;paths.push(path);return new Response(path==='\/index.html'?'app':'missing',{status:path==='/index.html'?200:404});}}});
   assert.equal(response.status,200);assert.deepEqual(paths,['/careers/roles/a123/','/index.html']);
+});
+
+test('review preview rejects upstream redirects without following them',async t=>{
+  t.mock.method(globalThis,'fetch',async(url,options)=>{
+    assert.equal(options.redirect,'manual');
+    return new Response(null,{status:302,headers:{Location:'https://other.test/'}});
+  });
+  const response=await worker.fetch(new Request('https://preview.test/api/jobs'),{});
+  assert.equal(response.status,502);
 });
