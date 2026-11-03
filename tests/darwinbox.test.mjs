@@ -3,7 +3,7 @@ import test from 'node:test';
 import { spawnSync } from 'node:child_process';
 import { unzipSync, strFromU8 } from 'fflate';
 import { applicationSchema, createCareersService, descriptionHtml, validateApplication } from '../server/careers.js';
-import { darwinbox } from '../server/darwinbox.js';
+import { CareersError, darwinbox } from '../server/darwinbox.js';
 import { once, sameOrigin } from '../server/http.js';
 import { apiJson, liveJobCard } from '../src/runtime/live-jobs.js';
 import { liveRoleHtml } from '../src/runtime/live-role.js';
@@ -99,7 +99,9 @@ test('missing consent, mandatory fields, invalid dropdowns and disguised files f
 test('submission refreshes publication status and handles clean, partial and uncertain outcomes without retries', async () => {
   for (const [upstream, outcome] of [[{ success: { status: 1, candidate_id: 'TEST-1' }, errors: '' }, 'submitted'],
     [{ success: { status: 1, candidate_id: 'TEST-1' }, errors: { firstname: 'error' } }, 'created_with_errors'],
-    [new Error('timeout after candidate creation'), 'unknown'], [{ status: 0, message: 'invalid' }, 'rejected']]) {
+    [new Error('timeout after candidate creation'), 'unknown'], [null, 'unknown'], [{}, 'unknown'],
+    [{ status: null }, 'unknown'], [{ status: '' }, 'unknown'], [{ status: false }, 'unknown'],
+    [{ status: 0, message: 'invalid' }, 'rejected'], [{ status: '0', message: 'invalid' }, 'rejected']]) {
     const { instance, calls } = service(upstream);
     const result = await instance.submit(application());
     assert.equal(result.outcome, outcome);
@@ -142,7 +144,7 @@ test('UAE country code is offered, accepted by local validation and preserved in
   const country = detail.application.fields.find(field => field.key === 'phone_country_code');
   assert.ok(country.options.some(option => option.value === '+971 United Arab Emirates'));
   const html = liveRoleHtml(detail);
-  assert.match(html, /value="\+971 United Arab Emirates">UAE \(\+971\)<\/option>/);
+  assert.match(html, /value="\+971 United Arab Emirates">UAE \+971<\/option>/);
   const body = application();
   body.fields.phone_country_code = '+971 United Arab Emirates';
   body.fields.phone = '501234567';
@@ -302,4 +304,10 @@ test('unexpected hosting error pages produce a recoverable public message', asyn
 test('server imports work when require(ESM) is disabled, matching the Vercel loader', () => {
   const result = spawnSync(process.execPath, ['--no-experimental-require-module', '--input-type=module', '-e', `await import(${JSON.stringify(new URL('../server/careers.js', import.meta.url).href)})`], { encoding: 'utf8' });
   assert.equal(result.status, 0, result.stderr);
+});
+
+
+test('a missing submit credential is a preflight service error rather than an uncertain candidate creation', async () => {
+  const { instance } = service(new CareersError(503, 'Careers service is being configured. Please try again later.'));
+  await assert.rejects(instance.submit(application()), error => error.status === 503);
 });

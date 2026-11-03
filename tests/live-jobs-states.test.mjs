@@ -52,6 +52,59 @@ test('role feed announces loading, hides stale controls on error, and retries in
   assert.equal(ui.reset.hidden, true);
 });
 
+test('a stalled job request exits loading and a retry can recover', async t => {
+  const ui = setup(t);
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  let signal;
+  globalThis.fetch = (_, options) => {
+    signal = options.signal;
+    return new Promise(() => {});
+  };
+  const { initializeLiveJobs } = await import(`../src/runtime/live-jobs.js?deadline=${Date.now()}`);
+  initializeLiveJobs();
+  t.mock.timers.tick(20000);
+  await flush();
+  assert.equal(signal.aborted, true);
+  assert.match(ui.status.textContent, /taking too long/);
+  assert.equal(ui.results.attrs['aria-busy'], 'false');
+  assert.equal(ui.retry.hidden, false);
+  globalThis.fetch = async () => ({ ok: true, json: async () => ({ jobs: [] }) });
+  await ui.retry.handlers.click();
+  assert.equal(ui.retry.hidden, true);
+  assert.equal(ui.empty.hidden, false);
+});
+
+test('a stalled response body is bounded too', async t => {
+  const ui = setup(t);
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  globalThis.fetch = async () => ({ ok: true, json: () => new Promise(() => {}) });
+  const { initializeLiveJobs } = await import(`../src/runtime/live-jobs.js?body-deadline=${Date.now()}`);
+  initializeLiveJobs();
+  await flush();
+  t.mock.timers.tick(20000);
+  await flush();
+  assert.match(ui.status.textContent, /taking too long/);
+  assert.equal(ui.retry.hidden, false);
+  assert.equal(ui.results.attrs['aria-busy'], 'false');
+});
+
+test('closing a role cancels its in-flight read without waiting for the deadline', async t => {
+  setup(t);
+  t.mock.timers.enable({ apis: ['setTimeout'] });
+  let requestSignal;
+  globalThis.fetch = (_, { signal }) => new Promise((_, reject) => {
+    requestSignal = signal;
+    signal.addEventListener('abort', () => reject(signal.reason), { once: true });
+  });
+  const { apiJson } = await import('../src/runtime/live-jobs.js');
+  const caller = new AbortController();
+  const request = apiJson('/api/jobs/example', { signal: caller.signal });
+  const cancelled = assert.rejects(request, error => error.name === 'AbortError');
+  caller.abort();
+  await cancelled;
+  assert.equal(requestSignal.aborted, true);
+});
+
 test('search with no matches retains clear/reset recovery and resetting restores all role targets', async t => {
   const ui = setup(t);
   const jobs = [{ id: 'first', title: 'Engineer', department: 'Retail', cities: ['Delhi'] }, { id: 'second', title: 'Analyst', department: 'Finance', cities: ['Gurgaon'] }];

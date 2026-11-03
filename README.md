@@ -2,7 +2,13 @@
 
 [Live app: c24-careers-chi.vercel.app](https://c24-careers-chi.vercel.app)
 
-As of 28 October 2026, this Vercel app is the active destination for development reviews, shared links, and all future deployments. Deploy updates to the existing Vercel project serving this domain. Keep production on this URL unless the project owner explicitly changes it.
+[Private review preview — staging-mynk](https://c24-careers-preview-mayank.cars24.chatgpt.site/)
+
+Use the private preview to review our branch changes before Ishaan merges them. Work is made and pushed on `staging-mynk`; Ishaan handles the merge to production. The preview is published separately and is updated during our review workflow, rather than automatically on every GitHub push. It requires the preview owner's signed-in access.
+
+The separate review host uses `preview/worker.js` with the branch's compiled frontend. It reads public job listings and details from the existing live careers API, so it reflects staging frontend changes rather than copying the production frontend. Application submissions are disabled on the review host; use the live app to apply. Production hosting and server credentials are unchanged.
+
+The Vercel app remains the production destination. The separate private preview above is for reviewing branch changes before a merge. Keep production on the existing Vercel project and URL unless the project owner explicitly changes it.
 
 ## Vercel deployment
 
@@ -28,6 +34,8 @@ For a production build, run `npm run build`. To review it locally, run `npm run 
 The build emits static entry documents for `/careers/`, legacy role previews, and builder URLs. The Sites build wrapper is retained for compatibility; Vercel publishes `dist/client` and deploys the Node functions in `api/`. Do not run the legacy GitHub Pages postprocessor for Vercel.
 
 The homepage and `/careers/` now load public Darwinbox openings through server-side routes. Role dialogs show live descriptions and the job's application requirements. Key Accounts and Listing retain inline contact/resume submission. Required-location roles show their approved location choices but remain unavailable for submission until engineering supplies the verified Darwinbox location field mapping. Applicants are not redirected to an external application flow. See [Darwinbox integration](docs/darwinbox-integration.md) for server-only environment variables, local development, field mapping, resume limits, verification boundaries, and submission handling. Legacy `preview-*` links remain illustrative and cannot accept applications. Original source URLs remain in `src/role-previews.json`.
+
+Role-card problem statements are maintained in `src/role-problems.js`, using the official title and department with a general department fallback for new roles. This is local editorial mapping, with no AI API dependency. Official Darwinbox titles remain in the job API, accessible card names and role details. Card geography/department text is maintained in `roleCardContext()` in `src/role-labels.js`.
 
 Fonts and core media are local. Builder cards use local pixel portraits and reveal their corresponding local uniform-background photographs on interaction. Third-party license files remain with their assets, including the paper-crumple VAT and Three.js notices. The expected lazy Three.js chunk size warning does not fail the build.
 

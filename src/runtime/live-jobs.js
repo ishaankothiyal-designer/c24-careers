@@ -1,17 +1,39 @@
-import { roleLabels } from '../role-labels.js';
+import { roleCardContext } from '../role-labels.js';
+import { roleProblem } from '../role-problems.js';
 import { initializeProblemCarousel } from './problem-filters.js';
 import { initializeCraftButtons } from './craft-buttons.js';
 
 export const escape = value => String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 export async function apiJson(path, options = {}) {
   const fallback = 'The careers service is temporarily unavailable. We couldn’t load the open roles. Please try again.';
-  let response, body;
+  const controller = new AbortController();
+  const abort = () => controller.abort(options.signal?.reason);
+  if (options.signal?.aborted) abort();
+  else options.signal?.addEventListener('abort', abort, { once: true });
+  let response, body, timer;
   try {
-    response = await fetch(path, options);
-    body = await response.json();
+    // Bound the complete read, including a stalled JSON body. A failed read
+    // releases the shared jobs promise so the existing retry can start fresh.
+    const deadline = new Promise((_, reject) => {
+      timer = setTimeout(() => {
+        reject(new Error('Loading roles is taking too long. Please try again.'));
+        controller.abort();
+      }, 20000);
+    });
+    ({ response, body } = await Promise.race([
+      (async () => {
+        const response = await fetch(path, { ...options, signal: controller.signal });
+        return { response, body: await response.json() };
+      })(),
+      deadline,
+    ]));
   } catch (error) {
     if (error.name === 'AbortError') throw error;
+    if (controller.signal.aborted && !options.signal?.aborted) throw error;
     throw new Error(fallback);
+  } finally {
+    clearTimeout(timer);
+    options.signal?.removeEventListener('abort', abort);
   }
   if (!response.ok) throw new Error(typeof body?.error === 'string' ? body.error : fallback);
   return body;
@@ -28,7 +50,7 @@ export function liveJobCard(job, listing = false) {
   const title = escape(job.title), department = escape(job.department);
   const heading = listing ? 'h2' : 'h3';
   const experience = job.experienceFrom || job.experienceTo ? `${escape(job.experienceFrom || '0')}–${escape(job.experienceTo)} years of experience` : '';
-  return `<a class="${listing ? 'careers-card' : 'problem-card'} role-card" href="${href}" data-transition-prevent aria-label="View role: ${title}" data-job-id="${escape(job.id)}" ${listing ? 'data-department' : 'data-problem-craft'}="${department}">${roleLabels(job)}<${heading} class="role-card__title" data-no-roll>${title}</${heading}><p class="role-card__metadata">${escape(roleMetadata(job))}</p>${experience ? `<p class="role-card__experience">${experience}</p>` : ''}<span class="role-card__link" aria-hidden="true">View role <span>↗</span></span></a>`;
+  return `<a class="${listing ? 'careers-card' : 'problem-card'} role-card" href="${href}" data-transition-prevent aria-label="View role: ${title}" data-job-id="${escape(job.id)}" ${listing ? 'data-department' : 'data-problem-craft'}="${department}"><${heading} class="role-card__title" data-no-roll>${escape(roleProblem(job))}</${heading}><p class="role-card__metadata">${escape(roleMetadata(job))}</p>${experience ? `<p class="role-card__experience">${experience}</p>` : ''}${roleCardContext(job)}<span class="role-card__link" aria-hidden="true"><span class="role-card__link-label">View role <span>↗</span></span></span></a>`;
 }
 
 export function jobsEmptyStateHtml() {
@@ -87,9 +109,11 @@ export function initializeLiveJobs() {
       window.dispatchEvent(new Event('resize'));
     };
     const load = async () => {
+      root.dataset.jobState='loading';
       empty.hidden = true; status.textContent = 'Loading open roles…'; retry.hidden = true; results.setAttribute('aria-busy', 'true');
       try {
         all = await jobs();
+        root.dataset.jobState='ready';
         filters.hidden = false;
         const departments = [...new Set(all.map(job => job.department).filter(Boolean))].sort();
         filters.innerHTML = ['All', ...departments].map(department => `<button type="button" class="careers-filter" data-job-department="${escape(department)}" aria-pressed="${department === 'All'}">${escape(department)}</button>`).join('');
@@ -103,7 +127,7 @@ export function initializeLiveJobs() {
         }
         if (!listing && !carousel) carousel = initializeProblemCarousel(root, [...results.children]);
         render();
-      } catch (error) { results.hidden = true; filters.hidden = true; clear.hidden = true; const controls = root.querySelector('.problem-carousel__controls'); if (controls) controls.hidden = true; status.textContent = error.message; retry.hidden = false; }
+      } catch (error) { root.dataset.jobState='error'; results.hidden = true; filters.hidden = true; clear.hidden = true; const controls = root.querySelector('.problem-carousel__controls'); if (controls) controls.hidden = true; status.textContent = error.message; retry.hidden = false; }
       finally { results.setAttribute('aria-busy', 'false'); }
     };
     filters.addEventListener('click', event => { const button = event.target.closest('[data-job-department]'); if (button) { selected = button.dataset.jobDepartment; render(true); } });

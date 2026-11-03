@@ -128,18 +128,24 @@ export function createCareersService({ call = darwinbox, env = process.env, now 
   }
   async function submit(body) {
     const job = await detail(body?.jobId, { fresh: true });
-    if (!job.application.supported) throw new CareersError(409, 'Please apply through the linked Cars24 application page for this role.');
+    if (!job.application.supported) throw new CareersError(409, 'Applications for this role are not ready to submit on this page yet. Please check back soon.');
     const fields = validateApplication(body, job.application);
     // Never retry a write: Darwinbox can create a candidate even when it reports field errors.
     let result;
     try { result = await call('submit', { job_id: job.id, source: 1, sub_source: '', applicant_fields: fields }); }
-    catch { return { outcome: 'unknown', message: 'We could not confirm the result. Your application may have reached Cars24. Please check your email or contact your recruiter before applying again.' }; }
-    if (Number(result.success?.status) === 1) {
+    catch (error) {
+      // Configuration failures happen before the adapter sends a candidate write.
+      if (error instanceof CareersError && error.status === 503) throw error;
+      return { outcome: 'unknown', message: 'We could not confirm the result. Your application may have reached Cars24. Please check your email or contact your recruiter before applying again.' };
+    }
+    if (Number(result?.success?.status) === 1) {
       const hasErrors = result.errors && (typeof result.errors !== 'object' || Object.keys(result.errors).length > 0);
       return { outcome: hasErrors ? 'created_with_errors' : 'submitted', reference: text(result.success.candidate_id),
         message: hasErrors ? 'Your application was received, but some details need review. Please contact your recruiter before applying again.' : 'Your application has been received. Thank you for your interest in Cars24.' };
     }
-    if (Number(result.status) === 0) return { outcome: 'rejected', message: 'The recruitment service could not accept this application. Please review your details or use the Cars24 application page.' };
+    // Only an explicit rejection permits a fresh application attempt. Coercing
+    // null, false or an empty status to zero could duplicate an uncertain write.
+    if (result?.status === 0 || result?.status === '0') return { outcome: 'rejected', message: 'The recruitment service could not accept this application. Please review your details before trying again.' };
     return { outcome: 'unknown', message: 'We could not confirm the result. Please check your email or contact your recruiter before applying again.' };
   }
   return { jobs, detail, submit };

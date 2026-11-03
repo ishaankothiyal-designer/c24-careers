@@ -55,10 +55,3 @@ export function initializeProblemCarousel(root, cards, prefix = 'problem') {
   update();
   return { reset() { track.scrollTo({ left: 0, behavior: 'instant' }); update(); } };
 }
-
-export function initializeSupportCarousel() {
-  const root = document.querySelector('#support');
-  if (!root || root.dataset.carouselReady) return;
-  root.dataset.carouselReady = 'true';
-  initializeProblemCarousel(root, [...root.querySelectorAll('.policy-card')], 'support');
-}

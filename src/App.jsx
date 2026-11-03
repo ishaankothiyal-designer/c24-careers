@@ -1,8 +1,8 @@
+import { initializeAmbitionStack } from './runtime/ambition-stack.js';
 import { careersPage } from './careers-page.js';
 import { initializeLiveJobs } from './runtime/live-jobs.js';
 import { roleDetailPage } from './role-detail.js';
 import { initializeRoleDialog } from './runtime/role-dialog.js';
-import { initializeCareBandCursor } from './runtime/care-band-cursor.js';
 import { initializeClosingPixels } from './runtime/closing-pixels.js';
 import { useEffect, useRef } from 'react';
 import { initializePaperLetter } from './runtime/paper-letter.js';
@@ -12,7 +12,6 @@ import sectionIndex from './sections.json';
 import pageSections from './page-sections.js';
 import { initializeCraftWork } from './runtime/craft-work.js';
 import { initializeBuilderPixels } from './runtime/builder-pixels.js';
-import { initializeSupportCarousel } from './runtime/problem-filters.js';
 import { ACTIVE_NAVBAR } from './navbar-config.js';
 import { initializeCraftField } from './runtime/craft-field.js';
 import { initializeCraftButtons } from './runtime/craft-buttons.js';
@@ -57,10 +56,10 @@ export function App() {
       document.querySelector('meta[name="description"]')?.setAttribute('content', pathname.startsWith('/careers') ? 'Explore Cars24 roles by department and find a problem to own.' : 'Meet the Cars24 builders and explore the workflows, tools and automation they built.');
     }
     initializeRoleDialog({ base, initialPath: initialRole ? pathname : null });
-    for (const initialize of [initializeProjectDrawer, initializeLiveJobs, initializePaperLetter,
+    for (const initialize of [initializeAmbitionStack, initializeProjectDrawer, initializeLiveJobs, initializePaperLetter,
       initializeClosingPixels, initializeCraftField, initializeCraftButtons,
-      initializeCraftWork, initializeBuilderPixels, initializeSupportCarousel,
-      initializeExchangeDither, initializeCareBandCursor, initializeSocietyFooter,
+      initializeCraftWork, initializeBuilderPixels,
+      initializeExchangeDither, initializeSocietyFooter,
       initializeConsent, initializeFaq]) {
       try { initialize(); }
       catch (error) {
@@ -72,7 +71,7 @@ export function App() {
     // runtime retains the captured GSAP, Lenis, and WebGL implementations.
     for (const src of [
       ...(ACTIVE_NAVBAR === 'Navbar-V1' ? ['/_astro/Nav.astro_astro_type_script_index_0_lang.BTi8Y4C0.js'] : []),
-      '/_astro/Base.astro_astro_type_script_index_0_lang.BUtqXeGZ.js',
+      '/_astro/Base.astro_astro_type_script_index_0_lang.BUtqXeGZ.js?heading-roll=responsive-v1',
     ]) {
       const script = document.createElement('script');
       script.type = 'module';

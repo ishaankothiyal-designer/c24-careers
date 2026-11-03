@@ -1,6 +1,7 @@
 import { apiJson, escape } from './live-jobs.js';
-import { roleDetailLayout } from '../role-layout.js';
-import { roleLabels } from '../role-labels.js';
+import { roleDetailLayout, roleLoadingHtml } from '../role-layout.js';
+import { roleCardContext } from '../role-labels.js';
+import { roleProblem } from '../role-problems.js';
 import { initializeCraftButtons } from './craft-buttons.js';
 
 const privacyUrl = 'https://static-cdn.cars24.com/qa/cms/2025/08/05/b4d55900-e2cb-4418-97d0-3e084aed28b6Data%20Privacy%20Notice_Job_Applicant.pdf';
@@ -18,25 +19,37 @@ const button = (label, attributes = '') => `<button type="button" class="careers
 
 const fieldLabels = { firstname: 'First name', lastname: 'Last name', email_id: 'Email address', phone_country_code: 'Country code', phone: 'Mobile number', resume: 'Resume' };
 const fieldOrder = ['firstname', 'lastname', 'email_id', 'phone_country_code', 'phone', 'resume'];
+const fieldPlaceholders = { firstname: 'First name', lastname: 'Last name', email_id: 'you@example.com', phone: 'Mobile number' };
+
+export function dialCodeLabel(option) {
+  const code = String(option.value).match(/^\+\d+/)?.[0];
+  if (!code) return option.label;
+  const abbreviation = { '+91': 'IND', '+61': 'AUS', '+971': 'UAE' }[code];
+  const name = String(option.label).replace(/^\+\d+\s*/, '').trim();
+  return `${abbreviation || name} ${code}`;
+}
 
 function formField(field, schema) {
   const displayLabel = field.displayLabel || fieldLabels[field.key] || field.label;
   const label = `<span>${escape(displayLabel)}${field.required ? ' <span aria-hidden="true">*</span>' : field.purpose === 'application-location' ? ' (optional)' : ''}</span>`;
   const attrs = `id="apply-${field.key}" name="${field.key}"${field.required ? ' required' : ''}`;
   if (field.key === 'resume') return `<div class="application-field"><label for="apply-resume">${label}</label><div class="application-upload"><input ${attrs} type="file" accept="${schema.resumeExtensions.map(value => '.' + value).join(',')}" aria-describedby="apply-resume-hint"><span data-resume-name aria-hidden="true">No file selected</span><span class="application-upload__browse" aria-hidden="true">Browse</span></div><small id="apply-resume-hint">${schema.resumeExtensions.map(value => value.toUpperCase()).join(', ')} · up to 2 MB</small></div>`;
-  if (field.type === 'select') return `<label class="application-field application-field--${field.key}" for="apply-${field.key}">${label}<select ${attrs}><option value="">Choose ${escape(displayLabel.toLowerCase())}</option>${field.options.map(option => `<option value="${escape(option.value).replace(/\r/g, '&#13;').replace(/\n/g, '&#10;')}"${option.value === field.defaultValue ? ' selected' : ''}>${escape(field.key === 'phone_country_code' && /^\+971(?:\s|$)/.test(option.value) ? 'UAE (+971)' : option.label)}</option>`).join('')}</select></label>`;
+  if (field.type === 'select') return `<label class="application-field application-field--${field.key}" for="apply-${field.key}">${label}<select ${attrs}><option value="">Choose ${escape(displayLabel.toLowerCase())}</option>${field.options.map(option => `<option value="${escape(option.value).replace(/\r/g, '&#13;').replace(/\n/g, '&#10;')}"${option.value === field.defaultValue ? ' selected' : ''}>${escape(field.key === 'phone_country_code' ? dialCodeLabel(option) : option.label)}</option>`).join('')}</select></label>`;
   const types = { email_id: 'email', phone: 'tel' }, autocomplete = { firstname: 'given-name', lastname: 'family-name', email_id: 'email', phone: 'tel-national' };
-  return `<label class="application-field application-field--${field.key}" for="apply-${field.key}">${label}<input ${attrs} type="${field.type === 'date' ? 'date' : types[field.key] || 'text'}" maxlength="${field.key === 'email_id' ? 254 : 120}"${autocomplete[field.key] ? ` autocomplete="${autocomplete[field.key]}"` : ''}></label>`;
+  return `<label class="application-field application-field--${field.key}" for="apply-${field.key}">${label}<input ${attrs} type="${field.type === 'date' ? 'date' : types[field.key] || 'text'}" maxlength="${field.key === 'email_id' ? 254 : 120}" placeholder="${escape(fieldPlaceholders[field.key] || `Enter ${displayLabel.toLowerCase()}`)}"${autocomplete[field.key] ? ` autocomplete="${autocomplete[field.key]}"` : ''}></label>`;
 }
 
-function phoneField(phone, country) {
-  const optionLabel = option => {
-    const code = option.value.match(/^\+\d+/)?.[0];
-    if (!code) return option.label;
-    const name = option.label.replace(/^\+\d+\s*/, '').trim();
-    return `${/^United Arab Emirates$/i.test(name) ? 'UAE' : name} (${code})`;
-  };
-  return `<div class="application-field application-field--phone"><label for="apply-phone">Mobile number${phone.required || country.required ? ' <span aria-hidden="true">*</span>' : ''}</label><div class="application-phone"><select id="apply-phone_country_code" name="phone_country_code" aria-label="Country and dial code" autocomplete="tel-country-code" aria-describedby="apply-phone-hint"${country.required ? ' required' : ''}><option value="">Country</option>${country.options.map(option => `<option value="${escape(option.value)}">${escape(optionLabel(option))}</option>`).join('')}</select><input id="apply-phone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" maxlength="25" aria-describedby="apply-phone-hint"${phone.required ? ' required' : ''}></div><small id="apply-phone-hint">Select your country, then enter your number without the country code.</small></div>`;
+export function defaultDialCode(country, roleCountry) {
+  const options=country.options||[];
+  if(options.some(option=>option.value===country.defaultValue))return country.defaultValue;
+  const name=String(roleCountry||'').trim();
+  const normalized=/^(UAE|U\.A\.E\.)$/i.test(name)?'United Arab Emirates':name;
+  return (normalized && options.find(option=>`${option.value} ${option.label}`.toLowerCase().includes(normalized.toLowerCase())))?.value || options.find(option=>/^\+91(?:\s|$)/.test(option.value))?.value || options[0]?.value || '';
+}
+
+function phoneField(phone, country, roleCountry) {
+  const selected=defaultDialCode(country,roleCountry);
+  return `<div class="application-field application-field--phone"><label for="apply-phone">Mobile number${phone.required || country.required ? ' <span aria-hidden="true">*</span>' : ''}</label><div class="application-phone"><select id="apply-phone_country_code" name="phone_country_code" aria-label="Country and dial code" autocomplete="tel-country-code" aria-describedby="apply-phone-hint"${country.required ? ' required' : ''}><option value="">Country</option>${country.options.map(option => `<option value="${escape(option.value)}"${option.value===selected?' selected':''}>${escape(dialCodeLabel(option))}</option>`).join('')}</select><input id="apply-phone" name="phone" type="tel" autocomplete="tel-national" inputmode="tel" maxlength="25" placeholder="Mobile number" aria-describedby="apply-phone-hint"${phone.required ? ' required' : ''}></div><small id="apply-phone-hint">Choose your country code and enter your number without the country code.</small></div>`;
 }
 
 export function liveRoleHtml(job, headingId = 'role-dialog-title') {
@@ -58,11 +71,11 @@ export function liveRoleHtml(job, headingId = 'role-dialog-title') {
   const country = orderedFields.find(field => field.key === 'phone_country_code');
   const fieldsHtml = orderedFields.map(field => {
     if (phone && country && field.key === 'phone_country_code') return '';
-    return phone && country && field.key === 'phone' ? phoneField(phone, country) : formField(field, schema);
+    return phone && country && field.key === 'phone' ? phoneField(phone, country, job.country) : formField(field, schema);
   }).join('');
   const optionalLocationNotice = schema.supported && schema.locationPreference && !schema.locationPreference.mappedKey
     ? '<p class="application-availability">You can apply now. Location preference is not collected by this form yet.</p>' : '';
-  const apply = showForm ? `<form id="role-application-form" data-application-form aria-label="Apply for this role"${canSubmit ? '' : ' data-application-blocked="true"'}>${optionalLocationNotice}${canSubmit ? '' : `<p class="application-availability" role="status">Location selection is available, but applications for this role are not ready to submit on this page yet. Please check back soon.</p>`}<fieldset class="application-fields"><legend class="application-legend">Apply for this role</legend>${fieldsHtml}<label class="application-consent"><input type="checkbox" name="consent" required><span>I have read the <a href="${privacyUrl}" target="_blank" rel="noopener noreferrer">applicant privacy notice</a> and consent to my details being used for this application.</span></label><div class="application-trap" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div><button class="careers-action craft-button btn-bubble-arrow btn-bubble-arrow--black application-submit" data-craft-static type="submit"${canSubmit ? '' : ' disabled'}><span class="craft-button-label">Apply for this role <span aria-hidden="true">↗</span></span></button></fieldset><p data-application-status role="status" aria-live="polite" tabindex="-1"></p></form>` : '';
+  const apply = showForm ? `<form id="role-application-form" data-application-form aria-label="Apply for this role"${canSubmit ? '' : ' data-application-blocked="true"'}>${optionalLocationNotice}${canSubmit ? '' : `<p class="application-availability" role="status">Location selection is available, but applications for this role are not ready to submit on this page yet. Please check back soon.</p>`}<fieldset class="application-fields"><legend class="application-legend">Apply for this role</legend>${fieldsHtml}<label class="application-consent"><input type="checkbox" name="consent" required><span>I have read the <a href="${privacyUrl}" target="_blank" rel="noopener noreferrer">applicant privacy notice</a> and consent to my details being used for this application.</span></label><div class="application-trap" aria-hidden="true"><label>Website<input name="website" tabindex="-1" autocomplete="off"></label></div><button class="craft-button btn-bubble-arrow btn-bubble-arrow--black application-submit" type="submit"${canSubmit ? '' : ' disabled'}><span class="craft-button-label">Apply for this role <span aria-hidden="true">↗</span></span></button></fieldset><p data-application-status role="status" aria-live="polite" tabindex="-1"></p></form>` : '';
   const experience = experienceLabel(job);
   const cities = job.cities || [];
   const facts = [
@@ -76,8 +89,10 @@ export function liveRoleHtml(job, headingId = 'role-dialog-title') {
   const locations = cities.length ? `<section class="role-detail__locations" aria-labelledby="role-locations-title"><h2 id="role-locations-title" data-no-roll>${cities.length === 1 ? 'Location' : 'Locations'}</h2>${cities.length > 6 ? `<details><summary>View all ${cities.length} cities</summary><ul>${cities.map(city => `<li>${escape(city)}</li>`).join('')}</ul></details>` : `<ul>${cities.map(city => `<li>${escape(city)}</li>`).join('')}</ul>`}${workplaceDetails}</section>` : workplaceDetails;
   return roleDetailLayout({
     header: `<header class="role-detail__hero" aria-labelledby="${headingId}">
-      ${roleLabels(job)}<h1 id="${headingId}" data-no-roll>${escape(job.title)}</h1>
+      <h1 id="${headingId}" data-no-roll>${escape(roleProblem(job))}</h1>
+      <p class="role-detail__official-title">${escape(job.title)}</p>
       <p class="role-detail__summary">${escape([cities.length > 3 ? `${cities.slice(0, 3).join(', ')} + ${cities.length - 3} more` : cities.join(', '), job.employmentType, job.remote ? 'Remote' : ''].filter(Boolean).join(' · '))}</p>
+      ${roleCardContext(job)}
       ${showForm ? '<button class="role-detail__mobile-action role-detail__back" type="button" data-application-jump>Jump to application ↓</button>' : ''}
     </header>`,
     facts: `<dl class="role-detail__facts">${facts.map(([label, value]) => `<div><dt>${escape(label)}</dt><dd>${escape(value)}</dd></div>`).join('')}</dl>`,
@@ -115,19 +130,16 @@ export function formatDescription(root) {
   });
 }
 
-function initializeStickyApplication(root, signal) {
+export function initializeStickyApplication(root, signal) {
   const panel = root.closest('.role-dialog');
   const aside = root.querySelector('.role-detail__application');
-  const toolbar = panel?.querySelector('.role-dialog__toolbar');
-  if (!panel || !aside || !toolbar) return;
+  if (!panel || !aside) return;
   const update = () => {
-    aside.style.setProperty('--role-toolbar-height', `${toolbar.getBoundingClientRect().height}px`);
-    const top = parseFloat(getComputedStyle(aside).top) || 0;
-    // A tall form must scroll with the document so its final controls stay reachable.
-    aside.dataset.sticky = String(matchMedia('(min-width: 900px)').matches && aside.offsetHeight + top + Math.max(0, top - toolbar.getBoundingClientRect().height) <= panel.clientHeight);
+    aside.style.setProperty('--role-form-max-height', `${Math.max(160,panel.clientHeight-104)}px`);
+    aside.dataset.sticky = String(matchMedia('(min-width: 900px)').matches);
   };
   const observer = new ResizeObserver(update);
-  [panel, aside, toolbar].forEach(element => observer.observe(element));
+  [panel, aside].forEach(element => observer.observe(element));
   window.addEventListener('resize', update, { signal, passive: true });
   signal.addEventListener('abort', () => observer.disconnect(), { once: true });
   update();
@@ -136,6 +148,8 @@ function initializeStickyApplication(root, signal) {
 export async function loadLiveRole(root, id, signal) {
   if (!root) return;
   const headingId = root.querySelector('h1')?.id || 'role-dialog-title';
+  root.setAttribute('aria-busy','true');
+  root.innerHTML=roleLoadingHtml(headingId);
   try {
     const response = await apiJson(`/api/jobs/${encodeURIComponent(id)}`, { signal });
     const job = response?.job;
@@ -160,7 +174,7 @@ export async function loadLiveRole(root, id, signal) {
     if (signal.aborted) return;
     root.innerHTML = `<section class="container role-detail__hero"><h1 id="${headingId}" data-no-roll>Role unavailable</h1><p role="status">${escape(error.message)}</p>${button('Try again', 'data-role-retry')}<a class="role-detail__back" href="/careers/">View all roles</a></section>`;
     root.querySelector('[data-role-retry]').addEventListener('click', () => loadLiveRole(root, id, signal), { once: true });
-  }
+  } finally { if(!signal.aborted)root.setAttribute('aria-busy','false'); }
 }
 
 function initializeApplication(form, job) {

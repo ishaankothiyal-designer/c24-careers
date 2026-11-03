@@ -4,7 +4,7 @@ export function initializePaperLetter() {
     if (root.dataset.paperInitialized) return;
     root.dataset.paperInitialized = 'true';
     const motion = matchMedia('(prefers-reduced-motion: reduce)');
-    const crampedViewport = matchMedia('(max-width:1050px), (max-height:700px) and (orientation:landscape)');
+    const crampedViewport = matchMedia('(max-width:767px), (max-height:700px) and (orientation:landscape)');
     const isStatic = () => motion.matches || crampedViewport.matches;
     let scene, loading = false, visible = false, current = 1, writing = 0, frame = 0, lastTick = 0;
     const smooth = (a, b, value) => { const x = Math.max(0, Math.min(1, (value-a)/(b-a))); return x*x*(3-2*x); };

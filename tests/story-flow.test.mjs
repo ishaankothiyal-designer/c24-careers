@@ -11,7 +11,7 @@ test('landing story moves from ambition through builders and problems to support
   assert.ok(positions.every((p,i)=>p>=0&&(!i||p>positions[i-1])));
   for(const removed of ['career-07-ai-progress.html','career-03-beliefs.html','career-08-roles.html'])assert.ok(!sections.includes(removed));
   const support=await read('sections/career-04-support.html');
-  assert.equal((support.match(/class="policy-card"/g)||[]).length,7);
+  assert.equal((support.match(/class="policy-card craft-work__card"/g)||[]).length,7);
   for(const name of ['Autonaut Future Fund','CareHer','Health','Wellbeing','Compassionate Support','Mission Elevate','Founders’ Awards'])assert.ok(support.includes(`<h3>${name}</h3>`));
 });
 

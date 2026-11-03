@@ -74,3 +74,11 @@ The requested Gurgaon default is now implemented in the editable Application loc
 
 
 Current architecture is entirely inline: our form posts to `/api/applications`, which calls Darwinbox Submit Job V3 server-side. Application-page handoffs have been removed from the role UI. Key Accounts and Listing retain their enabled contact/resume-only forms. Required-location forms display their valid choices but remain blocked until the API key/value mapping is verified; they do not redirect applicants. Existing hosted application URLs are preserved as source metadata only. See the [direct integration investigation](darwinbox-location-requirement.md#direct-inline-architecture-and-public-flow-investigation) for the exact evidence boundary and admin/support handoff.
+
+## Supplied submission document recheck (3 November 2026)
+
+`Submit_Job_API_Version_3.pdf` was checked against the adapter and application service. It confirms Studio Basic authentication **in addition to** the endpoint-specific `api_key` in the JSON body. Supplying the three API keys does not replace `DARWINBOX_USERNAME` and `DARWINBOX_PASSWORD`. Keep all five values in the server environment; neither frontend bundles nor source control should contain them.
+
+The implementation already follows the documented candidate-write payload: the job's Mongo ID, Careers Page source `1`, `sub_source`, and `applicant_fields`; resume bytes are zipped and then Base64 encoded. Dropdown labels are submitted exactly as supplied by the tenant, and browser dates are converted to `dd-mm-yyyy`. A response that created a candidate but also reports field errors is treated as a partial creation, without an automatic retry. A malformed or empty upstream response is unconfirmed, also without a retry.
+
+The PDF is a general contract and does not identify this tenant's “Applied for Location” backend name. Its example custom IDs belong to the example tenant and must not be copied into this deployment. The document directs administrators to download backend field names from Profile View Settings. The verified field export is still required to enable roles with that mandatory unmapped field. No candidate was submitted during this review; mocked contract tests exercise endpoint routing, Basic auth, per-endpoint keys, and payload preservation.

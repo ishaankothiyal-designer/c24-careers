@@ -3,9 +3,7 @@
 .role-dialog{position:fixed;inset:0 0 0 auto;margin:0;width:min(var(--role-panel-width),90vw);max-width:none;height:100dvh;max-height:100dvh;border:0;background:var(--white);color:var(--ink);padding:0;overflow-y:auto;overscroll-behavior:contain}
 .role-dialog::backdrop{background:var(--role-overlay)}
 .role-dialog[open]{animation:role-panel-enter var(--role-panel-motion) var(--role-panel-ease)}
-.role-dialog__toolbar{position:sticky;top:0;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:var(--sp-3);padding:var(--sp-2) var(--sp-4);background:var(--white);border-bottom:var(--section-divider-height) solid var(--section-divider-color);font-size:var(--para-sm)}
-.role-dialog__close .craft-button-label{display:flex;align-items:center;gap:var(--sp-2)}
-.role-dialog .role-detail{min-height:0;padding-bottom:0}
+.role-dialog .role-detail{min-height:0;padding-top:64px;padding-bottom:0}
 .role-dialog .container{padding-inline:var(--sp-4)}
 .role-dialog .role-detail__hero{padding-top:var(--sp-4);padding-bottom:var(--sp-4)}
 .role-dialog .role-detail h1{font-size:var(--h3)}
@@ -20,7 +18,7 @@
 }
 @media(max-width:480px){
   :root{--role-panel-inset:var(--sp-2)}
-  .role-dialog__toolbar,.role-dialog .role-detail__hero,.role-dialog .role-detail__content section,.role-dialog .role-detail__application{padding-inline:var(--sp-3)}
+  .role-dialog .role-detail__hero,.role-dialog .role-detail__content section,.role-dialog .role-detail__application{padding-inline:var(--sp-3)}
   .role-dialog .role-detail h1{font-size:var(--h4)}
 }
 @media(prefers-reduced-motion:reduce){.role-dialog[open]{animation:none}}
@@ -112,14 +110,14 @@
 .problem-grid>.problem-card.role-card,.careers-page .careers-grid>.careers-card.role-card{display:flex;flex-direction:column;align-items:stretch;gap:0;min-width:0;min-height:var(--role-card-min-height);padding:var(--career-card-inset);border:var(--card-stroke);border-radius:0;background:var(--white);text-align:left;box-sizing:border-box}
 .role-card .role-labels,.role-detail__hero .role-labels{display:flex;flex-wrap:wrap;justify-content:flex-start;gap:var(--role-label-gap);margin:0;min-width:0}
 .role-labels>span{font-family:var(--font-body);font-size:var(--story-small);font-weight:500;line-height:var(--story-line);letter-spacing:var(--career-label-tracking);max-width:100%;white-space:normal;overflow-wrap:anywhere}
-.role-card .role-card__title{order:0;font-family:var(--font-title);font-size:var(--career-card-title-size);font-weight:500;line-height:var(--career-card-title-line);letter-spacing:var(--career-card-title-letter);margin:var(--sp-3) 0 0;overflow-wrap:anywhere}
+.role-card .role-card__title{order:0;font-family:var(--font-title);font-size:var(--career-card-title-size);font-weight:500;line-height:var(--career-card-title-line);letter-spacing:var(--career-card-title-letter);margin:0;overflow-wrap:anywhere}
 .role-card .role-card__metadata,.role-card .role-card__experience{order:0;flex:0;font-family:var(--font-body);font-size:var(--career-card-copy-size);font-weight:400;line-height:var(--story-line);color:var(--career-card-copy-color);max-width:none;margin:var(--sp-2) 0 0;overflow-wrap:anywhere}
 .role-card .role-card__experience{color:var(--story-muted)}
-.role-card .role-card__link{display:flex;align-items:center;gap:var(--sp-2);min-height:var(--story-control);padding-top:var(--sp-3);margin-top:auto;border-top:var(--card-stroke);font-family:var(--font-body);font-size:var(--career-card-copy-size);line-height:var(--story-line);color:var(--blue);text-decoration:none}
+.role-card .role-card__link{order:1;display:flex;align-items:center;gap:8px;min-height:var(--story-control);padding-top:var(--sp-3);margin-top:auto;border-top:var(--card-stroke);font-family:var(--font-body);font-size:var(--career-card-copy-size);line-height:var(--story-line);color:var(--blue);text-decoration:none}
 .role-card .role-card__experience:last-of-type,.role-card .role-card__metadata:last-of-type{margin-bottom:var(--sp-3)}
 a.role-card{color:var(--ink);text-decoration:none;cursor:pointer}
 a.role-card:hover{border-color:var(--blue)}
-a.role-card:is(:hover,:focus-visible) .role-card__link{text-decoration:underline;text-underline-offset:.25em}
+a.role-card:is(:hover,:focus-visible) .role-card__link-label{border-bottom-color:currentColor}
 a.role-card:focus-visible{outline:var(--story-focus) solid var(--blue);outline-offset:calc(-1 * var(--story-focus))}
 .role-card[hidden]{display:none!important}
 .role-detail__hero .role-labels{margin-top:var(--sp-3)}
@@ -140,3 +138,12 @@ a.role-card:focus-visible{outline:var(--story-focus) solid var(--blue);outline-o
 .jobs-empty h2{font-family:var(--font-title);font-size:var(--h5);font-weight:500;letter-spacing:var(--career-card-title-letter);line-height:var(--career-card-title-line);margin:0;overflow-wrap:anywhere}
 .jobs-empty p{font-family:var(--font-body);font-size:var(--para-sm);line-height:var(--story-line);color:var(--story-muted);max-width:var(--jobs-empty-copy-width);margin:0}
 .jobs-empty .craft-button{max-width:100%;white-space:normal}
+
+.role-card__link-label{display:inline-flex;align-items:baseline;gap:8px;white-space:nowrap;border-bottom:1px solid transparent;padding-bottom:2px}
+.role-card .role-card__context{order:0;flex:0 0 auto;padding-top:8px;font-family:var(--font-body);font-size:var(--career-card-copy-size);line-height:var(--story-line);color:var(--story-muted);margin:0 0 var(--sp-3);text-transform:none}
+.role-card__context>span{padding-inline:4px}
+
+/* Only the dismiss control remains, sticky above the scrolling role content. */
+.role-dialog__close{position:sticky;top:16px;z-index:3;display:grid;place-items:center;width:44px;height:44px;box-sizing:border-box;margin:16px 16px -60px auto;padding:12px;border:0;border-radius:50%;background:var(--white);color:var(--ink);box-shadow:0 2px 12px #0002;cursor:pointer}
+.role-dialog__close svg{display:block;width:20px;height:20px}
+.role-dialog__close:focus-visible{outline:2px solid var(--blue);outline-offset:3px}

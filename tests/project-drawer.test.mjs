@@ -3,12 +3,13 @@ import test from 'node:test';
 import {initializeProjectDrawer,requestProject} from '../src/runtime/project-drawer.js';
 
 function fixture(t,base='/',pathname='/') {
-  const keys=['document','location','history'];
+  const keys=['document','location','history','matchMedia'];
   const original=keys.map(key=>[key,Object.getOwnPropertyDescriptor(globalThis,key)]);
   t.after(()=>{for(const [key,value] of original){if(value)Object.defineProperty(globalThis,key,value);else delete globalThis[key];}});
+  globalThis.matchMedia=()=>({matches:true});
   class Node extends EventTarget {
-    constructor(){super();this.dataset={};this.innerHTML='';this.scrollTop=0;this.open=false;}
-    setAttribute(){}
+    constructor(){super();this.dataset={};this.innerHTML='';this.scrollTop=0;this.open=false;this.attributes={};}
+    setAttribute(name,value){this.attributes[name]=value;}
     focus(){doc.activeElement=this;}
     showModal(){this.open=true;}
     close(){this.open=false;this.dispatchEvent(new Event('close'));}
@@ -41,6 +42,16 @@ test('opens a builder project without navigating, closes and restores focus and 
   assert.equal(f.doc.documentElement.style.overflow,'auto');
   assert.equal(f.doc.activeElement,f.opener);
   assert.equal(f.body.innerHTML,'');
+});
+
+test('project drawer uses the story heading as its accessible label and an icon-only close button',t=>{
+  const f=fixture(t);
+  requestProject('/builders/ayush-upadhyay/');
+  assert.equal(f.dialog.attributes['aria-labelledby'],'story-title');
+  assert.match(f.body.innerHTML,/id="story-title"/);
+  assert.match(f.dialog.innerHTML,/aria-label="Close project"/);
+  assert.match(f.dialog.innerHTML,/<svg aria-hidden="true"/);
+  assert.doesNotMatch(f.dialog.innerHTML,/project-drawer__bar|Builder project|>Close /);
 });
 
 test('supports deployment subpaths and ignores missing projects',t=>{
@@ -102,4 +113,47 @@ test('modified next-project links preserve normal browser navigation', t => {
     assert.equal(event.defaultPrevented, false);
     assert.equal(f.body.innerHTML, previous);
   }
+});
+
+
+test('animated exit retains modal and scroll lock until completion, then restores focus',t=>{
+  const f=fixture(t);globalThis.matchMedia=()=>({matches:false});
+  t.mock.timers.enable({apis:['setTimeout']});
+  requestProject('/builders/manvi-mehrotra/',f.opener);
+  assert.equal(f.dialog.dataset.motion,'enter');
+  f.button.dispatchEvent(new Event('click'));
+  assert.equal(f.dialog.dataset.motion,'exit');
+  assert.equal(f.dialog.open,true);
+  assert.equal(f.doc.documentElement.style.overflow,'hidden');
+  const end=new Event('animationend');Object.defineProperty(end,'animationName',{value:'project-drawer-out'});
+  f.dialog.dispatchEvent(end);
+  assert.equal(f.dialog.open,false);
+  assert.equal(f.doc.documentElement.style.overflow,'auto');
+  assert.equal(f.doc.activeElement,f.opener);
+  assert.equal(f.dialog.dataset.motion,undefined);
+  t.mock.timers.tick(500);assert.equal(f.dialog.open,false);
+});
+
+test('Escape animates dismissal and timer completes it if animationend is missing',t=>{
+  const f=fixture(t);globalThis.matchMedia=()=>({matches:false});
+  t.mock.timers.enable({apis:['setTimeout']});
+  requestProject('/builders/manvi-mehrotra/');
+  const cancel=new Event('cancel',{cancelable:true});f.dialog.dispatchEvent(cancel);
+  assert.equal(cancel.defaultPrevented,true);
+  assert.equal(f.dialog.open,true);
+  t.mock.timers.tick(300);
+  assert.equal(f.dialog.open,false);
+  assert.equal(f.doc.activeElement,f.opener);
+});
+
+test('opening another project during exit cancels the pending dismissal',t=>{
+  const f=fixture(t);globalThis.matchMedia=()=>({matches:false});
+  t.mock.timers.enable({apis:['setTimeout']});
+  requestProject('/builders/manvi-mehrotra/');
+  f.button.dispatchEvent(new Event('click'));
+  requestProject('/builders/ishaan-kothiyal/');
+  t.mock.timers.tick(500);
+  assert.equal(f.dialog.open,true);
+  assert.match(f.body.innerHTML,/Ishaan Kothiyal/);
+  f.dialog.close();
 });

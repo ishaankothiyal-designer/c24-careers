@@ -4,6 +4,8 @@ The source repository is `ishaankothiyal-designer/c24-careers`. Staging review u
 
 ## Where to make changes
 
+The ambition story uses five sticky cards: edit `src/sections/career-02-ambition.html` for copy, `src/styles/ambition-stack.css` for card layout and responsive fallbacks, and `src/runtime/ambition-stack.js` for the light scroll-driven scale effect. Reduced motion and short viewports retain an ordinary reading order.
+
 | Concern | Files you control |
 | --- | --- |
 | Homepage content and section order | `src/sections/*.html`, `src/sections.json` |
@@ -22,7 +24,7 @@ The source repository is `ishaankothiyal-designer/c24-careers`. Staging review u
 
 `builder-detail.js` keeps its original name for compatibility; builder cards now open a native modal sidebar rather than navigating to separate project pages. Previously shared `/builders/<slug>/` links render home and open the corresponding sidebar. The sidebar uses native dialog focus management and Escape dismissal, restores focus on close, pauses the page's existing smooth-scroll controller, and keeps the sidebar content independently scrollable.
 
-The restored letter files are unchanged from commit `8dcbc74`.
+The desktop letter scene, VAT decoder, and letter content remain as restored from commit `8dcbc74`. Tablet widths from 768–1050px now use the same animation in a one-column layout. Phones, reduced motion, and short landscape viewports retain the readable fallback.
 
 ## Where the classes come from
 
