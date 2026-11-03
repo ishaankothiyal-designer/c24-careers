@@ -140,7 +140,7 @@ a.role-card:focus-visible{outline:var(--story-focus) solid var(--blue);outline-o
 .jobs-empty .craft-button{max-width:100%;white-space:normal}
 
 .role-card__link-label{display:inline-flex;align-items:baseline;gap:8px;white-space:nowrap;border-bottom:1px solid transparent;padding-bottom:2px}
-.role-card .role-card__context{order:0;flex:0 0 auto;font-family:var(--font-body);font-size:var(--career-card-copy-size);line-height:var(--story-line);color:var(--story-muted);margin:0 0 var(--sp-3);text-transform:none}
+.role-card .role-card__context{order:0;flex:0 0 auto;padding-top:8px;font-family:var(--font-body);font-size:var(--career-card-copy-size);line-height:var(--story-line);color:var(--story-muted);margin:0 0 var(--sp-3);text-transform:none}
 .role-card__context>span{padding-inline:4px}
 
 /* Only the dismiss control remains, sticky above the scrolling role content. */

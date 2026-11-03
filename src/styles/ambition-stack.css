@@ -13,7 +13,7 @@
 .ambition-stack__mark{position:absolute;right:clamp(24px,4vw,56px);bottom:20px;z-index:0;font-family:var(--font-title);font-size:clamp(72px,15vw,210px);letter-spacing:-.07em;line-height:1;opacity:.09;pointer-events:none;white-space:nowrap}
 @media(max-width:767px){
   .ambition-stack{--stack-top:96px;--stack-step:8px}
-  .ambition-stack__list{gap:clamp(24px,4svh,40px);padding-bottom:24px}
+  .ambition-stack__list{gap:clamp(24px,4svh,40px);padding-bottom:32px}
   .ambition-stack__card{min-height:clamp(340px,48svh,500px);padding:24px;gap:40px}
   .ambition-stack__rail{font-size:12px;letter-spacing:.06em}
   .ambition-stack__copy h3{font-size:clamp(30px,7.7vw,52px);line-height:1.08;margin-bottom:20px}
