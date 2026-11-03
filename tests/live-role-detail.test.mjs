@@ -111,7 +111,7 @@ test('live role shows a loader until details resolve and clears busy state on su
   controller.abort();
 });
 
-test('long forms stay sticky without the removed toolbar and release observers on abort',t=>{
+test('one dialog scroll reaches tall forms before they stick and releases observers on abort',t=>{
   const keys=['ResizeObserver','window','matchMedia'];const original=keys.map(key=>[key,Object.getOwnPropertyDescriptor(globalThis,key)]);
   t.after(()=>{for(const [key,value] of original){if(value)Object.defineProperty(globalThis,key,value);else delete globalThis[key];}});
   let disconnected=false;
@@ -121,7 +121,10 @@ test('long forms stay sticky without the removed toolbar and release observers o
   const styles={};const aside={dataset:{},offsetHeight:1200,style:{setProperty(key,value){styles[key]=value;}}};
   const root={closest:()=>({clientHeight:600}),querySelector:()=>aside};
   const controller=new AbortController();initializeStickyApplication(root,controller.signal);
-  assert.equal(aside.dataset.sticky,'true');assert.equal(styles['--role-form-max-height'],'496px');
+  assert.equal(aside.dataset.sticky,'true');assert.equal(styles['--role-form-sticky-top'],'-624px');
+  aside.offsetHeight=300;
+  initializeStickyApplication(root,controller.signal);
+  assert.equal(styles['--role-form-sticky-top'],'80px');
   controller.abort();assert.equal(disconnected,true);
 });
 
