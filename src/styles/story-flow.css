@@ -206,3 +206,4 @@ html{overflow-x:clip}body{overflow-x:clip}
 /* Keep native horizontal scrolling without drawing a scrollbar in sliders. */
 :is([data-craft-work-viewport],.problem-grid,.problem-filters){scrollbar-width:none;-ms-overflow-style:none}
 :is([data-craft-work-viewport],.problem-grid,.problem-filters)::-webkit-scrollbar{display:none;width:0;height:0}
+.problem-section[data-job-state="error"] .problem-status{position:static;width:auto;height:auto;margin:0;padding:0;overflow:visible;clip-path:none;white-space:normal;max-width:60ch;color:var(--ink)}

@@ -12,6 +12,14 @@ test('review preview forwards only public job reads without visitor credentials'
   assert.equal(options.redirect,'error');
 });
 
+test('review preview works on hosts without AbortSignal.timeout',async t=>{
+  t.mock.method(AbortSignal,'timeout',()=>{throw new Error('Unsupported runtime method');});
+  t.mock.method(globalThis,'fetch',async()=>Response.json({jobs:[{id:'a123',title:'Builder'}]}));
+  const response=await worker.fetch(new Request('https://preview.test/api/jobs'),{});
+  assert.equal(response.status,200);
+  assert.equal((await response.json()).jobs[0].id,'a123');
+});
+
 test('review preview blocks application writes and unexpected endpoints',async t=>{
   t.mock.method(globalThis,'fetch',()=>assert.fail('Must not contact a live service'));
   for(const [path,method,status] of [['/api/applications','POST',403],['/api/private','GET',404]]) {
