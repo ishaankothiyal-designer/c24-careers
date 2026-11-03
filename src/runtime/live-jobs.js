@@ -6,13 +6,34 @@ import { initializeCraftButtons } from './craft-buttons.js';
 export const escape = value => String(value ?? '').replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
 export async function apiJson(path, options = {}) {
   const fallback = 'The careers service is temporarily unavailable. We couldn’t load the open roles. Please try again.';
-  let response, body;
+  const controller = new AbortController();
+  const abort = () => controller.abort(options.signal?.reason);
+  if (options.signal?.aborted) abort();
+  else options.signal?.addEventListener('abort', abort, { once: true });
+  let response, body, timer;
   try {
-    response = await fetch(path, options);
-    body = await response.json();
+    // Bound the complete read, including a stalled JSON body. A failed read
+    // releases the shared jobs promise so the existing retry can start fresh.
+    const deadline = new Promise((_, reject) => {
+      timer = setTimeout(() => {
+        reject(new Error('Loading roles is taking too long. Please try again.'));
+        controller.abort();
+      }, 20000);
+    });
+    ({ response, body } = await Promise.race([
+      (async () => {
+        const response = await fetch(path, { ...options, signal: controller.signal });
+        return { response, body: await response.json() };
+      })(),
+      deadline,
+    ]));
   } catch (error) {
     if (error.name === 'AbortError') throw error;
+    if (controller.signal.aborted && !options.signal?.aborted) throw error;
     throw new Error(fallback);
+  } finally {
+    clearTimeout(timer);
+    options.signal?.removeEventListener('abort', abort);
   }
   if (!response.ok) throw new Error(typeof body?.error === 'string' ? body.error : fallback);
   return body;

@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { liveRoleHtml, experienceLabel, defaultDialCode, loadLiveRole, initializeStickyApplication } from '../src/runtime/live-role.js';
+import { liveRoleHtml, experienceLabel, defaultDialCode, dialCodeLabel, loadLiveRole, initializeStickyApplication } from '../src/runtime/live-role.js';
 
 const job = {
   id: 'a6a477f915ac86', code: 'JOB156', title: 'Builder <Key Accounts>', department: 'Retail',
@@ -56,8 +56,8 @@ test('combined phone control preserves the separate Darwinbox names and exact co
   assert.equal((html.match(/class="application-phone"/g) || []).length, 1);
   assert.equal((html.match(/name="phone_country_code"/g) || []).length, 1);
   assert.equal((html.match(/name="phone"/g) || []).length, 1);
-  assert.match(html, /value="\+91 India" selected>India \(\+91\)<\/option>/);
-  assert.match(html, /value="\+971 United Arab Emirates">UAE \(\+971\)<\/option>/);
+  assert.match(html, /value="\+91 India" selected>IND \+91<\/option>/);
+  assert.match(html, /value="\+971 United Arab Emirates">UAE \+971<\/option>/);
   assert.match(html, /class="application-upload"/);
   assert.match(html, /name="resume" required/);
 });
@@ -76,7 +76,7 @@ test('mapped location renders a visible editable select with the valid default a
 
 test('detail uses the card problem statement, preserves the official title and places the header before both columns',()=>{
   const html=liveRoleHtml({...job,title:'Builder - Evaluation Engineer',department:'Home Inspection'});
-  assert.match(html,/<h1[^>]+>Help people trust the cars they buy\.<\/h1>/);
+  assert.match(html,/<h1[^>]+>Help people trust the cars they buy<\/h1>/);
   assert.match(html,/<p class="role-detail__official-title">Builder - Evaluation Engineer<\/p>/);
   assert.match(html,/India <span aria-hidden="true">▪<\/span> Home Inspection/);
   assert.doesNotMatch(html,/craft-experiments__tags/);
@@ -123,4 +123,22 @@ test('long forms stay sticky without the removed toolbar and release observers o
   const controller=new AbortController();initializeStickyApplication(root,controller.signal);
   assert.equal(aside.dataset.sticky,'true');assert.equal(styles['--role-form-max-height'],'496px');
   controller.abort();assert.equal(disconnected,true);
+});
+
+
+test('country labels stay compact while preserving every original submitted value', () => {
+  assert.equal(dialCodeLabel({value:'+91 India',label:'+91 India'}), 'IND +91');
+  assert.equal(dialCodeLabel({value:'+61 Australia',label:'+61 Australia'}), 'AUS +61');
+  assert.equal(dialCodeLabel({value:'+971 United Arab Emirates',label:'UAE'}), 'UAE +971');
+  assert.equal(dialCodeLabel({value:'+44 UK',label:'+44 United Kingdom'}), 'United Kingdom +44');
+});
+
+test('editable application fields have examples and submit uses the shared animated button', () => {
+  const fields = ['firstname','lastname','email_id','phone'].map(key=>({key, required:true, type:'textfield'}));
+  const html = liveRoleHtml({...job,application:{...job.application,fields}});
+  for(const placeholder of ['First name','Last name','you@example.com','Mobile number']) {
+    assert.ok(html.includes(`placeholder="${placeholder}"`));
+  }
+  assert.match(html, /class="craft-button btn-bubble-arrow btn-bubble-arrow--black application-submit" type="submit"/);
+  assert.doesNotMatch(html, /application-submit" data-craft-static/);
 });

@@ -138,7 +138,7 @@ html{overflow-x:clip}body{overflow-x:clip}
 
 /* Hero and ambition form one continuous opening, with one moving pixel field. */
 .hero{overflow:visible}
-.page-root>main>.hero .hero__inner[data-astro-cid-lcdefpme]{order:1;padding-top:0}
+.page-root>main:not(.careers-page)>.hero .hero__inner[data-astro-cid-lcdefpme]{order:1;padding-top:0}
 /* Reclaim the blank lower edge of the pixel canvas before the hero copy. */
 .page-root>main>.hero .hero__art[data-astro-cid-lcdefpme]{top:-24px;margin-bottom:calc(-1 * clamp(40px,8svh,88px))}
 .hero .hero__art[data-astro-cid-lcdefpme]{--opening-parallax-rate:0;--opening-parallax-limit:0px;order:0;height:clamp(300px,42svh,560px);margin-bottom:0;background:transparent;will-change:auto}
@@ -183,6 +183,10 @@ html{overflow-x:clip}body{overflow-x:clip}
 .careers-page{position:relative;isolation:isolate;--careers-pattern-width:min(58vw,760px);--careers-pattern-height:clamp(280px,42vw,500px)}
 .careers-page .careers-hero,.careers-page .hero__stage[data-astro-cid-lcdefpme]{position:static;background:transparent}
 .careers-page .hero__inner[data-astro-cid-lcdefpme],.careers-page .careers-listing{position:relative;z-index:1}
+/* Match the fixed navbar's 80px desktop / 64px mobile height, then leave
+   one section gutter before the title. The opening homepage keeps its art-led layout. */
+.page-root>main.careers-page>.careers-hero .hero__inner[data-astro-cid-lcdefpme]{padding-top:calc(80px + var(--sp-4))}
+@media(max-width:767px){.page-root>main.careers-page>.careers-hero .hero__inner[data-astro-cid-lcdefpme]{padding-top:calc(64px + var(--sp-4))}}
 .careers-page .careers-hero .hero__art[data-astro-cid-lcdefpme]{position:absolute;inset:0 0 auto auto;width:var(--careers-pattern-width);height:var(--careers-pattern-height);margin:0;z-index:0;pointer-events:none;mask-image:radial-gradient(ellipse at top right,black 15%,transparent 75%);will-change:auto}
 .careers-page .careers-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,var(--career-card-width)),var(--career-card-width)));gap:var(--career-card-gap);align-items:stretch}
 .careers-page .careers-card{border:var(--card-stroke);border-radius:0;text-align:left}
