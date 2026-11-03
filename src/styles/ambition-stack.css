@@ -10,7 +10,6 @@
 .ambition-stack__copy{position:relative;z-index:1;max-width:850px}
 .ambition-stack__copy h3{font-family:var(--font-title);font-size:clamp(40px,6.5vw,88px);font-weight:500;letter-spacing:-.05em;line-height:1.04;max-width:20ch;margin:0 0 24px;overflow-wrap:break-word}
 .ambition-stack__copy p{font-size:clamp(17px,1.7vw,24px);line-height:1.45;max-width:43ch;margin:0}
-.ambition-stack__mark{position:absolute;right:clamp(24px,4vw,56px);bottom:20px;z-index:0;font-family:var(--font-title);font-size:clamp(72px,15vw,210px);letter-spacing:-.07em;line-height:1;opacity:.09;pointer-events:none;white-space:nowrap}
 @media(max-width:767px){
   .ambition-stack{--stack-top:96px;--stack-step:8px}
   .ambition-stack__list{gap:clamp(24px,4svh,40px);padding-bottom:32px}
@@ -26,3 +25,32 @@
   .ambition-stack__item{position:relative;top:auto}
   .ambition-stack__card{min-height:320px;transform:none!important;border-radius:0;box-shadow:none}
 }
+
+/* Small inline vectors carry each idea without extra images or animation libraries. */
+.ambition-stack__card{--art-highlight:#f5c518;--art-contrast:#1c1b23;gap:24px}
+.ambition-stack__visual{color:var(--blue);align-self:flex-end;width:clamp(220px,32vw,360px);height:clamp(120px,18svh,190px);max-width:100%;flex:0 0 auto;pointer-events:none}
+.ambition-stack__visual svg{display:block;width:100%;height:100%;overflow:visible}
+.ambition-stack__card--builder{--art-highlight:#d8ff00}
+.ambition-stack__card--builder .ambition-stack__visual{color:#fff}
+.ambition-stack__card--ownership{--art-highlight:var(--blue)}
+.ambition-stack__card--ownership .ambition-stack__visual{color:var(--ink)}
+.ambition-stack__card--ambition{--art-highlight:#d8ff00}
+.ambition-stack__card--ambition .ambition-stack__visual{color:#9188ff}
+.ambition-art__motion{animation-play-state:paused!important}
+.ambition-stack__card[data-art-visible="true"] .ambition-art__motion{animation-play-state:running!important}
+.ambition-art__breakout{animation:ambition-breakout 3.6s ease-in-out infinite}
+.ambition-art__flow{animation:ambition-flow 2.4s linear infinite}
+.ambition-art__node{transform-box:fill-box;transform-origin:center;animation:ambition-node 3s ease-in-out var(--art-delay,0s) infinite}
+.ambition-art__input{animation:ambition-input 2.8s ease-in-out var(--art-delay,0s) infinite}
+.ambition-art__founder-row{animation:ambition-founders 4s ease-in-out var(--art-delay,0s) infinite}
+.ambition-art__growth{transform-box:fill-box;transform-origin:center bottom;animation:ambition-growth 4s ease-in-out var(--art-delay,0s) infinite}
+@keyframes ambition-breakout{0%,100%{transform:translate(-8px,8px)}50%{transform:translate(8px,-8px)}}
+@keyframes ambition-flow{to{stroke-dashoffset:-56}}
+@keyframes ambition-node{0%,70%,100%{transform:scale(1);opacity:.7}35%{transform:scale(1.06);opacity:1}}
+@keyframes ambition-input{0%,100%{opacity:.25}35%,65%{opacity:1}}
+@keyframes ambition-founders{0%,100%{opacity:.45}45%,65%{opacity:1}}
+@keyframes ambition-growth{0%,100%{transform:scaleY(.82)}50%{transform:scaleY(1)}}
+.ambition-stack[data-art-paused="true"] .ambition-art__motion{animation-play-state:paused!important}
+.ambition-stack[data-art-static="true"] .ambition-art__motion{animation:none;opacity:1;transform:none}
+@media(max-width:767px){.ambition-stack__visual{width:220px;height:110px}.ambition-stack__card{gap:20px}}
+@media(prefers-reduced-motion:reduce){.ambition-art__motion{animation:none;opacity:1;transform:none}}
