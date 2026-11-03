@@ -13,15 +13,6 @@ html{overflow-x:clip}body{overflow-x:clip}
 .story-kicker{font-size:var(--story-small);margin-bottom:var(--sp-2);color:var(--blue)}
 :root{--section-quiet-bg:color-mix(in srgb,var(--bg) 30%,var(--white))}
 .ambition{background:var(--section-quiet-bg);color:var(--ink)}
-.ambition__grid{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:var(--sp-5);align-items:center}
-.ambition__lead h2{margin-bottom:var(--sp-4)}
-.ambition__destination{min-width:0;justify-self:center}
-.ambition__number{font-family:var(--font-title);font-size:var(--story-number);letter-spacing:var(--story-letter);line-height:1;margin:0;color:var(--blue)}
-.ambition__number span{display:block;font-size:var(--h3);letter-spacing:var(--story-letter);margin-top:var(--sp-1)}
-.ambition__caption{margin:0 0 var(--sp-3);font-size:var(--story-small);line-height:var(--story-line)}
-.ambition__timeline{margin:var(--sp-2) 0 0;font-family:var(--font-title);font-size:var(--h6);line-height:1.2;color:var(--blue)}
-.ambition__copy{max-width:48ch;line-height:var(--story-line)}
-.ambition__copy p+p{margin-top:var(--sp-2)}
 .story-beliefs{list-style:none;margin:0;padding:0}
 .story-belief{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,2fr);gap:var(--sp-5);border-top:1px solid var(--story-rule);padding-block:var(--sp-4)}
 .story-belief h3{font-size:var(--h5);line-height:var(--story-tight);max-width:16ch}
@@ -54,7 +45,7 @@ html{overflow-x:clip}body{overflow-x:clip}
 .problem-carousel__controls{display:flex;gap:var(--sp-1);flex-shrink:0}
 .problem-carousel__controls .craft-work__arrow{position:static;transform:none;width:var(--story-control);height:var(--story-control);border:0;cursor:pointer}
 .problem-carousel__controls .craft-work__arrow:disabled{opacity:.3;cursor:default;pointer-events:none}
-.problem-grid{--problem-card-width:var(--career-card-width);display:flex;gap:var(--sp-3);overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--story-rule) transparent;padding:var(--sp-1) var(--sp-1) var(--sp-3);scroll-padding-inline:var(--sp-1)}
+.problem-grid{--problem-card-width:var(--career-card-width);display:flex;gap:var(--sp-3);overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none;padding:var(--sp-1) var(--sp-1) var(--sp-3);scroll-padding-inline:var(--sp-1)}
 .problem-grid:focus-visible{outline:var(--story-focus) solid var(--blue);outline-offset:var(--story-focus)}
 .problem-grid>.problem-card{flex:0 0 var(--problem-card-width);scroll-snap-align:start;display:flex;flex-direction:column}
 .problem-card>p{flex:1}
@@ -71,13 +62,12 @@ html{overflow-x:clip}body{overflow-x:clip}
 .problem-card details a{display:inline-flex;align-items:center;min-height:var(--story-control);margin-top:var(--sp-3);color:var(--blue);text-underline-offset:.25em}
 .support-carousel__toolbar{display:flex;justify-content:flex-end;align-items:center;gap:var(--sp-3);margin-bottom:var(--sp-3)}
 .support-carousel__toolbar .story-kicker{margin:0}
-.policy-grid{--support-card-width:var(--career-card-width);display:flex;gap:var(--sp-3);overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:thin;scrollbar-color:var(--story-rule) transparent;padding:var(--sp-1) var(--sp-1) var(--sp-3);scroll-padding-inline:var(--sp-1)}
-.policy-card{background:var(--bg);border-radius:var(--radius);min-width:0;flex:0 0 var(--support-card-width);scroll-snap-align:start;overflow:hidden}
+.policy-card{background:var(--bg);border-radius:var(--radius);min-width:0;overflow:hidden}
 .policy-card__image{display:block;width:100%;height:auto;aspect-ratio:3/2;object-fit:cover}
 .policy-card__copy{padding:var(--sp-3)}
 .policy-card h3{font-size:var(--h6);line-height:1.2;margin-bottom:var(--sp-3)}
 .policy-card__copy>p:last-child{line-height:var(--story-line);max-width:40ch}
-.policy-grid:focus-visible,.policy-section button:focus-visible{outline:var(--story-focus) solid var(--blue);outline-offset:var(--story-focus)}
+#support [data-craft-work-viewport]:focus-visible,.policy-section button:focus-visible{outline:var(--story-focus) solid var(--blue);outline-offset:var(--story-focus)}
 /* Honest exchange follows the shared square card treatment on soft gray. */
 #expectations{--exchange-rule:var(--story-rule);--exchange-muted:var(--story-muted);background:var(--section-quiet-bg);color:var(--ink)}
 #expectations .exchange-head{margin-bottom:var(--sp-5)}
@@ -93,13 +83,13 @@ html{overflow-x:clip}body{overflow-x:clip}
 @media(max-width:767px){#expectations .bands__grid{grid-template-columns:minmax(0,1fr)}}
 .builder-stories :is(a,summary):focus-visible,.problem-section :is(a,button,summary):focus-visible{outline:var(--story-focus) solid var(--blue);outline-offset:var(--story-focus)}
 @media(max-width:1100px){.story-belief{grid-template-columns:minmax(0,1fr) minmax(0,3fr);gap:var(--sp-4)}.story-belief__example{--story-portrait:11rem;gap:var(--sp-3)}}
-@media(max-width:767px){.story-section-head,.ambition__grid,.story-belief{grid-template-columns:minmax(0,1fr);gap:var(--sp-3)}.ambition__destination{justify-self:start}.ambition__copy{margin-top:var(--sp-2)}.story-belief__example{--story-portrait:9rem}.story-section-head{margin-bottom:var(--sp-4)}.builder-directory__grid{grid-template-columns:minmax(0,1fr)}.problem-card{padding:var(--sp-3)}.builder-directory summary{flex-wrap:wrap}.builder-directory summary>span{margin-left:0}}
+@media(max-width:767px){.story-section-head,.story-belief{grid-template-columns:minmax(0,1fr);gap:var(--sp-3)}.story-belief__example{--story-portrait:9rem}.story-section-head{margin-bottom:var(--sp-4)}.builder-directory__grid{grid-template-columns:minmax(0,1fr)}.problem-card{padding:var(--sp-3)}.builder-directory summary{flex-wrap:wrap}.builder-directory summary>span{margin-left:0}}
 @media(max-width:540px){.story-belief__example{grid-template-columns:minmax(0,1fr)}.story-belief__example>img{max-width:var(--story-portrait)}.story-belief{gap:var(--sp-3)}.problem-filters button{padding-inline:var(--sp-2)}}
 
 /* Frozen carousel card standard, taken from the builder story card. */
 :root{--career-card-width:368px;--career-card-gap:28px;--career-card-inset:26px;--career-card-bottom:26px;--career-card-title-gap:20px;--career-card-copy-gap:9px;--career-card-tag-gap:14px;--career-card-media-height:350px;--career-card-title-size:clamp(22px,2.2vw,30px);--career-card-title-line:1.15;--career-card-title-letter:-.02em;--career-card-copy-size:14.5px;--career-card-copy-color:#2a2a2a}
-#builder .craft-work__card,.problem-grid>.problem-card,.policy-grid>.policy-card{width:var(--career-card-width);flex:0 0 var(--career-card-width);min-width:0;border:var(--card-stroke);border-radius:0;background:var(--white);color:var(--black);text-align:center;padding:0 0 var(--career-card-bottom)}
-.problem-grid,.policy-grid,#builder .craft-work__track{gap:var(--career-card-gap)}
+#builder .craft-work__card,.problem-grid>.problem-card,#support .policy-card{width:var(--career-card-width);flex:0 0 var(--career-card-width);min-width:0;border:var(--card-stroke);border-radius:0;background:var(--white);color:var(--black);text-align:center;padding:0 0 var(--career-card-bottom)}
+.problem-grid,#support .craft-work__track,#builder .craft-work__track{gap:var(--career-card-gap)}
 #builder .craft-work__title,.problem-card h3,.policy-card h3{font-family:var(--font-title);font-size:var(--career-card-title-size);font-weight:500;line-height:var(--career-card-title-line);letter-spacing:var(--career-card-title-letter);margin:var(--career-card-title-gap) var(--career-card-inset) 0}
 #builder .craft-work__description,.problem-card>p,.policy-card__copy>p{font-size:var(--career-card-copy-size);line-height:var(--story-line);color:var(--career-card-copy-color);max-width:32ch;margin:var(--career-card-copy-gap) var(--career-card-inset) 0}
 .policy-card__copy{display:flex;flex-direction:column;align-items:center;padding:0}
@@ -148,7 +138,10 @@ html{overflow-x:clip}body{overflow-x:clip}
 
 /* Hero and ambition form one continuous opening, with one moving pixel field. */
 .hero{overflow:visible}
-.hero .hero__art[data-astro-cid-lcdefpme]{--opening-parallax-rate:.12;--opening-parallax-limit:96px;height:clamp(300px,42svh,560px);margin-bottom:calc(-1 * var(--sp-3));background:transparent;will-change:transform}
+.page-root>main:not(.careers-page)>.hero .hero__inner[data-astro-cid-lcdefpme]{order:1;padding-top:0}
+/* Reclaim the blank lower edge of the pixel canvas before the hero copy. */
+.page-root>main>.hero .hero__art[data-astro-cid-lcdefpme]{top:-24px;margin-bottom:calc(-1 * clamp(40px,8svh,88px))}
+.hero .hero__art[data-astro-cid-lcdefpme]{--opening-parallax-rate:0;--opening-parallax-limit:0px;order:0;height:clamp(300px,42svh,560px);margin-bottom:0;background:transparent;will-change:auto}
 .page-root>main>.hero+#ambition{background:transparent;border-block-start:0;padding-top:var(--sp-3);position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){.hero .hero__art[data-astro-cid-lcdefpme]{transform:none!important;will-change:auto}}
 /* The transparent ambition section inherits the hero's white opening surface. */
@@ -160,7 +153,7 @@ html{overflow-x:clip}body{overflow-x:clip}
 #hiring .shape__item:first-child{padding-top:0}
 
 /* Shared cards now read left to right, with labels next to their context. */
-#builder .craft-work__card,.problem-grid>.problem-card,.policy-grid>.policy-card{align-items:stretch;text-align:left}
+#builder .craft-work__card,.problem-grid>.problem-card,#support .policy-card{align-items:stretch;text-align:left}
 #builder .craft-experiments__tags,.problem-card__top,.policy-card .craft-experiments__tags{justify-content:flex-start;margin-inline:var(--career-card-inset)}
 .problem-card__top{order:2;margin-top:var(--career-card-tag-gap)}
 .problem-card summary{justify-content:flex-start}
@@ -177,21 +170,23 @@ html{overflow-x:clip}body{overflow-x:clip}
 #enterprise-faq .faq__item:first-child .faq__btn{padding-top:0}
 #expectations .label,#expectations .bands__card:nth-child(n) .bands__time{color:var(--blue)}
 
-/* Compact roles introduction and a single native-scrolling craft tab row. */
-#problems .problem-section__head{grid-template-columns:minmax(0,1fr) auto;align-items:center}
-#problems .problem-section__head>.challenge__title{grid-column:1/-1;max-width:none;white-space:nowrap;font-size:clamp(20px,4.6vw,var(--h3))}
-#problems .problem-section__head>.challenge__text{min-width:0}
-#problems .problem-section__head>.craft-button{justify-self:end;white-space:nowrap}
+/* Keep the role introduction together, with its action beside the whole stack. */
+#problems .problem-section__head{grid-template-columns:minmax(0,1fr) auto;align-items:start;gap:var(--sp-3) var(--sp-5);margin-bottom:var(--sp-4)}
+#problems .problem-section__head>.challenge__title{grid-column:1;grid-row:1;max-width:none;white-space:normal;font-size:var(--h3);text-wrap:balance}
+#problems .problem-section__head>.challenge__text{grid-column:1;grid-row:2;min-width:0;max-width:48ch;text-wrap:pretty}
+#problems .problem-section__head>.craft-button{grid-column:2;grid-row:1/3;align-self:center;justify-self:end;white-space:nowrap}
 .problem-filters{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;max-width:100%;padding-block:var(--sp-1)}
 .problem-filters button{flex:0 0 auto}
-.ambition__number>span{white-space:nowrap}
-.ambition__number .ambition__timeline{display:inline;font-size:var(--h6);letter-spacing:var(--story-letter);margin:0}
-@media(max-width:600px){#problems .problem-section__head{grid-template-columns:minmax(0,1fr)}#problems .problem-section__head>.craft-button{justify-self:start}}
+@media(max-width:767px){#problems .problem-section__head{grid-template-columns:minmax(0,1fr)}#problems .problem-section__head>.craft-button{grid-column:1;grid-row:3;justify-self:start}}
 
 /* Careers: corner artwork sits behind the content; role cards share the landing card system. */
 .careers-page{position:relative;isolation:isolate;--careers-pattern-width:min(58vw,760px);--careers-pattern-height:clamp(280px,42vw,500px)}
 .careers-page .careers-hero,.careers-page .hero__stage[data-astro-cid-lcdefpme]{position:static;background:transparent}
 .careers-page .hero__inner[data-astro-cid-lcdefpme],.careers-page .careers-listing{position:relative;z-index:1}
+/* Match the fixed navbar's 80px desktop / 64px mobile height, then leave
+   one section gutter before the title. The opening homepage keeps its art-led layout. */
+.page-root>main.careers-page>.careers-hero .hero__inner[data-astro-cid-lcdefpme]{padding-top:calc(80px + var(--sp-4))}
+@media(max-width:767px){.page-root>main.careers-page>.careers-hero .hero__inner[data-astro-cid-lcdefpme]{padding-top:calc(64px + var(--sp-4))}}
 .careers-page .careers-hero .hero__art[data-astro-cid-lcdefpme]{position:absolute;inset:0 0 auto auto;width:var(--careers-pattern-width);height:var(--careers-pattern-height);margin:0;z-index:0;pointer-events:none;mask-image:radial-gradient(ellipse at top right,black 15%,transparent 75%);will-change:auto}
 .careers-page .careers-grid{grid-template-columns:repeat(auto-fit,minmax(min(100%,var(--career-card-width)),var(--career-card-width)));gap:var(--career-card-gap);align-items:stretch}
 .careers-page .careers-card{border:var(--card-stroke);border-radius:0;text-align:left}
@@ -207,4 +202,25 @@ html{overflow-x:clip}body{overflow-x:clip}
 .problem-card>.problem-card__detail{order:4;display:flex;align-items:center;justify-content:flex-start;gap:var(--sp-2);min-height:var(--story-control);margin:var(--sp-3) var(--career-card-inset) 0;padding-top:var(--sp-3);border-top:1px solid var(--story-rule);color:var(--blue);font-family:var(--font-body);font-size:var(--para);line-height:var(--story-line);text-decoration:none}
 .problem-card>.problem-card__detail:hover{text-decoration:underline;text-underline-offset:.25em}
 .problem-card>.problem-card__detail:focus-visible{outline:var(--story-focus) solid var(--blue);outline-offset:var(--sp-1)}
-.ambition__number .ambition__timeline{font:inherit;letter-spacing:inherit;color:inherit}
+
+/* All landing carousels share navigation below the cards, on every device. */
+.landing-carousel__toolbar{display:flex;justify-content:center;align-items:center;gap:var(--sp-3);margin:var(--sp-3) 0 0}
+#builder .builder-carousel__toolbar{margin-inline:auto}
+#builder .builder-carousel__toolbar .craft-work__arrow{position:static;display:flex;transform:none;inset:auto;width:var(--story-control);height:var(--story-control);opacity:1;pointer-events:auto}
+#builder .builder-carousel__toolbar .craft-work__arrow:disabled{opacity:.3;pointer-events:none}
+
+/* Keep native horizontal scrolling without drawing a scrollbar in sliders. */
+:is([data-craft-work-viewport],.problem-grid,.problem-filters){scrollbar-width:none;-ms-overflow-style:none}
+:is([data-craft-work-viewport],.problem-grid,.problem-filters)::-webkit-scrollbar{display:none;width:0;height:0}
+.problem-section[data-job-state="error"] .problem-status{position:static;width:auto;height:auto;margin:0;padding:0;overflow:visible;clip-path:none;white-space:normal;max-width:60ch;color:var(--ink)}
+
+/* Full-width role viewport matches the builder/support reels; copy keeps its gutter. */
+#problems>.problem-grid{padding-inline:max(var(--pad-x),calc((100% - var(--max-w))/2 + var(--pad-x)));scroll-padding-inline:max(var(--pad-x),calc((100% - var(--max-w))/2 + var(--pad-x)))}
+#builder #how-we-work{grid-template-columns:minmax(0,1fr);gap:var(--sp-3)}
+
+/* Let the filter viewport reach the screen edge, matching the role carousel. */
+#problems>.problem-filters{box-sizing:border-box;padding-inline:max(var(--pad-x),calc((100% - var(--max-w))/2 + var(--pad-x)));scroll-padding-inline:max(var(--pad-x),calc((100% - var(--max-w))/2 + var(--pad-x)))}
+#problems .problem-filters button[aria-pressed="true"]{background:#e8e8e8;color:#000;font-weight:600}
+#problems .problem-filters:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
+.problem-intro-break{display:none}
+@media(min-width:768px){.problem-intro-break{display:initial}}

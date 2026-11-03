@@ -9,6 +9,8 @@ The homepage “What would you build?” carousel will be populated from Darwin 
 - Preserve the frozen card design, horizontal scrolling, chevrons, responsive layout and keyboard access. Filters must use the agreed Darwin field mapping and reset the carousel to its beginning.
 - Keep external application links and attribution URLs intact.
 
-The current six briefs are explicitly illustrative. They now link to internal `/careers/roles/preview-problem-*/` detail overlays (desktop side panel; tablet/mobile popover). Ownership, example outcomes and collaborators appear on those detail pages. The `/careers/` listing also links to internal preview shells. Applications remain unavailable for previews. They must not be presented as live Darwin records or assigned fabricated role URLs.
+The homepage carousel now loads public, open Darwinbox roles through `/api/jobs` and links to `/careers/roles/:job_id/`. Department filters derive from the live data and reset the carousel. The API does not provide a distinct problem-statement field, so cards use the actual job title and public metadata rather than inventing a problem highlight.
 
-Before implementing the connection, obtain the endpoint/access method, a representative response, the field mapping for the problem statement and supporting data, and the canonical job detail URL or route. No Darwin endpoint, credentials or field names have been supplied in this repository. The local preview route pattern is `/careers/roles/:slug/`; preview slugs are design references, never Darwin role IDs. Confirm the live ID mapping before API integration. Plan loading, empty and error states when the data connection is introduced.
+The six old briefs and four old role previews remain available at their legacy `preview-*` links for shared-link compatibility. They stay explicitly illustrative and cannot accept applications; they are not listed as live openings.
+
+See [Darwinbox integration](darwinbox-integration.md) for field mapping, application fallback, source references, privacy filtering, local setup, and verification boundaries. The implementation includes loading, empty, no-match, error, and retry states.

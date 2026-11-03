@@ -4,7 +4,7 @@ export function initializeCraftButtons(root = document) {
   const palette = ['#d8ff00', '#f5c518', '#e0492a', '#0a0a0a'];
   const cleanups = [];
   root.querySelectorAll('.craft-button').forEach(button => {
-    if (button.dataset.craftWired) return;
+    if (button.dataset.craftWired || button.hasAttribute('data-craft-static')) return;
     button.dataset.craftWired = 'true';
     const effect = document.createElement('span');
     effect.className = 'craft-button-pixels'; effect.setAttribute('aria-hidden', 'true');

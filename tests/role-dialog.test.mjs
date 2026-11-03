@@ -35,6 +35,8 @@ test('role overlay locks scrolling, restores focus and returns through history o
   assert.equal(document.body.style.overflow, 'hidden');
   assert.match(dialog.innerHTML, /id="role-dialog-title"/);
   assert.match(dialog.innerHTML, /aria-label="Close role details"/);
+  assert.match(dialog.innerHTML, /<button class="role-dialog__close"[^>]*><svg aria-hidden="true"/);
+  assert.doesNotMatch(dialog.innerHTML, /role-dialog__toolbar|>Cars24 Careers<|>Close /);
   assert.deepEqual(history.pushes, ['/careers/roles/preview-role-1/']);
   dialogEvents.cancel({ preventDefault() {} });
   assert.equal(dialog.open, false);
@@ -53,4 +55,15 @@ test('direct links open without adding history, while modified clicks retain bro
   assert.deepEqual(history.replacements, ['/careers/']);
   assert.equal(click('https://example.test/careers/roles/preview-role-2/', { metaKey: true }).event.prevented, undefined);
   assert.equal(click('https://other.test/careers/roles/preview-role-2/').event.prevented, undefined);
+});
+
+test('whole-card links keep modifier and middle-click browser behavior and activate once with an ordinary click', t => {
+  const { click } = setup(t);
+  initializeRoleDialog();
+  for (const event of [{ metaKey: true }, { ctrlKey: true }, { shiftKey: true }, { altKey: true }, { button: 1 }]) {
+    assert.equal(click('https://example.test/careers/roles/preview-role-1/', event).event.prevented, undefined);
+  }
+  assert.equal(history.pushes.length, 0);
+  assert.equal(click('https://example.test/careers/roles/preview-role-1/').event.prevented, true);
+  assert.equal(history.pushes.length, 1);
 });

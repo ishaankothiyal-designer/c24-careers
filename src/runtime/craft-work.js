@@ -13,7 +13,7 @@ function initializeReel(root) {
   const viewport = root.querySelector('[data-craft-work-viewport]');
   const track = root.querySelector('[data-craft-work-track]');
   const cards = [...track.querySelectorAll('.craft-work__card')];
-  const autoReel = root.id === 'builder' && !root.hasAttribute('data-stable-reel');
+  const autoReel = (root.id === 'builder' || root.hasAttribute('data-auto-reel')) && !root.hasAttribute('data-stable-reel');
   // Recycle the original cards around a virtual ring. A builder has one card
   // and one set of hover/focus handlers, rather than a duplicated visual set.
   const prev = root.querySelector('.craft-work__previous');
@@ -41,6 +41,8 @@ function initializeReel(root) {
     track.style.transform = `translate3d(${x}px,0,0)`;
     prev.disabled = autoReel && loopWidth > viewport.clientWidth ? false : x >= -.5;
     next.disabled = autoReel && loopWidth > viewport.clientWidth ? false : x <= minX + .5;
+    viewport.setAttribute('data-carousel-before', String(!prev.disabled));
+    viewport.setAttribute('data-carousel-after', String(!next.disabled));
   };
   const bounds = () => {
     cardMetrics=cards.map(card=>({card,offset:card.offsetLeft,width:card.offsetWidth}));
@@ -162,7 +164,7 @@ function initializeReel(root) {
   });
   new ResizeObserver(bounds).observe(viewport); bounds();
 
-  if (root.id === 'builder' || root.id === 'roles') {
+  if (autoReel || root.id === 'roles') {
     const edges = event => {
       const rect = viewport.getBoundingClientRect(), zone = Math.min(180, rect.width * .22), localX = event.clientX - rect.left;
       viewport.classList.toggle('is-near-left', localX <= zone);

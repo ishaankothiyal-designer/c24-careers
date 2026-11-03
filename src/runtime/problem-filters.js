@@ -29,6 +29,8 @@ export function initializeProblemCarousel(root, cards, prefix = 'problem') {
   const update = () => {
     previous.disabled = track.scrollLeft <= 1;
     next.disabled = track.scrollLeft >= track.scrollWidth - track.clientWidth - 1;
+    track.setAttribute('data-carousel-before', String(!previous.disabled));
+    track.setAttribute('data-carousel-after', String(!next.disabled));
   };
   const go = direction => {
     const visible = cards.filter(card => !card.hidden);
@@ -52,11 +54,4 @@ export function initializeProblemCarousel(root, cards, prefix = 'problem') {
   new ResizeObserver(update).observe(track);
   update();
   return { reset() { track.scrollTo({ left: 0, behavior: 'instant' }); update(); } };
-}
-
-export function initializeSupportCarousel() {
-  const root = document.querySelector('#support');
-  if (!root || root.dataset.carouselReady) return;
-  root.dataset.carouselReady = 'true';
-  initializeProblemCarousel(root, [...root.querySelectorAll('.policy-card')], 'support');
 }
