@@ -21,7 +21,7 @@
 /* Latest homepage review: white open metrics, blue letter wall, tighter closing. */
 #ai-progress{background:var(--bg)}
 #ai-progress .panel__rings{background:transparent;border-radius:0;padding:0}
-#letter{background:var(--blue)}
+#letter{background:var(--white)}
 #letter .paper-letter__pin::before{background:linear-gradient(to bottom,var(--blue) 0 var(--paper-horizon,64%),#fff var(--paper-horizon,64%) 100%)}
 #letter .paper-letter__intro{color:#fff}
 #enterprise-faq .faq__head{gap:32px}
