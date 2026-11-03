@@ -1,6 +1,7 @@
 // VAT loader/animation data adapted from Toi Nagasawa's MIT Paper Crumple demo.
 import * as THREE from 'three';
 import {loadVATData} from './paper-vat.js';
+import {fitPaperText} from './paper-text-layout.js';
 
 export async function createPaperLetterScene(root) {
   const host = root.querySelector('[data-paper-canvas]');
@@ -40,7 +41,7 @@ export async function createPaperLetterScene(root) {
   const center = new THREE.Vector3();let scale=1,last=1,lastWriting=0,paintedWriting=-1;
   const visibleBounds=new THREE.Box3(),visibleVertex=new THREE.Vector3();
   const closedPose=new THREE.Object3D();closedPose.quaternion.copy(face);closedPose.rotateY(.18);closedPose.rotateZ(-.25);
-  function wrap(ctx,text,maxWidth){const lines=[];let line='';for(const word of text.split(/\s+/)){const test=line?line+' '+word:word;if(ctx.measureText(test).width>maxWidth&&line){lines.push(line);line=word;}else line=test;}if(line)lines.push(line);return lines;}
+  let inkLayout=null,inkLayoutKey='';
   function drawTexture(writing=lastWriting){
     const rect=sheet.getBoundingClientRect();const factor=1440/rect.width;
     textureCanvas.width=1440;textureCanvas.height=Math.round(rect.height*factor);
@@ -51,18 +52,22 @@ export async function createPaperLetterScene(root) {
     for(let x=cell/2;x<=rect.width;x+=cell){ctx.moveTo(x,0);ctx.lineTo(x,rect.height);}
     for(let y=cell/2;y<=rect.height;y+=cell){ctx.moveTo(0,y);ctx.lineTo(rect.width,y);}
     ctx.stroke();
-    const style=getComputedStyle(sheet),pad=parseFloat(style.paddingLeft),lines=[];let y=parseFloat(style.paddingTop),totalWidth=0;
-    for(const el of sheet.children){
-      const cs=getComputedStyle(el),fontSize=parseFloat(cs.fontSize),font=`${cs.fontWeight} ${fontSize}px ${cs.fontFamily}`;
-      ctx.font=font;ctx.letterSpacing=cs.letterSpacing==='normal'?'0px':cs.letterSpacing;
-      y+=parseFloat(cs.marginTop)||0;const lineHeight=parseFloat(cs.lineHeight)||fontSize*1.5;
-      const text=cs.textTransform==='uppercase'?el.textContent.trim().toUpperCase():el.textContent.trim();
-      const signature=el.hasAttribute('data-paper-signature'),body=el.hasAttribute('data-paper-paragraph');
-      for(const line of wrap(ctx,text,rect.width-2*pad)){
-        const width=ctx.measureText(line).width;lines.push({line,y,width,lineHeight,font,color:cs.color,spacing:ctx.letterSpacing,signature,body});if(body)totalWidth+=width;y+=lineHeight;
-      }
-      y+=parseFloat(cs.marginBottom)||0;
+    const style=getComputedStyle(sheet),pad=parseFloat(style.paddingLeft);
+    const layoutKey=[rect.width,rect.height,style.fontSize,style.lineHeight,style.paddingTop,style.paddingBottom,pad,sheet.textContent].join('|');
+    if(!inkLayout || inkLayoutKey!==layoutKey){
+      const blocks=[...sheet.children].map(el=>{
+        const cs=getComputedStyle(el),fontSize=parseFloat(cs.fontSize);
+        return {text:cs.textTransform==='uppercase'?el.textContent.trim().toUpperCase():el.textContent.trim(),
+          fontSize,fontWeight:cs.fontWeight,fontFamily:cs.fontFamily,lineHeight:parseFloat(cs.lineHeight)||fontSize*1.5,
+          marginTop:parseFloat(cs.marginTop)||0,marginBottom:parseFloat(cs.marginBottom)||0,color:cs.color,spacing:cs.letterSpacing,
+          signature:el.hasAttribute('data-paper-signature'),body:el.hasAttribute('data-paper-paragraph')};
+      });
+      inkLayout=fitPaperText(blocks,{width:rect.width,height:rect.height,paddingInline:pad,paddingTop:parseFloat(style.paddingTop),paddingBottom:parseFloat(style.paddingBottom)},(text,metrics)=>{
+        ctx.font=metrics.font;ctx.letterSpacing=metrics.spacing;return ctx.measureText(text).width;
+      });
+      inkLayoutKey=layoutKey;
     }
+    const {lines,totalWidth,inkBottom:y}=inkLayout;
     const bodyProgress=Math.min(1,writing/.86),signatureProgress=Math.max(0,Math.min(1,(writing-.86)/.14));let remaining=totalWidth*bodyProgress;
     for(const line of lines){
       ctx.save();ctx.font=line.font;ctx.fillStyle=line.color;ctx.textBaseline='top';ctx.letterSpacing=line.spacing;
@@ -73,7 +78,7 @@ export async function createPaperLetterScene(root) {
       }
       ctx.restore();
     }
-    root.dataset.paperSignature=signatureProgress.toFixed(3);root.dataset.paperInkBottom=y.toFixed(1);root.dataset.paperInkHeight=rect.height.toFixed(1);
+    root.dataset.paperTextScale=inkLayout.scale.toFixed(3);root.dataset.paperSignature=signatureProgress.toFixed(3);root.dataset.paperInkBottom=y.toFixed(1);root.dataset.paperInkHeight=rect.height.toFixed(1);
     paintedWriting=writing;texture.needsUpdate=true;
   }
   function update(amount,writing=lastWriting){
@@ -109,6 +114,7 @@ export async function createPaperLetterScene(root) {
     const horizon=(stageTop+height/2+closedHeight*height*.1)/pin.clientHeight*100;
     root.style.setProperty('--paper-horizon',`${horizon}%`);
     root.style.setProperty('--paper-intro-center',`${pin.clientHeight*horizon/200-stageTop}px`);
+    inkLayout=null;inkLayoutKey='';
     root.style.setProperty('--paper-width',`${data.flat.width*scale*height/2}px`);root.style.setProperty('--paper-height',`${data.flat.depth*scale*height/2}px`);drawTexture();update(last);
   }
   host.append(renderer.domElement);new ResizeObserver(resize).observe(stage);resize();
