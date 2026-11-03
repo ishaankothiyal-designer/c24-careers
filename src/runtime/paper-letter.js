@@ -68,7 +68,9 @@ export function initializePaperLetter() {
       if (entries.some(e=>e.isIntersecting)) { load(); preload.disconnect(); }
     }, {rootMargin:'1600px'}); preload.observe(root);
     const observer = new IntersectionObserver(entries => {
-      visible = entries.some(e=>e.isIntersecting); if (visible) {load();request();}
+      visible = entries.some(e=>e.isIntersecting);
+      root.dataset.paperVisible = String(visible);
+      if (visible) {load();request();}
       else {
         cancelAnimationFrame(frame);frame=0;
         // Retreat above the section creates a fresh entrance, not an exit erase.
