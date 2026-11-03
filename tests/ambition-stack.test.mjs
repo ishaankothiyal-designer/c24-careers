@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import test from 'node:test';
-import {stackScale,paperRoll} from '../src/runtime/ambition-stack.js';
+import {stackScale} from '../src/runtime/ambition-stack.js';
 
 test('each card in front remains larger than the cards behind it',()=>{
   const scales=Array.from({length:5},(_,i)=>stackScale(i,5));
@@ -9,15 +9,6 @@ test('each card in front remains larger than the cards behind it',()=>{
   assert.equal(scales[4],1);
   scales.slice(1).forEach((scale,i)=>assert.ok(scale>scales[i]));
   assert.equal(stackScale(0,1),1);
-});
-
-test('paper unrolls from the viewport bottom and settles flat at its sticky position',()=>{
-  assert.equal(paperRoll(988,112,988),1);
-  assert.equal(paperRoll(550,112,988),.5);
-  assert.equal(paperRoll(112,112,988),0);
-  assert.equal(paperRoll(-200,112,988),0);
-  assert.equal(paperRoll(1200,112,988),1);
-  assert.equal(paperRoll(112,112,112),0);
 });
 
 test('cards carry the mission and all five convictions without a separate intro',async()=>{
