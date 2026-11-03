@@ -135,7 +135,10 @@ export function initializeStickyApplication(root, signal) {
   const aside = root.querySelector('.role-detail__application');
   if (!panel || !aside) return;
   const update = () => {
-    aside.style.setProperty('--role-form-max-height', `${Math.max(160,panel.clientHeight-104)}px`);
+    // A tall form moves with the shared dialog scroll until its bottom is
+    // reachable, then sticks. It never creates a second scroll container.
+    const top = Math.min(80, panel.clientHeight - aside.offsetHeight - 24);
+    aside.style.setProperty('--role-form-sticky-top', `${top}px`);
     aside.dataset.sticky = String(matchMedia('(min-width: 900px)').matches);
   };
   const observer = new ResizeObserver(update);

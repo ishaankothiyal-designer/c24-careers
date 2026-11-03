@@ -10,7 +10,7 @@
   --role-toolbar-height: 88px;
   --role-sticky-top: calc(var(--role-toolbar-height) + var(--sp-3));
   --role-control-height: 52px;
-  --role-phone-code-width: 46%;
+  --role-phone-code-width: 100px;
 }
 .role-dialog { width: min(var(--role-panel-width), 95vw); }
 .role-dialog .role-detail__layout {
@@ -90,8 +90,8 @@
 .role-dialog .role-detail h1{max-width:28ch;margin-top:0}
 .role-detail__official-title{font-family:var(--font-body);font-size:var(--para);font-weight:500;line-height:1.4;margin:12px 0 0}
 .role-detail__hero .role-card__context{font-family:var(--font-body);font-size:var(--para-sm);line-height:1.5;color:var(--story-muted);margin:12px 0 0;padding:0}
-/* Let wheel/touch scrolling continue into the dialog at either form boundary. */
-.role-dialog .role-detail__application[data-sticky="true"]{top:80px;max-height:var(--role-form-max-height);overflow-y:auto;overscroll-behavior-y:auto;box-sizing:border-box;padding:6px;scrollbar-width:thin}
+/* The dialog owns scrolling; tall forms stick only after their bottom is reachable. */
+.role-dialog .role-detail__application[data-sticky="true"]{top:var(--role-form-sticky-top,80px);max-height:none;overflow:visible;box-sizing:border-box;padding:40px 6px}
 /* One inset chevron for every application select, including the phone control. */
 .role-detail .application-field select,.role-detail .application-phone select{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='%23201d1d' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;background-size:12px 8px;padding-right:44px}
 .role-loading{min-height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding-block:40px;text-align:center}
@@ -103,3 +103,6 @@
 .role-loading__skeleton>span:last-child{width:70%;justify-self:center}
 @keyframes role-loading-spin{to{transform:rotate(360deg)}}
 @media(prefers-reduced-motion:reduce){.role-loading__spinner{animation:none}}
+
+/* Reserve room for the chevron inside the compact country-code control. */
+.role-detail .application-phone select{padding-left:8px;padding-right:32px}

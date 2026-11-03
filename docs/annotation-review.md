@@ -20,8 +20,8 @@ Reviewed the supplied annotation history against the merged source on 3 November
 | Roles heading animation on desktop and mobile | Present in the shared scroll-driven heading runtime. |
 | No full stops in headings | Annotated headings were already corrected; remaining empty-state headings and the exchange heading are now corrected too. |
 | Role loader, problem statement, official title, plain context | Present in the live role renderer. |
-| Full-width role introduction and divider; sticky scrollable form below | Present; native scrolling chains from form boundaries into the dialog at the two-column breakpoint of 900px. |
-| Country default and compact labels with dial codes | Present: valid role-country default and IND +91 / AUS +61 / UAE +971 labels, preserving API values. |
+| Full-width role introduction and divider; sticky scrollable form below | Updated to one dialog scroll at the two-column breakpoint of 900px. The form has 40px vertical padding; a tall form scrolls until its bottom is reachable before sticking. |
+| Country default and compact labels with dial codes | Present: valid role-country default and IND +91 / AUS +61 / UAE +971 labels in a 100px selector, preserving API values. |
 | Dropdown icon inset, placeholders, shared submit button | Present in the shared application controls. |
 | Careers page opens without navbar overlap or endless loading | Navbar clearance and bounded read timeout/retry are present. |
 | Direct job submission | V3 contract is implemented server-side. Required Applied for Location submissions remain blocked pending the tenant's verified backend field key. |
