@@ -98,9 +98,10 @@
 /* Keep the letter content clear of the top edge at every responsive layout. */
 #letter .paper-letter__paper-wrap{padding-top:40px}
 
-.paper-letter__scroll-cue{display:block;position:absolute;left:0;right:0;bottom:-20px;margin:0;text-align:center;font-family:var(--font-body);font-size:12px;font-weight:400;line-height:20px;letter-spacing:.04em;color:var(--ink);pointer-events:none}
-.paper-letter.is-paper-ready .paper-letter__scroll-cue{position:absolute;left:0;right:0;bottom:-20px;margin:0}
-.paper-letter:is(.is-paper-reduced,.is-paper-short) .paper-letter__scroll-cue,.paper-letter[data-paper-state="fallback"] .paper-letter__scroll-cue{position:relative;left:auto;right:auto;bottom:auto;margin:20px 0 0}
+/* A single viewport cue is visible only while the letter section is on screen. */
+#letter > .paper-letter__scroll-cue{display:none;position:fixed;left:var(--pad-x);right:auto;bottom:max(24px,env(safe-area-inset-bottom));z-index:5;margin:0;padding:8px 12px;max-width:calc(100vw - 2 * var(--pad-x));text-align:left;font-family:var(--font-body);font-size:16px;font-weight:400;line-height:1.4;letter-spacing:.02em;color:var(--ink);background:rgba(255,255,255,.94);border-radius:4px;pointer-events:none}
+#letter[data-paper-visible="true"] > .paper-letter__scroll-cue{display:block}
+@media(min-width:768px){#letter > .paper-letter__scroll-cue{font-size:18px}}
 
 /* A quiet downward nudge reinforces the instruction without moving the letter. */
 .paper-letter__scroll-direction{display:inline-flex;width:12px;height:14px;margin-left:5px;vertical-align:-3px}
@@ -108,10 +109,3 @@
 .paper-letter__scroll-direction svg{display:block;width:100%;height:100%}
 @keyframes paper-letter-scroll-nudge{0%,100%{transform:translateY(-2px);opacity:.45}55%{transform:translateY(3px);opacity:1}}
 @media(prefers-reduced-motion:reduce){.paper-letter.is-paper-ready .paper-letter__scroll-direction{animation:none;transform:none;opacity:1}}
-
-/* Desktop cue follows the introduction; phones keep it below the sheet. */
-#letter .paper-letter__intro > .paper-letter__scroll-cue{display:none;position:static;margin:20px 0 0;max-width:none;text-align:left;color:inherit;font-size:12px;line-height:20px}
-@media(min-width:768px){
-  #letter .paper-letter__intro > .paper-letter__scroll-cue{display:block}
-  #letter .paper-letter__stage > .paper-letter__scroll-cue{display:none}
-}

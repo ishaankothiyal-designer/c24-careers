@@ -15,7 +15,7 @@ Reviewed the supplied annotation history against the merged source on 3 November
 | Ambition copy is top aligned; large visual sits below | Present in the shared column layout. |
 | Ownership number/category rail removed | Present; the rails are absent from the cards. |
 | Updated letter copy fits inside the paper | Present, including all three supplied paragraphs and measured text fitting. |
-| Keep scrolling label and microinteraction | Corrected the hidden mobile/static fallback cue. Animated scenes retain the nudge; reduced-motion scenes keep it static. |
+| Keep scrolling label and microinteraction | Updated to one viewport-bottom cue, visible only while the letter is on screen; 18px on desktop and 16px on phones. Animated scenes retain the nudge; reduced-motion scenes keep it static. |
 | Craft-style closing text | Archived-style horizontal pixel marquee is present. Exact reference parity has not been visually verified. |
 | Roles heading animation on desktop and mobile | Present in the shared scroll-driven heading runtime. |
 | No full stops in headings | Annotated headings were already corrected; remaining empty-state headings and the exchange heading are now corrected too. |

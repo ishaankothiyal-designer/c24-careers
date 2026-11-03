@@ -22,6 +22,10 @@ test('tablet letter prepares the desktop scene while phones and short landscapes
       assert.equal(globalThis.__paperLoads,animated?1:0);
       assert.equal(classes.has('is-paper-ready'),animated);
       assert.equal(classes.has('is-paper-short'),!animated);
+      observers[1].callback([{isIntersecting:true}]);
+      assert.equal(root.dataset.paperVisible,'true');
+      observers[1].callback([{isIntersecting:false}]);
+      assert.equal(root.dataset.paperVisible,'false');
     });
   }
 });
