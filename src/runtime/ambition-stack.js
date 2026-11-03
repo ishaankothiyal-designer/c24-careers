@@ -38,9 +38,9 @@ export function initializeAmbitionStack() {
         if(Math.abs(target-roll)<.0005)roll=target;else moving=true;
         rolls[i]=roll;
         const bend=Math.sin(roll*Math.PI);
-        // The arch travels through the sheet as it unrolls, then disappears.
+        // Bend around the vertical axis; side edges flatten as the sheet settles.
         const curl=bend*110;
-        card.style.transform=`translateY(${(roll*56).toFixed(2)}px) rotateX(${(-roll*18-bend*10).toFixed(2)}deg) scale(${stackScale(i,cards.length).toFixed(4)})`;
+        card.style.transform=`translateY(${(roll*56).toFixed(2)}px) rotateY(${(-roll*6-bend*14).toFixed(2)}deg) scale(${stackScale(i,cards.length).toFixed(4)})`;
         card.style.setProperty('--paper-curl',`${curl.toFixed(2)}px`);
         card.style.setProperty('--paper-shade',`${(bend*.22).toFixed(3)}`);
       });
