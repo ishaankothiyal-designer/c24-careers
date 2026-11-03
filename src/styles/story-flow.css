@@ -138,7 +138,7 @@ html{overflow-x:clip}body{overflow-x:clip}
 
 /* Hero and ambition form one continuous opening, with one moving pixel field. */
 .hero{overflow:visible}
-.page-root>main>.hero .hero__inner[data-astro-cid-lcdefpme]{order:1;padding-top:16px}
+.page-root>main>.hero .hero__inner[data-astro-cid-lcdefpme]{order:1;padding-top:0}
 /* Reclaim the blank lower edge of the pixel canvas before the hero copy. */
 .page-root>main>.hero .hero__art[data-astro-cid-lcdefpme]{top:-24px;margin-bottom:calc(-1 * clamp(40px,8svh,88px))}
 .hero .hero__art[data-astro-cid-lcdefpme]{--opening-parallax-rate:0;--opening-parallax-limit:0px;order:0;height:clamp(300px,42svh,560px);margin-bottom:0;background:transparent;will-change:auto}
