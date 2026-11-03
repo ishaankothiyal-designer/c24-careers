@@ -94,3 +94,6 @@
   .society-window-handle{padding:6px 10px}
   .society-window-links{padding:8px 10px}
 }
+
+/* Keep the letter content clear of the top edge at every responsive layout. */
+#letter .paper-letter__paper-wrap{padding-top:40px}

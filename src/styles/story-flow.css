@@ -213,7 +213,3 @@ html{overflow-x:clip}body{overflow-x:clip}
 /* Full-width role viewport matches the builder/support reels; copy keeps its gutter. */
 #problems>.problem-grid{padding-inline:max(var(--pad-x),calc((100% - var(--max-w))/2 + var(--pad-x)));scroll-padding-inline:max(var(--pad-x),calc((100% - var(--max-w))/2 + var(--pad-x)))}
 #builder #how-we-work{grid-template-columns:minmax(0,1fr);gap:var(--sp-3)}
-
-/* Outline CTA keeps a complete border without clipping it to the pixel mask. */
-#problems .problem-section__head>.craft-button{clip-path:none;border:1px solid var(--ink);background:transparent;color:var(--ink)}
-#problems .problem-section__head>.craft-button:is(:hover,:focus-visible){background:var(--ink);color:var(--white)}
