@@ -19,7 +19,7 @@
 }
 /* Short screens and reduced motion use an ordinary readable list. */
 @media(max-height:650px),(prefers-reduced-motion:reduce){
-  .ambition-stack__list{gap:24px;padding-bottom:0}
+  .ambition-stack__list{gap:24px;padding-bottom:32px}
   .ambition-stack__item{position:relative;top:auto}
   .ambition-stack__card{min-height:320px;transform:none!important;border-radius:0;box-shadow:none}
 }
