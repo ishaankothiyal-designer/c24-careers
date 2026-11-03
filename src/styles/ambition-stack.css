@@ -4,7 +4,7 @@
 .ambition-stack .ambition-stack__intro h2{font-size:clamp(32px,4.5vw,64px);line-height:1.12;letter-spacing:-.04em;max-width:26ch}
 .ambition-stack__list{display:grid;gap:clamp(64px,16svh,180px);list-style:none;padding:0 0 12svh;margin:0}
 .ambition-stack__item{position:sticky;top:calc(var(--stack-top) + var(--stack-index)*var(--stack-step));z-index:calc(var(--stack-index) + 1);min-width:0}
-.ambition-stack__card{position:relative;isolation:isolate;min-height:clamp(380px,62svh,640px);padding:clamp(28px,4.5vw,64px);border:1px solid #201d1d26;display:flex;flex-direction:column;justify-content:space-between;gap:48px;overflow:hidden;transform-origin:center top;box-shadow:0 8px 28px #16132c0a;background:#f1efeb;color:var(--ink)}
+.ambition-stack__card{position:relative;isolation:isolate;min-height:clamp(380px,62svh,640px);padding:clamp(28px,4.5vw,64px);border:0;display:flex;flex-direction:column;justify-content:space-between;gap:48px;overflow:hidden;transform-origin:center top;box-shadow:0 8px 28px #16132c0a;background:#f1efeb;color:var(--ink)}
 .ambition-stack__card--builder{background:var(--blue);color:#fff}
 .ambition-stack__card--pace{background:#e9e6ff}
 .ambition-stack__card--ownership{background:var(--lime,#d8ff00)}
