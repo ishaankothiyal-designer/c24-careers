@@ -1,7 +1,13 @@
-export function stackScale(current,next) {
-  if(!next || !current.height)return 1;
-  const overlap=Math.max(0,Math.min(1,1-(next.top-current.top)/current.height));
-  return 1-overlap*.05;
+const clamp = value => Math.max(0, Math.min(1, value));
+
+// Each later sheet sits in front and remains narrower than earlier sheets.
+export function stackScale(index, count) {
+  return count < 2 ? 1 : 1 - .1 * clamp(index / (count - 1));
+}
+
+export function paperRoll(top, settledTop, viewportHeight) {
+  if (viewportHeight <= settledTop) return 0;
+  return clamp((top - settledTop) / (viewportHeight - settledTop));
 }
 
 export function initializeAmbitionStack() {
@@ -14,10 +20,18 @@ export function initializeAmbitionStack() {
     let visible=false,frame=0;
     const update=()=>{
       frame=0;
-      if(staticMode.matches){cards.forEach(card=>card.style.removeProperty('transform'));return;}
+      if(staticMode.matches){
+        cards.forEach(card=>{card.style.removeProperty('transform');card.style.removeProperty('--paper-curl');});
+        return;
+      }
       if(!visible || document.hidden)return;
-      const rects=items.map(item=>item.getBoundingClientRect());
-      cards.forEach((card,i)=>{const scale=stackScale(rects[i],rects[i+1]);card.style.transform=`scale(${scale.toFixed(4)})`;});
+      // Read layout before writing transforms; no continuous animation loop.
+      const geometry=items.map(item=>({top:item.getBoundingClientRect().top,settledTop:parseFloat(getComputedStyle(item).top)}));
+      cards.forEach((card,i)=>{
+        const roll=paperRoll(geometry[i].top,geometry[i].settledTop,innerHeight);
+        card.style.transform=`translateY(${(roll*56).toFixed(2)}px) rotateX(${(-roll*24).toFixed(2)}deg) scale(${stackScale(i,cards.length).toFixed(4)})`;
+        card.style.setProperty('--paper-curl',`${(roll*88).toFixed(2)}px`);
+      });
     };
     const request=()=>{if(!frame)frame=requestAnimationFrame(update);};
     new IntersectionObserver(entries=>{visible=entries.some(entry=>entry.isIntersecting);if(visible)request();}).observe(root);

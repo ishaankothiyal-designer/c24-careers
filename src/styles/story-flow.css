@@ -138,7 +138,7 @@ html{overflow-x:clip}body{overflow-x:clip}
 
 /* Hero and ambition form one continuous opening, with one moving pixel field. */
 .hero{overflow:visible}
-.page-root>main>.hero .hero__inner[data-astro-cid-lcdefpme]{order:1;padding-top:var(--sp-4)}
+.page-root>main>.hero .hero__inner[data-astro-cid-lcdefpme]{order:1;padding-top:0}
 .hero .hero__art[data-astro-cid-lcdefpme]{--opening-parallax-rate:0;--opening-parallax-limit:0px;order:0;height:clamp(300px,42svh,560px);margin-bottom:0;background:transparent;will-change:auto}
 .page-root>main>.hero+#ambition{background:transparent;border-block-start:0;padding-top:var(--sp-3);position:relative;z-index:1}
 @media(prefers-reduced-motion:reduce){.hero .hero__art[data-astro-cid-lcdefpme]{transform:none!important;will-change:auto}}
