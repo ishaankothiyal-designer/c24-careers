@@ -41,3 +41,16 @@ test('Ishaan has a linked story grounded in shared skills and the team prototype
   assert.match(page.html,/early prototype/);
   assert.doesNotMatch(page.html,/@cars24\.com|U08QJHNGJ4A/);
 });
+
+test('project navigation has previous and next neighbors without wrapping at either end',async()=>{
+  const stories=JSON.parse(await readFile(new URL('../src/builder-stories.json',import.meta.url),'utf8'));
+  for(let i=0;i<stories.length;i++){
+    const page=builderDetailPage(`/builders/${stories[i].slug}/`,'','');
+    const nav=page.html.match(/<nav class="builder-story-next"[\s\S]*?<\/nav>/)[0];
+    assert.equal((nav.match(/<a\b/g)||[]).length,(i>0?1:0)+(i<stories.length-1?1:0));
+    if(i>0)assert.ok(nav.includes(`href="/builders/${stories[i-1].slug}/" rel="prev"`));
+    if(i<stories.length-1)assert.ok(nav.includes(`href="/builders/${stories[i+1].slug}/" rel="next"`));
+    assert.doesNotMatch(nav,/All builders/);
+    assert.doesNotMatch(page.html,/<span class="label[^\"]*">The (?:challenge|work|outcome)<\/span>/);
+  }
+});

@@ -53,7 +53,7 @@ main > section[id] { scroll-margin-top: var(--layout-anchor-clearance); }
 .careers-filter { max-width: 100%; overflow-wrap: anywhere; }
 
 /* Both detail flows use a single inset for the toolbar, title and content. */
-.project-drawer__bar, .role-dialog__toolbar {
+.role-dialog__toolbar {
   padding-inline: var(--layout-panel-inset);
 }
 .project-drawer .container, .role-dialog .container,

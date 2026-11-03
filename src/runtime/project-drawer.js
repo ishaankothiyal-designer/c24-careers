@@ -10,8 +10,8 @@ export function initializeProjectDrawer() {
   const base=document.querySelector('meta[name="site-base"]')?.content || '/';
   const dialog=document.createElement('dialog');
   dialog.className='project-drawer';dialog.dataset.projectDrawer='';
-  dialog.setAttribute('aria-labelledby','project-drawer-title');
-  dialog.innerHTML='<div class="project-drawer__bar"><span id="project-drawer-title">Builder project</span><button type="button" class="project-drawer__close" aria-label="Close project">Close <span aria-hidden="true">×</span></button></div><div class="project-drawer__content" data-lenis-prevent></div>';
+  dialog.setAttribute('aria-labelledby','story-title');
+  dialog.innerHTML='<button type="button" class="project-drawer__close" aria-label="Close project"><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg></button><div class="project-drawer__content" data-lenis-prevent></div>';
   document.body.append(dialog);
   const body=dialog.querySelector('.project-drawer__content');
   let trigger,previousOverflow,scrollController,restartScroll;
@@ -29,7 +29,7 @@ export function initializeProjectDrawer() {
       scrollController?.stop?.();
       document.documentElement.style.overflow='hidden';dialog.showModal();
       dialog.querySelector('button').focus();
-    }
+    } else body.querySelector?.('#story-title')?.focus({preventScroll:true});
   };
   document.addEventListener('open-builder-project',event=>open(event.detail.href,event.detail.trigger));
   dialog.querySelector('button').addEventListener('click',close);

@@ -7,8 +7,8 @@ function fixture(t,base='/',pathname='/') {
   const original=keys.map(key=>[key,Object.getOwnPropertyDescriptor(globalThis,key)]);
   t.after(()=>{for(const [key,value] of original){if(value)Object.defineProperty(globalThis,key,value);else delete globalThis[key];}});
   class Node extends EventTarget {
-    constructor(){super();this.dataset={};this.innerHTML='';this.scrollTop=0;this.open=false;}
-    setAttribute(){}
+    constructor(){super();this.dataset={};this.innerHTML='';this.scrollTop=0;this.open=false;this.attributes={};}
+    setAttribute(name,value){this.attributes[name]=value;}
     focus(){doc.activeElement=this;}
     showModal(){this.open=true;}
     close(){this.open=false;this.dispatchEvent(new Event('close'));}
@@ -41,6 +41,16 @@ test('opens a builder project without navigating, closes and restores focus and 
   assert.equal(f.doc.documentElement.style.overflow,'auto');
   assert.equal(f.doc.activeElement,f.opener);
   assert.equal(f.body.innerHTML,'');
+});
+
+test('project drawer uses the story heading as its accessible label and an icon-only close button',t=>{
+  const f=fixture(t);
+  requestProject('/builders/ayush-upadhyay/');
+  assert.equal(f.dialog.attributes['aria-labelledby'],'story-title');
+  assert.match(f.body.innerHTML,/id="story-title"/);
+  assert.match(f.dialog.innerHTML,/aria-label="Close project"/);
+  assert.match(f.dialog.innerHTML,/<svg aria-hidden="true"/);
+  assert.doesNotMatch(f.dialog.innerHTML,/project-drawer__bar|Builder project|>Close /);
 });
 
 test('supports deployment subpaths and ignores missing projects',t=>{
