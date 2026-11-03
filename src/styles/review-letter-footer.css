@@ -108,3 +108,10 @@
 .paper-letter__scroll-direction svg{display:block;width:100%;height:100%}
 @keyframes paper-letter-scroll-nudge{0%,100%{transform:translateY(-2px);opacity:.45}55%{transform:translateY(3px);opacity:1}}
 @media(prefers-reduced-motion:reduce){.paper-letter.is-paper-ready .paper-letter__scroll-direction{animation:none;transform:none;opacity:1}}
+
+/* Desktop cue follows the introduction; phones keep it below the sheet. */
+#letter .paper-letter__intro > .paper-letter__scroll-cue{display:none;position:static;margin:20px 0 0;max-width:none;text-align:left;color:inherit;font-size:12px;line-height:20px}
+@media(min-width:768px){
+  #letter .paper-letter__intro > .paper-letter__scroll-cue{display:block}
+  #letter .paper-letter__stage > .paper-letter__scroll-cue{display:none}
+}
