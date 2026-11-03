@@ -1,5 +1,5 @@
 .ambition-stack{--stack-top:clamp(112px,12svh,140px);--stack-step:16px}
-.ambition-stack__list{display:grid;gap:clamp(64px,16svh,180px);list-style:none;padding:0 0 12svh;margin:0}
+.ambition-stack__list{display:grid;gap:clamp(32px,6svh,72px);list-style:none;padding:0 0 32px;margin:0}
 .ambition-stack__item{position:sticky;top:calc(var(--stack-top) + var(--stack-index)*var(--stack-step));z-index:calc(var(--stack-index) + 1);min-width:0}
 .ambition-stack__card{position:relative;isolation:isolate;min-height:clamp(380px,62svh,640px);padding:clamp(28px,4.5vw,64px);border:0;display:flex;flex-direction:column;justify-content:space-between;gap:48px;overflow:hidden;transform-origin:center top;border-radius:0;box-shadow:0 8px 28px #16132c0a;background:#f1efeb;color:var(--ink)}
 .ambition-stack__card--builder{background:var(--blue);color:#fff}
@@ -13,7 +13,7 @@
 .ambition-stack__mark{position:absolute;right:clamp(24px,4vw,56px);bottom:20px;z-index:0;font-family:var(--font-title);font-size:clamp(72px,15vw,210px);letter-spacing:-.07em;line-height:1;opacity:.09;pointer-events:none;white-space:nowrap}
 @media(max-width:767px){
   .ambition-stack{--stack-top:96px;--stack-step:8px}
-  .ambition-stack__list{gap:clamp(32px,8svh,80px);padding-bottom:8svh}
+  .ambition-stack__list{gap:clamp(24px,4svh,40px);padding-bottom:24px}
   .ambition-stack__card{min-height:clamp(340px,48svh,500px);padding:24px;gap:40px}
   .ambition-stack__rail{font-size:12px;letter-spacing:.06em}
   .ambition-stack__copy h3{font-size:clamp(30px,7.7vw,52px);line-height:1.08;margin-bottom:20px}
