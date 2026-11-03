@@ -115,7 +115,7 @@
 .role-card .role-card__title{order:0;font-family:var(--font-title);font-size:var(--career-card-title-size);font-weight:500;line-height:var(--career-card-title-line);letter-spacing:var(--career-card-title-letter);margin:0;overflow-wrap:anywhere}
 .role-card .role-card__metadata,.role-card .role-card__experience{order:0;flex:0;font-family:var(--font-body);font-size:var(--career-card-copy-size);font-weight:400;line-height:var(--story-line);color:var(--career-card-copy-color);max-width:none;margin:var(--sp-2) 0 0;overflow-wrap:anywhere}
 .role-card .role-card__experience{color:var(--story-muted)}
-.role-card .role-card__link{display:flex;align-items:center;gap:8px;min-height:var(--story-control);padding-top:var(--sp-3);margin-top:auto;border-top:var(--card-stroke);font-family:var(--font-body);font-size:var(--career-card-copy-size);line-height:var(--story-line);color:var(--blue);text-decoration:none}
+.role-card .role-card__link{order:1;display:flex;align-items:center;gap:8px;min-height:var(--story-control);padding-top:var(--sp-3);margin-top:auto;border-top:var(--card-stroke);font-family:var(--font-body);font-size:var(--career-card-copy-size);line-height:var(--story-line);color:var(--blue);text-decoration:none}
 .role-card .role-card__experience:last-of-type,.role-card .role-card__metadata:last-of-type{margin-bottom:var(--sp-3)}
 a.role-card{color:var(--ink);text-decoration:none;cursor:pointer}
 a.role-card:hover{border-color:var(--blue)}
@@ -142,5 +142,5 @@ a.role-card:focus-visible{outline:var(--story-focus) solid var(--blue);outline-o
 .jobs-empty .craft-button{max-width:100%;white-space:normal}
 
 .role-card__link-label{display:inline-flex;align-items:baseline;gap:8px;white-space:nowrap;border-bottom:1px solid transparent;padding-bottom:2px}
-.role-card .role-card__context{font-family:var(--font-body);font-size:var(--career-card-copy-size);line-height:var(--story-line);color:var(--story-muted);margin:0 0 var(--sp-3);text-transform:none}
+.role-card .role-card__context{order:0;flex:0 0 auto;font-family:var(--font-body);font-size:var(--career-card-copy-size);line-height:var(--story-line);color:var(--story-muted);margin:0 0 var(--sp-3);text-transform:none}
 .role-card__context>span{padding-inline:4px}
