@@ -48,7 +48,7 @@ test('role feed announces loading, hides stale controls on error, and retries in
   assert.equal(ui.retry.hidden, true);
   assert.equal(ui.filters.hidden, false);
   assert.equal(ui.empty.hidden, false);
-  assert.equal(ui.emptyTitle.textContent, 'More opportunities ahead.');
+  assert.equal(ui.emptyTitle.textContent, 'More opportunities ahead');
   assert.equal(ui.reset.hidden, true);
 });
 

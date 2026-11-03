@@ -64,7 +64,7 @@ export function jobsEmptyStateHtml() {
       <path class="jobs-empty__outline" d="M176 144h16v8h8v8h8v8h-16v-8h-8v-8h-8z"/>
       <path class="jobs-empty__spark" d="M192 32h8v8h8v8h-8v8h-8v-8h-8v-8h8zM24 96h8v8h-8z"/>
     </svg>
-    <h2 id="jobs-empty-title" data-job-empty-title data-no-roll>No matching roles. Yet.</h2>
+    <h2 id="jobs-empty-title" data-job-empty-title data-no-roll>No matching roles yet</h2>
     <p data-job-empty-copy>Try a different keyword, location or department. Your next role might be one filter away.</p>
     <button class="craft-button btn-bubble-arrow btn-bubble-arrow--black" type="button" data-job-reset><span class="craft-button-label">View all open roles ↗</span></button>
   </section>`;
@@ -93,7 +93,7 @@ export function initializeLiveJobs() {
       status.textContent = visible.length ? `${visible.length} ${visible.length === 1 ? 'open role' : 'open roles'} · ${selected === 'All' ? 'All departments' : selected}` : all.length ? 'No open roles match these filters.' : 'There are no public openings right now. Please check back soon.';
       results.hidden = visible.length === 0;
       empty.hidden = visible.length > 0;
-      empty.querySelector('[data-job-empty-title]').textContent = all.length ? 'No matching roles. Yet.' : 'More opportunities ahead.';
+      empty.querySelector('[data-job-empty-title]').textContent = all.length ? 'No matching roles yet' : 'More opportunities ahead';
       empty.querySelector('[data-job-empty-copy]').textContent = all.length ? 'Try a different keyword, location or department. Your next role might be one filter away.' : 'There are no open roles right now. Check back soon to find the work you’d like to own.';
       empty.querySelector('[data-job-reset]').hidden = !all.length;
       const controls = root.querySelector('.problem-carousel__controls');
