@@ -28,7 +28,7 @@ export function initializeRoleDialog({ base = '/', initialPath = null } = {}) {
       .replace('aria-labelledby="role-title"', 'aria-labelledby="role-dialog-title"')
       .replace('<h1>Role not found.</h1>', '<h1 id="role-dialog-title">Role not found.</h1>')
       .replace(/<a class="role-detail__back" href="\/careers\/">← All roles<\/a>/, '');
-    dialog.innerHTML = `<div class="role-dialog__toolbar"><span>Cars24 Careers</span><button class="role-dialog__close craft-button btn-bubble-arrow btn-bubble-arrow--black" type="button" aria-label="Close role details" autofocus><span class="craft-button-label">Close <span aria-hidden="true">×</span></span></button></div>${siteLinks(content, base)}`;
+    dialog.innerHTML = `<button class="role-dialog__close" type="button" aria-label="Close role details" autofocus><svg aria-hidden="true" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg></button>${siteLinks(content, base)}`;
     if (!dialog.open) {
       trigger = source || document.activeElement;
       previousOverflow = document.body.style.overflow;

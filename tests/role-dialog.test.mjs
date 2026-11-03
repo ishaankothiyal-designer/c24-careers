@@ -35,6 +35,8 @@ test('role overlay locks scrolling, restores focus and returns through history o
   assert.equal(document.body.style.overflow, 'hidden');
   assert.match(dialog.innerHTML, /id="role-dialog-title"/);
   assert.match(dialog.innerHTML, /aria-label="Close role details"/);
+  assert.match(dialog.innerHTML, /<button class="role-dialog__close"[^>]*><svg aria-hidden="true"/);
+  assert.doesNotMatch(dialog.innerHTML, /role-dialog__toolbar|>Cars24 Careers<|>Close /);
   assert.deepEqual(history.pushes, ['/careers/roles/preview-role-1/']);
   dialogEvents.cancel({ preventDefault() {} });
   assert.equal(dialog.open, false);

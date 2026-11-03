@@ -175,7 +175,7 @@ html{overflow-x:clip}body{overflow-x:clip}
 #problems .problem-section__head>.challenge__title{grid-column:1;grid-row:1;max-width:none;white-space:normal;font-size:var(--h3);text-wrap:balance}
 #problems .problem-section__head>.challenge__text{grid-column:1;grid-row:2;min-width:0;max-width:48ch;text-wrap:pretty}
 #problems .problem-section__head>.craft-button{grid-column:2;grid-row:1/3;align-self:center;justify-self:end;white-space:nowrap}
-.problem-filters{flex-wrap:wrap;overflow:visible;max-width:100%;padding-block:var(--sp-1)}
+.problem-filters{flex-wrap:nowrap;overflow-x:auto;overscroll-behavior-x:contain;max-width:100%;padding-block:var(--sp-1)}
 .problem-filters button{flex:0 0 auto}
 @media(max-width:767px){#problems .problem-section__head{grid-template-columns:minmax(0,1fr)}#problems .problem-section__head>.craft-button{grid-column:1;grid-row:3;justify-self:start}}
 

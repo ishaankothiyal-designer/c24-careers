@@ -13,7 +13,6 @@
   --role-phone-code-width: 46%;
 }
 .role-dialog { width: min(var(--role-panel-width), 95vw); }
-.role-dialog .role-dialog__toolbar { padding-inline: var(--role-detail-inset); }
 .role-dialog .role-detail__layout {
   grid-template-columns: minmax(0, 1fr) minmax(0, var(--role-application-width));
   gap: var(--role-column-gap);
