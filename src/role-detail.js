@@ -1,5 +1,5 @@
 import previews from './role-previews.json' with { type: 'json' };
-import { roleDetailLayout } from './role-layout.js';
+import { roleDetailLayout, roleLoadingHtml } from './role-layout.js';
 import { roleLabels } from './role-labels.js';
 
 const escape = value => String(value).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
@@ -10,7 +10,7 @@ export function roleDetailPage(pathname, header, footer) {
   if (!match) return null;
   if (/^a[a-f0-9]{12,32}$/.test(match[1])) return {
     title: 'Loading role | Cars24 Careers',
-    html: `${header}<main class="role-detail" data-live-role="${match[1]}"><section class="container role-detail__hero" aria-labelledby="role-title"><h1 id="role-title" data-no-roll>Loading role…</h1><p role="status">Fetching the latest details.</p></section></main>${footer}`,
+    html: `${header}<main class="role-detail" data-live-role="${match[1]}" aria-busy="true">${roleLoadingHtml()}</main>${footer}`,
   };
   const role = previews.find(item => item.slug === match[1]);
   if (!role) return {

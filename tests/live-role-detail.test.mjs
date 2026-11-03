@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { liveRoleHtml, experienceLabel } from '../src/runtime/live-role.js';
+import { liveRoleHtml, experienceLabel, defaultDialCode, loadLiveRole, initializeStickyApplication } from '../src/runtime/live-role.js';
 
 const job = {
   id: 'a6a477f915ac86', code: 'JOB156', title: 'Builder <Key Accounts>', department: 'Retail',
@@ -56,7 +56,7 @@ test('combined phone control preserves the separate Darwinbox names and exact co
   assert.equal((html.match(/class="application-phone"/g) || []).length, 1);
   assert.equal((html.match(/name="phone_country_code"/g) || []).length, 1);
   assert.equal((html.match(/name="phone"/g) || []).length, 1);
-  assert.match(html, /value="\+91 India">India \(\+91\)<\/option>/);
+  assert.match(html, /value="\+91 India" selected>India \(\+91\)<\/option>/);
   assert.match(html, /value="\+971 United Arab Emirates">UAE \(\+971\)<\/option>/);
   assert.match(html, /class="application-upload"/);
   assert.match(html, /name="resume" required/);
@@ -71,4 +71,56 @@ test('mapped location renders a visible editable select with the valid default a
   assert.match(html, /value="Gurgaon, Haryana&#13;, India \(Office\)" selected/);
   assert.match(html, /<option value="Delhi">Delhi<\/option>/);
   assert.doesNotMatch(html, /name="confirmed_test_location_key"[^>]*(?:disabled|hidden)/);
+});
+
+
+test('detail uses the card problem statement, preserves the official title and places the header before both columns',()=>{
+  const html=liveRoleHtml({...job,title:'Builder - Evaluation Engineer',department:'Home Inspection'});
+  assert.match(html,/<h1[^>]+>Help people trust the cars they buy\.<\/h1>/);
+  assert.match(html,/<p class="role-detail__official-title">Builder - Evaluation Engineer<\/p>/);
+  assert.match(html,/India <span aria-hidden="true">▪<\/span> Home Inspection/);
+  assert.doesNotMatch(html,/craft-experiments__tags/);
+  assert.ok(html.indexOf('</header>')<html.indexOf('class="container role-detail__layout"'));
+});
+
+test('dial-code defaults use approved values and keep every country selectable',()=>{
+  const options=[{value:'+61 Australia',label:'+61 Australia'},{value:'+91 India',label:'+91 India'},{value:'+971 United Arab Emirates',label:'+971 United Arab Emirates'}];
+  assert.equal(defaultDialCode({options},'India'),'+91 India');
+  assert.equal(defaultDialCode({options},'UAE'),'+971 United Arab Emirates');
+  assert.equal(defaultDialCode({options,defaultValue:'+61 Australia'},'India'),'+61 Australia');
+  assert.equal(defaultDialCode({options},'Unknown'),'+91 India');
+  assert.equal(defaultDialCode({options:[]},'India'),'');
+});
+
+test('live role shows a loader until details resolve and clears busy state on success and failure',async t=>{
+  const keys=['document','matchMedia','fetch'];const original=keys.map(key=>[key,Object.getOwnPropertyDescriptor(globalThis,key)]);
+  t.after(()=>{for(const [key,value] of original){if(value)Object.defineProperty(globalThis,key,value);else delete globalThis[key];}});
+  const retry={addEventListener(){}};
+  const root={innerHTML:'',attrs:{},setAttribute(key,value){this.attrs[key]=value;},closest:()=>null,querySelectorAll:()=>[],querySelector:selector=>selector==='h1'?{id:'role-dialog-title'}:selector==='[data-role-retry]'?retry:null};
+  Object.defineProperty(globalThis,'document',{configurable:true,value:{title:''}});
+  Object.defineProperty(globalThis,'matchMedia',{configurable:true,value:()=>({matches:true})});
+  let resolve;globalThis.fetch=()=>new Promise(done=>{resolve=done;});
+  const controller=new AbortController();
+  const loading=loadLiveRole(root,job.id,controller.signal);
+  assert.match(root.innerHTML,/role-loading__spinner/);assert.equal(root.attrs['aria-busy'],'true');
+  resolve(Response.json({job:{...job,application:{...job.application,supported:false}}}));await loading;
+  assert.doesNotMatch(root.innerHTML,/role-loading__spinner/);assert.match(root.innerHTML,/role-detail__official-title/);assert.equal(root.attrs['aria-busy'],'false');
+  globalThis.fetch=async()=>{throw new Error('Network failure');};
+  await loadLiveRole(root,job.id,controller.signal);
+  assert.match(root.innerHTML,/Role unavailable/);assert.match(root.innerHTML,/data-role-retry/);assert.equal(root.attrs['aria-busy'],'false');
+  controller.abort();
+});
+
+test('long forms stay sticky without the removed toolbar and release observers on abort',t=>{
+  const keys=['ResizeObserver','window','matchMedia'];const original=keys.map(key=>[key,Object.getOwnPropertyDescriptor(globalThis,key)]);
+  t.after(()=>{for(const [key,value] of original){if(value)Object.defineProperty(globalThis,key,value);else delete globalThis[key];}});
+  let disconnected=false;
+  Object.defineProperty(globalThis,'ResizeObserver',{configurable:true,value:class{observe(){}disconnect(){disconnected=true;}}});
+  Object.defineProperty(globalThis,'window',{configurable:true,value:{addEventListener(){}}});
+  Object.defineProperty(globalThis,'matchMedia',{configurable:true,value:()=>({matches:true})});
+  const styles={};const aside={dataset:{},offsetHeight:1200,style:{setProperty(key,value){styles[key]=value;}}};
+  const root={closest:()=>({clientHeight:600}),querySelector:()=>aside};
+  const controller=new AbortController();initializeStickyApplication(root,controller.signal);
+  assert.equal(aside.dataset.sticky,'true');assert.equal(styles['--role-form-max-height'],'496px');
+  controller.abort();assert.equal(disconnected,true);
 });
