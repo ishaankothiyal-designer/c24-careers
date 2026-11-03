@@ -17,11 +17,13 @@ test('cards carry the mission and all five convictions without a separate intro'
   for(const [card] of html.matchAll(/<article\b[\s\S]*?<\/article>/g)){
     assert.equal((card.match(/<svg\b/g)||[]).length,1);
     assert.match(card,/class="ambition-stack__visual[^>]+aria-hidden="true"/);
+    assert.ok(card.indexOf('ambition-stack__copy')<card.indexOf('ambition-stack__visual'));
+    assert.doesNotMatch(card,/ambition-stack__rail/);
   }
   assert.doesNotMatch(html,/<header|ambition-stack__intro/);
   assert.ok(html.includes('consumer AI company'));
   assert.ok(html.includes('From India, for the world'));
-  const sequence=['Belief','Builder','Pace','Ownership','Ambition'];
+  const sequence=['Audacity is','AI-native builder','ten years','100 founders','100bn'];
   let previous=-1;
   for(const text of sequence){const position=html.indexOf(text);assert.ok(position>previous,text);previous=position;}
   for(const text of ['10×','ten years','100 founders','100bn','five years'])assert.ok(html.includes(text));

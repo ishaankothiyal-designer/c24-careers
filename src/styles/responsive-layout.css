@@ -117,7 +117,7 @@ main > section[id] { scroll-margin-top: var(--layout-anchor-clearance); }
 /* Keep the closing message readable without a canvas on smaller devices. */
 @media(max-width:900px){
   #next-chapter .closing-pixels__title{position:static;width:auto;height:auto;margin:var(--sp-3) 0;padding:0;clip-path:none;overflow:visible;white-space:normal;color:var(--blue);font-size:clamp(28px,6vw,48px);line-height:1.15}
-  #next-chapter .closing-pixels__marquee,.closing-pixel-overlay{display:none}
+  #next-chapter .closing-pixels__marquee{display:none}
 }
 
 /* Each letter must fit its own third of the footer, including narrow phones. */

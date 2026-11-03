@@ -216,7 +216,7 @@ html{overflow-x:clip}body{overflow-x:clip}
 
 /* Let the filter viewport reach the screen edge, matching the role carousel. */
 #problems>.problem-filters{box-sizing:border-box;padding-inline:max(var(--pad-x),calc((100% - var(--max-w))/2 + var(--pad-x)));scroll-padding-inline:max(var(--pad-x),calc((100% - var(--max-w))/2 + var(--pad-x)))}
-#problems .problem-filters button[aria-pressed="true"]{background:#cecece;color:#000;font-weight:600}
+#problems .problem-filters button[aria-pressed="true"]{background:#e8e8e8;color:#000;font-weight:600}
 #problems .problem-filters:focus-visible{outline:2px solid var(--blue);outline-offset:-2px}
 .problem-intro-break{display:none}
 @media(min-width:768px){.problem-intro-break{display:initial}}
