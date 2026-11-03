@@ -6,10 +6,10 @@ const read = name => readFile(new URL(`../src/${name}`, import.meta.url),'utf8')
 
 test('landing story moves from ambition through builders and problems to support, without duplicate sections',async()=>{
   const sections=JSON.parse(await read('sections.json')).map(s=>s.file);
-  const story=['career-02-ambition.html','career-01-invitation.html','career-02-problems.html','career-04-support.html','career-06-letter.html','career-09-hiring.html','career-07-exchange.html'];
+  const story=['career-02-ambition.html','career-01-invitation.html','career-02-problems.html','career-06-letter.html','career-04-support.html','02-09-faq.html','career-10-closing.html'];
   const positions=story.map(s=>sections.indexOf(s));
   assert.ok(positions.every((p,i)=>p>=0&&(!i||p>positions[i-1])));
-  for(const removed of ['career-07-ai-progress.html','career-03-beliefs.html','career-08-roles.html'])assert.ok(!sections.includes(removed));
+  for(const removed of ['career-07-ai-progress.html','career-03-beliefs.html','career-08-roles.html','career-09-hiring.html','career-07-exchange.html'])assert.ok(!sections.includes(removed));
   const support=await read('sections/career-04-support.html');
   assert.equal((support.match(/class="policy-card craft-work__card"/g)||[]).length,7);
   for(const name of ['Autonaut Future Fund','CareHer','Health','Wellbeing','Compassionate Support','Mission Elevate','Founders’ Awards'])assert.ok(support.includes(`<h3>${name}</h3>`));
