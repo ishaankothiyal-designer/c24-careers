@@ -45,6 +45,13 @@
 }
 /* Silhouette shadow stays present while the same sheet opens and crumples. */
 .paper-letter__canvas canvas{filter:drop-shadow(0 12px 16px rgb(34 31 24 / var(--paper-shadow-opacity,.09)))}
+/* Tablets keep the original unfolding scene, stacked below the introduction.
+   Reserve enough viewport height for the fixed navigation and both columns. */
+@media(min-width:768px) and (max-width:1050px){
+  .paper-letter:not(.is-paper-short):not(.is-paper-reduced):not([data-paper-state="fallback"]) .paper-letter__pin{top:calc(var(--pad-x) + 80px)}
+  .paper-letter:not(.is-paper-short):not(.is-paper-reduced):not([data-paper-state="fallback"]) .paper-letter__stage{height:calc(100svh - 380px);min-height:320px;max-height:600px}
+  .paper-letter__sheet{font-size:18px;line-height:1.8;padding:28px;padding-top:48px}
+}
 /* Keep moving/fading source glyphs intact instead of slicing through the word. */
 .society-title-mask{overflow:visible}
 .society-legal > div{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:12px 20px}
