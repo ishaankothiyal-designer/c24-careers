@@ -3,11 +3,11 @@ import {readFile} from 'node:fs/promises';
 import test from 'node:test';
 import {stackScale,paperRoll} from '../src/runtime/ambition-stack.js';
 
-test('each card in front remains smaller than the cards behind it',()=>{
+test('each card in front remains larger than the cards behind it',()=>{
   const scales=Array.from({length:5},(_,i)=>stackScale(i,5));
-  assert.equal(scales[0],1);
-  assert.equal(scales[4],.9);
-  scales.slice(1).forEach((scale,i)=>assert.ok(scale<scales[i]));
+  assert.equal(scales[0],.9);
+  assert.equal(scales[4],1);
+  scales.slice(1).forEach((scale,i)=>assert.ok(scale>scales[i]));
   assert.equal(stackScale(0,1),1);
 });
 
