@@ -11,7 +11,7 @@ Reviewed the supplied annotation history against the merged source on 3 November
 | Full-width navbar and background blur | Present, with desktop and mobile navbar heights accounted for. |
 | Hero artwork moves up; homepage copy has zero top padding | Present; the separate careers heading retains navbar clearance. |
 | Ambition list has 32px bottom padding | Corrected the short-screen and reduced-motion override, which still used 0. |
-| Each ambition statement has an animated visual | Present for all five cards, with reduced-motion and offscreen controls. |
+| Each ambition statement has an animated visual | Hairline Terrain, Exploded, Relay, Hub and Elevator now fill the five cards, with reduced-motion and offscreen controls. |
 | Ambition copy is top aligned; large visual sits below | Present in the shared column layout. |
 | Ownership number/category rail removed | Present; the rails are absent from the cards. |
 | Updated letter copy fits inside the paper | Present, including all three supplied paragraphs and measured text fitting. |
