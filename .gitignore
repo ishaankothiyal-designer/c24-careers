@@ -1,6 +1,21 @@
+# Dependencies and generated output
 node_modules/
 dist/
-.DS_Store
+coverage/
+.vite/
+.cache/
+.npm/
+.npm-cache/
+
+# Local deployment state and environment secrets
 .vercel/
 .env*
 !.env.example
+
+# Logs and temporary files
+*.log
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db

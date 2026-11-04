@@ -1,6 +1,7 @@
 import React from "react";
 import { createRoot } from "react-dom/client";
 import { App } from "./App.jsx";
+import { initializeContextMenuBlock } from './runtime/context-menu.js';
 import "./styles.css";
 import "./styles/careers-sliders.css";
 import "./styles/brand.css";
@@ -17,6 +18,8 @@ import "./styles/story-flow.css";
 import "./styles/responsive-layout.css";
 import "./styles/role-detail.css";
 import "./styles/ambition-stack.css";
+
+initializeContextMenuBlock();
 
 createRoot(document.getElementById("root")).render(
   <React.StrictMode>
