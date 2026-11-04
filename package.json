@@ -17,6 +17,7 @@
     "audit:source": "node scripts/audit-source.mjs --write"
   },
   "dependencies": {
+    "@lucasmarkes/hairline": "0.5.1",
     "@vitejs/plugin-react": "5.0.4",
     "fflate": "^0.8.3",
     "react": "19.2.0",

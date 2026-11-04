@@ -4,7 +4,7 @@ The source repository is `ishaankothiyal-designer/c24-careers`. Staging review u
 
 ## Where to make changes
 
-The ambition story uses five sticky cards: edit `src/sections/career-02-ambition.html` for copy, `src/styles/ambition-stack.css` for card layout and responsive fallbacks, and `src/runtime/ambition-stack.js` for the light scroll-driven scale effect. Reduced motion and short viewports retain an ordinary reading order.
+The ambition story uses five sticky cards: edit `src/sections/career-02-ambition.html` for copy, `src/styles/ambition-stack.css` for card layout and responsive fallbacks, and `src/runtime/ambition-stack.js` for stack scaling and lazy figure lifecycle. `src/runtime/hairline-figures.js` imports Terrain, Exploded, Relay, Hub and Elevator from pinned Hairline 0.5.1. Figures fill the available card area; screens up to 800px high use normal-flow cards so the artwork is not squeezed beneath the copy. Reduced motion and short viewports retain an ordinary reading order.
 
 | Concern | Files you control |
 | --- | --- |
@@ -51,6 +51,7 @@ The project runs React and Vite. It does not need the original website, Webflow 
 
 ### Local third-party code
 
+- Hairline figures are bundled locally from `@lucasmarkes/hairline`; no runtime CDN request is needed. Its MIT notice ships at `/licenses/hairline-LICENSE.txt`.
 - React and Three.js are installed from npm during builds and bundled into local application assets.
 - GSAP, ScrollTrigger, SplitText, Lenis, Draggable, and ScrambleText implementations are served from the local `_astro` and `vendor` directories. They are not being loaded from a CDN by the active application code.
 - Fonts, paper-animation files, other portraits, and project images are local.
