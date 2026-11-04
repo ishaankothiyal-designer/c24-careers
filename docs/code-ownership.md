@@ -4,7 +4,7 @@ The source repository is `ishaankothiyal-designer/c24-careers`. Staging review u
 
 ## Where to make changes
 
-The ambition story uses five sticky cards: edit `src/sections/career-02-ambition.html` for copy, `src/styles/ambition-stack.css` for card layout and responsive fallbacks, and `src/runtime/ambition-stack.js` for stack scaling and lazy figure lifecycle. `src/runtime/hairline-figures.js` imports Terrain, Exploded, Relay, Hub and Elevator from pinned Hairline 0.5.1. Figures fill the available card area; screens up to 800px high use normal-flow cards so the artwork is not squeezed beneath the copy. Reduced motion and short viewports retain an ordinary reading order.
+The ambition story uses five sticky cards: edit `src/sections/career-02-ambition.html` for copy, `src/styles/ambition-stack.css` for card layout and responsive fallbacks, and `src/runtime/ambition-stack.js` for stack scaling and lazy figure lifecycle. `src/runtime/hairline-figures.js` imports Vault, Exploded, Relay, Slow and Elevator from pinned Hairline 0.5.1. Figures fill the available card area; screens up to 800px high use normal-flow cards so the artwork is not squeezed beneath the copy. Reduced motion and short viewports retain an ordinary reading order.
 
 | Concern | Files you control |
 | --- | --- |
