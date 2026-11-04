@@ -94,3 +94,8 @@
 
 /* Reserve room for the chevron inside the compact country-code control. */
 .role-detail .application-phone select{padding-left:8px;padding-right:32px}
+
+/* Tablet: a compact, single-column reading panel. Desktop begins at 1024px. */
+@media (min-width:768px) and (max-width:1023px){
+  .role-dialog{max-width:560px}
+}

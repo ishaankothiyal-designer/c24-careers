@@ -73,3 +73,9 @@ The authored consent module still contains legacy Google Analytics naming and a 
 Run `npm run audit:source` to regenerate `docs/source-audit.json`. The current static scan flags 185 class/file combinations for review across 16 CSS files. These are **candidates**, not 185 proven dead classes. For example, `sol-card` and `out-card` are produced by a template using a variable prefix and can be missed by a literal scan.
 
 Original styles also include rules for archived reference sections and earlier review overrides. They have not been bulk-purged: runtime classes, pseudo-elements, mobile states, and animation-generated DOM require browser coverage before removal. A full CSS purge or a claim of zero external network activity would need that additional verification. Browser automation is unavailable in this session; no fresh visual or Safari verification is claimed.
+
+## Shared typography and responsive cards (November 2026)
+
+`src/styles/typography.css` owns the self-hosted Geist variable font and heading/body/subtext roles. Heading weight 550 retains the previous medium heading emphasis; body 400 and controls 500 share the same family. Letter handwriting and signature remain illustration fonts. Mobile is below 768px, tablet 768–1023px, desktop starts at 1024px; tablet role dialogs cap at 560px.
+
+Ambition figures use 1.15× framing, with copy above art on tablet and columns on desktop. `src/vendor/hairline-figures.js` is an MIT-attributed tree-shaken copy of the pinned Hairline 0.5.1 Vault/Slow/Elevator exports. Its scheduler dt and tween durations/delays run at 1.3×, matching the local reference kernel. This is a local timing adaptation because the upstream public API has no speed option. Keep these changes when updating the pinned library. Visibility, reduced-motion and autoplay lifecycle remain managed by the existing controllers.

@@ -1,0 +1,27 @@
+/* Shared Geist typography. Sizes retain the site's existing responsive scale.
+   Handwritten letter copy and the signature keep their illustration fonts. */
+@font-face{font-family:Geist;src:url('/fonts/geist/Geist-variable.ttf') format('truetype');font-style:normal;font-weight:100 900;font-display:swap}
+:root{
+  --font-title:Geist,"Helvetica Neue",Arial,sans-serif;
+  --font-body:Geist,"Helvetica Neue",Arial,sans-serif;
+  --type-weight-heading:550;--type-weight-body:400;--type-weight-medium:500;--type-weight-strong:650;
+  --type-h1:clamp(2.9rem,5.05vw,5.44rem);
+  --type-h2:clamp(2.25rem,3.76vw,4.06rem);
+  --type-h3:clamp(1.6rem,2.14vw,2.31rem);
+  --type-body:clamp(1.05rem,1.22vw,1.3125rem);
+  --type-subtext:1rem;--type-caption:.875rem;
+  --h1:var(--type-h1);--h3:var(--type-h2);--h5:var(--type-h3);
+  --para:var(--type-body);--para-sm:var(--type-subtext);--story-small:var(--type-caption);
+  --type-heading-line:1.08;--type-heading-tracking:-.045em;--type-body-line:1.5;
+}
+body{font-family:var(--font-body);font-weight:var(--type-weight-body);line-height:var(--type-body-line)}
+h1,h2,h3,h4,h5,h6{font-family:var(--font-title);font-weight:var(--type-weight-heading);line-height:var(--type-heading-line);letter-spacing:var(--type-heading-tracking)}
+h1{font-size:var(--type-h1)}h2{font-size:var(--type-h2)}h3{font-size:var(--type-h3)}
+button,input,select,textarea{font-family:var(--font-body)}
+button,.craft-button,.careers-action,.careers-filter{font-weight:var(--type-weight-medium)}
+strong,b{font-weight:var(--type-weight-strong)}
+/* Section and card roles share weights even when their display size differs. */
+:is(#root,.role-dialog) :is(h1,h2,h3,h4,h5,h6){font-weight:var(--type-weight-heading)}
+.page-root :is(.story-section-head h2,.challenge__title,.support-section__head h2,.shape__heading,.faq__heading,.bands__heading){font-size:var(--type-h2);line-height:var(--type-heading-line);letter-spacing:var(--type-heading-tracking)}
+:is(.problem-card,.policy-card,.careers-card,.role-card) h3,.role-detail .job-description :is(h2,h3,h4){font-size:var(--type-h3);line-height:1.15}
+.role-detail__official-title,.navbar-v2__label{font-weight:var(--type-weight-medium)}

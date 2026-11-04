@@ -1,4 +1,4 @@
-import { vault, slow, elevator } from '@lucasmarkes/hairline';
+import { vault, slow, elevator } from '../vendor/hairline-figures.js';
 import { funnel } from './hairline-examples/funnel.js';
 import { cursorTab } from './hairline-examples/cursor-tab.js';
 
