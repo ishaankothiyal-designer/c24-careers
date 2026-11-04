@@ -20,7 +20,7 @@ test('cards carry the mission and all five convictions without a separate intro'
     assert.ok(card.indexOf('ambition-stack__copy')<card.indexOf('ambition-stack__visual'));
     assert.doesNotMatch(card,/ambition-stack__rail/);
   }
-  assert.deepEqual([...html.matchAll(/data-hairline-figure="([^"]+)"/g)].map(match=>match[1]),['vault','exploded','relay','slow','elevator']);
+  assert.deepEqual([...html.matchAll(/data-hairline-figure="([^"]+)"/g)].map(match=>match[1]),['vault','exploded','relay','crate-stack','elevator']);
   assert.doesNotMatch(html,/<header|ambition-stack__intro/);
   assert.ok(html.includes('consumer AI company'));
   assert.ok(html.includes('From India, for the world'));
