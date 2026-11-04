@@ -22,8 +22,8 @@
 .ambition-stack__copy{position:relative;z-index:1;flex:0 0 auto;max-width:850px}
 .ambition-stack__copy h3{font-family:var(--font-title);font-size:clamp(40px,6.5vw,88px);font-weight:500;letter-spacing:-.05em;line-height:1.04;max-width:20ch;margin:0 0 24px;overflow-wrap:break-word}
 .ambition-stack__copy p{font-size:clamp(17px,1.7vw,24px);line-height:1.45;max-width:43ch;margin:0}
-/* Give the drawing the full card width, including its intrinsic SVG breathing
-   room, and all height left after the copy. Hairline keeps its own proportions. */
+/* Stacked cards give the drawing the full width and the space below the copy.
+   Hairline keeps its own proportions. */
 .ambition-stack__visual{position:relative;align-self:center;box-sizing:border-box;width:calc(100% + 2 * var(--ambition-inset));max-width:none;min-height:0;height:clamp(280px,45svh,560px);flex:1 1 auto;aspect-ratio:auto;margin:0 calc(-1 * var(--ambition-inset));padding:0;pointer-events:auto;touch-action:pan-y}
 .ambition-stack__visual > svg{display:block;width:100%;height:100%;overflow:visible}
 /* Each successive sticky offset reduces the available viewport. A bounded
@@ -47,4 +47,12 @@
   .ambition-stack__item{position:relative;top:auto}
   .ambition-stack__card{height:auto;min-height:0;transform:none!important;border-radius:0;box-shadow:none}
   .ambition-stack__visual{height:clamp(240px,48vw,520px);flex:0 0 auto}
+}
+/* Two columns begin where both the copy and illustration have room to breathe.
+   Smaller screens retain the semantic copy-first, figure-second order. */
+@media(min-width:900px){
+  .ambition-stack__card{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,3vw,48px);align-items:stretch;padding-bottom:var(--ambition-inset)}
+  .ambition-stack__copy{align-self:start;min-width:0;max-width:none}
+  .ambition-stack__copy h3{font-size:clamp(40px,4.4vw,72px)}
+  .ambition-stack__visual{align-self:stretch;width:100%;height:auto;min-height:320px;margin:0}
 }
