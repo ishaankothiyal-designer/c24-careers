@@ -55,4 +55,7 @@
   .ambition-stack__copy{align-self:start;min-width:0;max-width:none}
   .ambition-stack__copy h3{font-size:clamp(40px,4.4vw,72px)}
   .ambition-stack__visual{align-self:stretch;width:100%;height:auto;min-height:320px;margin:0}
+  /* The builder card puts its inset on the copy, leaving the figure flush. */
+  .ambition-stack__card--builder{padding:0}
+  .ambition-stack__card--builder > .ambition-stack__copy{box-sizing:border-box;padding:80px 32px 32px 56px}
 }
