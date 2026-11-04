@@ -1,8 +1,9 @@
-// Live openings and previews share a full-width introduction above two columns.
+// Live openings and previews share a full-width introduction and reading flow.
+// Application controls follow every detail section in both dialogs and sidebars.
 export function roleDetailLayout({ header, facts = '', content, recovery = '', application }) {
   return `<div class="container role-detail__header">${header}</div><div class="container role-detail__layout">
     <div class="role-detail__content">${facts}${content}${recovery}</div>
-    <aside class="role-detail__application" aria-label="Role application">${application}</aside>
+    <section class="role-detail__application" aria-label="Role application">${application}</section>
   </div>`;
 }
 
