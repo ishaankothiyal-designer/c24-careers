@@ -4,7 +4,7 @@ The source repository is `ishaankothiyal-designer/c24-careers`. Staging review u
 
 ## Where to make changes
 
-The ambition story uses five sticky cards: edit `src/sections/career-02-ambition.html` for copy, `src/styles/ambition-stack.css` for card layout and responsive fallbacks, and `src/runtime/ambition-stack.js` for stack scaling and lazy figure lifecycle. `src/runtime/hairline-figures.js` imports Vault, Exploded, Relay and Elevator from pinned Hairline 0.5.1. The founders card uses the uploaded crate-stack design through `src/runtime/crate-stack.js`, with its original Hairline core isolated in `src/vendor/hairline-kernel.js`. Figures fill the available card area; screens up to 800px high use normal-flow cards so the artwork is not squeezed beneath the copy. Reduced motion and short viewports retain an ordinary reading order.
+The ambition story uses five sticky cards: edit `src/sections/career-02-ambition.html` for copy, `src/styles/ambition-stack.css` for card layout and responsive fallbacks, and `src/runtime/ambition-stack.js` for stack scaling and lazy figure lifecycle. `src/runtime/hairline-figures.js` imports Vault, Exploded, Relay, Slow and Elevator from pinned Hairline 0.5.1. The uploaded crate-stack experiment remains in `src/runtime/crate-stack.js` and `src/vendor/hairline-kernel.js` as a reference; it is not imported into the current story. At widths of 900px and above, copy sits on the left and figures fill the larger right column. Smaller layouts stack copy above the figures. Figures fill the available card area; screens up to 800px high use normal-flow cards so the artwork is not squeezed beneath the copy. Reduced motion and short viewports retain an ordinary reading order.
 
 | Concern | Files you control |
 | --- | --- |
