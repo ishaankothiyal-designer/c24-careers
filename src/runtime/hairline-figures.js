@@ -1,8 +1,8 @@
-import { terrain, exploded, relay, hub, elevator } from '@lucasmarkes/hairline';
+import { vault, exploded, relay, slow, elevator } from '@lucasmarkes/hairline';
 
 // Import only the five figures used by the ambition story. Vite keeps them in
 // the lazy illustration chunk rather than the opening page bundle.
-const figures = { terrain, exploded, relay, hub, elevator };
+const figures = { vault, exploded, relay, slow, elevator };
 
 export function createAmbitionFigure(host, options = {}) {
   const create = figures[host.dataset.hairlineFigure];
