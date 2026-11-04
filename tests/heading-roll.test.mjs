@@ -10,11 +10,11 @@ const node=()=>({style:{},attributes:{},setAttribute(key,value){this.attributes[
 function heading({hero=false,excluded=false}={}) {
   return {...node(),textContent:'Explore roles across Cars24.',closest:()=>null,querySelector:()=>null,hasAttribute:()=>excluded,matches:()=>hero};
 }
-async function run(width,targets) {
+async function run(width,targets,{reduced=false}={}) {
   const calls=[],split=[];
   const context={
     document:{querySelectorAll:()=>targets,fonts:{ready:Promise.resolve()},createElement:node},
-    matchMedia:()=>({matches:width<=900}),$: '1.8',
+    matchMedia:query=>({matches:query.includes('prefers-reduced-motion')?reduced:width<=900}),$: '1.8',
     e:{to(chars,options){calls.push({chars,options});},matchMedia(){assert.fail('Heading animation must not split desktop/mobile behavior');}},
     D:{create(target){split.push(target);return {lines:[node()],chars:[node(),node()]};}},
   };
@@ -38,10 +38,16 @@ for(const width of [390,934,1440]) {
   });
 }
 
-test('mobile hero and opted-out headings keep their established static layout',async()=>{
-  const {calls,split}=await run(390,[heading({hero:true}),heading({excluded:true})]);
-  assert.equal(calls.length,0);assert.equal(split.length,0);
-  const desktop=await run(1440,[heading({hero:true})]);
-  assert.equal(desktop.calls[0].options.duration,1.2);
-  assert.equal(desktop.calls[0].options.scrollTrigger,undefined);
+for (const width of [390,934,1440]) {
+  test(`hero and opted-out headings use the mobile static treatment at ${width}px`,async()=>{
+    const {calls,split}=await run(width,[heading({hero:true}),heading({excluded:true})]);
+    assert.equal(calls.length,0);assert.equal(split.length,0);
+  });
+}
+
+test('reduced motion leaves section headings unsplit and readable at every width',async()=>{
+  for (const width of [390,934,1440]) {
+    const {calls,split}=await run(width,[heading()],{reduced:true});
+    assert.equal(calls.length,0);assert.equal(split.length,0);
+  }
 });

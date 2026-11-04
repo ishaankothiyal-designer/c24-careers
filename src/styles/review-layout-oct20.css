@@ -43,7 +43,4 @@
 @media(max-width:900px) {
   .hero .hero__title[data-astro-cid-lcdefpme] { max-width:none; line-height:1.12; }
   .hero .hero__stage[data-astro-cid-lcdefpme] .hero__sub[data-astro-cid-lcdefpme] { line-height:1.5; }
-  /* Also reflow a title already animated before the window was narrowed. */
-  .hero .hero__title .roll-line { display:inline!important; line-height:inherit!important; margin-bottom:0!important; overflow:visible!important; }
-  .hero .hero__title .roll-line::after { content:" "; }
 }
