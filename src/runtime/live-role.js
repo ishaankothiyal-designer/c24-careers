@@ -93,7 +93,7 @@ export function liveRoleHtml(job, headingId = 'role-dialog-title') {
       <p class="role-detail__official-title">${escape(job.title)}</p>
       <p class="role-detail__summary">${escape([cities.length > 3 ? `${cities.slice(0, 3).join(', ')} + ${cities.length - 3} more` : cities.join(', '), job.employmentType, job.remote ? 'Remote' : ''].filter(Boolean).join(' · '))}</p>
       ${roleCardContext(job)}
-      ${showForm ? '<button class="role-detail__mobile-action role-detail__back" type="button" data-application-jump>Jump to application ↓</button>' : ''}
+      ${showForm ? '<button class="role-detail__application-jump role-detail__back" type="button" data-application-jump>Jump to application ↓</button>' : ''}
     </header>`,
     facts: `<dl class="role-detail__facts">${facts.map(([label, value]) => `<div><dt>${escape(label)}</dt><dd>${escape(value)}</dd></div>`).join('')}</dl>`,
     content: `<section class="job-description" aria-label="Job description">${job.description || '<p>A detailed description is not available for this role.</p>'}</section>${locations}`,
@@ -130,24 +130,6 @@ export function formatDescription(root) {
   });
 }
 
-export function initializeStickyApplication(root, signal) {
-  const panel = root.closest('.role-dialog');
-  const aside = root.querySelector('.role-detail__application');
-  if (!panel || !aside) return;
-  const update = () => {
-    // A tall form moves with the shared dialog scroll until its bottom is
-    // reachable, then sticks. It never creates a second scroll container.
-    const top = Math.min(80, panel.clientHeight - aside.offsetHeight - 24);
-    aside.style.setProperty('--role-form-sticky-top', `${top}px`);
-    aside.dataset.sticky = String(matchMedia('(min-width: 900px)').matches);
-  };
-  const observer = new ResizeObserver(update);
-  [panel, aside].forEach(element => observer.observe(element));
-  window.addEventListener('resize', update, { signal, passive: true });
-  signal.addEventListener('abort', () => observer.disconnect(), { once: true });
-  update();
-}
-
 export async function loadLiveRole(root, id, signal) {
   if (!root) return;
   const headingId = root.querySelector('h1')?.id || 'role-dialog-title';
@@ -161,7 +143,6 @@ export async function loadLiveRole(root, id, signal) {
     root.innerHTML = liveRoleHtml(job, headingId);
     document.title = `${job.title} | Cars24 Careers`;
     formatDescription(root);
-    initializeStickyApplication(root, signal);
     const clearButtons = initializeCraftButtons(root);
     signal.addEventListener('abort', clearButtons, { once: true });
     const form = root.querySelector('[data-application-form]');

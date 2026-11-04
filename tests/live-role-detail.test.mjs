@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { liveRoleHtml, experienceLabel, defaultDialCode, dialCodeLabel, loadLiveRole, initializeStickyApplication } from '../src/runtime/live-role.js';
+import { liveRoleHtml, experienceLabel, defaultDialCode, dialCodeLabel, loadLiveRole } from '../src/runtime/live-role.js';
 
 const job = {
   id: 'a6a477f915ac86', code: 'JOB156', title: 'Builder <Key Accounts>', department: 'Retail',
@@ -28,8 +28,8 @@ test('application form is visible with one submit action and unavailable mapping
   assert.match(html, /id="role-application-form" data-application-form aria-label="Apply for this role"/);
   assert.doesNotMatch(html, /data-application-form hidden|data-role-apply|Submit application/);
   assert.equal((html.match(/type="submit"/g) || []).length, 1);
-  const right = html.split('<aside')[1];
-  assert.doesNotMatch(right, /role-detail__facts|role-detail__summary|job-description|Your next chapter|role-detail__back/);
+  const application = html.split('<section class="role-detail__application"')[1];
+  assert.doesNotMatch(application, /role-detail__facts|role-detail__summary|job-description|Your next chapter|role-detail__back/);
   const fallback = liveRoleHtml({ ...job, application: { ...job.application, supported: false } });
   assert.doesNotMatch(fallback, /data-application-form|type="submit"/);
   assert.doesNotMatch(fallback, /href="https:\/\/careers\.cars24\.com/);
@@ -74,7 +74,7 @@ test('mapped location renders a visible editable select with the valid default a
 });
 
 
-test('detail uses the card problem statement, preserves the official title and places the header before both columns',()=>{
+test('detail uses the card problem statement, preserves the official title and places the header before the content and bottom form',()=>{
   const html=liveRoleHtml({...job,title:'Builder - Evaluation Engineer',department:'Home Inspection'});
   assert.match(html,/<h1[^>]+>Help people trust the cars they buy<\/h1>/);
   assert.match(html,/<p class="role-detail__official-title">Builder - Evaluation Engineer<\/p>/);
@@ -110,24 +110,6 @@ test('live role shows a loader until details resolve and clears busy state on su
   assert.match(root.innerHTML,/Role unavailable/);assert.match(root.innerHTML,/data-role-retry/);assert.equal(root.attrs['aria-busy'],'false');
   controller.abort();
 });
-
-test('one dialog scroll reaches tall forms before they stick and releases observers on abort',t=>{
-  const keys=['ResizeObserver','window','matchMedia'];const original=keys.map(key=>[key,Object.getOwnPropertyDescriptor(globalThis,key)]);
-  t.after(()=>{for(const [key,value] of original){if(value)Object.defineProperty(globalThis,key,value);else delete globalThis[key];}});
-  let disconnected=false;
-  Object.defineProperty(globalThis,'ResizeObserver',{configurable:true,value:class{observe(){}disconnect(){disconnected=true;}}});
-  Object.defineProperty(globalThis,'window',{configurable:true,value:{addEventListener(){}}});
-  Object.defineProperty(globalThis,'matchMedia',{configurable:true,value:()=>({matches:true})});
-  const styles={};const aside={dataset:{},offsetHeight:1200,style:{setProperty(key,value){styles[key]=value;}}};
-  const root={closest:()=>({clientHeight:600}),querySelector:()=>aside};
-  const controller=new AbortController();initializeStickyApplication(root,controller.signal);
-  assert.equal(aside.dataset.sticky,'true');assert.equal(styles['--role-form-sticky-top'],'-624px');
-  aside.offsetHeight=300;
-  initializeStickyApplication(root,controller.signal);
-  assert.equal(styles['--role-form-sticky-top'],'80px');
-  controller.abort();assert.equal(disconnected,true);
-});
-
 
 test('country labels stay compact while preserving every original submitted value', () => {
   assert.equal(dialCodeLabel({value:'+91 India',label:'+91 India'}), 'IND +91');

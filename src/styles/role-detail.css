@@ -1,21 +1,18 @@
-/* Editorial detail surface: role information on the left, application on the right.
+/* Editorial detail surface: complete role information, then the application.
  * Hallmark · pre-emit critique: P5 H5 E4 S5 R5 V4 */
 :root {
   --role-panel-width: 1120px;
   --role-reading-width: 68ch;
   --role-heading-size: clamp(2rem, 3.5vw, 3.5rem);
-  --role-application-width: 340px;
-  --role-column-gap: clamp(24px, 4vw, 56px);
   --role-detail-inset: clamp(20px, 4vw, 56px);
-  --role-toolbar-height: 88px;
-  --role-sticky-top: calc(var(--role-toolbar-height) + var(--sp-3));
+  --role-application-scroll-margin: 80px;
   --role-control-height: 52px;
   --role-phone-code-width: 100px;
 }
 .role-dialog { width: min(var(--role-panel-width), 95vw); }
-.role-dialog .role-detail__layout {
-  grid-template-columns: minmax(0, 1fr) minmax(0, var(--role-application-width));
-  gap: var(--role-column-gap);
+.role-detail__layout, .role-dialog .role-detail__layout {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
   padding: var(--sp-4) var(--role-detail-inset) var(--sp-5);
 }
 .role-detail__content { display: grid; grid-template-columns: minmax(0, 1fr); align-content: start; }
@@ -36,8 +33,8 @@
 .role-detail .job-description li { padding-left: var(--sp-1); margin-bottom: var(--sp-2); }
 .role-detail .job-description li::marker { color: var(--blue); }
 .role-detail .job-description li p { margin-block: 0; }
-.role-dialog .role-detail__application { position: static; top: var(--role-sticky-top); align-self: start; padding: 0; background: transparent; border: 0; }
-.role-dialog .role-detail__application[data-sticky="true"] { position: sticky; }
+.role-detail__application, .role-dialog .role-detail__application { position: static; top: auto; align-self: stretch; box-sizing: border-box; width: 100%; max-height: none; overflow: visible; padding: 40px 0; background: transparent; border: 0; border-top: var(--card-stroke); }
+.role-detail__application > :is(form,.role-detail__apply) { width: 100%; max-width: var(--role-reading-width); }
 .role-detail__apply { width: 100%; min-height: var(--role-control-height); white-space: normal; text-align: center; }
 .role-detail__content > .role-detail__back { font-size: var(--story-small); }
 .role-detail__locations ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-2) var(--sp-3); list-style: none; padding: 0; margin: var(--sp-3) 0 0; }
@@ -45,7 +42,7 @@
 .role-detail__locations summary { display: list-item; min-height: var(--careers-control-height); padding-block: var(--sp-2); font-family: var(--font-body); color: var(--blue); cursor: pointer; }
 .role-detail__locations summary:focus-visible { outline: var(--story-focus) solid var(--blue); outline-offset: var(--sp-1); }
 .role-detail [hidden] { display: none; }
-.role-detail [data-application-form] { margin: 0; scroll-margin-top: var(--role-sticky-top); }
+.role-detail [data-application-form] { margin: 0; scroll-margin-top: var(--role-application-scroll-margin); }
 .role-detail .application-fields { margin: 0; gap: var(--sp-3); }
 .role-detail .application-legend { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
 .role-detail .application-field { gap: var(--sp-1); }
@@ -66,32 +63,23 @@
 .role-detail .application-consent { font-size: var(--story-small); }
 .role-detail .application-submit { width:100%; min-height: var(--role-control-height); white-space: normal; }
 .role-detail [data-application-status]:empty { display: none; }
-.role-detail__mobile-action { display: none; }
 @media (max-width: 1024px) {
   .role-dialog { width: calc(100% - var(--role-panel-inset) * 2); max-width: var(--role-panel-width); }
-  :root { --role-application-width: 300px; }
 }
-@media (max-width: 899px) {
-  .role-dialog .role-detail__layout { grid-template-columns: minmax(0, 1fr); gap: var(--sp-4); }
-  .role-dialog .role-detail__application { padding-top: var(--sp-4); border-top: var(--card-stroke); }
-  .role-detail__mobile-action { display: inline-flex; margin-top: var(--sp-2); color: var(--blue); }
-}
-.role-detail__mobile-action { background: transparent; padding: 0; border: 0; font-family: var(--font-body); cursor: pointer; text-align: left; }
-.role-detail__mobile-action:focus-visible { outline: var(--story-focus) solid var(--blue); outline-offset: var(--sp-1); }
+.role-detail__application-jump { display: inline-flex; margin-top: var(--sp-2); color: var(--blue); background: transparent; padding: 0; border: 0; font-family: var(--font-body); cursor: pointer; text-align: left; }
+.role-detail__application-jump:focus-visible { outline: var(--story-focus) solid var(--blue); outline-offset: var(--sp-1); }
 .role-detail__application .application-availability { font-size: var(--story-small); line-height: var(--story-line); color: var(--story-muted); margin-bottom: var(--sp-3); }
 .application-availability a { color: var(--blue); text-decoration: underline; }
 .role-detail .application-submit:disabled { cursor: not-allowed; opacity: .55; }
 /* Loading, retry and missing-role messages use the same inset as loaded details. */
 .role-dialog .role-detail > .role-detail__hero { padding: var(--sp-4) var(--role-detail-inset); }
 
-/* Full-width role introduction, then independent reading and application columns. */
+/* Full-width introduction followed by role content and the bottom application. */
 .role-dialog .role-detail__header{padding:0 var(--role-detail-inset)}
 .role-dialog .role-detail__layout{padding-top:0}
 .role-dialog .role-detail h1{max-width:28ch;margin-top:0}
 .role-detail__official-title{font-family:var(--font-body);font-size:var(--para);font-weight:500;line-height:1.4;margin:12px 0 0}
 .role-detail__hero .role-card__context{font-family:var(--font-body);font-size:var(--para-sm);line-height:1.5;color:var(--story-muted);margin:12px 0 0;padding:0}
-/* The dialog owns scrolling; tall forms stick only after their bottom is reachable. */
-.role-dialog .role-detail__application[data-sticky="true"]{top:var(--role-form-sticky-top,80px);max-height:none;overflow:visible;box-sizing:border-box;padding:40px 6px}
 /* One inset chevron for every application select, including the phone control. */
 .role-detail .application-field select,.role-detail .application-phone select{-webkit-appearance:none;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='m1 1 5 5 5-5' fill='none' stroke='%23201d1d' stroke-width='1.5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center;background-size:12px 8px;padding-right:44px}
 .role-loading{min-height:340px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding-block:40px;text-align:center}
