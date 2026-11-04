@@ -1,8 +1,9 @@
-import { vault, exploded, relay, slow, elevator } from '@lucasmarkes/hairline';
+import { vault, exploded, relay, elevator } from '@lucasmarkes/hairline';
+import { createCrateStack } from './crate-stack.js';
 
-// Import only the five figures used by the ambition story. Vite keeps them in
+// Import only the figures used by the ambition story. Vite keeps them in
 // the lazy illustration chunk rather than the opening page bundle.
-const figures = { vault, exploded, relay, slow, elevator };
+const figures = { vault, exploded, relay, 'crate-stack':createCrateStack, elevator };
 
 export function createAmbitionFigure(host, options = {}) {
   const create = figures[host.dataset.hairlineFigure];
