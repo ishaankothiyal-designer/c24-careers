@@ -1,3 +1,8 @@
+// The cue belongs to the letter scene, not its long scroll runway.
+export function letterCueVisible(rect, viewportHeight) {
+  const overlap = Math.max(0, Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 80));
+  return rect.height > 0 && viewportHeight > 80 && overlap >= Math.min(rect.height * .6, (viewportHeight - 80) * .6);
+}
 // Scroll choreography for the source VAT paper, with readable DOM fallback.
 export function initializePaperLetter() {
   document.querySelectorAll('[data-paper-letter]').forEach(root => {
@@ -34,7 +39,9 @@ export function initializePaperLetter() {
       root.classList.toggle('is-paper-readable', current < .012);
       if (current !== target || writingWhileOpen && writing < 1) frame = requestAnimationFrame(tick);
     };
-    const request = () => { if (!frame) {lastTick=0;frame=requestAnimationFrame(tick);} };
+    const request = () => {
+      root.dataset.paperVisible = String(visible && letterCueVisible(root.querySelector('[data-paper-stage]').getBoundingClientRect(), innerHeight));
+      if (!frame) {lastTick=0;frame=requestAnimationFrame(tick);} };
     const load = async () => {
       if (scene || loading || isStatic()) return;
       loading = true;
@@ -69,7 +76,7 @@ export function initializePaperLetter() {
     }, {rootMargin:'1600px'}); preload.observe(root);
     const observer = new IntersectionObserver(entries => {
       visible = entries.some(e=>e.isIntersecting);
-      root.dataset.paperVisible = String(visible);
+      request();
       if (visible) {load();request();}
       else {
         cancelAnimationFrame(frame);frame=0;

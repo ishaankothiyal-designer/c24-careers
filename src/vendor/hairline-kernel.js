@@ -1,3 +1,4 @@
+// Local adaptation: animation time runs at 1.3x (dt, tween duration and delay).
 // Hairline core from the supplied crate-stack reference. MIT: /licenses/hairline-LICENSE.txt
 /* hairline kernel sha256:346b48bdef2cdfafd5343eba01494255cf75f9c078e6fcd1aafc62bab62980a1 */
 /*
@@ -341,7 +342,7 @@ var HL = (() => {
     };
   }
   var EASE_LIFT = bezier(0.32, 0.72, 0, 1);
-  var tween = (v, dur = 700) => ({ from: v, to: v, t0: -1e9, dur });
+  var tween = (v, dur = 700) => ({ from: v, to: v, t0: -1e9, dur: dur / 1.3 });
   var tval = (tw, now) => {
     const p = clamp((now - tw.t0) / tw.dur, 0, 1);
     return tw.from + (tw.to - tw.from) * (reduced ? 1 : EASE_LIFT(p));
@@ -350,7 +351,7 @@ var HL = (() => {
     if (tw.to === to) return;
     tw.from = tval(tw, now);
     tw.to = to;
-    tw.t0 = now + delay;
+    tw.t0 = now + delay / 1.3;
   };
   var tdone = (tw, now) => reduced || now >= tw.t0 + tw.dur;
 
@@ -398,7 +399,7 @@ var HL = (() => {
   var rm = null;
   function frame() {
     const now = performance.now();
-    const dt = Math.min(0.05, Math.max(0, (now - last) / 1e3));
+    const dt = Math.min(0.05, Math.max(0, (now - last) / 1e3)) * 1.3;
     last = now;
     let any = false;
     for (const b of boards.slice()) if (b.vis && b.awake) {

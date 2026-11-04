@@ -61,7 +61,7 @@ test('crate-stack renders its reference pose without eagerly creating 1,000 hidd
 test('crate-stack playback follows visibility and motion preferences and cleans up its drawing',t=>{
   const {host,figure,progress,step,visible,frames,motion,observers}=scene(t);
   visible(true);figure.update({play:true});step(60);
-  assert.ok(progress()>23.4&&progress()<24.1,'the supplied conveyor moves approximately half a crate per second');
+  assert.ok(progress()>24.0&&progress()<24.6,'the 1.3x clock advances the conveyor at approximately .65 crates per second');
   figure.update({play:false});step(100);
   const paused=progress();step(30);assert.equal(progress(),paused);
   figure.update({play:true});step(20);

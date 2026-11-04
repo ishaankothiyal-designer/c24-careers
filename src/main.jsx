@@ -18,6 +18,7 @@ import "./styles/story-flow.css";
 import "./styles/responsive-layout.css";
 import "./styles/role-detail.css";
 import "./styles/ambition-stack.css";
+import "./styles/typography.css";
 
 initializeContextMenuBlock();
 
