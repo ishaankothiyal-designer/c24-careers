@@ -1,4 +1,4 @@
-/* Mobile stacks; tablet has an auto-scrolling row; desktop has four columns.
+/* Mobile stacks; tablet has an auto-scrolling row; desktop pins a five-card horizontal row.
    Copy stays above the figure at every size. */
 .ambition-stack > .container{width:100%;max-width:none;padding-inline:0}
 .ambition-stack__list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;list-style:none;padding:0;margin:0}
@@ -42,9 +42,14 @@
 
 @media(prefers-reduced-motion:reduce){.ambition-stack__item{position:relative;top:auto}}
 
-/* Desktop cards keep the requested reading width; overflow belongs to this
-   focusable grid rather than the document. Tablet and mobile own their widths. */
+/* All five desktop cards form a 500px row. Native horizontal scrolling is
+   the fallback for reduced motion, short screens, and unavailable JavaScript. */
 @media(min-width:1024px){
-  .ambition-stack{--ambition-card-desktop-min:460px}
-  .ambition-stack__list{grid-template-columns:repeat(4,minmax(var(--ambition-card-desktop-min),1fr));overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin}
+  .ambition-stack__list{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:500px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin}
+}
+@media(min-width:1024px) and (min-height:680px){
+  .ambition-stack[data-horizontal-pinned="true"]{--ambition-pin-top:80px;--ambition-scene-height:min(660px,calc(100svh - 104px));height:calc(var(--ambition-scene-height) + var(--ambition-scroll-distance));padding-block:0;overflow-anchor:none}
+  .ambition-stack[data-horizontal-pinned="true"] > .container{position:sticky;top:var(--ambition-pin-top);height:var(--ambition-scene-height)}
+  .ambition-stack[data-horizontal-pinned="true"] .ambition-stack__list{height:100%;overflow-x:hidden;scroll-behavior:auto;scrollbar-width:none}
+  .ambition-stack[data-horizontal-pinned="true"] .ambition-stack__card{min-height:0}
 }
