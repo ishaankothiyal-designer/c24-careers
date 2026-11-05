@@ -19,6 +19,8 @@ import "./styles/responsive-layout.css";
 import "./styles/role-detail.css";
 import "./styles/ambition-stack.css";
 import "./styles/typography.css";
+import "./styles/hero-copy-wrap.css";
+import "./styles/ambition-mobile-cards.css";
 
 initializeContextMenuBlock();
 

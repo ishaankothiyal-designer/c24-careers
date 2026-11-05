@@ -14,7 +14,7 @@ export function initializeClosingPixels() {
     root.dataset.pixelsInitialized = 'true';
     root.dataset.closingMotion = 'horizontal-pixel-marquee';
     const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-    const compact = matchMedia('(max-width:900px)');
+    const compact = matchMedia('(max-width:767px)');
     const profile = performanceProfile();
     const isStatic = () => reduce.matches || compact.matches || profile.constrained;
     const text = [...title.childNodes].filter(node => node.nodeType === Node.TEXT_NODE)

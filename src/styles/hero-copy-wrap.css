@@ -1,0 +1,4 @@
+/* Keep prose natural while preventing the final “it.” from becoming a widow.
+   The phrase guard remains effective when text-wrap:pretty is unavailable. */
+.hero .hero__sub{text-wrap:pretty}
+.hero .hero__sub .hero__phrase-tail{white-space:nowrap}
