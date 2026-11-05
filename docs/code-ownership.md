@@ -86,7 +86,7 @@ The ambition container is full-width with zero horizontal padding and zero card 
 
 Desktop ambition cards are 38vw wide from 1024px and all five share one row. Tablet/mobile widths remain owned by their existing media rules.
 
-Desktop ambition now uses one 38vw-per-card row, including all five cards. `desktop-card-scroll.js` gives the section a vertical runway equal to the measured horizontal overflow and maps native page position into `scrollLeft` inside a sticky scene. It never cancels wheel/touch events or locks the body, so reaching either end releases naturally and reverse scrolling retraces the same path. Width ≥1024px and height ≥680px enable pinning; reduced motion and shorter desktops retain a manually scrollable row to keep all content reachable. Resize/media changes remeasure the runway, and cleanup removes listeners, observer, scheduled frame and inline state.
+Desktop ambition now uses one 38vw-per-card row, including all five cards. `desktop-card-scroll.js` gives the section a vertical runway equal to the measured horizontal overflow and maps native page position into a translated track inside a sticky scene. It never cancels wheel/touch events or locks the body, so reaching either end releases naturally and reverse scrolling retraces the same path. Width ≥1024px and height ≥680px enable pinning; reduced motion and shorter desktops retain a manually scrollable row to keep all content reachable. Resize/media changes remeasure the runway, and cleanup removes listeners, observer, scheduled frame and inline state.
 
 Desktop card height is owned by `--ambition-card-desktop-height:100svh`. The sticky scene uses the same full-viewport height and pins at 0px. Desktop copy starts below navigation with 104px top padding; headings use a shared clamp(36px, 3.2vw, 60px) scale. Tablet and mobile sizes are unchanged.
 
@@ -95,3 +95,7 @@ The ambition section has zero bottom padding at every breakpoint. Scroll progres
 The ambition bottom divider is removed by resetting its bottom border and the following section’s top border. A computed sticky offset of 0px is explicitly preserved by the scroll controller rather than replaced with a fallback.
 
 Ambition’s left inset matches the hero container: the shared `--pad-x` plus any centering space beyond `--max-w` (1728px). The right edge remains flush. Cards have zero gap in all modes; the previous gap-closing translations and travel adjustment were removed. Desktop subtext uses clamp(20px, 1.45vw, 24px); smaller screens start at 18px. The existing 80px navbar entry margin and full-viewport pinned scene remain.
+
+Active desktop tracks use visible overflow and translate the list with `--ambition-slide-x`, so cards remain visible through the left gutter instead of being clipped at the container edge. Existing document-level horizontal clipping limits painting at the browser edge without introducing page-wide horizontal scrolling. Tablet and manual fallbacks retain native scrolling and hidden scrollbars. The offset is cleared on mode changes and teardown.
+
+Pinned desktop cards stay opaque, including partially visible cards at the edges; visibility observers continue to manage figure playback without hiding the card copy. Other responsive modes retain their entrance reveals.

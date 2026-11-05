@@ -57,8 +57,9 @@
 @media(min-width:1024px) and (min-height:680px){
   .ambition-stack[data-horizontal-pinned="true"]{--ambition-pin-top:0px;--ambition-scene-height:var(--ambition-card-desktop-height);height:calc(var(--ambition-scene-height) + var(--ambition-scroll-distance));padding-block:0;overflow-anchor:none}
   .ambition-stack[data-horizontal-pinned="true"] > .container{position:sticky;top:var(--ambition-pin-top);height:var(--ambition-scene-height)}
-  .ambition-stack[data-horizontal-pinned="true"] .ambition-stack__list{height:100%;overflow-x:hidden;scroll-behavior:auto;scrollbar-width:none}
+  .ambition-stack[data-horizontal-pinned="true"] .ambition-stack__list{height:100%;overflow:visible;transform:translate3d(var(--ambition-slide-x,0px),0,0);scroll-behavior:auto;scrollbar-width:none}
   .ambition-stack[data-horizontal-pinned="true"] .ambition-stack__card{height:100%;min-height:0}
+  .ambition-stack[data-horizontal-pinned="true"][data-reveal-ready="true"] .ambition-stack__card{opacity:1;transform:none}
 }
 
 /* Hide the card-track scrollbar without changing native scrolling or focus. */

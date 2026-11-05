@@ -13,7 +13,7 @@ export function initializeDesktopCardScroll(root,{motion,viewport=globalThis.win
     frame=0;
     if(enabled&&!disposed){
       const offset=horizontalCardOffset(root.getBoundingClientRect().top,pinTop,distance);
-      list.scrollLeft=offset;
+      root.style.setProperty('--ambition-slide-x',`${-offset}px`);
     }
   };
   const request=()=>{if(enabled&&!frame&&!disposed)frame=viewport.requestAnimationFrame(render);};
@@ -24,12 +24,14 @@ export function initializeDesktopCardScroll(root,{motion,viewport=globalThis.win
     if(enabled){
       root.style.setProperty('--ambition-scroll-distance',`${distance}px`);
       root.dataset.horizontalPinned='true';
+      list.scrollLeft=0;
       const computedTop=parseFloat(viewport.getComputedStyle(stage).top);
       pinTop=Number.isFinite(computedTop)?computedTop:0;
       request();
     }else{
       delete root.dataset.horizontalPinned;
       root.style.removeProperty('--ambition-scroll-distance');
+      root.style.removeProperty('--ambition-slide-x');
       if(previous)list.scrollLeft=0;
     }
   };
@@ -45,5 +47,6 @@ export function initializeDesktopCardScroll(root,{motion,viewport=globalThis.win
     viewport.removeEventListener('scroll',request);viewport.removeEventListener('resize',measure);
     desktop.removeEventListener('change',measure);motion.removeEventListener('change',measure);
     delete root.dataset.horizontalPinned;root.style.removeProperty('--ambition-scroll-distance');
+    root.style.removeProperty('--ambition-slide-x');
   };
 }
