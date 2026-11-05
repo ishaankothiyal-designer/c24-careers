@@ -88,7 +88,7 @@ Desktop ambition cards are 38vw wide from 1024px and all five share one row. Tab
 
 Desktop ambition now uses one 38vw-per-card row, including all five cards. `desktop-card-scroll.js` gives the section a vertical runway equal to the measured horizontal overflow and maps native page position into a translated track inside a sticky scene. It never cancels wheel/touch events or locks the body, so reaching either end releases naturally and reverse scrolling retraces the same path. Width ≥1024px and height ≥680px enable pinning; reduced motion and shorter desktops retain a manually scrollable row to keep all content reachable. Resize/media changes remeasure the runway, and cleanup removes listeners, observer, scheduled frame and inline state.
 
-Desktop card height is owned by `--ambition-card-desktop-height:calc(100svh - 104px)`. The sticky scene fills the viewport beneath an 80px navbar and 24px outside-card gap, and pins at their combined 104px offset. Desktop copy has 64px top padding; headings use a shared clamp(40px, 3.6vw, 68px) scale. Tablet and mobile sizes are unchanged.
+Desktop card height is owned by `--ambition-card-desktop-height:calc(100svh - 80px)`. The sticky scene fills the viewport directly beneath the 80px navbar, and pins at an 80px offset. Desktop copy has 64px top padding; headings use a shared clamp(40px, 3.6vw, 68px) scale. Tablet and mobile sizes are unchanged.
 
 The ambition section has zero bottom padding at every breakpoint. Scroll progress reads the computed sticky top, including its full-viewport zero offset, so forward/reverse handoff uses the same position.
 
@@ -100,6 +100,6 @@ Active desktop tracks use visible overflow and translate the list with `--ambiti
 
 Pinned desktop cards stay opaque, including partially visible cards at the edges; visibility observers continue to manage figure playback without hiding the card copy. Other responsive modes retain their entrance reveals.
 
-Navbar spacing is outside the desktop cards: `--ambition-nav-clearance` (80px) plus `--ambition-top-gap` (24px) sets both the entry margin and sticky offset. Cards fill the remaining viewport height so the row fits beneath the header without extra bottom clearance. Horizontal progress reads the computed 104px sticky offset in both directions.
+Navbar spacing is outside the desktop cards: `--ambition-nav-clearance` (80px) plus `--ambition-top-gap` (0px) sets both the entry margin and sticky offset. Cards fill the remaining viewport height so the row fits beneath the header without extra bottom clearance. Horizontal progress reads the computed 80px sticky offset in both directions.
 
 Card copy has 64px top padding on desktop and 40px on smaller screens. Headings alone use balanced wrapping and a grouped final phrase to avoid orphaned final words; the group can still wrap within very narrow cards. The figure scale is 1.05 (previously 1.15), and its flexible area can shrink to 180px so the added copy spacing does not clip content.
