@@ -1,12 +1,5 @@
 import {performanceProfile} from './performance-profile.js';
 
-const clamp = value => Math.max(0, Math.min(1, value));
-
-// Each later sheet sits in front and remains larger than earlier sheets.
-export function stackScale(index, count) {
-  return count < 2 ? 1 : .9 + .1 * clamp(index / (count - 1));
-}
-
 export function initializeAmbitionStack({loadFigures = () => import('./hairline-figures.js')} = {}) {
   const cleanups=[];
   document.querySelectorAll('[data-ambition-stack]').forEach(root=>{
@@ -41,9 +34,13 @@ export function initializeAmbitionStack({loadFigures = () => import('./hairline-
       return loading;
     };
     const observer=new IntersectionObserver(entries=>{
-      entries.forEach(entry=>{entry.target.dataset.artVisible=String(entry.isIntersecting);});
+      entries.forEach(entry=>{
+        entry.target.dataset.artVisible=String(entry.isIntersecting);
+        if(entry.isIntersecting)entry.target.dataset.revealed='true';
+      });
       updateArt();
     },{threshold:.15});
+    root.dataset.revealReady='true';
     cards.forEach(card=>observer.observe(card));
     const preload=new IntersectionObserver(entries=>{
       if(entries.some(entry=>entry.isIntersecting)){
@@ -55,22 +52,15 @@ export function initializeAmbitionStack({loadFigures = () => import('./hairline-
     motion.addEventListener('change',updateArt);
     document.addEventListener('visibilitychange',updateArt);
     updateArt();
-    const staticMode=matchMedia('(prefers-reduced-motion: reduce), (max-height:800px)');
-    const update=()=>cards.forEach((card,i)=>{
-      if(staticMode.matches)card.style.removeProperty('transform');
-      else card.style.transform=`scale(${stackScale(i,cards.length).toFixed(4)})`;
-    });
-    staticMode.addEventListener('change',update);
-    update();
     cleanups.push(()=>{
       disposed=true;
       observer.disconnect();
       preload.disconnect();
       motion.removeEventListener('change',updateArt);
-      staticMode.removeEventListener('change',update);
       document.removeEventListener('visibilitychange',updateArt);
       figures.forEach(figure=>figure.destroy());
       delete root.dataset.stackInitialized;
+      delete root.dataset.revealReady;
     });
   });
   return ()=>cleanups.forEach(cleanup=>cleanup());
