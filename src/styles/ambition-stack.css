@@ -1,6 +1,7 @@
 /* Mobile stacks; tablet has an auto-scrolling row; desktop has four columns.
    Copy stays above the figure at every size. */
-.ambition-stack__list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;list-style:none;padding:8px 0 20px;margin:0}
+.ambition-stack > .container{width:100%;max-width:none;padding-inline:0}
+.ambition-stack__list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;list-style:none;padding:0;margin:0}
 .ambition-stack__item{position:relative;min-width:0}
 .ambition-stack__card{
   --ambition-inset:clamp(24px,3.5vw,48px);
@@ -29,10 +30,10 @@
 /* Fast entrance once per card. Content stays visible without JavaScript. */
 .ambition-stack[data-reveal-ready="true"] .ambition-stack__card{transition:opacity 320ms ease,transform 320ms cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--stack-index,0)*45ms)}
 .ambition-stack[data-reveal-ready="true"] .ambition-stack__card:not([data-revealed="true"]){opacity:0;transform:translateY(24px)}
-@media(min-width:768px) and (max-width:1023px){.ambition-stack__list{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:calc(50% - 10px);gap:20px;overflow-x:auto;scroll-snap-type:x proximity;overscroll-behavior-x:contain;scrollbar-width:thin}.ambition-stack__item{scroll-snap-align:start}}
+@media(min-width:768px) and (max-width:1023px){.ambition-stack__list{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:50%;gap:0;overflow-x:auto;scroll-snap-type:x proximity;overscroll-behavior-x:contain;scrollbar-width:thin}.ambition-stack__item{scroll-snap-align:start}}
 .ambition-stack__list:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
 @media(max-width:767px){
-  .ambition-stack__list{grid-template-columns:minmax(0,1fr);gap:32px}
+  .ambition-stack__list{grid-template-columns:minmax(0,1fr);gap:0}
   .ambition-stack__item{position:sticky;top:calc(96px + var(--stack-index,0)*8px);z-index:calc(var(--stack-index,0) + 1)}
   .ambition-stack__copy h3{font-size:30px}
 }
