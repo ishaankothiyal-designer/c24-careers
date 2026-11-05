@@ -21,7 +21,8 @@ export function initializeDesktopCardScroll(root,{motion,viewport=globalThis.win
     if(enabled){
       root.style.setProperty('--ambition-scroll-distance',`${distance}px`);
       root.dataset.horizontalPinned='true';
-      pinTop=parseFloat(viewport.getComputedStyle(stage).top)||80;
+      const computedTop=parseFloat(viewport.getComputedStyle(stage).top);
+      pinTop=Number.isFinite(computedTop)?computedTop:0;
       request();
     }else{
       delete root.dataset.horizontalPinned;
