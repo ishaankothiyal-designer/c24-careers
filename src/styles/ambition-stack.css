@@ -76,3 +76,8 @@
   .ambition-stack__list{width:calc(100% + 2 * var(--pad-x));margin-inline:calc(-1 * var(--pad-x));padding-inline:var(--pad-x);box-sizing:border-box;scroll-padding-inline:var(--pad-x)}
   #ambition .ambition-stack__card{opacity:1;transform:none}
 }
+/* Manual desktop fallbacks also expose overflow through the gutters. The
+   symmetric margins/padding keep hero alignment even beyond its maximum width. */
+@media(min-width:1024px){
+  .ambition-stack:not([data-horizontal-pinned="true"]) .ambition-stack__list{width:100vw;margin-inline:calc(50% - 50vw);padding-inline:calc(50vw - 50%);box-sizing:border-box}
+}
