@@ -84,10 +84,12 @@ The ambition section uses sticky stacking below 768px (normal flow on short scre
 
 The ambition container is full-width with zero horizontal padding and zero card gaps at every breakpoint; internal text insets remain on the copy block. Tablet cards each occupy 50% of the track with no gutter.
 
-Desktop ambition cards are 500px wide from 1024px and all five share one row. Tablet/mobile widths remain owned by their existing media rules.
+Desktop ambition cards are 38vw wide from 1024px and all five share one row. Tablet/mobile widths remain owned by their existing media rules.
 
-Desktop ambition now uses one 500px-per-card row, including all five cards. `desktop-card-scroll.js` gives the section a vertical runway equal to the measured horizontal overflow and maps native page position into `scrollLeft` inside a sticky scene. It never cancels wheel/touch events or locks the body, so reaching either end releases naturally and reverse scrolling retraces the same path. Width ≥1024px and height ≥680px enable pinning; reduced motion and shorter desktops retain a manually scrollable row to keep all content reachable. Resize/media changes remeasure the runway, and cleanup removes listeners, observer, scheduled frame and inline state.
+Desktop ambition now uses one 38vw-per-card row, including all five cards. `desktop-card-scroll.js` gives the section a vertical runway equal to the measured horizontal overflow and maps native page position into `scrollLeft` inside a sticky scene. It never cancels wheel/touch events or locks the body, so reaching either end releases naturally and reverse scrolling retraces the same path. Width ≥1024px and height ≥680px enable pinning; reduced motion and shorter desktops retain a manually scrollable row to keep all content reachable. Resize/media changes remeasure the runway, and cleanup removes listeners, observer, scheduled frame and inline state.
 
-Desktop card height is owned by `--ambition-card-desktop-height:640px`. The pinned scene uses that same target, bounded by viewport height minus 80px for navigation. The pin top is `max(80px, 100svh - 640px)`, so the row is bottom-aligned at the scroll handoff and leaves no bottom clearance. Non-pinned desktop rows retain 640px cards. Tablet and mobile card heights are unchanged.
+Desktop card height is owned by `--ambition-card-desktop-height:100svh`. The sticky scene uses the same full-viewport height and pins at 0px. Desktop copy starts below navigation with 104px top padding; headings use a shared clamp(36px, 3.2vw, 60px) scale. Tablet and mobile sizes are unchanged.
 
-The ambition section has zero bottom padding at every breakpoint. Scroll progress reads the computed sticky top, including its responsive bottom alignment, so forward/reverse handoff uses the same position.
+The ambition section has zero bottom padding at every breakpoint. Scroll progress reads the computed sticky top, including its full-viewport zero offset, so forward/reverse handoff uses the same position.
+
+The ambition bottom divider is removed by resetting its bottom border and the following section’s top border. A computed sticky offset of 0px is explicitly preserved by the scroll controller rather than replaced with a fallback.

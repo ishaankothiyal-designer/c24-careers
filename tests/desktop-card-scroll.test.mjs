@@ -32,6 +32,9 @@ test('desktop scene measures overflow, follows native scrolling, resizes, disabl
   top=-180;events.get('scroll')();tick();assert.equal(list.scrollLeft,500);
   top=-980;events.get('scroll')();tick();assert.equal(list.scrollLeft,1300);
   top=320;events.get('scroll')();tick();assert.equal(list.scrollLeft,0,'reverse scrolling returns to the same pin position');
+  pinTop=0;top=0;observer.callback();tick();assert.equal(list.scrollLeft,0,'zero is a valid full-viewport pin position');
+  top=-500;events.get('scroll')();tick();assert.equal(list.scrollLeft,500);
+  top=0;events.get('scroll')();tick();assert.equal(list.scrollLeft,0);
   motion.matches=true;motion.listeners.forEach(fn=>fn());assert.equal(root.dataset.horizontalPinned,undefined);assert.equal(props.size,0);
   motion.matches=false;motion.listeners.forEach(fn=>fn());tick();assert.equal(root.dataset.horizontalPinned,'true');
   desktop.matches=false;desktop.listeners.forEach(fn=>fn());assert.equal(root.dataset.horizontalPinned,undefined);
