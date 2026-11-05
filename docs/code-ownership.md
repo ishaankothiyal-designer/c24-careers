@@ -93,3 +93,5 @@ Desktop card height is owned by `--ambition-card-desktop-height:100svh`. The sti
 The ambition section has zero bottom padding at every breakpoint. Scroll progress reads the computed sticky top, including its full-viewport zero offset, so forward/reverse handoff uses the same position.
 
 The ambition bottom divider is removed by resetting its bottom border and the following section’s top border. A computed sticky offset of 0px is explicitly preserved by the scroll controller rather than replaced with a fallback.
+
+Ambition’s container uses the shared `--pad-x` on the left only. Desktop adds 80px entry margin to compensate for navigation; the pinned row still occupies 100svh behind the header, with copy clearance below it. Entrance gaps are 24px and close over the first 160px of native horizontal progress using index-based item translations; reverse scrolling restores them. The measured runway subtracts all closed gaps so the final card ends flush, and teardown removes the temporary gap property. Reduced-motion/manual rows retain their entrance spacing.

@@ -3,20 +3,30 @@
 export const horizontalCardOffset = (sectionTop, pinTop, distance) =>
   Math.max(0, Math.min(Math.max(0,distance), pinTop-sectionTop));
 
+export const cardGapClosure = (offset,gap) => gap*Math.max(0,Math.min(1,offset/160));
+
 export function initializeDesktopCardScroll(root,{motion,viewport=globalThis.window}={}) {
   const stage=root.querySelector?.('.container');
   const list=root.querySelector?.('.ambition-stack__list');
   if(!stage||!list)return ()=>{};
   const desktop=viewport.matchMedia('(min-width:1024px) and (min-height:680px)');
-  let enabled=false,distance=0,pinTop=80,frame=0,disposed=false;
+  let enabled=false,distance=0,gap=0,pinTop=80,frame=0,disposed=false;
   const render=()=>{
     frame=0;
-    if(enabled&&!disposed)list.scrollLeft=horizontalCardOffset(root.getBoundingClientRect().top,pinTop,distance);
+    if(enabled&&!disposed){
+      const offset=horizontalCardOffset(root.getBoundingClientRect().top,pinTop,distance);
+      root.style.setProperty('--ambition-gap-close',`${cardGapClosure(offset,gap)}px`);
+      list.scrollLeft=offset;
+    }
   };
   const request=()=>{if(enabled&&!frame&&!disposed)frame=viewport.requestAnimationFrame(render);};
   const measure=()=>{
     const previous=enabled;
-    distance=Math.max(0,list.scrollWidth-list.clientWidth);
+    // Measure the open row, then reserve only the closed row's travel. Otherwise
+    // the last card would overshoot after the gaps disappear.
+    root.style.setProperty('--ambition-gap-close','0px');
+    gap=parseFloat(viewport.getComputedStyle(list).columnGap)||0;
+    distance=Math.max(0,list.scrollWidth-list.clientWidth-gap*Math.max(0,(list.children?.length||1)-1));
     enabled=desktop.matches&&!motion.matches&&distance>0;
     if(enabled){
       root.style.setProperty('--ambition-scroll-distance',`${distance}px`);
@@ -27,6 +37,7 @@ export function initializeDesktopCardScroll(root,{motion,viewport=globalThis.win
     }else{
       delete root.dataset.horizontalPinned;
       root.style.removeProperty('--ambition-scroll-distance');
+      root.style.removeProperty('--ambition-gap-close');
       if(previous)list.scrollLeft=0;
     }
   };
@@ -42,5 +53,6 @@ export function initializeDesktopCardScroll(root,{motion,viewport=globalThis.win
     viewport.removeEventListener('scroll',request);viewport.removeEventListener('resize',measure);
     desktop.removeEventListener('change',measure);motion.removeEventListener('change',measure);
     delete root.dataset.horizontalPinned;root.style.removeProperty('--ambition-scroll-distance');
+    root.style.removeProperty('--ambition-gap-close');
   };
 }
