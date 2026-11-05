@@ -1,15 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import test from 'node:test';
-import {stackScale,initializeAmbitionStack} from '../src/runtime/ambition-stack.js';
-
-test('each card in front remains larger than the cards behind it',()=>{
-  const scales=Array.from({length:5},(_,i)=>stackScale(i,5));
-  assert.equal(scales[0],.9);
-  assert.equal(scales[4],1);
-  scales.slice(1).forEach((scale,i)=>assert.ok(scale>scales[i]));
-  assert.equal(stackScale(0,1),1);
-});
+import {initializeAmbitionStack} from '../src/runtime/ambition-stack.js';
 
 test('cards carry the mission and all five convictions without a separate intro',async()=>{
   const html=await readFile(new URL('../src/sections/career-02-ambition.html',import.meta.url),'utf8');
@@ -61,12 +53,15 @@ test('Hairline loads near the section, plays only visible figures, and releases 
   observers[1].callback([{isIntersecting:true}]);
   await new Promise(resolve=>setImmediate(resolve));
   assert.equal(loads,1);assert.equal(created.length,5);
+  assert.equal(cards[0].dataset.revealed,'true');
+  assert.equal(cards[1].dataset.revealed,undefined);
   assert.equal(created[0].options.play,true);assert.equal(created[1].options.play,false);
   doc.hidden=true;events.get('visibilitychange')();assert.equal(created[0].options.play,false);
   doc.hidden=false;events.get('visibilitychange')();assert.equal(created[0].options.play,true);
   motion.matches=true;motion.change();assert.equal(created[0].options.play,false);
   motion.matches=false;motion.change();assert.equal(created[0].options.play,true);
   observers[0].callback([{target:cards[0],isIntersecting:false}]);assert.equal(created[0].options.play,false);
+  assert.equal(cards[0].dataset.revealed,'true','scrolling past must not hide a revealed card');
   cleanup();
   assert.ok(created.every(figure=>figure.destroyed));
   assert.ok(observers.every(observer=>observer.disconnected));
