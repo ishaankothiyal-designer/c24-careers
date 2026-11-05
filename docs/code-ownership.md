@@ -94,7 +94,7 @@ The ambition section has zero bottom padding at every breakpoint. Scroll progres
 
 The ambition bottom divider is removed by resetting its bottom border and the following section’s top border. A computed sticky offset of 0px is explicitly preserved by the scroll controller rather than replaced with a fallback.
 
-Ambition’s left inset matches the hero container: the shared `--pad-x` plus any centering space beyond `--max-w` (1728px). The right edge remains flush. Cards have zero gap in all modes; the previous gap-closing translations and travel adjustment were removed. Desktop subtext uses clamp(20px, 1.45vw, 24px); smaller screens start at 18px. The existing 80px navbar entry margin and full-viewport pinned scene remain.
+Ambition’s left inset matches the hero container: the shared `--pad-x` plus any centering space beyond `--max-w` (1728px). The right inset matches the left. Cards have zero gap in all modes; the previous gap-closing translations and travel adjustment were removed. Desktop subtext uses clamp(20px, 1.45vw, 24px); smaller screens start at 18px. The existing 80px navbar entry margin and full-viewport pinned scene remain.
 
 Active desktop tracks use visible overflow and translate the list with `--ambition-slide-x`, so cards remain visible through the left gutter instead of being clipped at the container edge. Existing document-level horizontal clipping limits painting at the browser edge without introducing page-wide horizontal scrolling. Tablet and manual fallbacks retain native scrolling and hidden scrollbars. The offset is cleared on mode changes and teardown.
 
@@ -103,3 +103,5 @@ Pinned desktop cards stay opaque, including partially visible cards at the edges
 Navbar spacing is outside the desktop cards: `--ambition-nav-clearance` (80px) plus `--ambition-top-gap` (0px) sets both the entry margin and sticky offset. Cards fill the remaining viewport height so the row fits beneath the header without extra bottom clearance. Horizontal progress reads the computed 80px sticky offset in both directions.
 
 Card copy has 64px top padding on desktop and 40px on smaller screens. Headings use the user-specified explicit line breaks in the section HTML, preserving the current card order. Automatic balancing and final-phrase wrappers have been removed. The figure scale is 1.05 (previously 1.15), and its flexible area can shrink to 180px so the added copy spacing does not clip content.
+
+Ambition now has symmetric hero-container insets. Active desktop translation retains visible overflow through both gutters and measures the narrower inner width, so the final card aligns to the right inset. On tablet, negative margins expand the native scrollport to the viewport edges while internal padding and scroll-padding preserve the same start/end gutters. Tablet cards stay opaque, including edge peeks; touch, keyboard, auto-scroll and reduced-motion behavior remain native.
