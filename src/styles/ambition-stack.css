@@ -41,3 +41,10 @@
 @media(prefers-reduced-motion:reduce){.ambition-stack[data-reveal-ready="true"] .ambition-stack__card{opacity:1;transform:none;transition:none}}
 
 @media(prefers-reduced-motion:reduce){.ambition-stack__item{position:relative;top:auto}}
+
+/* Desktop cards keep the requested reading width; overflow belongs to this
+   focusable grid rather than the document. Tablet and mobile own their widths. */
+@media(min-width:1024px){
+  .ambition-stack{--ambition-card-desktop-min:460px}
+  .ambition-stack__list{grid-template-columns:repeat(4,minmax(var(--ambition-card-desktop-min),1fr));overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin}
+}
