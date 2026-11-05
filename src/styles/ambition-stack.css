@@ -82,3 +82,6 @@
   #ambition .ambition-stack__card{opacity:1;transform:none}
   .ambition-stack:not([data-horizontal-pinned="true"]) .ambition-stack__list{width:100vw;margin-inline:calc(50% - 50vw);padding-inline:calc(50vw - 50%);box-sizing:border-box}
 }
+
+/* Continuous tablet motion must not settle to snap points or anchor recycled cards. */
+.ambition-stack__list[data-tablet-loop="true"]{scroll-snap-type:none;scroll-behavior:auto;overflow-anchor:none}
