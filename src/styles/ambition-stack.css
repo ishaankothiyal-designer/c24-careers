@@ -47,6 +47,7 @@
 /* All five desktop cards form a viewport-sized row. Native horizontal scrolling is
    the fallback for reduced motion, short screens, and unavailable JavaScript. */
 @media(min-width:1024px){
+  #ambition{scroll-margin-top:var(--ambition-nav-clearance)}
   .ambition-stack{--ambition-nav-clearance:80px;--ambition-top-gap:0px;--ambition-card-desktop-height:calc(100svh - var(--ambition-nav-clearance) - var(--ambition-top-gap));--ambition-card-desktop-width:38vw;--ambition-heading-size:clamp(40px,3.6vw,68px);margin-top:calc(var(--ambition-nav-clearance) + var(--ambition-top-gap))}
   .ambition-stack__card{height:var(--ambition-card-desktop-height);min-height:var(--ambition-card-desktop-height)}
   .ambition-stack__copy{padding:64px 32px 24px}
