@@ -79,5 +79,6 @@
 /* Manual desktop fallbacks also expose overflow through the gutters. The
    symmetric margins/padding keep hero alignment even beyond its maximum width. */
 @media(min-width:1024px){
+  #ambition .ambition-stack__card{opacity:1;transform:none}
   .ambition-stack:not([data-horizontal-pinned="true"]) .ambition-stack__list{width:100vw;margin-inline:calc(50% - 50vw);padding-inline:calc(50vw - 50%);box-sizing:border-box}
 }
