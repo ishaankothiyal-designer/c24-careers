@@ -16,11 +16,13 @@ test('cards carry the mission and all five convictions without a separate intro'
   assert.doesNotMatch(html,/<header|ambition-stack__intro/);
   assert.ok(html.includes('consumer AI company'));
   assert.ok(html.includes('From India, for the world'));
-  const sequence=['Audacity is','AI-native builder','ten years','100 founders','100bn'];
+  const sequence=['Audacity is','AI-native builder','10yrs','100 founders','100bn'];
   let previous=-1;
   for(const text of sequence){const position=html.indexOf(text);assert.ok(position>previous,text);previous=position;}
-  for(const text of ['10×','ten years','100 founders','100bn','five years'])assert.ok(html.includes(text));
+  for(const text of ['10×','10yrs','100 founders','100bn','5 years'])assert.ok(html.includes(text));
   assert.doesNotMatch(html,/by 2028|ambition__destination/);
+  const headings=[...html.matchAll(/<h3>([\s\S]*?)<\/h3>/g)].map(match=>match[1].split('<br>'));
+  assert.deepEqual(headings,[['Audacity is','the only moat'],['Become an','AI-native builder'],['10yrs of work','in one year'],['Create','100 founders'],['Build towards','$100bn in 5 years']]);
 });
 
 
