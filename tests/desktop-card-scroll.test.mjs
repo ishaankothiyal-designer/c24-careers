@@ -37,6 +37,9 @@ test('desktop scene measures overflow, follows native scrolling, resizes, disabl
   pinTop=0;top=0;observer.callback();tick();assert.equal(slideOffset(),0,'zero is a valid full-viewport pin position');
   top=-500;events.get('scroll')();tick();assert.equal(slideOffset(),500);
   top=0;events.get('scroll')();tick();assert.equal(slideOffset(),0);
+  pinTop=104;top=104;observer.callback();tick();assert.equal(slideOffset(),0,'horizontal scrolling starts below the navbar and outside-card gap');
+  top=-396;events.get('scroll')();tick();assert.equal(slideOffset(),500);
+  top=104;events.get('scroll')();tick();assert.equal(slideOffset(),0);
   motion.matches=true;motion.listeners.forEach(fn=>fn());assert.equal(root.dataset.horizontalPinned,undefined);assert.equal(props.size,0);
   motion.matches=false;motion.listeners.forEach(fn=>fn());tick();assert.equal(root.dataset.horizontalPinned,'true');
   desktop.matches=false;desktop.listeners.forEach(fn=>fn());assert.equal(root.dataset.horizontalPinned,undefined);
