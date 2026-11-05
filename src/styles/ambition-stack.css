@@ -1,4 +1,4 @@
-/* Mobile stacks; tablet has an auto-scrolling row; desktop has four columns.
+/* Mobile stacks; tablet has an auto-scrolling row; desktop pins a five-card horizontal row.
    Copy stays above the figure at every size. */
 .ambition-stack > .container{width:100%;max-width:none;padding-inline:0}
 .ambition-stack__list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;list-style:none;padding:0;margin:0}
