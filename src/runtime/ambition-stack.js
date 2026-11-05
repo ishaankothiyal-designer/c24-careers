@@ -1,5 +1,31 @@
 import {performanceProfile} from './performance-profile.js';
 
+// Native scrolling retains touch/keyboard access and never hijacks page scroll.
+export function initializeTabletCardScroll(list, {tablet,motion,isVisible,isHidden,clock=globalThis}={}) {
+  if(!list)return {update(){},destroy(){}};
+  let timer=0,pointer=false,focus=false,manualUntil=0;
+  const stop=()=>{if(timer)clock.clearInterval(timer);timer=0;};
+  const advance=()=>{
+    if(pointer||focus||Date.now()<manualUntil)return;
+    const max=list.scrollWidth-list.clientWidth;
+    if(max<=0)return;
+    const step=list.children[1]?.offsetLeft-list.children[0]?.offsetLeft||list.clientWidth;
+    list.scrollTo({left:list.scrollLeft>=max-2?0:Math.min(max,list.scrollLeft+step),behavior:'smooth'});
+  };
+  const update=()=>{
+    if(tablet.matches&&!motion.matches&&isVisible()&&!isHidden()){
+      if(!timer)timer=clock.setInterval(advance,2800);
+    }else stop();
+  };
+  const enter=()=>{pointer=true;};const leave=()=>{pointer=false;};
+  const focusIn=()=>{focus=true;};const focusOut=e=>{focus=list.contains(e.relatedTarget);};
+  const manual=()=>{manualUntil=Date.now()+6000;};
+  const events={pointerenter:enter,pointerleave:leave,focusin:focusIn,focusout:focusOut,pointerdown:manual,wheel:manual,keydown:manual};
+  Object.entries(events).forEach(([type,fn])=>list.addEventListener(type,fn,{passive:true}));
+  tablet.addEventListener('change',update);
+  return {update,destroy(){stop();tablet.removeEventListener('change',update);Object.entries(events).forEach(([type,fn])=>list.removeEventListener(type,fn));}};
+}
+
 export function initializeAmbitionStack({loadFigures = () => import('./hairline-figures.js')} = {}) {
   const cleanups=[];
   document.querySelectorAll('[data-ambition-stack]').forEach(root=>{
@@ -8,12 +34,17 @@ export function initializeAmbitionStack({loadFigures = () => import('./hairline-
     const cards=[...root.querySelectorAll('.ambition-stack__card')];
     const motion=matchMedia('(prefers-reduced-motion: reduce)');
     const profile=performanceProfile();
+    const tabletScroll=initializeTabletCardScroll(root.querySelector?.('.ambition-stack__list'),{
+      tablet:matchMedia('(min-width:768px) and (max-width:1023px)'),motion,
+      isVisible:()=>cards.some(card=>card.dataset.artVisible==='true'),isHidden:()=>document.hidden,
+    });
     const figures=new Map();
     let loading,disposed=false;
     const updateArt=()=>{
       const staticArt=motion.matches||profile.constrained;
       root.dataset.artStatic=String(staticArt);
       root.dataset.artPaused=String(document.hidden);
+      tabletScroll.update();
       figures.forEach((figure,card)=>figure.update({play:!staticArt&&!document.hidden&&card.dataset.artVisible==='true'}));
     };
     const prepareFigures=()=>{
@@ -54,6 +85,7 @@ export function initializeAmbitionStack({loadFigures = () => import('./hairline-
     updateArt();
     cleanups.push(()=>{
       disposed=true;
+      tabletScroll.destroy();
       observer.disconnect();
       preload.disconnect();
       motion.removeEventListener('change',updateArt);
