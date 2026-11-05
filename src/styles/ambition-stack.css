@@ -2,7 +2,7 @@
    Copy stays above the figure at every size. */
 .ambition-stack{padding-bottom:0;border-bottom:0}
 #ambition + section{border-block-start:0}
-.ambition-stack > .container{width:100%;max-width:none;padding-left:var(--pad-x);padding-right:0;box-sizing:border-box}
+.ambition-stack > .container{width:100%;max-width:none;padding-left:max(var(--pad-x),calc((100% - var(--max-w)) / 2 + var(--pad-x)));padding-right:0;box-sizing:border-box}
 .ambition-stack__list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;list-style:none;padding:0;margin:0}
 .ambition-stack__item{position:relative;min-width:0}
 .ambition-stack__card{
@@ -26,7 +26,7 @@
 .ambition-stack__copy{position:relative;z-index:1;flex:0 0 auto;box-sizing:border-box;padding:28px 24px 16px}
 .ambition-stack__copy h3{font-family:var(--font-title);font-size:clamp(26px,2.1vw,34px);font-weight:var(--type-weight-heading,550);letter-spacing:-.045em;line-height:1.08;margin:0 0 16px;overflow-wrap:break-word}
 .ambition-stack__copy h3 br{display:none}
-.ambition-stack__copy p{font-size:16px;line-height:1.5;margin:0}
+.ambition-stack__copy p{font-size:clamp(18px,1.45vw,24px);line-height:1.5;margin:0}
 .ambition-stack__visual{position:relative;box-sizing:border-box;width:100%;height:260px;min-height:220px;flex:1 0 220px;margin:0;padding:0;pointer-events:none;touch-action:pan-y}
 .ambition-stack__visual > svg{display:block;width:100%;height:100%;overflow:visible;transform:scale(1.15);transform-origin:center}
 /* Fast entrance once per card. Content stays visible without JavaScript. */
@@ -47,16 +47,16 @@
 /* All five desktop cards form a viewport-sized row. Native horizontal scrolling is
    the fallback for reduced motion, short screens, and unavailable JavaScript. */
 @media(min-width:1024px){
-  .ambition-stack{--ambition-nav-clearance:80px;--ambition-card-gap:24px;--ambition-card-desktop-height:100svh;--ambition-card-desktop-width:38vw;--ambition-heading-size:clamp(36px,3.2vw,60px);margin-top:var(--ambition-nav-clearance)}
+  .ambition-stack{--ambition-nav-clearance:80px;--ambition-card-desktop-height:100svh;--ambition-card-desktop-width:38vw;--ambition-heading-size:clamp(36px,3.2vw,60px);margin-top:var(--ambition-nav-clearance)}
   .ambition-stack__card{height:var(--ambition-card-desktop-height);min-height:var(--ambition-card-desktop-height)}
   .ambition-stack__copy{padding:calc(var(--ambition-nav-clearance) + 24px) 32px 24px}
   .ambition-stack__copy h3{font-size:var(--ambition-heading-size)}
-  .ambition-stack__list{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:var(--ambition-card-desktop-width);column-gap:var(--ambition-card-gap);overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin}
+  .ambition-stack__copy p{font-size:clamp(20px,1.45vw,24px)}
+  .ambition-stack__list{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:var(--ambition-card-desktop-width);column-gap:0;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin}
 }
 @media(min-width:1024px) and (min-height:680px){
   .ambition-stack[data-horizontal-pinned="true"]{--ambition-pin-top:0px;--ambition-scene-height:var(--ambition-card-desktop-height);height:calc(var(--ambition-scene-height) + var(--ambition-scroll-distance));padding-block:0;overflow-anchor:none}
   .ambition-stack[data-horizontal-pinned="true"] > .container{position:sticky;top:var(--ambition-pin-top);height:var(--ambition-scene-height)}
   .ambition-stack[data-horizontal-pinned="true"] .ambition-stack__list{height:100%;overflow-x:hidden;scroll-behavior:auto;scrollbar-width:none}
   .ambition-stack[data-horizontal-pinned="true"] .ambition-stack__card{height:100%;min-height:0}
-  .ambition-stack[data-horizontal-pinned="true"] .ambition-stack__item{transform:translateX(calc(var(--stack-index,0) * -1 * var(--ambition-gap-close,0px)))}
 }
