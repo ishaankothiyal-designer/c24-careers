@@ -32,7 +32,7 @@
 /* Fast entrance once per card. Content stays visible without JavaScript. */
 .ambition-stack[data-reveal-ready="true"] .ambition-stack__card{transition:opacity 320ms ease,transform 320ms cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--stack-index,0)*45ms)}
 .ambition-stack[data-reveal-ready="true"] .ambition-stack__card:not([data-revealed="true"]){opacity:0;transform:translateY(24px)}
-@media(min-width:768px) and (max-width:1023px){.ambition-stack__list{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:50%;gap:0;overflow-x:auto;scroll-snap-type:x proximity;overscroll-behavior-x:contain;scrollbar-width:thin}.ambition-stack__item{scroll-snap-align:start}}
+@media(min-width:768px) and (max-width:1023px){.ambition-stack__list{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:50%;gap:0;overflow-x:auto;scroll-snap-type:x proximity;overscroll-behavior-x:contain;scrollbar-width:none}.ambition-stack__item{scroll-snap-align:start}}
 .ambition-stack__list:focus-visible{outline:2px solid var(--blue);outline-offset:4px}
 @media(max-width:767px){
   .ambition-stack__list{grid-template-columns:minmax(0,1fr);gap:0}
@@ -52,7 +52,7 @@
   .ambition-stack__copy{padding:calc(var(--ambition-nav-clearance) + 24px) 32px 24px}
   .ambition-stack__copy h3{font-size:var(--ambition-heading-size)}
   .ambition-stack__copy p{font-size:clamp(20px,1.45vw,24px)}
-  .ambition-stack__list{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:var(--ambition-card-desktop-width);column-gap:0;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin}
+  .ambition-stack__list{grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:var(--ambition-card-desktop-width);column-gap:0;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}
 }
 @media(min-width:1024px) and (min-height:680px){
   .ambition-stack[data-horizontal-pinned="true"]{--ambition-pin-top:0px;--ambition-scene-height:var(--ambition-card-desktop-height);height:calc(var(--ambition-scene-height) + var(--ambition-scroll-distance));padding-block:0;overflow-anchor:none}
@@ -60,3 +60,7 @@
   .ambition-stack[data-horizontal-pinned="true"] .ambition-stack__list{height:100%;overflow-x:hidden;scroll-behavior:auto;scrollbar-width:none}
   .ambition-stack[data-horizontal-pinned="true"] .ambition-stack__card{height:100%;min-height:0}
 }
+
+/* Hide the card-track scrollbar without changing native scrolling or focus. */
+.ambition-stack__list{-ms-overflow-style:none;scrollbar-width:none}
+.ambition-stack__list::-webkit-scrollbar{display:none;width:0;height:0}
