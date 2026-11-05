@@ -83,3 +83,5 @@ Ambition figures use 1.15× framing, with copy above art on tablet and columns o
 The ambition section uses sticky stacking below 768px (normal flow on short screens and reduced motion), one native horizontal row with 2.8s automatic advancement at 768–1023px, and four columns from 1024px. Text stays above art throughout. All five convictions are preserved. Tablet scrolling pauses during pointer/focus interaction, for six seconds after manual inputs, offscreen, in hidden tabs, and under reduced motion. Cards enter once with a 320ms fade/lift and 45ms stagger. Reduced motion shows every card immediately.
 
 The ambition container is full-width with zero horizontal padding and zero card gaps at every breakpoint; internal text insets remain on the copy block. Tablet cards each occupy 50% of the track with no gutter.
+
+Desktop ambition cards use the scoped `--ambition-card-desktop-min:460px` token from 1024px. The four-column grid scrolls horizontally when four cards cannot fit; wider desktops distribute spare width evenly. This prevents a fixed article width from overlapping its neighbors. Tablet/mobile widths remain owned by their existing media rules.
