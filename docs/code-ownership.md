@@ -84,4 +84,6 @@ The ambition section uses sticky stacking below 768px (normal flow on short scre
 
 The ambition container is full-width with zero horizontal padding and zero card gaps at every breakpoint; internal text insets remain on the copy block. Tablet cards each occupy 50% of the track with no gutter.
 
-Desktop ambition cards use the scoped `--ambition-card-desktop-min:460px` token from 1024px. The four-column grid scrolls horizontally when four cards cannot fit; wider desktops distribute spare width evenly. This prevents a fixed article width from overlapping its neighbors. Tablet/mobile widths remain owned by their existing media rules.
+Desktop ambition cards are 500px wide from 1024px and all five share one row. Tablet/mobile widths remain owned by their existing media rules.
+
+Desktop ambition now uses one 500px-per-card row, including all five cards. `desktop-card-scroll.js` gives the section a vertical runway equal to the measured horizontal overflow and maps native page position into `scrollLeft` inside a sticky scene. It never cancels wheel/touch events or locks the body, so reaching either end releases naturally and reverse scrolling retraces the same path. Width ≥1024px and height ≥680px enable pinning; reduced motion and shorter desktops retain a manually scrollable row to keep all content reachable. Resize/media changes remeasure the runway, and cleanup removes listeners, observer, scheduled frame and inline state.

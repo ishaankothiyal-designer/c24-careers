@@ -1,3 +1,4 @@
+import {initializeDesktopCardScroll} from './desktop-card-scroll.js';
 import {performanceProfile} from './performance-profile.js';
 
 // Native scrolling retains touch/keyboard access and never hijacks page scroll.
@@ -34,6 +35,7 @@ export function initializeAmbitionStack({loadFigures = () => import('./hairline-
     const cards=[...root.querySelectorAll('.ambition-stack__card')];
     const motion=matchMedia('(prefers-reduced-motion: reduce)');
     const profile=performanceProfile();
+    const stopDesktopScroll=initializeDesktopCardScroll(root,{motion});
     const tabletScroll=initializeTabletCardScroll(root.querySelector?.('.ambition-stack__list'),{
       tablet:matchMedia('(min-width:768px) and (max-width:1023px)'),motion,
       isVisible:()=>cards.some(card=>card.dataset.artVisible==='true'),isHidden:()=>document.hidden,
@@ -86,6 +88,7 @@ export function initializeAmbitionStack({loadFigures = () => import('./hairline-
     cleanups.push(()=>{
       disposed=true;
       tabletScroll.destroy();
+      stopDesktopScroll();
       observer.disconnect();
       preload.disconnect();
       motion.removeEventListener('change',updateArt);
