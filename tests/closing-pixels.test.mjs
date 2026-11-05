@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import { initializeClosingPixels } from '../src/runtime/closing-pixels.js';
 
-function fixture(t, { compact = false, reduced = false, constrained = false } = {}) {
+function fixture(t, { compact, width = 934, reduced = false, constrained = false } = {}) {
   const keys = ['document','navigator','matchMedia','Node','getComputedStyle','ResizeObserver','IntersectionObserver','devicePixelRatio','requestAnimationFrame','cancelAnimationFrame','addEventListener'];
   const original = keys.map(key => [key, Object.getOwnPropertyDescriptor(globalThis, key)]);
   t.after(() => { for (const [key,value] of original) { if (value) Object.defineProperty(globalThis,key,value); else delete globalThis[key]; } });
@@ -12,14 +12,14 @@ function fixture(t, { compact = false, reduced = false, constrained = false } = 
   const paint = { measureText(text) { maskCopy = text; return { width: 40 }; }, fillText() {}, getImageData() {
     const data = new Uint8ClampedArray(40 * 24 * 4); data[3] = 255; data[7] = 255; return { data };
   } };
-  const canvas = { getContext: () => ctx }, stage = { clientWidth: 934 };
+  const canvas = { getContext: () => ctx }, stage = { clientWidth: width };
   const title = { childNodes: [{nodeType:3,textContent:'Your next chapter.'},{nodeType:1},{nodeType:3,textContent:'Ours, too.'}] };
   const root = { dataset: {}, style: { setProperty() {} }, classList: { toggle(name,on) { on ? classes.add(name) : classes.delete(name); }, remove(name) { classes.delete(name); } },
     querySelector: query => ({ '[data-closing-pixel-stage]':stage, '[data-closing-pixel-canvas]':canvas, '.closing-pixels__title':title })[query] };
   const doc = { hidden:false, fonts:{ready:Promise.resolve()}, querySelectorAll:()=>[root], createElement:()=>({getContext:()=>paint}),
     body:{appendChild(){assert.fail('Closing animation must stay inside its section');}}, addEventListener(type,callback){events[type]=callback;} };
   const globals = { document:doc,navigator:{hardwareConcurrency:constrained?2:8,deviceMemory:8},Node:{TEXT_NODE:3},devicePixelRatio:2,
-    matchMedia(query) { if (!media.has(query)) media.set(query,{matches:query.includes('prefers-reduced-motion')?reduced:query.includes('max-width:900px')?compact:false,addEventListener(type,fn){this.changed=fn;}}); return media.get(query); },
+    matchMedia(query) { if (!media.has(query)) media.set(query,{matches:query.includes('prefers-reduced-motion')?reduced:query.includes('max-width:767px')?(compact??width<=767):false,addEventListener(type,fn){this.changed=fn;}}); return media.get(query); },
     getComputedStyle:()=>({fontFamily:'sans-serif',getPropertyValue:()=> '#4736fe'}),ResizeObserver:class{observe(){}},
     IntersectionObserver:class{constructor(callback){intersect=callback;}observe(){}},requestAnimationFrame(callback){const id=++nextFrame;frames.set(id,callback);return id;},cancelAnimationFrame(id){frames.delete(id);},addEventListener(){} };
   for (const [key,value] of Object.entries(globals)) Object.defineProperty(globalThis,key,{configurable:true,writable:true,value});
@@ -55,3 +55,27 @@ test('marquee cancels hidden-tab work and responds to reduced-motion changes',as
   const preference=f.media.get('(prefers-reduced-motion: reduce)');preference.matches=true;preference.changed();
   assert.equal(f.frames.size,0);assert.equal(f.canvas.hidden,true);assert.equal(f.classes.has('is-pixels-ready'),false);
 });
+
+
+test('835px tablets animate and switching to phone mode restores static text',async t=>{
+  const f=fixture(t,{width:835});await ready();f.visible(true);
+  assert.equal(f.classes.has('is-pixels-ready'),true);
+  assert.equal(f.canvas.hidden,false);assert.equal(f.frames.size,1);
+  const compact=f.media.get('(max-width:767px)');
+  compact.matches=true;compact.changed();
+  assert.equal(f.classes.has('is-pixels-ready'),false);
+  assert.equal(f.canvas.hidden,true);assert.equal(f.frames.size,0);
+  compact.matches=false;compact.changed();
+  assert.equal(f.classes.has('is-pixels-ready'),true);
+  assert.equal(f.canvas.hidden,false);assert.equal(f.frames.size,1);
+});
+
+
+for (const [width,animated] of [[767,false],[768,true]]) {
+  test(`closing marquee respects the phone/tablet boundary at ${width}px`,async t=>{
+    const f=fixture(t,{width});await ready();f.visible(true);
+    assert.equal(f.classes.has('is-pixels-ready'),animated);
+    assert.equal(f.canvas.hidden,!animated);
+    assert.equal(f.frames.size,animated?1:0);
+  });
+}

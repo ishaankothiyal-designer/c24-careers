@@ -1,0 +1,25 @@
+/* Rounded, inset mobile cards. Tablet/Desktop retain their scrolling tracks.
+   Copy owns its inset; the drawing has a small inset above the curved edge. */
+@media(max-width:767px){
+  .ambition-stack{
+    --ambition-mobile-radius:clamp(22px,6vw,30px);
+    --ambition-mobile-copy-inset:clamp(20px,5vw,28px);
+  }
+  .ambition-stack__list{gap:24px}
+  .ambition-stack__card{
+    height:auto;
+    min-height:520px;
+    justify-content:space-between;
+    padding:0 0 16px;
+    border-radius:var(--ambition-mobile-radius);
+    box-shadow:0 8px 24px rgb(22 19 44 / .07);
+  }
+  .ambition-stack__copy{padding:40px var(--ambition-mobile-copy-inset) 16px}
+  .ambition-stack__visual{
+    align-self:center;
+    width:calc(100% - 24px);
+    height:clamp(220px,68vw,360px);
+    min-height:220px;
+    flex:0 0 auto;
+  }
+}
