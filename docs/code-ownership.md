@@ -87,3 +87,5 @@ The ambition container is full-width with zero horizontal padding and zero card 
 Desktop ambition cards are 500px wide from 1024px and all five share one row. Tablet/mobile widths remain owned by their existing media rules.
 
 Desktop ambition now uses one 500px-per-card row, including all five cards. `desktop-card-scroll.js` gives the section a vertical runway equal to the measured horizontal overflow and maps native page position into `scrollLeft` inside a sticky scene. It never cancels wheel/touch events or locks the body, so reaching either end releases naturally and reverse scrolling retraces the same path. Width ≥1024px and height ≥680px enable pinning; reduced motion and shorter desktops retain a manually scrollable row to keep all content reachable. Resize/media changes remeasure the runway, and cleanup removes listeners, observer, scheduled frame and inline state.
+
+Desktop card height is owned by `--ambition-card-desktop-height:650px`. The pinned scene uses that same target, bounded by viewport height minus 104px for navigation and clearance. Non-pinned desktop rows retain 650px cards. Tablet and mobile card heights are unchanged.
