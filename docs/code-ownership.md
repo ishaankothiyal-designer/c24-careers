@@ -88,7 +88,7 @@ Desktop ambition cards are 38vw wide from 1024px and all five share one row. Tab
 
 Desktop ambition now uses one 38vw-per-card row, including all five cards. `desktop-card-scroll.js` gives the section a vertical runway equal to the measured horizontal overflow and maps native page position into a translated track inside a sticky scene. It never cancels wheel/touch events or locks the body, so reaching either end releases naturally and reverse scrolling retraces the same path. Width ≥1024px and height ≥680px enable pinning; reduced motion and shorter desktops retain a manually scrollable row to keep all content reachable. Resize/media changes remeasure the runway, and cleanup removes listeners, observer, scheduled frame and inline state.
 
-Desktop card height is owned by `--ambition-card-desktop-height:100svh`. The sticky scene uses the same full-viewport height and pins at 0px. Desktop copy starts below navigation with 104px top padding; headings use a shared clamp(36px, 3.2vw, 60px) scale. Tablet and mobile sizes are unchanged.
+Desktop card height is owned by `--ambition-card-desktop-height:100svh`. The sticky scene uses the same full-viewport height and pins at 0px. Desktop copy starts below navigation with 104px top padding; headings use a shared clamp(40px, 3.6vw, 68px) scale. Tablet and mobile sizes are unchanged.
 
 The ambition section has zero bottom padding at every breakpoint. Scroll progress reads the computed sticky top, including its full-viewport zero offset, so forward/reverse handoff uses the same position.
 

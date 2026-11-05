@@ -24,7 +24,7 @@
 .ambition-stack__card--ownership{--ambition-surface:var(--lime,#d8ff00)}
 .ambition-stack__card--ambition{--ambition-surface:#1c1b23;--hairline-hi:var(--lime,#d8ff00);--hairline-edge:#c9c4f9;--hairline-mid:#817c9b;--hairline-lo:#4b475f;color:#fff}
 .ambition-stack__copy{position:relative;z-index:1;flex:0 0 auto;box-sizing:border-box;padding:28px 24px 16px}
-.ambition-stack__copy h3{font-family:var(--font-title);font-size:clamp(26px,2.1vw,34px);font-weight:var(--type-weight-heading,550);letter-spacing:-.045em;line-height:1.08;margin:0 0 16px;overflow-wrap:break-word}
+.ambition-stack__copy h3{font-family:var(--font-title);font-size:clamp(30px,2.4vw,38px);font-weight:var(--type-weight-heading,550);letter-spacing:-.045em;line-height:1.08;margin:0 0 16px;overflow-wrap:break-word}
 .ambition-stack__copy h3 br{display:none}
 .ambition-stack__copy p{font-size:clamp(18px,1.45vw,24px);line-height:1.5;margin:0}
 .ambition-stack__visual{position:relative;box-sizing:border-box;width:100%;height:260px;min-height:220px;flex:1 0 220px;margin:0;padding:0;pointer-events:none;touch-action:pan-y}
@@ -37,7 +37,7 @@
 @media(max-width:767px){
   .ambition-stack__list{grid-template-columns:minmax(0,1fr);gap:0}
   .ambition-stack__item{position:sticky;top:calc(96px + var(--stack-index,0)*8px);z-index:calc(var(--stack-index,0) + 1)}
-  .ambition-stack__copy h3{font-size:30px}
+  .ambition-stack__copy h3{font-size:34px}
 }
 @media(max-width:767px) and (max-height:600px){.ambition-stack__item{position:relative;top:auto}}
 @media(prefers-reduced-motion:reduce){.ambition-stack[data-reveal-ready="true"] .ambition-stack__card{opacity:1;transform:none;transition:none}}
@@ -47,7 +47,7 @@
 /* All five desktop cards form a viewport-sized row. Native horizontal scrolling is
    the fallback for reduced motion, short screens, and unavailable JavaScript. */
 @media(min-width:1024px){
-  .ambition-stack{--ambition-nav-clearance:80px;--ambition-card-desktop-height:100svh;--ambition-card-desktop-width:38vw;--ambition-heading-size:clamp(36px,3.2vw,60px);margin-top:var(--ambition-nav-clearance)}
+  .ambition-stack{--ambition-nav-clearance:80px;--ambition-card-desktop-height:100svh;--ambition-card-desktop-width:38vw;--ambition-heading-size:clamp(40px,3.6vw,68px);margin-top:var(--ambition-nav-clearance)}
   .ambition-stack__card{height:var(--ambition-card-desktop-height);min-height:var(--ambition-card-desktop-height)}
   .ambition-stack__copy{padding:calc(var(--ambition-nav-clearance) + 24px) 32px 24px}
   .ambition-stack__copy h3{font-size:var(--ambition-heading-size)}
