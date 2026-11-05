@@ -102,4 +102,4 @@ Pinned desktop cards stay opaque, including partially visible cards at the edges
 
 Navbar spacing is outside the desktop cards: `--ambition-nav-clearance` (80px) plus `--ambition-top-gap` (0px) sets both the entry margin and sticky offset. Cards fill the remaining viewport height so the row fits beneath the header without extra bottom clearance. Horizontal progress reads the computed 80px sticky offset in both directions.
 
-Card copy has 64px top padding on desktop and 40px on smaller screens. Headings alone use balanced wrapping and a grouped final phrase to avoid orphaned final words; the group can still wrap within very narrow cards. The figure scale is 1.05 (previously 1.15), and its flexible area can shrink to 180px so the added copy spacing does not clip content.
+Card copy has 64px top padding on desktop and 40px on smaller screens. Headings use the user-specified explicit line breaks in the section HTML, preserving the current card order. Automatic balancing and final-phrase wrappers have been removed. The figure scale is 1.05 (previously 1.15), and its flexible area can shrink to 180px so the added copy spacing does not clip content.
