@@ -15,9 +15,11 @@ export function initializeTabletCardScroll(list, {tablet,motion,isVisible,isHidd
     // At most the finite original row can have moved out during a manual swipe.
     for(let i=0;i<originals.length;i++){
       const first=list.children[0],second=list.children[1];
-      if(!second||first.getBoundingClientRect().right>edge)break;
-      const step=second.offsetLeft-first.offsetLeft;
-      if(step<=0)break;
+      if(!second)break;
+      const firstRect=first.getBoundingClientRect();
+      if(firstRect.right>edge)break;
+      const step=second.getBoundingClientRect().left-firstRect.left;
+      if(!Number.isFinite(step)||step<=0)break;
       list.append(first);
       list.scrollLeft-=step;
     }
