@@ -2,7 +2,7 @@
    Copy stays above the figure at every size. */
 .ambition-stack{padding-bottom:0;border-bottom:0}
 #ambition + section{border-block-start:0}
-.ambition-stack > .container{width:100%;max-width:none;padding-left:max(var(--pad-x),calc((100% - var(--max-w)) / 2 + var(--pad-x)));padding-right:0;box-sizing:border-box}
+.ambition-stack > .container{width:100%;max-width:none;padding-inline:max(var(--pad-x),calc((100% - var(--max-w)) / 2 + var(--pad-x)));box-sizing:border-box}
 .ambition-stack__list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;list-style:none;padding:0;margin:0}
 .ambition-stack__item{position:relative;min-width:0}
 .ambition-stack__card{
@@ -69,3 +69,10 @@
 
 /* Short desktop windows use normal flow so the outside navbar gap cannot clip card content. */
 @media(min-width:1024px) and (max-height:679px){.ambition-stack__card{height:auto}}
+
+/* Tablet scrolling uses a viewport-wide scrollport with padded start/end
+   positions. Cards can paint through both gutters during the native scroll. */
+@media(min-width:768px) and (max-width:1023px){
+  .ambition-stack__list{width:calc(100% + 2 * var(--pad-x));margin-inline:calc(-1 * var(--pad-x));padding-inline:var(--pad-x);box-sizing:border-box;scroll-padding-inline:var(--pad-x)}
+  #ambition .ambition-stack__card{opacity:1;transform:none}
+}
