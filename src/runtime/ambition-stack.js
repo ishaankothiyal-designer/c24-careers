@@ -9,7 +9,7 @@ export function initializeTabletCardScroll(list, {tablet,motion,isVisible,isHidd
   const now=()=>clock.performance?.now?.()??Date.now();
   let frame=0,last=null,pointer=false,focus=false,manualUntil=0,resumeTimer=0,looping=false,disposed=false;
   const stop=()=>{if(frame)clock.cancelAnimationFrame(frame);frame=0;last=null;};
-  const allowed=()=>looping&&isVisible()&&!isHidden()&&!pointer&&!focus&&now()>=manualUntil;
+  const allowed=()=>looping&&isVisible()&&!isHidden()&&!focus&&now()>=manualUntil;
   const recycle=()=>{
     const edge=list.getBoundingClientRect().left;
     // At most the finite original row can have moved out during a manual swipe.
@@ -28,7 +28,7 @@ export function initializeTabletCardScroll(list, {tablet,motion,isVisible,isHidd
     frame=0;
     if(disposed||!allowed()){last=null;return;}
     const elapsed=last===null?0:Math.min(50,Math.max(0,time-last));last=time;
-    list.scrollLeft+=elapsed*.048; // 48px per second, independent of refresh rate.
+    list.scrollLeft+=elapsed*(pointer ? 0.018 : 0.048); // Hover slows to 18px/s; normal playback is 48px/s.
     recycle();
     frame=clock.requestAnimationFrame(tick);
   };
