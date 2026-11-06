@@ -1,25 +1,30 @@
-/* Rounded, inset mobile cards. Tablet/Desktop retain their scrolling tracks.
-   Copy owns its inset; the drawing has a small inset above the curved edge. */
+/* Manual mobile swipe row with sharp, padded cards and an edge peek. */
 @media(max-width:767px){
-  .ambition-stack{
-    --ambition-mobile-radius:clamp(22px,6vw,30px);
-    --ambition-mobile-copy-inset:clamp(20px,5vw,28px);
+  .ambition-stack{--ambition-mobile-copy-inset:clamp(20px,5vw,28px)}
+  .ambition-stack__list{
+    grid-template-columns:none;
+    grid-auto-flow:column;
+    grid-auto-columns:min(86vw,360px);
+    gap:16px;
+    width:calc(100% + 2 * var(--pad-x));
+    margin-inline:calc(-1 * var(--pad-x));
+    padding-inline:var(--pad-x);
+    box-sizing:border-box;
+    overflow-x:auto;
+    overscroll-behavior-x:contain;
+    scroll-snap-type:x mandatory;
+    scroll-padding-inline:var(--pad-x);
   }
-  .ambition-stack__list{gap:24px}
+  .ambition-stack__item{position:relative;top:auto;z-index:auto;display:flex;scroll-snap-align:start}
+  #ambition .ambition-stack__card{opacity:1;transform:none}
   .ambition-stack__card{
-    height:auto;
-    min-height:520px;
-    justify-content:space-between;
-    padding:0 0 16px;
-    border-radius:var(--ambition-mobile-radius);
+    width:100%;height:auto;min-height:520px;
+    justify-content:space-between;padding:0 0 16px;border-radius:0;
     box-shadow:0 8px 24px rgb(22 19 44 / .07);
   }
   .ambition-stack__copy{padding:40px var(--ambition-mobile-copy-inset) 16px}
   .ambition-stack__visual{
-    align-self:center;
-    width:calc(100% - 24px);
-    height:clamp(220px,68vw,360px);
-    min-height:220px;
-    flex:0 0 auto;
+    align-self:center;width:calc(100% - 24px);
+    height:clamp(220px,68vw,360px);min-height:220px;flex:0 0 auto;
   }
 }

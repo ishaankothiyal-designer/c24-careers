@@ -40,9 +40,10 @@ test('tablet row moves continuously and recycles offscreen originals without a v
 test('continuous autoplay pauses for interaction, visibility and reduced motion, restores order and releases scheduled work',()=>{
   const {list,originals,events,frames,timers,tablet,motion,handle,step,setVisible,setHidden}=scene();
   handle.update();step();step();assert.ok(list.scrollLeft>0);
-  events.get('pointerenter')();assert.equal(frames.size,0);const paused=list.scrollLeft;step();assert.equal(list.scrollLeft,paused);
-  events.get('pointerleave')();assert.equal(frames.size,1);
-  events.get('focusin')();assert.equal(frames.size,0);
+  const beforeHover=list.scrollLeft;events.get('pointerenter')();assert.equal(frames.size,1);step();
+  assert.ok(Math.abs(list.scrollLeft-beforeHover-.9)<.001,'hover keeps scrolling at the slower 18px/s rate');
+  const afterHover=list.scrollLeft;events.get('pointerleave')();step();assert.ok(Math.abs(list.scrollLeft-afterHover-2.4)<.001,'leaving hover restores 48px/s');
+  events.get('focusin')();assert.equal(frames.size,0);const paused=list.scrollLeft;step();assert.equal(list.scrollLeft,paused);
   events.get('focusout')({relatedTarget:null});assert.equal(frames.size,1);
   events.get('wheel')();assert.equal(frames.size,0);assert.equal(timers.size,1);
   step(5900);assert.equal(frames.size,0);step(100);assert.equal(frames.size,1);step();assert.ok(list.scrollLeft>paused);
