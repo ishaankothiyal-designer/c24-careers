@@ -1,5 +1,6 @@
 // The cue belongs to the letter scene, not its long scroll runway.
-export function letterCueVisible(rect, viewportHeight) {
+export function letterCueVisible(rect, viewportHeight, sectionBottom = Infinity) {
+  if (sectionBottom < viewportHeight) return false;
   const overlap = Math.max(0, Math.min(rect.bottom, viewportHeight) - Math.max(rect.top, 80));
   return rect.height > 0 && viewportHeight > 80 && overlap >= Math.min(rect.height * .6, (viewportHeight - 80) * .6);
 }
@@ -40,7 +41,7 @@ export function initializePaperLetter() {
       if (current !== target || writingWhileOpen && writing < 1) frame = requestAnimationFrame(tick);
     };
     const request = () => {
-      root.dataset.paperVisible = String(visible && letterCueVisible(root.querySelector('[data-paper-stage]').getBoundingClientRect(), innerHeight));
+      root.dataset.paperVisible = String(visible && letterCueVisible(root.querySelector('[data-paper-stage]').getBoundingClientRect(), innerHeight, root.getBoundingClientRect().bottom));
       if (!frame) {lastTick=0;frame=requestAnimationFrame(tick);} };
     const load = async () => {
       if (scene || loading || isStatic()) return;

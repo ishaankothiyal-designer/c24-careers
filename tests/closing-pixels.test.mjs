@@ -8,9 +8,10 @@ function fixture(t, { compact, width = 934, reduced = false, constrained = false
   t.after(() => { for (const [key,value] of original) { if (value) Object.defineProperty(globalThis,key,value); else delete globalThis[key]; } });
   const media = new Map(), events = {}, frames = new Map(), drawn = [], classes = new Set();
   let intersect, nextFrame = 0, maskCopy;
+  const paintedLines=[];
   const ctx = { clearRect() {}, setTransform() {}, fillRect(...args) { drawn.push(args); } };
-  const paint = { measureText(text) { maskCopy = text; return { width: 40 }; }, fillText() {}, getImageData() {
-    const data = new Uint8ClampedArray(40 * 24 * 4); data[3] = 255; data[7] = 255; return { data };
+  const paint = { measureText(text) { maskCopy = text; return { width: 40 }; }, fillText(text) {paintedLines.push(text);}, getImageData() {
+    const data = new Uint8ClampedArray(40 * 48 * 4); data[3] = 255; data[7] = 255; return { data };
   } };
   const canvas = { getContext: () => ctx }, stage = { clientWidth: width };
   const title = { childNodes: [{nodeType:3,textContent:'Your next chapter.'},{nodeType:1},{nodeType:3,textContent:'Ours, too.'}] };
@@ -24,19 +25,19 @@ function fixture(t, { compact, width = 934, reduced = false, constrained = false
     IntersectionObserver:class{constructor(callback){intersect=callback;}observe(){}},requestAnimationFrame(callback){const id=++nextFrame;frames.set(id,callback);return id;},cancelAnimationFrame(id){frames.delete(id);},addEventListener(){} };
   for (const [key,value] of Object.entries(globals)) Object.defineProperty(globalThis,key,{configurable:true,writable:true,value});
   initializeClosingPixels();
-  return {root,canvas,doc,frames,drawn,classes,media,events,get maskCopy(){return maskCopy;},visible(value){intersect([{isIntersecting:value}]);},tick(time){const [id,callback]=frames.entries().next().value;frames.delete(id);callback(time);} };
+  return {root,canvas,doc,frames,drawn,classes,media,events,get maskCopy(){return maskCopy;},paintedLines,visible(value){intersect([{isIntersecting:value}]);},tick(time){const [id,callback]=frames.entries().next().value;frames.delete(id);callback(time);} };
 }
 
 const ready = async () => { await Promise.resolve(); await Promise.resolve(); };
 
-test('closing marquee preserves both title lines and moves stage-local pixels horizontally',async t=>{
+test('closing shimmer draws both complete lines without horizontal movement',async t=>{
   const f=fixture(t);await ready();
-  assert.equal(f.maskCopy,'Your next chapter. Ours, too.     ');
-  assert.equal(f.root.dataset.closingMotion,'horizontal-pixel-marquee');
+  assert.deepEqual(f.paintedLines,['Your next chapter.','Ours, too.']);
+  assert.equal(f.root.dataset.closingMotion,'two-line-pixel-shimmer');
   assert.equal(f.classes.has('is-pixels-ready'),true);
   assert.equal(f.canvas.className,undefined);
   f.visible(true);f.drawn.length=0;f.tick(1000);const first=f.drawn[0][0];
-  f.drawn.length=0;f.tick(1034);assert.notEqual(f.drawn[0][0],first);
+  f.drawn.length=0;f.tick(1034);assert.equal(f.drawn[0][0],first);
   f.visible(false);assert.equal(f.frames.size,0);
 });
 

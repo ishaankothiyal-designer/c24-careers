@@ -40,3 +40,11 @@ test('letter cue requires most of the scene to be visible, including before entr
   assert.equal(letterCueVisible({top:-550,bottom:50,height:600},988),false);
   assert.equal(letterCueVisible({top:-600,bottom:0,height:600},988),false);
 });
+
+
+test('letter cue starts fading when the following section enters the viewport',()=>{
+  const stage={top:80,bottom:900,height:820};
+  assert.equal(letterCueVisible(stage,955,955),true);
+  assert.equal(letterCueVisible(stage,955,954),false);
+  assert.equal(letterCueVisible(stage,955,700),false);
+});

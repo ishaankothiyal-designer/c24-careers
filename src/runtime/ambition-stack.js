@@ -1,4 +1,3 @@
-import {initializeDesktopCardScroll} from './desktop-card-scroll.js';
 import {performanceProfile} from './performance-profile.js';
 
 // Recycle only fully offscreen cards, preserving their live figures and visible
@@ -65,6 +64,41 @@ export function initializeTabletCardScroll(list, {tablet,motion,isVisible,isHidd
   }};
 }
 
+// Manual navigation never consumes vertical scrolling or advances on its own.
+export function initializeAmbitionCarousel(root,{motion}={}) {
+  const list=root.querySelector?.('.ambition-stack__list');
+  const previous=root.querySelector?.('[data-ambition-previous]');
+  const next=root.querySelector?.('[data-ambition-next]');
+  if(!list||!previous||!next)return ()=>{};
+  const update=()=>{
+    previous.disabled=list.scrollLeft<=1;
+    next.disabled=list.scrollLeft>=list.scrollWidth-list.clientWidth-1;
+  };
+  const move=direction=>{
+    const items=[...list.children];
+    const start=items[0].offsetLeft;
+    const positions=items.map(item=>item.offsetLeft-start);
+    const target=direction>0
+      ? positions.find(position=>position>list.scrollLeft+2)??list.scrollWidth
+      : positions.filter(position=>position<list.scrollLeft-2).at(-1)??0;
+    list.scrollTo({left:target,behavior:motion.matches?'instant':'smooth'});
+  };
+  const back=()=>move(-1),forward=()=>move(1);
+  const keyboard=event=>{
+    if(event.key==='ArrowLeft'||event.key==='ArrowRight'){
+      event.preventDefault();move(event.key==='ArrowLeft'?-1:1);
+    }
+  };
+  previous.addEventListener('click',back);next.addEventListener('click',forward);
+  list.addEventListener('scroll',update,{passive:true});list.addEventListener('keydown',keyboard);
+  const resize=new ResizeObserver(update);resize.observe(list);
+  update();
+  return ()=>{
+    resize.disconnect();previous.removeEventListener('click',back);next.removeEventListener('click',forward);
+    list.removeEventListener('scroll',update);list.removeEventListener('keydown',keyboard);
+  };
+}
+
 export function initializeAmbitionStack({loadFigures = () => import('./hairline-figures.js')} = {}) {
   const cleanups=[];
   document.querySelectorAll('[data-ambition-stack]').forEach(root=>{
@@ -73,18 +107,13 @@ export function initializeAmbitionStack({loadFigures = () => import('./hairline-
     const cards=[...root.querySelectorAll('.ambition-stack__card')];
     const motion=matchMedia('(prefers-reduced-motion: reduce)');
     const profile=performanceProfile();
-    const stopDesktopScroll=initializeDesktopCardScroll(root,{motion});
-    const tabletScroll=initializeTabletCardScroll(root.querySelector?.('.ambition-stack__list'),{
-      tablet:matchMedia('(min-width:768px) and (max-width:1023px)'),motion,
-      isVisible:()=>cards.some(card=>card.dataset.artVisible==='true'),isHidden:()=>document.hidden,
-    });
+    const stopCarousel=initializeAmbitionCarousel(root,{motion});
     const figures=new Map();
     let loading,disposed=false;
     const updateArt=()=>{
       const staticArt=motion.matches||profile.constrained;
       root.dataset.artStatic=String(staticArt);
       root.dataset.artPaused=String(document.hidden);
-      tabletScroll.update();
       figures.forEach((figure,card)=>figure.update({play:!staticArt&&!document.hidden&&card.dataset.artVisible==='true'}));
     };
     const prepareFigures=()=>{
@@ -125,8 +154,7 @@ export function initializeAmbitionStack({loadFigures = () => import('./hairline-
     updateArt();
     cleanups.push(()=>{
       disposed=true;
-      tabletScroll.destroy();
-      stopDesktopScroll();
+      stopCarousel();
       observer.disconnect();
       preload.disconnect();
       motion.removeEventListener('change',updateArt);

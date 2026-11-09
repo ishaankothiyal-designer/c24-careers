@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import test from 'node:test';
-import {initializeAmbitionStack} from '../src/runtime/ambition-stack.js';
+import {initializeAmbitionStack,initializeAmbitionCarousel} from '../src/runtime/ambition-stack.js';
 
 test('cards carry the mission and all five convictions without a separate intro',async()=>{
   const html=await readFile(new URL('../src/sections/career-02-ambition.html',import.meta.url),'utf8');
@@ -92,4 +92,33 @@ test('constrained devices retain the figures without autoplay',async t=>{
   await new Promise(resolve=>setImmediate(resolve));
   assert.equal(options.length,5);
   assert.ok(options.every(value=>value.play===false));
+});
+
+
+test('manual carousel navigates cards, honors boundaries and reduced motion, and releases listeners',t=>{
+  const original=globalThis.ResizeObserver;
+  t.after(()=>{if(original)globalThis.ResizeObserver=original;else delete globalThis.ResizeObserver;});
+  let resize,disconnected=false;
+  globalThis.ResizeObserver=class{constructor(fn){resize=fn;}observe(){}disconnect(){disconnected=true;}};
+  const element=()=>({events:new Map(),addEventListener(type,fn){this.events.set(type,fn);},removeEventListener(type){this.events.delete(type);}});
+  const previous=element(),next=element(),list=Object.assign(element(),{
+    scrollLeft:0,clientWidth:640,scrollWidth:1520,
+    children:[0,384,768,1152].map(offsetLeft=>({offsetLeft:offsetLeft+32})),
+    scrollTo(options){this.last=options;this.scrollLeft=Math.max(0,Math.min(880,options.left));this.events.get('scroll')();},
+  });
+  const root={querySelector:selector=>({'.ambition-stack__list':list,'[data-ambition-previous]':previous,'[data-ambition-next]':next})[selector]};
+  const motion={matches:false};
+  const cleanup=initializeAmbitionCarousel(root,{motion});
+  assert.equal(previous.disabled,true);assert.equal(next.disabled,false);
+  next.events.get('click')();assert.equal(list.scrollLeft,384);assert.equal(list.last.behavior,'smooth');
+  assert.equal(previous.disabled,false);
+  motion.matches=true;
+  let prevented=false;
+  list.events.get('keydown')({key:'ArrowRight',preventDefault(){prevented=true;}});
+  assert.equal(prevented,true);assert.equal(list.scrollLeft,768);assert.equal(list.last.behavior,'instant');
+  next.events.get('click')();assert.equal(next.disabled,true);assert.equal(list.scrollLeft,880);
+  previous.events.get('click')();assert.equal(list.scrollLeft,768);
+  list.clientWidth=1520;list.scrollLeft=0;resize();assert.equal(previous.disabled,true);assert.equal(next.disabled,true);
+  cleanup();assert.equal(disconnected,true);
+  assert.equal(previous.events.size+next.events.size+list.events.size,0);
 });

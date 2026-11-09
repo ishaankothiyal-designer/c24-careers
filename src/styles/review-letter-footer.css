@@ -98,20 +98,23 @@
 /* Keep the letter content clear of the top edge at every responsive layout. */
 #letter .paper-letter__paper-wrap{padding-top:40px}
 
-/* A single viewport cue is visible only while the letter section is on screen. */
-#letter > .paper-letter__scroll-cue{display:none;position:fixed;left:var(--pad-x);right:auto;bottom:max(24px,env(safe-area-inset-bottom));z-index:5;margin:0;padding:8px 12px;max-width:calc(100vw - 2 * var(--pad-x));text-align:left;font-family:var(--font-body);font-size:16px;font-weight:400;line-height:1.4;letter-spacing:.02em;color:var(--ink);background:rgba(255,255,255,.94);border-radius:4px;pointer-events:none}
-#letter[data-paper-visible="true"] > .paper-letter__scroll-cue{display:block}
-@media(min-width:768px){#letter > .paper-letter__scroll-cue{font-size:18px}}
-
-/* A quiet downward nudge reinforces the instruction without moving the letter. */
-.paper-letter__scroll-direction{display:inline-flex;width:12px;height:14px;margin-left:5px;vertical-align:-3px}
-.paper-letter.is-paper-ready .paper-letter__scroll-direction{animation:paper-letter-scroll-nudge 1.8s ease-in-out infinite}
-.paper-letter__scroll-direction svg{display:block;width:100%;height:100%}
-@keyframes paper-letter-scroll-nudge{0%,100%{transform:translateY(-2px);opacity:.45}55%{transform:translateY(3px);opacity:1}}
-@media(prefers-reduced-motion:reduce){.paper-letter.is-paper-ready .paper-letter__scroll-direction{animation:none;transform:none;opacity:1}}
+/* Light mouse-scroll cue, visible only while the letter scene is on screen. */
+#letter{--paper-cue-mouse-width:36px;--paper-cue-duration:2s;--paper-cue-fade:350ms;--paper-cue-outline:color-mix(in srgb,var(--ink) 28%,var(--white))}
+#letter > .paper-letter__scroll-cue{display:grid;opacity:0;visibility:hidden;transition:opacity var(--paper-cue-fade) ease,visibility 0s linear var(--paper-cue-fade);position:fixed;left:var(--pad-x);bottom:max(24px,env(safe-area-inset-bottom));z-index:5;margin:0;padding:12px 16px;gap:12px;justify-items:center;color:var(--ink);background:transparent;pointer-events:none}
+#letter[data-paper-visible="true"] > .paper-letter__scroll-cue{opacity:1;visibility:visible;transition-delay:0s}
+.paper-letter__scroll-mouse{display:block;width:var(--paper-cue-mouse-width);height:auto;overflow:visible}
+.paper-letter__mouse-outline{stroke:var(--paper-cue-outline)}
+.paper-letter__mouse-base{stroke:var(--blue)}
+.paper-letter__mouse-dot{fill:var(--blue);animation:paper-letter-mouse-scroll var(--paper-cue-duration) ease-in-out infinite}
+.paper-letter__scroll-label{font-family:var(--font-body);font-size:11px;font-weight:500;line-height:1.5;letter-spacing:.12em}
+@keyframes paper-letter-mouse-scroll{0%,100%{transform:translateY(0);opacity:.35}40%{opacity:1}70%{transform:translateY(14px);opacity:0}}
+@media(prefers-reduced-motion:reduce){#letter > .paper-letter__scroll-cue{transition:none}.paper-letter__mouse-dot{animation:none;transform:none;opacity:1}}
 
 /* One shared baseline for copyright and legal links. */
 .society-legal{align-items:baseline}
 .society-legal > span,.society-legal > div,.society-legal a{margin:0;line-height:1.5;align-self:baseline}
 .society-legal > div{align-items:baseline}
 @media(max-width:767px){.society-legal{flex-direction:column;align-items:center}.society-legal > span,.society-legal > div{align-self:center}}
+
+/* Attach the blue scene directly to the preceding section. */
+.page-root>main>#letter{padding-top:0;border-block-start:0;background:var(--white)}

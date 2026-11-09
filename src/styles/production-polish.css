@@ -1,0 +1,42 @@
+/* Consistent page rhythm, preserving the established brand and motion.
+   Hallmark · pre-emit critique: P4 H5 E5 S5 R5 V4 */
+:root{
+  --layout-section-space:clamp(48px,6.25vw,96px);
+  --layout-anchor-clearance:calc(var(--opening-header-height) + var(--sp-3));
+  --layout-content-gap:clamp(24px,3vw,40px);
+  --layout-card-inset:24px;
+  --layout-card-gap:24px;
+  --layout-reading-width:62ch;
+  --career-card-inset:var(--layout-card-inset);
+  --career-card-bottom:var(--layout-card-inset);
+  --career-card-gap:var(--layout-card-gap);
+}
+.page-root>main>:is(#builder,#problems,#support,#enterprise-faq,#next-chapter){padding-block:var(--layout-section-space)}
+/* Keep the requested compact transition, split evenly by its divider. */
+.page-root>main>.hero+#ambition{padding-top:var(--layout-content-gap)}
+#builder{--builder-anchor-clearance:var(--layout-anchor-clearance)}
+.page-root>main>#builder{padding-top:var(--sp-3)}
+#builder .craft-work__carousel{margin-top:var(--layout-content-gap)}
+#support .support-section__head{margin-bottom:var(--layout-content-gap)}
+#enterprise-faq .faq__head{gap:var(--sp-3)}
+#next-chapter .closing-pixels__heading{margin-bottom:var(--layout-content-gap)}
+#next-chapter .challenge__text{max-width:var(--layout-reading-width)}
+/* Shared gutters for every full-width reel, including wide desktop screens. */
+#support .craft-work__track,#builder .craft-work__track{
+  padding-inline:max(var(--pad-x),calc((100vw - var(--max-w))/2 + var(--pad-x)));
+}
+.hero .hero__letter-link{min-height:var(--story-control);display:inline-flex;align-items:center}
+#letter .paper-letter__intro{min-width:0}
+/* Keep the authored sentence break visible to both layout and line splitting. */
+#letter .paper-letter__title-break{display:block}
+#letter .paper-letter__intro>p{max-width:var(--layout-reading-width)}
+/* A mouse cue is unnecessary over the static, readable letter on phones. */
+#letter:is(.is-paper-short,.is-paper-reduced,[data-paper-state="fallback"])>.paper-letter__scroll-cue{opacity:0;visibility:hidden}
+@media(max-width:767px){
+  :root{--layout-card-inset:20px;--layout-card-gap:20px}
+  #letter .paper-letter__paper-wrap{padding-top:var(--layout-section-space);gap:var(--layout-content-gap)}
+  #letter .paper-letter__stage{padding-block:0 var(--layout-section-space)}
+  #letter .paper-letter__sheet{font-size:clamp(17px,3.2vw,19px);line-height:1.75;padding:var(--sp-3);padding-top:var(--sp-4)}
+  #letter .paper-letter__intro>p{margin-top:var(--sp-3)}
+  .page-root :is(.challenge__title,.faq__heading,.closing-pixels__heading){overflow-wrap:normal;word-break:normal}
+}

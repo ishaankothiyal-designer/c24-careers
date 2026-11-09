@@ -11,16 +11,16 @@ function heading({hero=false,excluded=false}={}) {
   return {...node(),textContent:'Explore roles across Cars24.',closest:()=>null,querySelector:()=>null,hasAttribute:()=>excluded,matches:()=>hero};
 }
 async function run(width,targets,{reduced=false}={}) {
-  const calls=[],split=[];
+  const calls=[],split=[],splits=[];
   const context={
     document:{querySelectorAll:()=>targets,fonts:{ready:Promise.resolve()},createElement:node},
     matchMedia:query=>({matches:query.includes('prefers-reduced-motion')?reduced:width<=900}),$: '1.8',
-    e:{to(chars,options){calls.push({chars,options});},matchMedia(){assert.fail('Heading animation must not split desktop/mobile behavior');}},
-    D:{create(target){split.push(target);return {lines:[node()],chars:[node(),node()]};}},
+    e:{to(chars,options){calls.push({chars,options});return options;},matchMedia(){assert.fail('Heading animation must not split desktop/mobile behavior');}},
+    D:{create(target,options){split.push(target);splits.push(options);options.onSplit({lines:[node()],chars:[node(),node()]});return {}; }},
   };
   vm.runInNewContext(`${initializer};te();`,context);
   await Promise.resolve();await Promise.resolve();
-  return {calls,split};
+  return {calls,split,splits};
 }
 
 for(const width of [390,934,1440]) {
@@ -50,4 +50,18 @@ test('reduced motion leaves section headings unsplit and readable at every width
     const {calls,split}=await run(width,[heading()],{reduced:true});
     assert.equal(calls.length,0);assert.equal(split.length,0);
   }
+});
+
+
+test('heading lines rebuild on resize and return their animation for cleanup',async()=>{
+  const target=heading();const {calls,splits}=await run(550,[target]);
+  assert.equal(splits[0].autoSplit,true);
+  assert.equal(splits[0].type,'lines,chars');
+  const rebuilt={lines:[node(),node()],chars:[node(),node(),node()]};
+  const animation=splits[0].onSplit(rebuilt);
+  assert.equal(animation,calls[1].options);
+  assert.equal(calls.length,2);
+  assert.equal(calls[1].chars.length,3);
+  assert.equal(calls[1].options.scrollTrigger.trigger,target);
+  assert.equal(rebuilt.lines[0].style.overflow,'hidden');
 });

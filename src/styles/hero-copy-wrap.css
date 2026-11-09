@@ -2,3 +2,11 @@
    The phrase guard remains effective when text-wrap:pretty is unavailable. */
 .hero .hero__sub{text-wrap:pretty}
 .hero .hero__sub .hero__phrase-tail{white-space:nowrap}
+
+/* The pixel field begins after the fixed glass navigation, in normal flow. */
+:root{--opening-header-height:81px}
+.page-root>main:not(.careers-page)>.hero{padding-top:var(--opening-header-height);padding-bottom:0}
+.page-root>main:not(.careers-page)>.hero .hero__art[data-astro-cid-lcdefpme]{top:0;margin-bottom:0}
+@media(max-width:767px){:root{--opening-header-height:65px}}
+
+.page-root>main:not(.careers-page)>.hero .hero__actions{margin-bottom:0}

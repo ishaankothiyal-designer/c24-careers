@@ -71,7 +71,7 @@ export function App() {
     // runtime retains the captured GSAP, Lenis, and WebGL implementations.
     for (const src of [
       ...(ACTIVE_NAVBAR === 'Navbar-V1' ? ['/_astro/Nav.astro_astro_type_script_index_0_lang.BTi8Y4C0.js'] : []),
-      '/_astro/Base.astro_astro_type_script_index_0_lang.BUtqXeGZ.js?heading-roll=mobile-parity-v2',
+      '/_astro/Base.astro_astro_type_script_index_0_lang.BUtqXeGZ.js?heading-roll=responsive-lines-v3',
     ]) {
       const script = document.createElement('script');
       script.type = 'module';

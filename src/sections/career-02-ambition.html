@@ -1,6 +1,6 @@
 <section class="section ambition ambition-stack" id="ambition" aria-label="Our ambition" data-ambition-stack>
   <div class="container">
-    <ol tabindex="0" class="ambition-stack__list" aria-label="Five convictions behind our ambition">
+    <ol id="ambition-track" data-lenis-prevent-horizontal tabindex="0" class="ambition-stack__list" aria-label="Five convictions behind our ambition">
       <li class="ambition-stack__item" style="--stack-index:0">
         <article class="ambition-stack__card ambition-stack__card--belief">
 
@@ -37,5 +37,9 @@
         </article>
       </li>
     </ol>
+    <div class="ambition-carousel__controls landing-carousel__toolbar" role="group" aria-label="Ambition carousel controls">
+      <button class="craft-work__arrow" type="button" aria-label="Previous ambition" aria-controls="ambition-track" data-ambition-previous disabled>←</button>
+      <button class="craft-work__arrow" type="button" aria-label="Next ambition" aria-controls="ambition-track" data-ambition-next>→</button>
+    </div>
   </div>
 </section>
