@@ -1,5 +1,5 @@
 /* Compact manual carousel. Hallmark · pre-emit critique: P4 H4 E4 S5 R5 V4 */
-.ambition-stack{padding-bottom:0;border-bottom:0}
+.ambition-stack{padding-bottom:0;border-bottom:0;scroll-margin-top:var(--layout-anchor-clearance)}
 #ambition + section{border-block-start:0}
 .ambition-stack > .container{width:100%;max-width:none;padding-inline:max(var(--pad-x),calc((100% - var(--max-w)) / 2 + var(--pad-x)));box-sizing:border-box}
 .ambition-stack__list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;list-style:none;padding:0;margin:0}
@@ -28,6 +28,13 @@
 .ambition-stack__copy p{font-size:clamp(16px,1.4vw,20px);line-height:1.5;margin:0}
 .ambition-stack__visual{position:relative;box-sizing:border-box;width:100%;min-height:220px;flex:1 0 220px;margin:0;padding:24px;pointer-events:none;touch-action:pan-y}
 .ambition-stack__visual > svg{position:absolute;inset:auto;top:50%;left:50%;display:block;width:calc(100% - 48px);height:220px;max-height:calc(100% - 48px);overflow:visible;transform:translate(-50%,-50%) scale(.85);transform-origin:center}
+/* The media is centred in the same illustration area as the preserved SVGs.
+   Its backdrop is flattened at preparation time and matched with the card's
+   --ambition-surface token, including the decoded video's colour conversion. */
+.ambition-motion{position:absolute;inset:var(--sp-3);display:grid;place-items:center}
+.ambition-motion__poster,.ambition-motion__video{grid-area:1/1;display:block;width:100%;height:100%;min-height:0;object-fit:contain;max-width:100%;border:0}
+.ambition-motion [hidden]{display:none}
+.ambition-motion--vector>.ambition-vector{display:block;width:100%;height:100%}
 
 :root{--ambition-card-width:360px;--ambition-card-gap:var(--sp-3)}
 .page-root>main>.hero+#ambition{margin-top:0;padding-top:var(--sp-4)}

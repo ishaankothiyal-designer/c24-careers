@@ -1,5 +1,14 @@
 import {performanceProfile} from './performance-profile.js';
 
+// Optional browser hints, not a bandwidth probe. Unknown connections may play;
+// the poster remains available if a movie cannot load or playback is blocked.
+export function shouldPauseAmbitionForNetwork(nav = navigator) {
+  const connection=nav.connection;
+  return nav.onLine===false || !!connection?.saveData ||
+    /^(slow-2g|2g|3g)$/.test(connection?.effectiveType||'') ||
+    (Number.isFinite(connection?.downlink)&&connection.downlink<1.5);
+}
+
 // Recycle only fully offscreen cards, preserving their live figures and visible
 // positions. Original DOM order is restored when the tablet mode ends.
 export function initializeTabletCardScroll(list, {tablet,motion,isVisible,isHidden,clock=globalThis}={}) {
@@ -99,26 +108,35 @@ export function initializeAmbitionCarousel(root,{motion}={}) {
   };
 }
 
-export function initializeAmbitionStack({loadFigures = () => import('./hairline-figures.js')} = {}) {
+export function initializeAmbitionStack({loadFigures = version => version==='original'
+  ? import('./hairline-figures.js') : version==='generated'
+    ? import('./ambition-motion.js') : import('./ambition-vector.js')} = {}) {
   const cleanups=[];
   document.querySelectorAll('[data-ambition-stack]').forEach(root=>{
     if(root.dataset.stackInitialized)return;
     root.dataset.stackInitialized='true';
     const cards=[...root.querySelectorAll('.ambition-stack__card')];
     const motion=matchMedia('(prefers-reduced-motion: reduce)');
-    const profile=performanceProfile();
+    const connection=navigator.connection;
+    const requested=new URLSearchParams(globalThis.location?.search||'').get('ambition-art');
+    const version=requested==='original'?'original':requested==='refined'?'refined':'generated';
+    root.dataset.illustrationVersion=version;
+    if(version==='original')cards.forEach(card=>{
+      const host=card.querySelector('[data-hairline-figure]');
+      if(host?.dataset.originalLabel)host.setAttribute('aria-label',host.dataset.originalLabel);
+    });
     const stopCarousel=initializeAmbitionCarousel(root,{motion});
     const figures=new Map();
     let loading,disposed=false;
     const updateArt=()=>{
-      const staticArt=motion.matches||profile.constrained;
+      const staticArt=motion.matches||performanceProfile().constrained||shouldPauseAmbitionForNetwork();
       root.dataset.artStatic=String(staticArt);
       root.dataset.artPaused=String(document.hidden);
       figures.forEach((figure,card)=>figure.update({play:!staticArt&&!document.hidden&&card.dataset.artVisible==='true'}));
     };
     const prepareFigures=()=>{
       if(loading)return loading;
-      loading=Promise.resolve().then(loadFigures).then(({createAmbitionFigure})=>{
+      loading=Promise.resolve().then(()=>loadFigures(version)).then(({createAmbitionFigure})=>{
         if(disposed)return;
         cards.forEach(card=>{
           const host=card.querySelector('[data-hairline-figure]');
@@ -151,6 +169,9 @@ export function initializeAmbitionStack({loadFigures = () => import('./hairline-
     preload.observe(root);
     motion.addEventListener('change',updateArt);
     document.addEventListener('visibilitychange',updateArt);
+    connection?.addEventListener?.('change',updateArt);
+    globalThis.addEventListener?.('online',updateArt);
+    globalThis.addEventListener?.('offline',updateArt);
     updateArt();
     cleanups.push(()=>{
       disposed=true;
@@ -159,6 +180,9 @@ export function initializeAmbitionStack({loadFigures = () => import('./hairline-
       preload.disconnect();
       motion.removeEventListener('change',updateArt);
       document.removeEventListener('visibilitychange',updateArt);
+      connection?.removeEventListener?.('change',updateArt);
+      globalThis.removeEventListener?.('online',updateArt);
+      globalThis.removeEventListener?.('offline',updateArt);
       figures.forEach(figure=>figure.destroy());
       delete root.dataset.stackInitialized;
       delete root.dataset.revealReady;

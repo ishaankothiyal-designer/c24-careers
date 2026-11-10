@@ -1,0 +1,134 @@
+{
+  "method": "One approved completed frame is the geometry master. Key-pose experiments are inspected, not fed back when they contradict that master.",
+  "prompts": [
+    "Create a 16-frame animated GIF of this exact approved illustration. The input is the COMPLETED POSE and is the geometry/style master. Preserve the existing soft isometric illustration, restrained shading, fine outlines and accent colours. Do not replace it with vector/CAD art.\nOutput ONE view per frame at 640x512, not a grid or storyboard. Keep the camera, scale, canvas position, background and lighting completely fixed.\nTreat every object as a rigid part. Keep its silhouette, edge lengths, thickness and joints consistent throughout. Establish the part inventory in the first frame, including parts packed inside the mechanism. Do not add, remove, duplicate or morph parts. Motion is only translation or rotation at a fixed joint.\nTIMING: frames 1–3 establish the setup; frames 4–11 perform the single primary action described below; frames 12–16 hold the completed pose shown in the input. No reverse action or forced reset; do not distort the geometry to make a loop. No text, particles, arrows, new shadows or extra decoration.\nPARTS: the SAME fixed left ledge, one rigid purple cube, three nested bridge supports, one rigid right landing deck. The left ledge's width and position must match the input in EVERY frame.\nSETUP: cube on left ledge; landing deck and supports are stowed directly beneath that ledge at their unchanged sizes.\nACTION: cube makes one smooth arc to the right. While it is airborne, the three supports slide out from their fixed left sockets and carry the unchanged landing deck to its final position. The landing is level and fully extended before contact. Cube lands without squash or stretching.\nHOLD: match the supplied completed pose. Keep every support attached; never tilt the left ledge or invent an extra pier.",
+    "Create a 16-frame animated GIF of this exact approved illustration. The input is the COMPLETED POSE and is the geometry/style master. Preserve the existing soft isometric illustration, restrained shading, fine outlines and accent colours. Do not replace it with vector/CAD art.\nOutput ONE view per frame at 640x512, not a grid or storyboard. Keep the camera, scale, canvas position, background and lighting completely fixed.\nTreat every object as a rigid part. Keep its silhouette, edge lengths, thickness and joints consistent throughout. Establish the part inventory in the first frame, including parts packed inside the mechanism. Do not add, remove, duplicate or morph parts. Motion is only translation or rotation at a fixed joint.\nTIMING: frames 1–3 establish the setup; frames 4–11 perform the single primary action described below; frames 12–16 hold the completed pose shown in the input. No reverse action or forced reset; do not distort the geometry to make a loop. No text, particles, arrows, new shadows or extra decoration.\nPARTS: one sheet, one lime pencil, one ruler, exactly one two-link arm with three existing joint marks, and the arch drawing. Keep the arm and pencil designs from the input; no additional joint.\nSETUP: the arm's two links lie flat on the sheet as the pencil traces them. Its base point is the same fixed point as in the master.\nACTION: the drawn arm rises at its existing joints and holds the ruler at one fixed wrist attachment. The pencil then draws the arch along the printed guide. The ruler moves with the wrist as a single rigid piece. The pencil tip stays on the stroke while drawing.\nHOLD: input completed composition, with the pencil lifted just above its final point. Keep the two link lengths unchanged. Do not add an arm, change the pencil tip or duplicate the ruler.",
+    "Create a 16-frame animated GIF of this exact approved illustration. The input is the COMPLETED POSE and is the geometry/style master. Preserve the existing soft isometric illustration, restrained shading, fine outlines and accent colours. Do not replace it with vector/CAD art.\nOutput ONE view per frame at 640x512, not a grid or storyboard. Keep the camera, scale, canvas position, background and lighting completely fixed.\nTreat every object as a rigid part. Keep its silhouette, edge lengths, thickness and joints consistent throughout. Establish the part inventory in the first frame, including parts packed inside the mechanism. Do not add, remove, duplicate or morph parts. Motion is only translation or rotation at a fixed joint.\nTIMING: frames 1–3 establish the setup; frames 4–11 perform the single primary action described below; frames 12–16 hold the completed pose shown in the input. No reverse action or forced reset; do not distort the geometry to make a loop. No text, particles, arrows, new shadows or extra decoration.\nPARTS: exactly seven connected ribbon panels and seven stations, matching the input, with one violet bead. One shared hinge joins each adjacent pair. Every panel retains the same length and width.\nSETUP: the same ribbon is extended; bead at the first station.\nACTION: the bead rolls continuously along the same connected surface, touching the stations in order. The ribbon contracts through coordinated hinge rotation ahead of the bead. Fold only at the existing edges. The bead's size stays constant and it never leaves the surface. Completed station marks turn violet as the bead passes.\nHOLD: match the supplied end arrangement with bead at the final station. Never lose a panel, disconnect a hinge, create a second bead or skip a station.",
+    "Create a 16-frame animated GIF of this exact approved illustration. The input is the COMPLETED POSE and is the geometry/style master. Preserve the existing soft isometric illustration, restrained shading, fine outlines and accent colours. Do not replace it with vector/CAD art.\nOutput ONE view per frame at 640x512, not a grid or storyboard. Keep the camera, scale, canvas position, background and lighting completely fixed.\nTreat every object as a rigid part. Keep its silhouette, edge lengths, thickness and joints consistent throughout. Establish the part inventory in the first frame, including parts packed inside the mechanism. Do not add, remove, duplicate or morph parts. Motion is only translation or rotation at a fixed joint.\nTIMING: frames 1–3 establish the setup; frames 4–11 perform the single primary action described below; frames 12–16 hold the completed pose shown in the input. No reverse action or forced reset; do not distort the geometry to make a loop. No text, particles, arrows, new shadows or extra decoration.\nPARTS: one fixed central chest, four distinct drawers/workbenches, four fixed build identities (arch, steps, frame, wheel) and the existing small tools from the master. Keep every bench's dimensions and its associated build unchanged.\nSETUP: the four benches are packed as drawers in the chest, with their legs folded beneath them and their little builds occluded inside.\nACTION: the four drawers slide out along four fixed paths, one short stagger after another. Their existing legs unfold at their existing hinges and settle on one common ground plane. Each drawer separates just enough to read as an independent workshop.\nLIMIT: animate only this drawer-to-workshop transformation. Do NOT simultaneously rebuild, transform or animate the four small builds or tool arms; they are revealed by the opening drawers and then remain steady.\nHOLD: match the supplied four-workshop arrangement. No fifth bench, extra robot arm, changing leg count, bending tabletop or drifting chest.",
+    "Create a 16-frame animated GIF of this exact approved illustration. The input is the COMPLETED POSE and is the geometry/style master. Preserve the existing soft isometric illustration, restrained shading, fine outlines and accent colours. Do not replace it with vector/CAD art.\nOutput ONE view per frame at 640x512, not a grid or storyboard. Keep the camera, scale, canvas position, background and lighting completely fixed.\nTreat every object as a rigid part. Keep its silhouette, edge lengths, thickness and joints consistent throughout. Establish the part inventory in the first frame, including parts packed inside the mechanism. Do not add, remove, duplicate or morph parts. Motion is only translation or rotation at a fixed joint.\nTIMING: frames 1–3 establish the setup; frames 4–11 perform the single primary action described below; frames 12–16 hold the completed pose shown in the input. No reverse action or forced reset; do not distort the geometry to make a loop. No text, particles, arrows, new shadows or extra decoration.\nPARTS: the same fixed base and exactly five nested hinged assemblies visible in the input. Keep their individual proportions, outline thickness, corners and hinge positions unchanged.\nSETUP: all five assemblies are folded into their nested positions on the base. Their geometry is already present, not drawn or created later.\nACTION: unfold one assembly at a time, rotating it as a rigid piece about its own existing hinge. The first upright is followed by the larger upright; the existing connecting assemblies then swing into their fixed attachment points; the final canopy settles into place. Finish each motion before beginning the next.\nHOLD: reproduce the input's completed open pavilion. Do not introduce a new roof slab, extra upright, growing arch, bending crossbar, new glass panel or diagonal brace. Connections align by rotation, never by stretching a member."
+  ],
+  "requests": [
+    {
+      "index": 1,
+      "params": {
+        "model": "gpt_image_2_6",
+        "prompt": "Create a 16-frame animated GIF of this exact approved illustration. The input is the COMPLETED POSE and is the geometry/style master. Preserve the existing soft isometric illustration, restrained shading, fine outlines and accent colours. Do not replace it with vector/CAD art.\nOutput ONE view per frame at 640x512, not a grid or storyboard. Keep the camera, scale, canvas position, background and lighting completely fixed.\nTreat every object as a rigid part. Keep its silhouette, edge lengths, thickness and joints consistent throughout. Establish the part inventory in the first frame, including parts packed inside the mechanism. Do not add, remove, duplicate or morph parts. Motion is only translation or rotation at a fixed joint.\nTIMING: frames 1–3 establish the setup; frames 4–11 perform the single primary action described below; frames 12–16 hold the completed pose shown in the input. No reverse action or forced reset; do not distort the geometry to make a loop. No text, particles, arrows, new shadows or extra decoration.\nPARTS: the SAME fixed left ledge, one rigid purple cube, three nested bridge supports, one rigid right landing deck. The left ledge's width and position must match the input in EVERY frame.\nSETUP: cube on left ledge; landing deck and supports are stowed directly beneath that ledge at their unchanged sizes.\nACTION: cube makes one smooth arc to the right. While it is airborne, the three supports slide out from their fixed left sockets and carry the unchanged landing deck to its final position. The landing is level and fully extended before contact. Cube lands without squash or stretching.\nHOLD: match the supplied completed pose. Keep every support attached; never tilt the left ledge or invent an extra pier.",
+        "medias": [
+          {
+            "role": "image",
+            "value": "fd9f8729-11d3-43c8-8b27-f5310f39091c"
+          }
+        ],
+        "output_format": "gif",
+        "quality": "max",
+        "size": "640x512",
+        "aspect_ratio": "5:4",
+        "frame_count": 16,
+        "frame_duration_ms": 180,
+        "background": "opaque"
+      }
+    },
+    {
+      "index": 2,
+      "params": {
+        "model": "gpt_image_2_6",
+        "prompt": "Create a 16-frame animated GIF of this exact approved illustration. The input is the COMPLETED POSE and is the geometry/style master. Preserve the existing soft isometric illustration, restrained shading, fine outlines and accent colours. Do not replace it with vector/CAD art.\nOutput ONE view per frame at 640x512, not a grid or storyboard. Keep the camera, scale, canvas position, background and lighting completely fixed.\nTreat every object as a rigid part. Keep its silhouette, edge lengths, thickness and joints consistent throughout. Establish the part inventory in the first frame, including parts packed inside the mechanism. Do not add, remove, duplicate or morph parts. Motion is only translation or rotation at a fixed joint.\nTIMING: frames 1–3 establish the setup; frames 4–11 perform the single primary action described below; frames 12–16 hold the completed pose shown in the input. No reverse action or forced reset; do not distort the geometry to make a loop. No text, particles, arrows, new shadows or extra decoration.\nPARTS: one sheet, one lime pencil, one ruler, exactly one two-link arm with three existing joint marks, and the arch drawing. Keep the arm and pencil designs from the input; no additional joint.\nSETUP: the arm's two links lie flat on the sheet as the pencil traces them. Its base point is the same fixed point as in the master.\nACTION: the drawn arm rises at its existing joints and holds the ruler at one fixed wrist attachment. The pencil then draws the arch along the printed guide. The ruler moves with the wrist as a single rigid piece. The pencil tip stays on the stroke while drawing.\nHOLD: input completed composition, with the pencil lifted just above its final point. Keep the two link lengths unchanged. Do not add an arm, change the pencil tip or duplicate the ruler.",
+        "medias": [
+          {
+            "role": "image",
+            "value": "564f8d03-d37a-470d-a0ff-9919cbc55a8c"
+          }
+        ],
+        "output_format": "gif",
+        "quality": "max",
+        "size": "640x512",
+        "aspect_ratio": "5:4",
+        "frame_count": 16,
+        "frame_duration_ms": 180,
+        "background": "opaque"
+      }
+    },
+    {
+      "index": 3,
+      "params": {
+        "model": "gpt_image_2_6",
+        "prompt": "Create a 16-frame animated GIF of this exact approved illustration. The input is the COMPLETED POSE and is the geometry/style master. Preserve the existing soft isometric illustration, restrained shading, fine outlines and accent colours. Do not replace it with vector/CAD art.\nOutput ONE view per frame at 640x512, not a grid or storyboard. Keep the camera, scale, canvas position, background and lighting completely fixed.\nTreat every object as a rigid part. Keep its silhouette, edge lengths, thickness and joints consistent throughout. Establish the part inventory in the first frame, including parts packed inside the mechanism. Do not add, remove, duplicate or morph parts. Motion is only translation or rotation at a fixed joint.\nTIMING: frames 1–3 establish the setup; frames 4–11 perform the single primary action described below; frames 12–16 hold the completed pose shown in the input. No reverse action or forced reset; do not distort the geometry to make a loop. No text, particles, arrows, new shadows or extra decoration.\nPARTS: exactly seven connected ribbon panels and seven stations, matching the input, with one violet bead. One shared hinge joins each adjacent pair. Every panel retains the same length and width.\nSETUP: the same ribbon is extended; bead at the first station.\nACTION: the bead rolls continuously along the same connected surface, touching the stations in order. The ribbon contracts through coordinated hinge rotation ahead of the bead. Fold only at the existing edges. The bead's size stays constant and it never leaves the surface. Completed station marks turn violet as the bead passes.\nHOLD: match the supplied end arrangement with bead at the final station. Never lose a panel, disconnect a hinge, create a second bead or skip a station.",
+        "medias": [
+          {
+            "role": "image",
+            "value": "b2b168f8-78d1-4496-a44d-4fe54332f81f"
+          }
+        ],
+        "output_format": "gif",
+        "quality": "max",
+        "size": "640x512",
+        "aspect_ratio": "5:4",
+        "frame_count": 16,
+        "frame_duration_ms": 180,
+        "background": "opaque"
+      }
+    },
+    {
+      "index": 4,
+      "params": {
+        "model": "gpt_image_2_6",
+        "prompt": "Create a 16-frame animated GIF of this exact approved illustration. The input is the COMPLETED POSE and is the geometry/style master. Preserve the existing soft isometric illustration, restrained shading, fine outlines and accent colours. Do not replace it with vector/CAD art.\nOutput ONE view per frame at 640x512, not a grid or storyboard. Keep the camera, scale, canvas position, background and lighting completely fixed.\nTreat every object as a rigid part. Keep its silhouette, edge lengths, thickness and joints consistent throughout. Establish the part inventory in the first frame, including parts packed inside the mechanism. Do not add, remove, duplicate or morph parts. Motion is only translation or rotation at a fixed joint.\nTIMING: frames 1–3 establish the setup; frames 4–11 perform the single primary action described below; frames 12–16 hold the completed pose shown in the input. No reverse action or forced reset; do not distort the geometry to make a loop. No text, particles, arrows, new shadows or extra decoration.\nPARTS: one fixed central chest, four distinct drawers/workbenches, four fixed build identities (arch, steps, frame, wheel) and the existing small tools from the master. Keep every bench's dimensions and its associated build unchanged.\nSETUP: the four benches are packed as drawers in the chest, with their legs folded beneath them and their little builds occluded inside.\nACTION: the four drawers slide out along four fixed paths, one short stagger after another. Their existing legs unfold at their existing hinges and settle on one common ground plane. Each drawer separates just enough to read as an independent workshop.\nLIMIT: animate only this drawer-to-workshop transformation. Do NOT simultaneously rebuild, transform or animate the four small builds or tool arms; they are revealed by the opening drawers and then remain steady.\nHOLD: match the supplied four-workshop arrangement. No fifth bench, extra robot arm, changing leg count, bending tabletop or drifting chest.",
+        "medias": [
+          {
+            "role": "image",
+            "value": "dcb7c10b-bdad-42d2-9cba-57953e9799c9"
+          }
+        ],
+        "output_format": "gif",
+        "quality": "max",
+        "size": "640x512",
+        "aspect_ratio": "5:4",
+        "frame_count": 16,
+        "frame_duration_ms": 180,
+        "background": "opaque"
+      }
+    },
+    {
+      "index": 5,
+      "params": {
+        "model": "gpt_image_2_6",
+        "prompt": "Create a 16-frame animated GIF of this exact approved illustration. The input is the COMPLETED POSE and is the geometry/style master. Preserve the existing soft isometric illustration, restrained shading, fine outlines and accent colours. Do not replace it with vector/CAD art.\nOutput ONE view per frame at 640x512, not a grid or storyboard. Keep the camera, scale, canvas position, background and lighting completely fixed.\nTreat every object as a rigid part. Keep its silhouette, edge lengths, thickness and joints consistent throughout. Establish the part inventory in the first frame, including parts packed inside the mechanism. Do not add, remove, duplicate or morph parts. Motion is only translation or rotation at a fixed joint.\nTIMING: frames 1–3 establish the setup; frames 4–11 perform the single primary action described below; frames 12–16 hold the completed pose shown in the input. No reverse action or forced reset; do not distort the geometry to make a loop. No text, particles, arrows, new shadows or extra decoration.\nPARTS: the same fixed base and exactly five nested hinged assemblies visible in the input. Keep their individual proportions, outline thickness, corners and hinge positions unchanged.\nSETUP: all five assemblies are folded into their nested positions on the base. Their geometry is already present, not drawn or created later.\nACTION: unfold one assembly at a time, rotating it as a rigid piece about its own existing hinge. The first upright is followed by the larger upright; the existing connecting assemblies then swing into their fixed attachment points; the final canopy settles into place. Finish each motion before beginning the next.\nHOLD: reproduce the input's completed open pavilion. Do not introduce a new roof slab, extra upright, growing arch, bending crossbar, new glass panel or diagonal brace. Connections align by rotation, never by stretching a member.",
+        "medias": [
+          {
+            "role": "image",
+            "value": "d405579f-0617-46fd-9663-2ba873813ad9"
+          }
+        ],
+        "output_format": "gif",
+        "quality": "max",
+        "size": "640x512",
+        "aspect_ratio": "5:4",
+        "frame_count": 16,
+        "frame_duration_ms": 180,
+        "background": "opaque"
+      }
+    }
+  ],
+  "jobs": [
+    {
+      "index": 1,
+      "job_id": "4734b7c0-3204-48d5-b11f-54ffeb8e2244"
+    },
+    {
+      "index": 2,
+      "job_id": "6983da8e-049e-4383-a6f2-de3a55d0480b"
+    },
+    {
+      "index": 3,
+      "job_id": "db21f284-f2fd-4477-9c35-6c6292635fd2"
+    },
+    {
+      "index": 4,
+      "job_id": "58049dc2-f309-4b65-9a46-1bb303d1b460"
+    },
+    {
+      "index": 5,
+      "job_id": "ba7633e1-b06e-416f-bae9-fa9d4ba9f8bc"
+    }
+  ]
+}

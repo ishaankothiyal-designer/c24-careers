@@ -1,0 +1,47 @@
+[
+  {
+    "id": "leap",
+    "background": "#ece9e6",
+    "video": "/media/ambition/leap.mp4",
+    "poster": "/media/ambition/leap.png",
+    "source": "design/ambition-motion/sources/concept-1.gif",
+    "bytes": 123604,
+    "posterBytes": 52856
+  },
+  {
+    "id": "collaborator",
+    "background": "#442cfc",
+    "video": "/media/ambition/collaborator.mp4",
+    "poster": "/media/ambition/collaborator.png",
+    "source": "design/ambition-motion/sources/concept-2.gif",
+    "bytes": 294713,
+    "posterBytes": 127458
+  },
+  {
+    "id": "folding-track",
+    "background": "#dbd7fc",
+    "video": "/media/ambition/folding-track.mp4",
+    "poster": "/media/ambition/folding-track.png",
+    "source": "design/ambition-motion/sources/concept-3.gif",
+    "bytes": 214825,
+    "posterBytes": 80889
+  },
+  {
+    "id": "workshops",
+    "background": "#95f75f",
+    "video": "/media/ambition/workshops.mp4",
+    "poster": "/media/ambition/workshops.png",
+    "source": "design/ambition-motion/sources/concept-4.gif",
+    "bytes": 533533,
+    "posterBytes": 265785
+  },
+  {
+    "id": "pavilion",
+    "background": "#141523",
+    "video": "/media/ambition/pavilion.mp4",
+    "poster": "/media/ambition/pavilion.png",
+    "source": "design/ambition-motion/sources/concept-5.gif",
+    "bytes": 302067,
+    "posterBytes": 178781
+  }
+]

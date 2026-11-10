@@ -1,0 +1,232 @@
+{
+  "date": "2026-11-10",
+  "strategy": "Preserve generated visual style; correct four key poses before generating motion. Fixed parts, camera and pivots; reduce simultaneous actions.",
+  "sourceReferences": [
+    {
+      "index": 1,
+      "job_id": "9a7e54e7-dc84-4a5a-ba44-2b1ddf605d77",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_185208_9a7e54e7-dc84-4a5a-ba44-2b1ddf605d77.gif"
+    },
+    {
+      "index": 2,
+      "job_id": "f74169fe-6828-42a5-b779-cd5c971a8e3f",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_185208_f74169fe-6828-42a5-b779-cd5c971a8e3f.gif"
+    },
+    {
+      "index": 3,
+      "job_id": "43b89048-19c7-4290-8046-f30535937c0f",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_185210_43b89048-19c7-4290-8046-f30535937c0f.gif"
+    },
+    {
+      "index": 4,
+      "job_id": "ad06c9ec-4bc1-4ffe-962f-f9035e5b787b",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_185209_ad06c9ec-4bc1-4ffe-962f-f9035e5b787b.gif"
+    },
+    {
+      "index": 5,
+      "job_id": "ff6065fa-7475-4afa-b753-19bf2e7ed118",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_185209_ff6065fa-7475-4afa-b753-19bf2e7ed118.gif"
+    }
+  ],
+  "specs": [
+    {
+      "title": "Leap before the landing",
+      "inventory": "One starting ledge, one purple cube, three telescoping bridge supports and one rectangular landing deck. The landing is stored beneath the starting ledge in pose 1. The cube is rigid, with equal edges in every pose.",
+      "poses": "Pose 1: cube on the left ledge, all landing parts stowed. Pose 2: cube airborne at the top of a clean arc; three nested supports extend from fixed sockets below the ledge. Pose 3: landing fully extended and level BEFORE the cube touches it. Pose 4: cube rests squarely on the right landing; every support still connects the two ledges. The starting ledge never moves. No new vertical pillars or free-floating supports.",
+      "bg": "#edeae7"
+    },
+    {
+      "title": "The drawing reaches back",
+      "inventory": "One fixed drafting sheet, one lime pencil with a fixed eraser and graphite tip, one ruler, one anchored articulated line arm with exactly two links and three round joint marks, and one arch drawing. Keep the pencil and ruler the same size in all poses.",
+      "poses": "Pose 1: pencil traces the two-link arm as a line lying on the sheet. Pose 2: that exact line folds upward at its existing joints; its base remains anchored. Pose 3: its wrist holds the same point near the end of the ruler, while the pencil completes the arch on the sheet. Pose 4: arch complete, pencil lifts slightly, arm still holds the ruler. The ruler follows the wrist as one rigid object, never slides through the joint. Nothing becomes a second pencil or extra arm.",
+      "bg": "#442cfc"
+    },
+    {
+      "title": "The folding distance",
+      "inventory": "One continuous seven-panel concertina ribbon matching the approved reference, seven circular stations, six shared internal hinges, and exactly one violet bead. All seven panels have the same fixed dimensions in every pose. Panels join edge-to-edge, never separate.",
+      "poses": "Pose 1: ribbon is gently extended, bead on first station. Pose 2: bead travels to station three while the far sections begin folding closer. Pose 3: bead on station five; accordion visibly shorter with all seven panels retained. Pose 4: bead on final station, all completed stations subtly violet. The bead always rests on the track. Preserve the original diagonal composition. No changing station count, duplicated bead or unsupported tiles.",
+      "bg": "#dbd7fc"
+    },
+    {
+      "title": "A workshop makes workshops",
+      "inventory": "One central tool chest, exactly four drawers that become four benches, four folding legs per bench (hidden rear legs may be occluded), and four distinct small builds: an arch, steps, an open frame, and a wheel. Preserve the four output identities and the delightful pale surfaces from the reference.",
+      "poses": "Pose 1: all four drawers packed inside the same chest. Pose 2: all four drawers extend on their own fixed slide paths, keeping their width and thickness. Pose 3: the same drawers unfold their legs and gently settle as independent benches. Pose 4: four separated workshops around the unchanged central chest, each with its fixed build. For this refinement animate only the chest-to-workbench transformation; keep the small builds and tool arms rigid in their benches rather than transforming four separate objects at the same time. Never change the number or positions of workshops.",
+      "bg": "#95f75f"
+    },
+    {
+      "title": "Five moves, a different scale",
+      "inventory": "One fixed rectangular base and exactly five nested hinged frame assemblies from the reference. Every assembly has its own fixed dimensions, visible corners and hinge line. Keep the elegant open pavilion silhouette of the approved last frame.",
+      "poses": "Pose 1: all five assemblies nested flat on the base, distinct and countable. Pose 2: the two upright frame assemblies have rotated around their original hinge lines. Pose 3: connecting members swing into their existing attachment points, without stretching to reach them. Pose 4: the final canopy assembly rotates into place, completing the same open pavilion as the reference. No new roof slab, extra legs, diagonal brace or glass panels. Preserve the existing five assemblies throughout all poses.",
+      "bg": "#141523"
+    }
+  ],
+  "poseRequests": [
+    {
+      "index": 1,
+      "params": {
+        "model": "gpt_image_2_6",
+        "quality": "max",
+        "resolution": "2k",
+        "size": "1280x1024",
+        "aspect_ratio": "5:4",
+        "output_format": "png",
+        "medias": [
+          {
+            "role": "image",
+            "value": "5f463afc-5eb1-4b22-958a-749651555066"
+          }
+        ],
+        "prompt": "Refine the APPROVED illustration in the supplied three-frame reference strip. Preserve its composition, palette, delicate outlined illustration style, small shaded surfaces, and charming miniature scale. Do not turn it into a sterile CAD drawing and do not redesign the concept.\nOUTPUT: one unlabelled 2-by-2 key-pose sheet, four equal 640x512 cells in a 1280x1024 image. Reading order top-left, top-right, bottom-left, bottom-right. Each cell is the SAME physical miniature at a different stage, from the EXACT same locked isometric camera, framing and scale. No written labels, titles, numbers, borders or arrows.\nMODEL CONSISTENCY: Establish the parts once. Retain the same silhouette, proportions, joints, materials, stroke weight and number of parts in all four poses. Only rigid rotation, hinge rotation and translation may change. Correct the structural errors in the reference. Parts must not stretch, melt, intersect or appear from nowhere. Occluded packed parts may become visible as they unfold. Background colour is identical in all four cells.\n\nPART INVENTORY: One starting ledge, one purple cube, three telescoping bridge supports and one rectangular landing deck. The landing is stored beneath the starting ledge in pose 1. The cube is rigid, with equal edges in every pose.\nKEY POSES: Pose 1: cube on the left ledge, all landing parts stowed. Pose 2: cube airborne at the top of a clean arc; three nested supports extend from fixed sockets below the ledge. Pose 3: landing fully extended and level BEFORE the cube touches it. Pose 4: cube rests squarely on the right landing; every support still connects the two ledges. The starting ledge never moves. No new vertical pillars or free-floating supports.\nBACKGROUND: #edeae7."
+      }
+    },
+    {
+      "index": 2,
+      "params": {
+        "model": "gpt_image_2_6",
+        "quality": "max",
+        "resolution": "2k",
+        "size": "1280x1024",
+        "aspect_ratio": "5:4",
+        "output_format": "png",
+        "medias": [
+          {
+            "role": "image",
+            "value": "bf697583-68d3-4580-b5f5-b61646f9f40f"
+          }
+        ],
+        "prompt": "Refine the APPROVED illustration in the supplied three-frame reference strip. Preserve its composition, palette, delicate outlined illustration style, small shaded surfaces, and charming miniature scale. Do not turn it into a sterile CAD drawing and do not redesign the concept.\nOUTPUT: one unlabelled 2-by-2 key-pose sheet, four equal 640x512 cells in a 1280x1024 image. Reading order top-left, top-right, bottom-left, bottom-right. Each cell is the SAME physical miniature at a different stage, from the EXACT same locked isometric camera, framing and scale. No written labels, titles, numbers, borders or arrows.\nMODEL CONSISTENCY: Establish the parts once. Retain the same silhouette, proportions, joints, materials, stroke weight and number of parts in all four poses. Only rigid rotation, hinge rotation and translation may change. Correct the structural errors in the reference. Parts must not stretch, melt, intersect or appear from nowhere. Occluded packed parts may become visible as they unfold. Background colour is identical in all four cells.\n\nPART INVENTORY: One fixed drafting sheet, one lime pencil with a fixed eraser and graphite tip, one ruler, one anchored articulated line arm with exactly two links and three round joint marks, and one arch drawing. Keep the pencil and ruler the same size in all poses.\nKEY POSES: Pose 1: pencil traces the two-link arm as a line lying on the sheet. Pose 2: that exact line folds upward at its existing joints; its base remains anchored. Pose 3: its wrist holds the same point near the end of the ruler, while the pencil completes the arch on the sheet. Pose 4: arch complete, pencil lifts slightly, arm still holds the ruler. The ruler follows the wrist as one rigid object, never slides through the joint. Nothing becomes a second pencil or extra arm.\nBACKGROUND: #442cfc."
+      }
+    },
+    {
+      "index": 3,
+      "params": {
+        "model": "gpt_image_2_6",
+        "quality": "max",
+        "resolution": "2k",
+        "size": "1280x1024",
+        "aspect_ratio": "5:4",
+        "output_format": "png",
+        "medias": [
+          {
+            "role": "image",
+            "value": "0a7232e2-bf6e-48f4-843e-aeb67ec3cb4c"
+          }
+        ],
+        "prompt": "Refine the APPROVED illustration in the supplied three-frame reference strip. Preserve its composition, palette, delicate outlined illustration style, small shaded surfaces, and charming miniature scale. Do not turn it into a sterile CAD drawing and do not redesign the concept.\nOUTPUT: one unlabelled 2-by-2 key-pose sheet, four equal 640x512 cells in a 1280x1024 image. Reading order top-left, top-right, bottom-left, bottom-right. Each cell is the SAME physical miniature at a different stage, from the EXACT same locked isometric camera, framing and scale. No written labels, titles, numbers, borders or arrows.\nMODEL CONSISTENCY: Establish the parts once. Retain the same silhouette, proportions, joints, materials, stroke weight and number of parts in all four poses. Only rigid rotation, hinge rotation and translation may change. Correct the structural errors in the reference. Parts must not stretch, melt, intersect or appear from nowhere. Occluded packed parts may become visible as they unfold. Background colour is identical in all four cells.\n\nPART INVENTORY: One continuous seven-panel concertina ribbon matching the approved reference, seven circular stations, six shared internal hinges, and exactly one violet bead. All seven panels have the same fixed dimensions in every pose. Panels join edge-to-edge, never separate.\nKEY POSES: Pose 1: ribbon is gently extended, bead on first station. Pose 2: bead travels to station three while the far sections begin folding closer. Pose 3: bead on station five; accordion visibly shorter with all seven panels retained. Pose 4: bead on final station, all completed stations subtly violet. The bead always rests on the track. Preserve the original diagonal composition. No changing station count, duplicated bead or unsupported tiles.\nBACKGROUND: #dbd7fc."
+      }
+    },
+    {
+      "index": 4,
+      "params": {
+        "model": "gpt_image_2_6",
+        "quality": "max",
+        "resolution": "2k",
+        "size": "1280x1024",
+        "aspect_ratio": "5:4",
+        "output_format": "png",
+        "medias": [
+          {
+            "role": "image",
+            "value": "f921d0a1-cf5d-4c20-8128-8c9f5509c643"
+          }
+        ],
+        "prompt": "Refine the APPROVED illustration in the supplied three-frame reference strip. Preserve its composition, palette, delicate outlined illustration style, small shaded surfaces, and charming miniature scale. Do not turn it into a sterile CAD drawing and do not redesign the concept.\nOUTPUT: one unlabelled 2-by-2 key-pose sheet, four equal 640x512 cells in a 1280x1024 image. Reading order top-left, top-right, bottom-left, bottom-right. Each cell is the SAME physical miniature at a different stage, from the EXACT same locked isometric camera, framing and scale. No written labels, titles, numbers, borders or arrows.\nMODEL CONSISTENCY: Establish the parts once. Retain the same silhouette, proportions, joints, materials, stroke weight and number of parts in all four poses. Only rigid rotation, hinge rotation and translation may change. Correct the structural errors in the reference. Parts must not stretch, melt, intersect or appear from nowhere. Occluded packed parts may become visible as they unfold. Background colour is identical in all four cells.\n\nPART INVENTORY: One central tool chest, exactly four drawers that become four benches, four folding legs per bench (hidden rear legs may be occluded), and four distinct small builds: an arch, steps, an open frame, and a wheel. Preserve the four output identities and the delightful pale surfaces from the reference.\nKEY POSES: Pose 1: all four drawers packed inside the same chest. Pose 2: all four drawers extend on their own fixed slide paths, keeping their width and thickness. Pose 3: the same drawers unfold their legs and gently settle as independent benches. Pose 4: four separated workshops around the unchanged central chest, each with its fixed build. For this refinement animate only the chest-to-workbench transformation; keep the small builds and tool arms rigid in their benches rather than transforming four separate objects at the same time. Never change the number or positions of workshops.\nBACKGROUND: #95f75f."
+      }
+    },
+    {
+      "index": 5,
+      "params": {
+        "model": "gpt_image_2_6",
+        "quality": "max",
+        "resolution": "2k",
+        "size": "1280x1024",
+        "aspect_ratio": "5:4",
+        "output_format": "png",
+        "medias": [
+          {
+            "role": "image",
+            "value": "23663ea0-266c-4fa4-ac9c-8bec802c24c6"
+          }
+        ],
+        "prompt": "Refine the APPROVED illustration in the supplied three-frame reference strip. Preserve its composition, palette, delicate outlined illustration style, small shaded surfaces, and charming miniature scale. Do not turn it into a sterile CAD drawing and do not redesign the concept.\nOUTPUT: one unlabelled 2-by-2 key-pose sheet, four equal 640x512 cells in a 1280x1024 image. Reading order top-left, top-right, bottom-left, bottom-right. Each cell is the SAME physical miniature at a different stage, from the EXACT same locked isometric camera, framing and scale. No written labels, titles, numbers, borders or arrows.\nMODEL CONSISTENCY: Establish the parts once. Retain the same silhouette, proportions, joints, materials, stroke weight and number of parts in all four poses. Only rigid rotation, hinge rotation and translation may change. Correct the structural errors in the reference. Parts must not stretch, melt, intersect or appear from nowhere. Occluded packed parts may become visible as they unfold. Background colour is identical in all four cells.\n\nPART INVENTORY: One fixed rectangular base and exactly five nested hinged frame assemblies from the reference. Every assembly has its own fixed dimensions, visible corners and hinge line. Keep the elegant open pavilion silhouette of the approved last frame.\nKEY POSES: Pose 1: all five assemblies nested flat on the base, distinct and countable. Pose 2: the two upright frame assemblies have rotated around their original hinge lines. Pose 3: connecting members swing into their existing attachment points, without stretching to reach them. Pose 4: the final canopy assembly rotates into place, completing the same open pavilion as the reference. No new roof slab, extra legs, diagonal brace or glass panels. Preserve the existing five assemblies throughout all poses.\nBACKGROUND: #141523."
+      }
+    }
+  ],
+  "poseJobs": [
+    {
+      "index": 1,
+      "job_id": "8b56d5e4-c0a8-410d-bbe5-a878f3cb003c",
+      "status": "pending",
+      "adjustments": {
+        "medias[0].role": {
+          "requested": "image",
+          "used": "image_references",
+          "reason": "GPT Image 2.6 backend expects schema-key media roles"
+        }
+      }
+    },
+    {
+      "index": 2,
+      "job_id": "316b8c22-7be3-42e4-84be-87bf48e25b2b",
+      "status": "pending",
+      "adjustments": {
+        "medias[0].role": {
+          "requested": "image",
+          "used": "image_references",
+          "reason": "GPT Image 2.6 backend expects schema-key media roles"
+        }
+      }
+    },
+    {
+      "index": 3,
+      "job_id": "ca788610-d0e3-4d06-b467-50c21d6c2833",
+      "status": "pending",
+      "adjustments": {
+        "medias[0].role": {
+          "requested": "image",
+          "used": "image_references",
+          "reason": "GPT Image 2.6 backend expects schema-key media roles"
+        }
+      }
+    },
+    {
+      "index": 4,
+      "job_id": "6c1301f6-6a94-4d24-b1f6-ec87bb84679f",
+      "status": "pending",
+      "adjustments": {
+        "medias[0].role": {
+          "requested": "image",
+          "used": "image_references",
+          "reason": "GPT Image 2.6 backend expects schema-key media roles"
+        }
+      }
+    },
+    {
+      "index": 5,
+      "job_id": "aeba179d-0cc9-44d8-8124-d5ec731f26d2",
+      "status": "pending",
+      "adjustments": {
+        "medias[0].role": {
+          "requested": "image",
+          "used": "image_references",
+          "reason": "GPT Image 2.6 backend expects schema-key media roles"
+        }
+      }
+    }
+  ]
+}

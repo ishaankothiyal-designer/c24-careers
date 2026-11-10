@@ -1,0 +1,63 @@
+{
+  "date": "2026-11-10",
+  "direction": "Core beliefs expressed through unexpected physical stories, without original composition references.",
+  "concepts": [
+    {
+      "name": "Leap before the landing",
+      "card": "Audacity is the only moat",
+      "bg": "#f1efeb",
+      "story": "Audacity creates a way forward before certainty exists.",
+      "prompt": "BACKGROUND warm off-white #f1efeb, charcoal hairlines, accent electric violet. A tiny violet outlined cube on a short floating rectangular starting ledge at left; a wide empty gap to the right with NO landing ledge at first. Story: 1–3 the cube compresses slightly in anticipation at the edge; 4–7 it makes one confident arc into the gap; while still airborne, fine construction lines extend from its lower corners and snap into three slim cantilever ribs, physically assembling a new little landing platform just beneath its flight path; 8–12 the cube lands on this newly built ledge with a single tiny squash and precise settle; 13–16 hold the extraordinary composed result, the cube safely on the right and the empty space it crossed still visible. The surprise is that action creates the landing, instead of waiting for a bridge. Only two small ledges, one cube, and three architectural ribs. Beautiful airy sparse engineering drawing. No safe, locks, key, door, rocket or lightbulb."
+    },
+    {
+      "name": "The drawing reaches back",
+      "card": "Become an AI-native builder",
+      "bg": "#4934ff",
+      "story": "The tool becomes a collaborator, extending what one person can make.",
+      "prompt": "BACKGROUND solid electric violet #4934ff; pale-lavender hairlines with one acid-lime accent. A floating thin isometric drafting sheet, one elegant pencil, one simple unfinished drawn arch. The pencil draws a long articulate bent line on the sheet. In a quietly magical but geometrically exact moment that drawn line peels up out of the paper plane, retaining its thin wire contour, hinges into a small two-joint drafting arm, and picks up the far end of a ruler. The original pencil and the new wire arm cooperate to complete the miniature arch with a clean keystone. The new arm offers the ruler back with a tiny courteous dip; hold the completed arch and two cooperating tools. Delight is a drawing unexpectedly reaching back to help its maker. Simple clear 16-frame sequence, one arm, one pencil, one arch. No humanoid robot, interface window, code, cursor cube, chip, brain or magical sparkles."
+    },
+    {
+      "name": "The folding distance",
+      "card": "10yrs of work in one year",
+      "bg": "#e9e6ff",
+      "story": "Bring the steps closer together while still completing all of them.",
+      "prompt": "BACKGROUND flat pale lavender #e9e6ff, graphite hairlines, a tiny electric-violet bead. One elegant isometric concertina track, a narrow continuous ribbon divided into ten short articulated sections, zigzagging in space like a precision accordion. Ten tiny unlabelled recessed circles mark the route. The violet bead starts at one end. As it rolls, the distant sections fold gently inward toward it, shortening the overall distance while keeping every section in sequence; the bead touches each circle, which briefly becomes violet. The track gathers around the bead with a delicate controlled wave, then opens slightly to display all ten completed marks and the bead at the destination. The surprise is that the route comes to meet the traveller: compressed time without skipped work. Restrained mechanical choreography. Do not use a clock, calendar, hourglass, stopwatch, domino trays, speed lines or arrows. Avoid a rollercoaster: this is a small delicate tabletop sculpture."
+    },
+    {
+      "name": "A workshop makes workshops",
+      "card": "Create 100 founders",
+      "bg": "#a0ff58",
+      "story": "Shared support gives people the means to build independently.",
+      "prompt": "BACKGROUND perfectly flat acid-lime #a0ff58, charcoal fine outlines, very sparing violet details. One small elegant isometric rectangular tool chest with four shallow drawers, initially closed. In a wonderfully precise clockwork transformation the four drawers telescope outward in four different directions, each unfolds two thin hinged legs, separates gently from the chest and becomes a freestanding miniature workbench. Each independent little workshop has its own tiny task: one builds an arch, another a stair, another a geometric frame, another a small wheel. Their fine little tool arms move at slightly different rhythms, showing independent agency. At the payoff the central chest sits quietly open, surrounded by four active independent workbenches: it has given away the capacity to build. Keep scale small, geometry clean, spaces between the four benches. Mechanical dollhouse ingenuity without people. No conveyor, production gate, factory, crates, generic node network or multiplication symbols. Hold the final reveal."
+    },
+    {
+      "name": "Five moves, a different scale",
+      "card": "Build towards $100bn in 5 years",
+      "bg": "#1b1b23",
+      "story": "Each deliberate step makes the next, larger possibility possible.",
+      "prompt": "BACKGROUND flat near-black #1b1b23, fine pale-lavender architectural linework, one acid-lime hinge accent. A remarkably elegant miniature pop-up architectural mechanism starts as five nested thin flat frames on one small isometric foundation. Five staged mechanical hinge movements build an airy surprising pavilion: first a frame hinges upright into an arch; second a larger frame rises supported by the first; third two slim bridge ribs swing out linking them; fourth a cantilever canopy unfolds outward; fifth a final ring locks the whole airy open structure together. The final structure spans several times its starting footprint, a beautiful little piece of impossible architecture created by cumulative precise moves. Each movement visibly depends on what was built before. Keep it sculptural, sparse, delicate and structurally coherent, like a miniature architectural model crossed with a precision pocket mechanism. One continuous fixed-camera shot. No elevator, stacked floors, bar chart, skyscraper skyline, stairs of cubes, money or growth arrow. Hold the satisfying complete pavilion."
+    }
+  ],
+  "jobs": [
+    {
+      "index": 1,
+      "job_id": "9a7e54e7-dc84-4a5a-ba44-2b1ddf605d77"
+    },
+    {
+      "index": 2,
+      "job_id": "f74169fe-6828-42a5-b779-cd5c971a8e3f"
+    },
+    {
+      "index": 3,
+      "job_id": "43b89048-19c7-4290-8046-f30535937c0f"
+    },
+    {
+      "index": 4,
+      "job_id": "ad06c9ec-4bc1-4ffe-962f-f9035e5b787b"
+    },
+    {
+      "index": 5,
+      "job_id": "ff6065fa-7475-4afa-b753-19bf2e7ed118"
+    }
+  ]
+}

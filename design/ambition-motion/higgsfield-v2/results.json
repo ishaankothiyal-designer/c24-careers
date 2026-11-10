@@ -1,0 +1,188 @@
+{
+  "date": "2026-11-10",
+  "activeDefault": "approved-generated-reference",
+  "vectorArchive": "/?ambition-art=refined#ambition",
+  "poseResults": [
+    {
+      "index": 1,
+      "job_id": "8b56d5e4-c0a8-410d-bbe5-a878f3cb003c",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_194251_8b56d5e4-c0a8-410d-bbe5-a878f3cb003c.png"
+    },
+    {
+      "index": 2,
+      "job_id": "316b8c22-7be3-42e4-84be-87bf48e25b2b",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_194252_316b8c22-7be3-42e4-84be-87bf48e25b2b.png"
+    },
+    {
+      "index": 3,
+      "job_id": "ca788610-d0e3-4d06-b467-50c21d6c2833",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_194251_ca788610-d0e3-4d06-b467-50c21d6c2833.png"
+    },
+    {
+      "index": 4,
+      "job_id": "6c1301f6-6a94-4d24-b1f6-ec87bb84679f",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_194250_6c1301f6-6a94-4d24-b1f6-ec87bb84679f.png"
+    },
+    {
+      "index": 5,
+      "job_id": "aeba179d-0cc9-44d8-8124-d5ec731f26d2",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_194252_aeba179d-0cc9-44d8-8124-d5ec731f26d2.png"
+    }
+  ],
+  "motionResults": [
+    {
+      "index": 1,
+      "job_id": "4734b7c0-3204-48d5-b11f-54ffeb8e2244",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_194840_4734b7c0-3204-48d5-b11f-54ffeb8e2244.gif"
+    },
+    {
+      "index": 2,
+      "job_id": "6983da8e-049e-4383-a6f2-de3a55d0480b",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_194840_6983da8e-049e-4383-a6f2-de3a55d0480b.gif"
+    },
+    {
+      "index": 3,
+      "job_id": "db21f284-f2fd-4477-9c35-6c6292635fd2",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_194841_db21f284-f2fd-4477-9c35-6c6292635fd2.gif"
+    },
+    {
+      "index": 4,
+      "job_id": "58049dc2-f309-4b65-9a46-1bb303d1b460",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_194842_58049dc2-f309-4b65-9a46-1bb303d1b460.gif"
+    },
+    {
+      "index": 5,
+      "job_id": "ba7633e1-b06e-416f-bae9-fa9d4ba9f8bc",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_194841_ba7633e1-b06e-416f-bae9-fa9d4ba9f8bc.gif"
+    }
+  ],
+  "segmentedPavilion": {
+    "requests": [
+      {
+        "index": 1,
+        "params": {
+          "model": "kling3_0",
+          "mode": "pro",
+          "sound": "off",
+          "duration": 4,
+          "prompt": "A precise illustration-animation interpolation between the supplied first and last frames. Preserve their exact soft isometric drawn style, colours, outlined edges and small shaded faces. The base, camera, lighting, scale and canvas position are locked. Silent, one continuous fixed view. Every existing component is rigid and conserved; all four corners of a rectangular frame must remain connected throughout. Only the explicitly named assembly moves; all other pixels are visually steady. Start exactly at the first image; finish exactly at the last image and hold the final pose for the last half-second. No cuts, camera drift, added parts, topology change, melting, growing members, disappearing pillars or new shadows. Move only the two nested upright portal assemblies from their packed positions to upright, one after the other. Each portal is one closed rigid rectangular loop, including BOTH vertical sides and its top crossbar, not an L-shape. Rotate each whole portal around its fixed base hinge. Keep all remaining nested parts flat and unchanged. End at the supplied two-upright pose.",
+          "medias": [
+            {
+              "role": "start_image",
+              "value": "be5e89d4-6e09-47c6-be8e-2fad8bc84117"
+            },
+            {
+              "role": "end_image",
+              "value": "664cd86d-f79e-46df-b8fa-65ceea1588d1"
+            }
+          ]
+        }
+      },
+      {
+        "index": 2,
+        "params": {
+          "model": "kling3_0",
+          "mode": "pro",
+          "sound": "off",
+          "duration": 4,
+          "prompt": "A precise illustration-animation interpolation between the supplied first and last frames. Preserve their exact soft isometric drawn style, colours, outlined edges and small shaded faces. The base, camera, lighting, scale and canvas position are locked. Silent, one continuous fixed view. Every existing component is rigid and conserved; all four corners of a rectangular frame must remain connected throughout. Only the explicitly named assembly moves; all other pixels are visually steady. Start exactly at the first image; finish exactly at the last image and hold the final pose for the last half-second. No cuts, camera drift, added parts, topology change, melting, growing members, disappearing pillars or new shadows. The two uprights and their base are already complete and must not move or change shape. Move only the existing connecting assemblies from their nested position to their shown final attachment points. Rotate these pieces at their existing pins; do not lengthen them to reach the other frame. Keep every upright side visible and connected. Do not deploy the canopy yet.",
+          "medias": [
+            {
+              "role": "start_image",
+              "value": "664cd86d-f79e-46df-b8fa-65ceea1588d1"
+            },
+            {
+              "role": "end_image",
+              "value": "9d19ede5-18c4-4fbe-bd37-7a7ac4eecf8b"
+            }
+          ]
+        }
+      },
+      {
+        "index": 3,
+        "params": {
+          "model": "kling3_0",
+          "mode": "pro",
+          "sound": "off",
+          "duration": 4,
+          "prompt": "A precise illustration-animation interpolation between the supplied first and last frames. Preserve their exact soft isometric drawn style, colours, outlined edges and small shaded faces. The base, camera, lighting, scale and canvas position are locked. Silent, one continuous fixed view. Every existing component is rigid and conserved; all four corners of a rectangular frame must remain connected throughout. Only the explicitly named assembly moves; all other pixels are visually steady. Start exactly at the first image; finish exactly at the last image and hold the final pose for the last half-second. No cuts, camera drift, added parts, topology change, melting, growing members, disappearing pillars or new shadows. The base, both closed upright portals and their connecting members are already complete and completely stationary. Move only the existing flat canopy assembly from its folded position into the exact final position. It rotates as one rigid surface around its fixed hinge; it does not grow out of a beam. Preserve every existing leg and upright throughout the clip. Finish with a quiet hold on the complete pavilion.",
+          "medias": [
+            {
+              "role": "start_image",
+              "value": "9d19ede5-18c4-4fbe-bd37-7a7ac4eecf8b"
+            },
+            {
+              "role": "end_image",
+              "value": "10a1d49b-d66a-4f55-abdd-d33886871e31"
+            }
+          ]
+        }
+      }
+    ],
+    "results": [
+      {
+        "index": 1,
+        "job_id": "aebed39f-173a-4ee8-8874-818a3997d3d7",
+        "status": "completed",
+        "type": "video",
+        "model": "kling3_0",
+        "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_195359_aebed39f-173a-4ee8-8874-818a3997d3d7.mp4"
+      },
+      {
+        "index": 2,
+        "job_id": "5ddd7c0f-7b8f-4d53-9a4a-7f8cb2796f9e",
+        "status": "completed",
+        "type": "video",
+        "model": "kling3_0",
+        "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_195359_5ddd7c0f-7b8f-4d53-9a4a-7f8cb2796f9e.mp4"
+      },
+      {
+        "index": 3,
+        "job_id": "ac341dfb-e1c7-4b55-b824-8ab27ddcac73",
+        "status": "completed",
+        "type": "video",
+        "model": "kling3_0",
+        "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_195359_ac341dfb-e1c7-4b55-b824-8ab27ddcac73.mp4"
+      }
+    ],
+    "review": "Not selected: the keyed endpoints are closer, but connectors detach and the canopy stretches during intermediate motion."
+  },
+  "reviews": [
+    "Promising: the cube stays more consistent and the bridge has an explicit stowed mechanism. Some support edges still shift. Review before replacing the approved reference.",
+    "Needs another pass: the arm still gains a joint and the arch is already present before the drawing action. Stronger prompting alone has not resolved those continuity errors.",
+    "The travel is clearer, but the model changes the station count compared with the reference. Check the track topology rather than accepting the styling alone.",
+    "Strongest candidate in this pass: a staged drawer reveal, with the four small builds held steady, reduces competing motion. Leg deployment and ground contact still need close review.",
+    "Single-pass GIF: incomplete upright. Segmented pilot: closer end poses, but detached connectors and stretching canopy. Both remain rejected experiments."
+  ],
+  "methodFinding": "Single approved master + fixed inventory + fewer simultaneous actions improved the workshop reveal. Neither long prompts nor fixed endpoints alone reliably enforce topology in all generated intermediate frames. Do not replace approved animations with failed candidates."
+}

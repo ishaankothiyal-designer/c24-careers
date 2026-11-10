@@ -1,0 +1,54 @@
+{
+  "date": "2026-11-10",
+  "model": "gpt_image_2_6",
+  "results": [
+    {
+      "index": 1,
+      "job_id": "9a7e54e7-dc84-4a5a-ba44-2b1ddf605d77",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_185208_9a7e54e7-dc84-4a5a-ba44-2b1ddf605d77.gif"
+    },
+    {
+      "index": 2,
+      "job_id": "f74169fe-6828-42a5-b779-cd5c971a8e3f",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_185208_f74169fe-6828-42a5-b779-cd5c971a8e3f.gif"
+    },
+    {
+      "index": 3,
+      "job_id": "43b89048-19c7-4290-8046-f30535937c0f",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_185210_43b89048-19c7-4290-8046-f30535937c0f.gif"
+    },
+    {
+      "index": 4,
+      "job_id": "ad06c9ec-4bc1-4ffe-962f-f9035e5b787b",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_185209_ad06c9ec-4bc1-4ffe-962f-f9035e5b787b.gif"
+    },
+    {
+      "index": 5,
+      "job_id": "ff6065fa-7475-4afa-b753-19bf2e7ed118",
+      "status": "completed",
+      "type": "image",
+      "model": "gpt_image_2_6",
+      "result_url": "https://d8j0ntlcm91z4.cloudfront.net/user_3EUMy908K1syOlrGcNJfJc53bTl/hf_20261109_185209_ff6065fa-7475-4afa-b753-19bf2e7ed118.gif"
+    }
+  ],
+  "review": [
+    "Clear anticipation, leap and landing. The new platform is built from the original ledge while the cube is airborne.",
+    "The drawn articulated line becomes a second tool and helps hold the ruler. Clear collaboration metaphor.",
+    "The track compresses and the bead advances through the route. Exact step count and reset need final control.",
+    "Clear transformation from tool chest to separate workbenches with different small builds. Richest reveal; simplify detail for card size.",
+    "Five nested frames develop into a pavilion. Strong dependency and growth choreography; final reset needs control."
+  ],
+  "productionChanged": false
+}

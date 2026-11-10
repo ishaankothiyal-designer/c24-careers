@@ -1,0 +1,43 @@
+/* Compact manual carousel. Hallmark · pre-emit critique: P4 H4 E4 S5 R5 V4 */
+.ambition-stack{padding-bottom:0;border-bottom:0}
+#ambition + section{border-block-start:0}
+.ambition-stack > .container{width:100%;max-width:none;padding-inline:max(var(--pad-x),calc((100% - var(--max-w)) / 2 + var(--pad-x)));box-sizing:border-box}
+.ambition-stack__list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;list-style:none;padding:0;margin:0}
+.ambition-stack__item{position:relative;min-width:0}
+.ambition-stack__card{
+  --ambition-inset:clamp(24px,3.5vw,48px);
+  --ambition-surface:#f1efeb;
+  --hairline-plate:var(--ambition-surface);
+  --hairline-hi:var(--blue);
+  --hairline-edge:color-mix(in srgb,var(--ink) 62%,var(--ambition-surface));
+  --hairline-mid:color-mix(in srgb,var(--ink) 36%,var(--ambition-surface));
+  --hairline-lo:color-mix(in srgb,var(--ink) 16%,var(--ambition-surface));
+  --hairline-stroke:1.1;
+  position:relative;isolation:isolate;box-sizing:border-box;min-height:480px;height:100%;
+  padding:0;border:0;display:flex;flex-direction:column;
+  justify-content:flex-start;gap:0;overflow:hidden;transform-origin:center top;border-radius:0;
+  box-shadow:0 8px 28px #16132c0a;background:var(--ambition-surface);color:var(--ink)
+}
+.ambition-stack__card--builder{--ambition-surface:var(--blue);--hairline-hi:var(--lime,#d8ff00);--hairline-edge:#d9d5ff;--hairline-mid:#a69fff;--hairline-lo:#7569ff;color:#fff}
+.ambition-stack__card--pace{--ambition-surface:#e9e6ff}
+.ambition-stack__card--ownership{--ambition-surface:var(--lime,#d8ff00)}
+.ambition-stack__card--ambition{--ambition-surface:#1c1b23;--hairline-hi:var(--lime,#d8ff00);--hairline-edge:#c9c4f9;--hairline-mid:#817c9b;--hairline-lo:#4b475f;color:#fff}
+.ambition-stack__copy{position:relative;z-index:1;flex:0 0 auto;box-sizing:border-box;padding:32px 24px 16px}
+.ambition-stack__copy h3{font-family:var(--font-title);font-size:clamp(28px,2.4vw,36px);font-weight:var(--type-weight-heading,550);letter-spacing:-.045em;line-height:1.08;margin:0 0 16px;overflow-wrap:break-word}
+.ambition-stack__copy h3 br{display:initial}
+.ambition-stack__copy p{font-size:clamp(16px,1.4vw,20px);line-height:1.5;margin:0}
+.ambition-stack__visual{position:relative;box-sizing:border-box;width:100%;min-height:220px;flex:1 0 220px;margin:0;padding:24px;pointer-events:none;touch-action:pan-y}
+.ambition-stack__visual > svg{position:absolute;inset:auto;top:50%;left:50%;display:block;width:calc(100% - 48px);height:220px;max-height:calc(100% - 48px);overflow:visible;transform:translate(-50%,-50%) scale(.85);transform-origin:center}
+
+:root{--ambition-card-width:360px;--ambition-card-gap:var(--sp-3)}
+.page-root>main>.hero+#ambition{margin-top:0;padding-top:var(--sp-4)}
+.ambition-stack__list{position:relative;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:var(--ambition-card-width);gap:var(--ambition-card-gap);overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none}
+.ambition-stack__list::-webkit-scrollbar{display:none}
+.ambition-stack__item{position:relative;scroll-snap-align:start}
+.ambition-stack__list:focus-visible{outline:var(--story-focus) solid var(--blue);outline-offset:var(--sp-1)}
+.ambition-carousel__controls .craft-work__arrow{position:static;display:flex;inset:auto;transform:none;width:var(--story-control);height:var(--story-control);opacity:1;pointer-events:auto}
+.ambition-carousel__controls .craft-work__arrow:disabled{opacity:.3;cursor:default}
+@media(max-width:767px){.ambition-stack__list{grid-auto-columns:min(86%,var(--ambition-card-width))}}
+
+/* Split the tighter transition evenly around the section divider. */
+.page-root>main>#builder{margin-top:var(--sp-3);padding-top:var(--sp-3);border-block-start:var(--section-divider-height) solid var(--section-divider-color)}

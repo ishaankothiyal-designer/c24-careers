@@ -50,7 +50,7 @@ export function liveJobCard(job, listing = false) {
   const title = escape(job.title), department = escape(job.department);
   const heading = listing ? 'h2' : 'h3';
   const experience = job.experienceFrom || job.experienceTo ? `${escape(job.experienceFrom || '0')}–${escape(job.experienceTo)} years of experience` : '';
-  return `<a class="${listing ? 'careers-card' : 'problem-card'} role-card" href="${href}" data-transition-prevent aria-label="View role: ${title}" data-job-id="${escape(job.id)}" ${listing ? 'data-department' : 'data-problem-craft'}="${department}"><${heading} class="role-card__title" data-no-roll>${escape(roleProblem(job))}</${heading}><p class="role-card__metadata">${escape(roleMetadata(job))}</p>${experience ? `<p class="role-card__experience">${experience}</p>` : ''}${roleCardContext(job)}<span class="role-card__link" aria-hidden="true"><span class="role-card__link-label">View role <span>↗</span></span></span></a>`;
+  return `<a class="${listing ? 'careers-card' : 'problem-card'} role-card" href="${href}" data-transition-prevent aria-label="Explore the work: ${title}" data-job-id="${escape(job.id)}" ${listing ? 'data-department' : 'data-problem-craft'}="${department}"><${heading} class="role-card__title" data-no-roll>${escape(roleProblem(job))}</${heading}><p class="role-card__metadata">${escape(roleMetadata(job))}</p>${experience ? `<p class="role-card__experience">${experience}</p>` : ''}${roleCardContext(job)}<span class="role-card__link" aria-hidden="true"><span class="role-card__link-label">Explore the work <span>↗</span></span></span></a>`;
 }
 
 export function jobsEmptyStateHtml() {

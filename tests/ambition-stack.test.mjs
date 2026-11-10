@@ -1,7 +1,53 @@
 import assert from 'node:assert/strict';
 import {readFile} from 'node:fs/promises';
 import test from 'node:test';
-import {initializeAmbitionStack,initializeAmbitionCarousel} from '../src/runtime/ambition-stack.js';
+import {initializeAmbitionStack,initializeAmbitionCarousel,shouldPauseAmbitionForNetwork} from '../src/runtime/ambition-stack.js';
+
+test('connection changes pause and resume visible animations without a user control',async t=>{
+  const {cards,observers}=environment(t);
+  const events=new Map();
+  navigator.connection={effectiveType:'4g',downlink:10,saveData:false,addEventListener(k,v){events.set(k,v);},removeEventListener(k){events.delete(k);}};
+  const figures=[];
+  const cleanup=initializeAmbitionStack({loadFigures:async()=>({createAmbitionFigure(){const figure={update(v){this.play=v.play;},destroy(){}};figures.push(figure);return figure;}})});
+  observers[0].callback([{target:cards[0],isIntersecting:true}]);
+  observers[1].callback([{isIntersecting:true}]);await new Promise(done=>setImmediate(done));
+  assert.equal(figures[0].play,true);
+  navigator.connection.effectiveType='3g';events.get('change')();
+  assert.equal(figures[0].play,false);
+  navigator.connection.effectiveType='4g';navigator.connection.downlink=.5;events.get('change')();
+  assert.equal(figures[0].play,false);
+  navigator.connection.downlink=10;events.get('change')();
+  assert.equal(figures[0].play,true);
+  navigator.connection.saveData=true;events.get('change')();assert.equal(figures[0].play,false);
+  navigator.connection.saveData=false;navigator.onLine=false;events.get('change')();assert.equal(figures[0].play,false);
+  navigator.onLine=true;events.get('change')();assert.equal(figures[0].play,true);
+  assert.equal(figures[1].play,false,'offscreen cards must stay paused after recovery');
+  cleanup();assert.equal(events.size,0);
+});
+
+test('network hints distinguish slow, offline and unknown connections',()=>{
+  assert.equal(shouldPauseAmbitionForNetwork({}),false);
+  for(const effectiveType of ['slow-2g','2g','3g'])assert.equal(shouldPauseAmbitionForNetwork({connection:{effectiveType}}),true);
+  assert.equal(shouldPauseAmbitionForNetwork({connection:{effectiveType:'4g',downlink:10}}),false);
+  assert.equal(shouldPauseAmbitionForNetwork({onLine:false}),true);
+  assert.equal(shouldPauseAmbitionForNetwork({connection:{saveData:true}}),true);
+});
+
+test('the original query selects the preserved SVG renderer',async t=>{
+  const before=Object.getOwnPropertyDescriptor(globalThis,'location');
+  t.after(()=>{if(before)Object.defineProperty(globalThis,'location',before);else delete globalThis.location;});
+  Object.defineProperty(globalThis,'location',{configurable:true,value:{search:'?ambition-art=original'}});
+  const {root,cards,observers}=environment(t);let selected;
+  const labels=[];
+  cards.forEach((card,index)=>{card.querySelector=()=>({dataset:{originalLabel:'Original '+index},setAttribute(key,value){if(key==='aria-label')labels[index]=value;}});});
+  const cleanup=initializeAmbitionStack({loadFigures:async version=>{selected=version;return {createAmbitionFigure(){return null;}};}});
+  observers[1].callback([{isIntersecting:true}]);await new Promise(done=>setImmediate(done));
+  assert.equal(selected,'original');
+  assert.equal(root.dataset.illustrationVersion,'original');
+  assert.deepEqual(labels,cards.map((_,index)=>'Original '+index));
+  cleanup();
+});
+
 
 test('cards carry the mission and all five convictions without a separate intro',async()=>{
   const html=await readFile(new URL('../src/sections/career-02-ambition.html',import.meta.url),'utf8');
@@ -40,8 +86,8 @@ function environment(t) {
   return {root,cards,events,observers,motion,doc};
 }
 
-test('Hairline loads near the section, plays only visible figures, and releases its resources',async t=>{
-  const {cards,events,observers,motion,doc}=environment(t);
+test('illustrations load near the section, play only visible figures, and release resources',async t=>{
+  const {root,cards,events,observers,motion,doc}=environment(t);
   const created=[];let loads=0;
   const cleanup=initializeAmbitionStack({loadFigures:async()=>{
     loads++;
@@ -51,6 +97,7 @@ test('Hairline loads near the section, plays only visible figures, and releases 
     }};
   }});
   assert.equal(loads,0,'the library must not load with the opening page');
+  assert.equal(root.dataset.illustrationVersion,'generated');
   observers[0].callback([{target:cards[0],isIntersecting:true},{target:cards[1],isIntersecting:false}]);
   observers[1].callback([{isIntersecting:true}]);
   await new Promise(resolve=>setImmediate(resolve));

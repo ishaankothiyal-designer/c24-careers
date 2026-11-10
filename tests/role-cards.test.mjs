@@ -16,7 +16,7 @@ test('landing and listing cards are a single native link covering the entire car
     assert.ok(html.endsWith('</a>'));
     assert.equal((html.match(/<a\b/g) || []).length, 1);
     assert.doesNotMatch(html, /<button|tabindex=|onclick=|role="button"/);
-    assert.match(html, /<span class="role-card__link" aria-hidden="true"><span class="role-card__link-label">View role/);
+    assert.match(html, /<span class="role-card__link" aria-hidden="true"><span class="role-card__link-label">Explore the work/);
     assert.ok(html.includes(`data-job-id="${job.id}"`));
     assert.match(html, listing ? /<h2 class="role-card__title"/ : /<h3 class="role-card__title"/);
   }
@@ -49,7 +49,7 @@ test('problem statements use role focus and official titles remain in accessible
   assert.equal(roleProblem({title:'New role',department:'New team'}),'Solve problems in New team');
   assert.equal(roleProblem({title:'New role'}),'Solve the next challenge at Cars24');
   const html=liveJobCard(roles[0]);
-  assert.match(html,/aria-label="View role: Builder - Key Accounts"/);
+  assert.match(html,/aria-label="Explore the work: Builder - Key Accounts"/);
   assert.match(html,/data-no-roll>Build lasting relationships with key accounts</);
   assert.ok(html.indexOf('role-card__experience')<html.indexOf('role-card__context'));
   assert.match(html,/India <span aria-hidden="true">▪<\/span> Retail/);
