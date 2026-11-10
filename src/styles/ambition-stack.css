@@ -1,7 +1,7 @@
 /* Compact manual carousel. Hallmark · pre-emit critique: P4 H4 E4 S5 R5 V4 */
 .ambition-stack{padding-bottom:0;border-bottom:0;scroll-margin-top:var(--layout-anchor-clearance)}
 #ambition + section{border-block-start:0}
-.ambition-stack > .container{width:100%;max-width:none;padding-inline:max(var(--pad-x),calc((100% - var(--max-w)) / 2 + var(--pad-x)));box-sizing:border-box}
+.ambition-stack > .container{--ambition-carousel-inset:max(var(--pad-x),calc((100vw - var(--max-w)) / 2 + var(--pad-x)));width:100%;max-width:none;padding-inline:var(--ambition-carousel-inset);box-sizing:border-box}
 .ambition-stack__list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;list-style:none;padding:0;margin:0}
 .ambition-stack__item{position:relative;min-width:0}
 .ambition-stack__card{
@@ -38,7 +38,9 @@
 
 :root{--ambition-card-width:360px;--ambition-card-gap:var(--sp-3)}
 .page-root>main>.hero+#ambition{margin-top:0;padding-top:var(--sp-4)}
-.ambition-stack__list{position:relative;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:var(--ambition-card-width);gap:var(--ambition-card-gap);overflow-x:auto;scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none}
+/* Keep the gutter inside the scroller so cards clip at the viewport edge,
+   rather than disappearing behind the container's white padding. */
+.ambition-stack__list{position:relative;grid-template-columns:none;grid-auto-flow:column;grid-auto-columns:var(--ambition-card-width);gap:var(--ambition-card-gap);margin-inline:calc(-1 * var(--ambition-carousel-inset));padding-inline:var(--ambition-carousel-inset);overflow-x:auto;scroll-padding-inline:var(--ambition-carousel-inset);scroll-snap-type:x mandatory;overscroll-behavior-x:contain;scrollbar-width:none}
 .ambition-stack__list::-webkit-scrollbar{display:none}
 .ambition-stack__item{position:relative;scroll-snap-align:start}
 .ambition-stack__list:focus-visible{outline:var(--story-focus) solid var(--blue);outline-offset:var(--sp-1)}
