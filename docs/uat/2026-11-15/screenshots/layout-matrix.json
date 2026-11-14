@@ -1,0 +1,580 @@
+[
+  {
+    "bodyWidth": 320,
+    "docWidth": 320,
+    "sections": [
+      {
+        "font": "16px",
+        "height": 911,
+        "id": "",
+        "padding": "65px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 544,
+        "id": "ambition",
+        "padding": "24px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 1050,
+        "id": "working-principles",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 927,
+        "id": "builder",
+        "padding": "24px 0px 48px"
+      },
+      {
+        "font": "16px",
+        "height": 961,
+        "id": "problems",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 886,
+        "id": "support",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 1066,
+        "id": "letter",
+        "padding": "0px"
+      },
+      {
+        "font": "16px",
+        "height": 1067,
+        "id": "enterprise-faq",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 598,
+        "id": "next-chapter",
+        "padding": "48px 0px"
+      }
+    ],
+    "smallControls": [
+      {
+        "height": 35,
+        "text": ""
+      }
+    ],
+    "width": 320
+  },
+  {
+    "bodyWidth": 375,
+    "docWidth": 375,
+    "sections": [
+      {
+        "font": "16px",
+        "height": 871,
+        "id": "",
+        "padding": "65px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 544,
+        "id": "ambition",
+        "padding": "24px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 981,
+        "id": "working-principles",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 948,
+        "id": "builder",
+        "padding": "24px 0px 48px"
+      },
+      {
+        "font": "16px",
+        "height": 889,
+        "id": "problems",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 903,
+        "id": "support",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 958,
+        "id": "letter",
+        "padding": "0px"
+      },
+      {
+        "font": "16px",
+        "height": 929,
+        "id": "enterprise-faq",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 547,
+        "id": "next-chapter",
+        "padding": "48px 0px"
+      }
+    ],
+    "smallControls": [
+      {
+        "height": 35,
+        "text": ""
+      }
+    ],
+    "width": 375
+  },
+  {
+    "bodyWidth": 390,
+    "docWidth": 390,
+    "sections": [
+      {
+        "font": "16px",
+        "height": 831,
+        "id": "",
+        "padding": "65px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 544,
+        "id": "ambition",
+        "padding": "24px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 960,
+        "id": "working-principles",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 956,
+        "id": "builder",
+        "padding": "24px 0px 48px"
+      },
+      {
+        "font": "16px",
+        "height": 850,
+        "id": "problems",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 911,
+        "id": "support",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 917,
+        "id": "letter",
+        "padding": "0px"
+      },
+      {
+        "font": "16px",
+        "height": 929,
+        "id": "enterprise-faq",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 547,
+        "id": "next-chapter",
+        "padding": "48px 0px"
+      }
+    ],
+    "smallControls": [
+      {
+        "height": 35,
+        "text": ""
+      }
+    ],
+    "width": 390
+  },
+  {
+    "bodyWidth": 414,
+    "docWidth": 414,
+    "sections": [
+      {
+        "font": "16px",
+        "height": 809,
+        "id": "",
+        "padding": "65px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 544,
+        "id": "ambition",
+        "padding": "24px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 941,
+        "id": "working-principles",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 931,
+        "id": "builder",
+        "padding": "24px 0px 48px"
+      },
+      {
+        "font": "16px",
+        "height": 850,
+        "id": "problems",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 911,
+        "id": "support",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 857,
+        "id": "letter",
+        "padding": "0px"
+      },
+      {
+        "font": "16px",
+        "height": 904,
+        "id": "enterprise-faq",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 547,
+        "id": "next-chapter",
+        "padding": "48px 0px"
+      }
+    ],
+    "smallControls": [
+      {
+        "height": 35,
+        "text": ""
+      }
+    ],
+    "width": 414
+  },
+  {
+    "bodyWidth": 768,
+    "docWidth": 768,
+    "sections": [
+      {
+        "font": "16px",
+        "height": 756,
+        "id": "",
+        "padding": "81px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 564,
+        "id": "ambition",
+        "padding": "24px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 589,
+        "id": "working-principles",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 929,
+        "id": "builder",
+        "padding": "24px 0px 48px"
+      },
+      {
+        "font": "16px",
+        "height": 755,
+        "id": "problems",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 910,
+        "id": "support",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 2700,
+        "id": "letter",
+        "padding": "0px"
+      },
+      {
+        "font": "16px",
+        "height": 804,
+        "id": "enterprise-faq",
+        "padding": "48px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 628,
+        "id": "next-chapter",
+        "padding": "48px 0px"
+      }
+    ],
+    "smallControls": [],
+    "width": 768
+  },
+  {
+    "bodyWidth": 834,
+    "docWidth": 834,
+    "sections": [
+      {
+        "font": "16px",
+        "height": 756,
+        "id": "",
+        "padding": "81px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 565,
+        "id": "ambition",
+        "padding": "25.02px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 569,
+        "id": "working-principles",
+        "padding": "52.125px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 935,
+        "id": "builder",
+        "padding": "24px 0px 52.125px"
+      },
+      {
+        "font": "16px",
+        "height": 739,
+        "id": "problems",
+        "padding": "52.125px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 919,
+        "id": "support",
+        "padding": "52.125px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 2700,
+        "id": "letter",
+        "padding": "0px"
+      },
+      {
+        "font": "16px",
+        "height": 813,
+        "id": "enterprise-faq",
+        "padding": "52.125px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 659,
+        "id": "next-chapter",
+        "padding": "52.125px 0px"
+      }
+    ],
+    "smallControls": [],
+    "width": 834
+  },
+  {
+    "bodyWidth": 1024,
+    "docWidth": 1024,
+    "sections": [
+      {
+        "font": "16px",
+        "height": 833,
+        "id": "",
+        "padding": "81px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 571,
+        "id": "ambition",
+        "padding": "30.72px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 568,
+        "id": "working-principles",
+        "padding": "64px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 991,
+        "id": "builder",
+        "padding": "24px 0px 64px"
+      },
+      {
+        "font": "16px",
+        "height": 765,
+        "id": "problems",
+        "padding": "64px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 957,
+        "id": "support",
+        "padding": "64px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 2700,
+        "id": "letter",
+        "padding": "0px"
+      },
+      {
+        "font": "16px",
+        "height": 670,
+        "id": "enterprise-faq",
+        "padding": "64px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 720,
+        "id": "next-chapter",
+        "padding": "64px 0px"
+      }
+    ],
+    "smallControls": [],
+    "width": 1024
+  },
+  {
+    "bodyWidth": 1280,
+    "docWidth": 1280,
+    "sections": [
+      {
+        "font": "16px",
+        "height": 893,
+        "id": "",
+        "padding": "81px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 578,
+        "id": "ambition",
+        "padding": "38.4px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 580,
+        "id": "working-principles",
+        "padding": "80px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 1043,
+        "id": "builder",
+        "padding": "24px 0px 80px"
+      },
+      {
+        "font": "16px",
+        "height": 851,
+        "id": "problems",
+        "padding": "80px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 1020,
+        "id": "support",
+        "padding": "80px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 2700,
+        "id": "letter",
+        "padding": "0px"
+      },
+      {
+        "font": "16px",
+        "height": 677,
+        "id": "enterprise-faq",
+        "padding": "80px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 770,
+        "id": "next-chapter",
+        "padding": "80px 0px"
+      }
+    ],
+    "smallControls": [],
+    "width": 1280
+  },
+  {
+    "bodyWidth": 1440,
+    "docWidth": 1440,
+    "sections": [
+      {
+        "font": "16px",
+        "height": 933,
+        "id": "",
+        "padding": "81px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 580,
+        "id": "ambition",
+        "padding": "40px 0px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 611,
+        "id": "working-principles",
+        "padding": "90px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 1073,
+        "id": "builder",
+        "padding": "24px 0px 90px"
+      },
+      {
+        "font": "16px",
+        "height": 886,
+        "id": "problems",
+        "padding": "90px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 1098,
+        "id": "support",
+        "padding": "90px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 2700,
+        "id": "letter",
+        "padding": "0px"
+      },
+      {
+        "font": "16px",
+        "height": 697,
+        "id": "enterprise-faq",
+        "padding": "90px 0px"
+      },
+      {
+        "font": "16px",
+        "height": 802,
+        "id": "next-chapter",
+        "padding": "90px 0px"
+      }
+    ],
+    "smallControls": [],
+    "width": 1440
+  }
+]

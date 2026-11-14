@@ -176,7 +176,7 @@ function initializeApplication(form, job) {
   show(previousAttempt(job.id));
   form.addEventListener('submit', async event => {
     event.preventDefault();
-    if (form.dataset.applicationBlocked === 'true') { status.textContent = 'This application cannot be submitted here yet. Please use the Cars24 application page.'; return; }
+    if (form.dataset.applicationBlocked === 'true') { status.textContent = 'Applications for this role are not available on this page yet. Please check back soon.'; return; }
     if (fields.disabled || !form.reportValidity()) return;
     const input = form.querySelector('input[type=file]'), file = input.files[0];
     if (!file || file.size > job.application.maxResumeBytes || !job.application.resumeExtensions.includes(file.name.split('.').pop().toLowerCase())) {

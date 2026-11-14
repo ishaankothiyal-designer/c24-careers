@@ -1,3 +1,4 @@
+import {initializeSupportDialog, initializeBuilderSelection} from './runtime/support-dialog.js';
 import { initializeAmbitionStack } from './runtime/ambition-stack.js';
 import { careersPage } from './careers-page.js';
 import { initializeLiveJobs } from './runtime/live-jobs.js';
@@ -56,7 +57,7 @@ export function App() {
       document.querySelector('meta[name="description"]')?.setAttribute('content', pathname.startsWith('/careers') ? 'Explore Cars24 roles by department and find a problem to own.' : 'Meet the Cars24 builders and explore the workflows, tools and automation they built.');
     }
     initializeRoleDialog({ base, initialPath: initialRole ? pathname : null });
-    for (const initialize of [initializeAmbitionStack, initializeProjectDrawer, initializeLiveJobs, initializePaperLetter,
+    for (const initialize of [initializeSupportDialog, initializeBuilderSelection, initializeAmbitionStack, initializeProjectDrawer, initializeLiveJobs, initializePaperLetter,
       initializeClosingPixels, initializeCraftField, initializeCraftButtons,
       initializeCraftWork, initializeBuilderPixels,
       initializeExchangeDither, initializeSocietyFooter,

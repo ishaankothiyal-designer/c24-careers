@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { liveJobCard, apiJson } from '../src/runtime/live-jobs.js';
+import { liveJobCard, apiJson, roleMetadata, roleExperience } from '../src/runtime/live-jobs.js';
 import { roleProblem } from '../src/role-problems.js';
 
 const roles = [
@@ -16,7 +16,7 @@ test('landing and listing cards are a single native link covering the entire car
     assert.ok(html.endsWith('</a>'));
     assert.equal((html.match(/<a\b/g) || []).length, 1);
     assert.doesNotMatch(html, /<button|tabindex=|onclick=|role="button"/);
-    assert.match(html, /<span class="role-card__link" aria-hidden="true"><span class="role-card__link-label">Explore the work/);
+    assert.match(html, /<span class="role-card__link" aria-hidden="true"><span class="role-card__link-label">View role details/);
     assert.ok(html.includes(`data-job-id="${job.id}"`));
     assert.match(html, listing ? /<h2 class="role-card__title"/ : /<h3 class="role-card__title"/);
   }
@@ -49,11 +49,27 @@ test('problem statements use role focus and official titles remain in accessible
   assert.equal(roleProblem({title:'New role',department:'New team'}),'Solve problems in New team');
   assert.equal(roleProblem({title:'New role'}),'Solve the next challenge at Cars24');
   const html=liveJobCard(roles[0]);
-  assert.match(html,/aria-label="Explore the work: Builder - Key Accounts"/);
+  assert.match(html,/aria-label="View role: Build lasting relationships with key accounts. Builder - Key Accounts"/);
   assert.match(html,/data-no-roll>Build lasting relationships with key accounts</);
   assert.ok(html.indexOf('role-card__experience')<html.indexOf('role-card__context'));
   assert.match(html,/India <span aria-hidden="true">▪<\/span> Retail/);
   assert.doesNotMatch(html,/craft-experiments__tags|craft-tag--/);
   const escaped=liveJobCard({...roles[0],title:'Unknown',department:'<script>bad</script>',country:'<b>India</b>'});
   assert.doesNotMatch(escaped,/<script>|<b>/);
+});
+
+
+test('card facts compact large location lists and defer broad experience ranges without changing source data', () => {
+  const job = {...roles[0], cities:Array.from({length:140}, (_,i)=>`City ${i}`), experienceFrom:'0', experienceTo:'14'};
+  assert.equal(roleMetadata(job), '140 locations · Permanent');
+  assert.equal(roleExperience(job), 'Experience requirements in role details');
+  assert.equal(job.cities.length,140);
+  assert.equal(job.experienceTo,'14');
+  assert.equal(roleMetadata({...job,cities:['Delhi','Gurgaon']}),'Delhi, Gurgaon · Permanent');
+  assert.equal(roleExperience({...job,experienceFrom:'2',experienceTo:'5'}),'2–5 years of experience');
+  assert.equal(roleExperience({...job,experienceFrom:'1',experienceTo:'1'}),'1 year of experience');
+  assert.equal(roleExperience({...job,experienceFrom:'bad'}),'');
+  const html=liveJobCard(job);
+  assert.match(html,/<p class="role-card__official-title">Builder - Key Accounts<\/p>/);
+  assert.doesNotMatch(html,/City 0|0–14/);
 });

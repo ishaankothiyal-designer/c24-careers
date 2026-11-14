@@ -62,13 +62,13 @@ test('cards carry the mission and all five convictions without a separate intro'
   assert.doesNotMatch(html,/<header|ambition-stack__intro/);
   assert.ok(html.includes('consumer AI company'));
   assert.ok(html.includes('From India, for the world'));
-  const sequence=['Audacity is','AI-native builder','10yrs','100 founders','100bn'];
+  const sequence=['Audacity is','AI-native builder','10yrs','100 founders','Build from India'];
   let previous=-1;
   for(const text of sequence){const position=html.indexOf(text);assert.ok(position>previous,text);previous=position;}
-  for(const text of ['10×','10yrs','100 founders','100bn','5 years'])assert.ok(html.includes(text));
+  for(const text of ['10×','10yrs','100 founders','Build from India','global consumer company'])assert.ok(html.includes(text));
   assert.doesNotMatch(html,/by 2028|ambition__destination/);
   const headings=[...html.matchAll(/<h3>([\s\S]*?)<\/h3>/g)].map(match=>match[1].split('<br>'));
-  assert.deepEqual(headings,[['Audacity is','the only moat'],['Become an','AI-native builder'],['10yrs of work','in one year'],['Create','100 founders'],['Build towards','$100bn in 5 years']]);
+  assert.deepEqual(headings,[['Audacity is','the only moat'],['Become an','AI-native builder'],['10yrs of work','in one year'],['Create','100 founders'],['Build from India','for the world']]);
 });
 
 
@@ -168,4 +168,21 @@ test('manual carousel navigates cards, honors boundaries and reduced motion, and
   list.clientWidth=1520;list.scrollLeft=0;resize();assert.equal(previous.disabled,true);assert.equal(next.disabled,true);
   cleanup();assert.equal(disconnected,true);
   assert.equal(previous.events.size+next.events.size+list.events.size,0);
+});
+
+test('whole-card stickers skip movie loading and give readers a pause/resume control',async t=>{
+  const {root,observers}=environment(t);
+  const toggle=Object.assign(new EventTarget(),{setAttribute(key,value){this[key]=value;}});
+  root.hasAttribute=name=>name==='data-sticker-cards';
+  root.querySelector=selector=>selector==='[data-sticker-motion-toggle]'?toggle:null;
+  let loads=0;
+  const cleanup=initializeAmbitionStack({loadFigures:async()=>{loads++;return {createAmbitionFigure(){}};}});
+  assert.equal(root.dataset.illustrationVersion,'stickers');
+  observers[1].callback([{isIntersecting:true}]);await new Promise(done=>setImmediate(done));
+  assert.equal(loads,0);
+  toggle.dispatchEvent(new Event('click'));
+  assert.equal(root.dataset.artStatic,'true');assert.equal(toggle['aria-pressed'],'true');
+  toggle.dispatchEvent(new Event('click'));
+  assert.equal(root.dataset.artStatic,'false');assert.equal(toggle['aria-pressed'],'false');
+  cleanup();
 });

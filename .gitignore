@@ -19,3 +19,7 @@ coverage/
 *~
 .DS_Store
 Thumbs.db
+
+# Local review evidence copied from private Slack and source documents
+/docs/feedback-2026-11-13/
+/output/

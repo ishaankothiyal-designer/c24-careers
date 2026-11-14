@@ -6,7 +6,7 @@ const read = name => readFile(new URL(`../src/${name}`, import.meta.url),'utf8')
 
 test('landing story moves from ambition through builders and problems to support, without duplicate sections',async()=>{
   const sections=JSON.parse(await read('sections.json')).map(s=>s.file);
-  const story=['career-02-ambition.html','career-01-invitation.html','career-02-problems.html','career-06-letter.html','career-04-support.html','02-09-faq.html','career-10-closing.html'];
+  const story=['career-02-ambition.html','career-03-how-we-work.html','career-01-invitation.html','career-02-problems.html','career-04-support.html','career-06-letter.html','02-09-faq.html','career-10-closing.html'];
   const positions=story.map(s=>sections.indexOf(s));
   assert.ok(positions.every((p,i)=>p>=0&&(!i||p>positions[i-1])));
   for(const removed of ['career-07-ai-progress.html','career-03-beliefs.html','career-08-roles.html','career-09-hiring.html','career-07-exchange.html'])assert.ok(!sections.includes(removed));

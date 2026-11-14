@@ -1,3 +1,4 @@
+import {requestSupport} from './support-dialog.js';
 import { requestProject } from './project-drawer.js';
 // Scoped adaptation of Craft's project carousel and line reveal.
 export function initializeCraftWork() {
@@ -18,12 +19,17 @@ function initializeReel(root) {
   // and one set of hover/focus handlers, rather than a duplicated visual set.
   const prev = root.querySelector('.craft-work__previous');
   const next = root.querySelector('.craft-work__next');
+  if (coarse.matches && !reduce.matches && ['builder', 'support'].includes(root.id)) {
+    initializeNativeReel(root, viewport, track, cards, prev, next, reduce);
+    return;
+  }
   let x = 0, velocity = 0, minX = 0, step = 448, target = null, frame = 0, drag = null, lastFrame = 0;
   let cardMetrics=[];
   let loopWidth = 0, hovered = false, autoVisible = false, autoFrame = 0, autoLast = 0, autoSpeed = 0, manualUntil = 0;
   const manual = () => { manualUntil = performance.now() + 3000; autoSpeed = 0; };
   const isLoop = () => autoReel && loopWidth > viewport.clientWidth;
   const clamp = value => isLoop() ? value : Math.max(minX, Math.min(0, value));
+  const activate = card => card.dataset.supportProgram ? requestSupport(card.dataset.supportProgram,card) : requestProject(card.dataset.builderHref,card);
   const snap = value => clamp(Math.round(value / step) * step);
   const apply = () => {
     if (isLoop()) {
@@ -49,7 +55,10 @@ function initializeReel(root) {
     step = cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : viewport.clientWidth;
     loopWidth = autoReel ? cards.length * step : 0;
     minX = autoReel ? -loopWidth : Math.min(0, viewport.clientWidth - track.scrollWidth);
-    x = clamp(x); apply();
+    x = clamp(x);
+    if (target !== null) target = clamp(target);
+    velocity = 0;
+    apply();
     if (gridSnap) {
       viewport.style.transform = 'none';
       const media = root.querySelector('.craft-work__media');
@@ -101,10 +110,10 @@ function initializeReel(root) {
   viewport.addEventListener('pointerdown', event => {
     if (event.pointerType === 'mouse' && event.button !== 0) return;
     const control = event.target.closest('a[href], button, input, select, textarea, summary, [role="button"]');
-    if (control && !control.matches('a.craft-work__card, .craft-work__card[data-builder-href]')) return;
+    if (control && !control.matches('a.craft-work__card, .craft-work__card[data-builder-href], .craft-work__card[data-support-program]')) return;
     manual();
     event.preventDefault(); cancelAnimationFrame(frame); frame=0; velocity = 0; target = null;
-    drag = { id: event.pointerId, start: event.clientX, last: event.clientX, time: performance.now(), moved: false, link: event.target.closest('a.craft-work__card[href], .craft-work__card[data-builder-href]') };
+    drag = { id: event.pointerId, start: event.clientX, last: event.clientX, time: performance.now(), moved: false, link: event.target.closest('a.craft-work__card[href], .craft-work__card[data-builder-href], .craft-work__card[data-support-program]') };
     viewport.setPointerCapture(event.pointerId); viewport.classList.add('is-dragging');
   });
   viewport.addEventListener('pointermove', event => {
@@ -123,7 +132,8 @@ function initializeReel(root) {
     else { if (coarse.matches) { target = snap(x + velocity * 8); velocity = 0; } startAnimation(); }
     if (navigate && !finished.moved && finished.link) {
       const href = finished.link.dataset.builderHref || finished.link.href;
-      if (finished.link.dataset.builderHref && !event.ctrlKey && !event.metaKey) requestProject(href,finished.link);
+      if (finished.link.dataset.supportProgram) requestSupport(finished.link.dataset.supportProgram,finished.link);
+      else if (finished.link.dataset.builderHref && !event.ctrlKey && !event.metaKey) requestProject(href,finished.link);
       else window.open(href, '_blank', 'noopener');
     }
   };
@@ -132,12 +142,12 @@ function initializeReel(root) {
   cards.forEach(card => card.addEventListener('click', event => {
     const control = event.target.closest('a[href], button, input, select, textarea, summary, [role="button"]');
     if (control && control !== card) return;
-    if (card.dataset.builderHref && event.detail === 0) {event.preventDefault();requestProject(card.dataset.builderHref,card);}
+    if ((card.dataset.builderHref || card.dataset.supportProgram) && event.detail === 0) {event.preventDefault();activate(card);}
     else if (event.detail !== 0) event.preventDefault();
   }));
-  cards.filter(card => card.dataset.builderHref).forEach(card => card.addEventListener('keydown', event => {
+  cards.filter(card => card.dataset.builderHref || card.dataset.supportProgram).forEach(card => card.addEventListener('keydown', event => {
     if (!['Enter',' '].includes(event.key) || event.target !== card) return;
-    event.preventDefault(); requestProject(card.dataset.builderHref,card);
+    event.preventDefault(); activate(card);
   }));
   // Keep one trackpad gesture on its starting axis, including its momentum tail.
   // Otherwise diagonal deltas alternate between the reel and Lenis page scrolling.
@@ -162,7 +172,9 @@ function initializeReel(root) {
     const rect = card.getBoundingClientRect(), area = viewport.getBoundingClientRect();
     if (rect.left < area.left || rect.right > area.right) { x = clamp(-cards.indexOf(card) * step); target = null; cancelAnimationFrame(frame); frame=0; apply(); }
   });
-  new ResizeObserver(bounds).observe(viewport); bounds();
+  new ResizeObserver(bounds).observe(viewport);
+  root.addEventListener?.('reel-content-change',bounds);
+  bounds();
 
   if (autoReel || root.id === 'roles') {
     const edges = event => {
@@ -232,4 +244,45 @@ function initializeReel(root) {
   const updateVideos = () => videos.forEach(video => { if (!reduce.matches && !document.hidden && visibleVideos.has(video)) video.play().catch(() => {}); else video.pause(); });
   const mediaObserver = new IntersectionObserver(entries => { entries.forEach(entry => entry.isIntersecting ? visibleVideos.add(entry.target) : visibleVideos.delete(entry.target)); updateVideos(); }, { threshold: .05 }); videos.forEach(video => mediaObserver.observe(video));
   document.addEventListener('visibilitychange', updateVideos); reduce.addEventListener('change', () => { splitLead(); updateVideos(); });
+}
+
+// Let the browser own touch momentum and axis locking from the first gesture.
+function initializeNativeReel(root, viewport, track, cards, previous, next, reduce) {
+  root.dataset.nativeReel = 'true';
+  const update = () => {
+    previous.disabled = viewport.scrollLeft <= 1;
+    next.disabled = viewport.scrollLeft >= viewport.scrollWidth - viewport.clientWidth - 1;
+  };
+  const go = direction => {
+    const origin = cards[0].offsetLeft;
+    const positions = cards.filter(card => !card.hidden).map(card => card.offsetLeft - origin);
+    const left = direction > 0
+      ? positions.find(position => position > viewport.scrollLeft + 2) ?? viewport.scrollWidth
+      : positions.findLast(position => position < viewport.scrollLeft - 2) ?? 0;
+    viewport.scrollTo({left, behavior: reduce.matches ? 'instant' : 'smooth'});
+  };
+  cards.filter(card => card.dataset.builderHref || card.dataset.supportProgram).forEach(card => {
+    card.addEventListener('click', event => {
+      if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      event.preventDefault();
+      card.dataset.supportProgram ? requestSupport(card.dataset.supportProgram,card) : requestProject(card.dataset.builderHref,card);
+    });
+    card.addEventListener('keydown', event => {
+      if (event.target !== card || !['Enter', ' '].includes(event.key)) return;
+      event.preventDefault();
+      card.dataset.supportProgram ? requestSupport(card.dataset.supportProgram,card) : requestProject(card.dataset.builderHref,card);
+    });
+  });
+  previous.addEventListener('click', () => go(-1));
+  next.addEventListener('click', () => go(1));
+  viewport.addEventListener('scroll', update, {passive:true});
+  viewport.addEventListener('keydown', event => {
+    if (event.target !== viewport || !['ArrowLeft','ArrowRight','Home','End'].includes(event.key)) return;
+    event.preventDefault();
+    if (event.key.startsWith('Arrow')) go(event.key === 'ArrowRight' ? 1 : -1);
+    else viewport.scrollTo({left:event.key === 'Home' ? 0 : viewport.scrollWidth, behavior:'instant'});
+  });
+  new ResizeObserver(update).observe(viewport);
+  root.addEventListener?.('reel-content-change',update);
+  update();
 }

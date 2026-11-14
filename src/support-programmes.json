@@ -1,0 +1,128 @@
+[
+  {
+    "id": "future",
+    "title": "Autonaut Future Fund",
+    "eyebrow": "For the next generation",
+    "summary": "Support for the educational journeys of our builders’ children.",
+    "body": "Building a future includes the people you’re building it for. The Autonaut Future Fund supports employees’ children in their education, with a scholarship programme run through the Autonaut Foundation.",
+    "details": [
+      "Education support for employees’ children",
+      "A programme designed around the next generation’s opportunities"
+    ],
+    "note": "Eligibility, application windows and grant details are confirmed by the People team.",
+    "image": "/img/support/future.webp",
+    "source": "Starter Kit 26, page 22; Slack announcements, 11 November 2024",
+    "photos": [
+      {
+        "src": "/img/support/photos/future-01.jpg",
+        "alt": "Children taking part in an Autonaut Future Fund activity"
+      },
+      {
+        "src": "/img/support/photos/future-02.jpg",
+        "alt": "An adult helping a child at an Autonaut Future Fund activity"
+      }
+    ]
+  },
+  {
+    "id": "care",
+    "title": "CareHer",
+    "eyebrow": "Care for her. Care for her career.",
+    "summary": "Support for women through different stages of life and work.",
+    "body": "CareHer was developed with women at Cars24. It brings support around maternity and the return to work into the conversation about a long-term career.",
+    "details": [
+      "Support through maternity and the transition back to work",
+      "A People contact to help navigate the journey"
+    ],
+    "note": "Your People partner can explain the current policy, eligibility and support available to you.",
+    "image": "/img/support/care.webp",
+    "source": "Slack announcements, 22 September 2026"
+  },
+  {
+    "id": "health",
+    "title": "Health",
+    "eyebrow": "Make room for your health",
+    "summary": "Health check-ups and camps that bring care closer to the workplace.",
+    "body": "Health check-ups and workplace camps bring care closer to the work. Our in-house Wellness team helps builders make room for their physical health.",
+    "details": [
+      "Health check-ups and camps",
+      "Support from the in-house Wellness team"
+    ],
+    "note": "Availability and schedules vary. Check with your People partner for your location.",
+    "image": "/img/support/health.webp",
+    "source": "Starter Kit 26, pages 22–23"
+  },
+  {
+    "id": "wellbeing",
+    "title": "Wellbeing",
+    "eyebrow": "Hard work needs support",
+    "summary": "Space for wellbeing, honest conversations and support when you need it.",
+    "body": "Our in-house Wellness team offers counselling and supports physical wellbeing through fitness initiatives. Open feedback and honest conversations are part of how we support one another.",
+    "details": [
+      "Counselling and wellbeing support",
+      "Fitness and physical wellbeing initiatives"
+    ],
+    "note": "Ask the People team which services and facilities are available for your role and location.",
+    "image": "/img/support/wellbeing.webp",
+    "source": "Starter Kit 26, pages 22–23",
+    "photos": [
+      {
+        "src": "/img/support/photos/wellbeing-01.jpg",
+        "alt": "Cars24 colleagues playing badminton"
+      }
+    ]
+  },
+  {
+    "id": "compassion",
+    "title": "Compassionate Support",
+    "eyebrow": "When life asks more of you",
+    "summary": "Care and understanding for employees and families in difficult circumstances.",
+    "body": "When life takes an unexpected turn, support should be close at hand. Cars24’s Compassionate Support programme helps employees and families navigate difficult personal circumstances.",
+    "details": [
+      "A team to help you find the support available",
+      "Care for employees and their families during difficult times"
+    ],
+    "note": "Speak privately with your People partner about your circumstances and the current support process.",
+    "image": "/img/support/compassion.webp",
+    "source": "Starter Kit 26, page 22; Slack builders-cars24, 21 September 2026"
+  },
+  {
+    "id": "growth",
+    "title": "Mission Elevate",
+    "eyebrow": "Your next move can start here",
+    "summary": "Opportunities for frontline builders to explore careers across Cars24.",
+    "body": "Mission Elevate helps frontline team members grow beyond their current roles and explore opportunities across the company. It puts internal mobility alongside learning as a route to taking on a different kind of problem.",
+    "details": [
+      "Career opportunities across functions",
+      "A pathway for frontline builders to explore their next role"
+    ],
+    "note": "Check current openings and eligibility with the People team. Availability depends on the opportunity.",
+    "image": "/img/support/growth.webp",
+    "source": "Starter Kit 26, page 22; Slack announcements, 6 February 2025",
+    "photos": [
+      {
+        "src": "/img/support/photos/growth-01.jpg",
+        "alt": "A Mission Elevate recognition event at Cars24"
+      }
+    ]
+  },
+  {
+    "id": "recognition",
+    "title": "Founders’ Awards",
+    "eyebrow": "Celebrate work that makes a difference",
+    "summary": "Recognition for builders whose contribution raises the bar.",
+    "body": "The Founders’ Awards recognise contributions that make a difference at Cars24. The programme makes space to celebrate the people behind the work and the standards they set for others.",
+    "details": [
+      "Recognition of contributions across Cars24",
+      "A chance to celebrate the people behind meaningful work"
+    ],
+    "note": "The People team shares the current nomination process, cycle and award details.",
+    "image": "/img/support/recognition.webp",
+    "source": "Slack announcements, 24 April 2026",
+    "photos": [
+      {
+        "src": "/img/support/photos/recognition-01.jpg",
+        "alt": "A Founders’ Awards presentation at Cars24"
+      }
+    ]
+  }
+]

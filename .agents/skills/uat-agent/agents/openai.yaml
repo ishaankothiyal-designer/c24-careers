@@ -1,0 +1,4 @@
+interface:
+  display_name: "UAT Agent"
+  short_description: "Visual, copy and brief acceptance review"
+  default_prompt: "Use $uat-agent to audit this website across mobile, tablet and desktop, fix verified issues and report release readiness."

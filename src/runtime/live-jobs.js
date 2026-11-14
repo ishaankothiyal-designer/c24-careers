@@ -43,14 +43,27 @@ const jobs = () => jobsPromise ||= apiJson('/api/jobs').then(body => {
   if (!Array.isArray(body?.jobs)) throw new Error('We couldn’t load the open roles. Please try again.');
   return body.jobs;
 }).catch(error => { jobsPromise = null; throw error; });
-export const roleMetadata = job => [job.cities.length > 3 ? `${job.cities.slice(0,3).join(', ')} + ${job.cities.length - 3} more` : job.cities.join(', '), job.employmentType, job.remote ? 'Remote' : ''].filter(Boolean).join(' · ');
+// Keep long, valid location lists readable without suggesting a single primary city.
+export const roleMetadata = job => {
+  const cities = [...new Set(job.cities || [])];
+  const place = cities.length > 3 ? `${cities.length} locations` : cities.join(', ');
+  return [place, job.employmentType, job.remote ? 'Remote' : ''].filter(Boolean).join(' · ');
+};
+export function roleExperience(job) {
+  const from = Number(job.experienceFrom), to = Number(job.experienceTo);
+  if (!Number.isFinite(from) || !Number.isFinite(to) || to < from || to <= 0) return '';
+  // A very broad source range is not a useful card-level qualification.
+  // Preserve the complete source requirements in role details.
+  if (to - from > 5) return 'Experience requirements in role details';
+  return from === to ? `${to} ${to === 1 ? 'year' : 'years'} of experience` : `${from}–${to} years of experience`;
+}
 
 export function liveJobCard(job, listing = false) {
   const href = `/careers/roles/${encodeURIComponent(job.id)}/`;
   const title = escape(job.title), department = escape(job.department);
   const heading = listing ? 'h2' : 'h3';
-  const experience = job.experienceFrom || job.experienceTo ? `${escape(job.experienceFrom || '0')}–${escape(job.experienceTo)} years of experience` : '';
-  return `<a class="${listing ? 'careers-card' : 'problem-card'} role-card" href="${href}" data-transition-prevent aria-label="Explore the work: ${title}" data-job-id="${escape(job.id)}" ${listing ? 'data-department' : 'data-problem-craft'}="${department}"><${heading} class="role-card__title" data-no-roll>${escape(roleProblem(job))}</${heading}><p class="role-card__metadata">${escape(roleMetadata(job))}</p>${experience ? `<p class="role-card__experience">${experience}</p>` : ''}${roleCardContext(job)}<span class="role-card__link" aria-hidden="true"><span class="role-card__link-label">Explore the work <span>↗</span></span></span></a>`;
+  const experience = roleExperience(job);
+  return `<a class="${listing ? 'careers-card' : 'problem-card'} role-card" href="${href}" data-transition-prevent aria-label="View role: ${escape(roleProblem(job))}. ${title}" data-job-id="${escape(job.id)}" ${listing ? 'data-department' : 'data-problem-craft'}="${department}"><${heading} class="role-card__title" data-no-roll>${escape(roleProblem(job))}</${heading}><p class="role-card__official-title">${title}</p><p class="role-card__metadata">${escape(roleMetadata(job))}</p>${experience ? `<p class="role-card__experience">${escape(experience)}</p>` : ''}${roleCardContext(job)}<span class="role-card__link" aria-hidden="true"><span class="role-card__link-label">View role details <span>↗</span></span></span></a>`;
 }
 
 export function jobsEmptyStateHtml() {

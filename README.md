@@ -2,13 +2,9 @@
 
 [Live app: c24-careers-chi.vercel.app](https://c24-careers-chi.vercel.app)
 
-[Private review preview — staging-mynk](https://c24-careers-preview-mayank.cars24.chatgpt.site/)
+Production releases are made from `main` to the existing Vercel project after the requested UAT pass. Verify the project's actual Production Branch setting before relying on a Git-triggered release. The stable production URL remains the live app above.
 
-Use the private preview to review our branch changes before Ishaan merges them. Work is made and pushed on `staging-mynk`; Ishaan handles the merge to production. The preview is published separately and is updated during our review workflow, rather than automatically on every GitHub push. It requires the preview owner's signed-in access.
-
-The separate review host uses `preview/worker.js` with the branch's compiled frontend. It reads public job listings and details from the existing live careers API, so it reflects staging frontend changes rather than copying the production frontend. Application submissions are disabled on the review host; use the live app to apply. Production hosting and server credentials are unchanged.
-
-The Vercel app remains the production destination. The separate private preview above is for reviewing branch changes before a merge. Keep production on the existing Vercel project and URL unless the project owner explicitly changes it.
+The prior private `staging-mynk` preview is a separate historical review workflow. Its `preview/worker.js` compatibility source remains, but it is not the production deployment target.
 
 ## Vercel deployment
 
@@ -21,6 +17,14 @@ After deployment, verify the home page, `/careers/`, and a `/builders/<slug>/` d
 The workflow in `.github/workflows/ci.yml` runs build and regression checks on pushes to `main`, pull requests, and manual runs. It does not publish the site. The former automatic GitHub Pages deployment has been removed.
 
 Builder cards open projects in an accessible sidebar. Shared `/builders/<slug>/` URLs open the matching sidebar over the homepage. See [Code ownership and dependency audit](docs/code-ownership.md) for editing locations and inherited dependencies.
+
+## UAT-reviewed careers update · 15 November 2026
+
+The current revision adds whole-card animated Flatland stickers, the AI-led invitation, practical working principles, selected builder stories with the full gallery available, programme drawers with existing photography, revised FAQs, and role-card/mobile fixes. Independent visual/responsive, UX-copy and brief-compliance reviews are recorded under [the UAT release record](docs/uat/2026-11-15/release.md). Explicit user corrections and reusable acceptance rules live in [the UAT feedback log](docs/uat/feedback.md).
+
+Invoke **UAT agent** or **UAT** to run the workflow in [the repository skill](.agents/skills/uat-agent/SKILL.md). It reviews and fixes the active task; deployment requires explicit authorization for that release.
+
+Start locally with `npm run dev` and review `http://127.0.0.1:5173/`. Live role fetching requires the server-only Darwinbox environment configuration described below. Private Slack/PDF feedback archives and local output packages are retained locally and excluded from this public source repository.
 
 ## Local development
 

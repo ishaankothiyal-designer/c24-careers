@@ -15,7 +15,7 @@ export function roleDetailPage(pathname, header, footer) {
   const role = previews.find(item => item.slug === match[1]);
   if (!role) return {
     title: 'Role not found | Cars24 Careers',
-    html: `${header}<main class="role-detail"><section class="container role-detail__hero"><a class="role-detail__back" href="/careers/">← All roles</a><h1>Role not found.</h1><p>This role may no longer be available. Explore the role previews to find another problem.</p></section></main>${footer}`,
+    html: `${header}<main class="role-detail"><section class="container role-detail__hero"><a class="role-detail__back" href="/careers/">← All roles</a><h1>Role not found.</h1><p>This role may no longer be available. Browse current openings to find another problem to own.</p></section></main>${footer}`,
   };
   const sections = [...role.sections,
     { title: 'About the role', text: 'The full role description will appear here when this opening is published.' },

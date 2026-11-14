@@ -119,22 +119,33 @@ export function initializeAmbitionStack({loadFigures = version => version==='ori
     const motion=matchMedia('(prefers-reduced-motion: reduce)');
     const connection=navigator.connection;
     const requested=new URLSearchParams(globalThis.location?.search||'').get('ambition-art');
-    const version=requested==='original'?'original':requested==='refined'?'refined':'generated';
+    const stickers=root.hasAttribute?.('data-sticker-cards')&&!requested;
+    const version=stickers?'stickers':requested==='original'?'original':requested==='refined'?'refined':'generated';
     root.dataset.illustrationVersion=version;
     if(version==='original')cards.forEach(card=>{
       const host=card.querySelector('[data-hairline-figure]');
       if(host?.dataset.originalLabel)host.setAttribute('aria-label',host.dataset.originalLabel);
     });
     const stopCarousel=initializeAmbitionCarousel(root,{motion});
+    const motionToggle=root.querySelector?.('[data-sticker-motion-toggle]');
+    let userPaused=false;
     const figures=new Map();
     let loading,disposed=false;
     const updateArt=()=>{
-      const staticArt=motion.matches||performanceProfile().constrained||shouldPauseAmbitionForNetwork();
+      const staticArt=userPaused||motion.matches||performanceProfile().constrained||shouldPauseAmbitionForNetwork();
       root.dataset.artStatic=String(staticArt);
       root.dataset.artPaused=String(document.hidden);
       figures.forEach((figure,card)=>figure.update({play:!staticArt&&!document.hidden&&card.dataset.artVisible==='true'}));
     };
+    const toggleMotion=()=>{
+      userPaused=!userPaused;
+      motionToggle.setAttribute('aria-pressed',String(userPaused));
+      motionToggle.textContent=userPaused?'Resume sticker motion':'Pause sticker motion';
+      updateArt();
+    };
+    motionToggle?.addEventListener('click',toggleMotion);
     const prepareFigures=()=>{
+      if(stickers)return Promise.resolve();
       if(loading)return loading;
       loading=Promise.resolve().then(()=>loadFigures(version)).then(({createAmbitionFigure})=>{
         if(disposed)return;
@@ -176,6 +187,7 @@ export function initializeAmbitionStack({loadFigures = version => version==='ori
     cleanups.push(()=>{
       disposed=true;
       stopCarousel();
+      motionToggle?.removeEventListener('click',toggleMotion);
       observer.disconnect();
       preload.disconnect();
       motion.removeEventListener('change',updateArt);
