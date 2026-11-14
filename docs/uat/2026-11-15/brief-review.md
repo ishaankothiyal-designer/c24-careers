@@ -70,3 +70,13 @@ I reviewed and ran `node --test tests/reel-collapse.test.mjs`: **1 test passed**
 **Updated brief-pass verdict:** no unresolved release-blocking code defect from this independent pass. The source-dependent and deliberately scoped items in the acceptance matrix remain partial; they should stay visible in the final release report. Visual and UX-copy findings require their own reviewers’ sign-off, and deployment/production verification belongs to the coordinator.
 
 **Cross-review CTA correction:** the UX-copy reviewer confirmed COPY-01 resolved, and I independently checked the current card source. It now says “View role details” rather than promising application availability, while the accessible link name includes both the problem and official title. The existing backend restriction remains unchanged. This closes the wording concern identified above without implying that the underlying submission mapping has been completed.
+
+## Shared builder URL refresh recheck · 15 November 2026
+
+The coordinator’s production smoke check found an additional pre-existing route-state defect: a direct `/builders/<slug>/` visit opened the correct drawer but immediately replaced the URL with `/#builders`. Refresh therefore lost the selected project.
+
+I independently inspected the patch to `src/runtime/project-drawer.js`. It now distinguishes a drawer opened from an incoming shared route from one opened normally on the homepage. An incoming shared path is retained while its drawer is open; selecting a neighboring story replaces it with that story’s path; closing returns to the base homepage’s `#builders` anchor. Ordinary homepage-card opening retains its existing non-navigating behaviour. The implementation uses the current `site-base` for the dismiss path and preserves source links.
+
+I ran `node --test tests/project-drawer.test.mjs`: **all 11 tests passed**. Coverage includes direct shared-route initialization without a history rewrite, dismissal to the homepage, neighboring shared stories under a deployment subpath, normal homepage opening without navigation, focus/scroll restoration, modified-link behaviour, animated close and reopening during exit. The new subpath-neighbor regression exercises `/c24-careers/builders/manvi-mehrotra/` → `/c24-careers/builders/nishant-arora/` → `/c24-careers/#builders`.
+
+**Code/test verdict: resolved.** The actual local refresh and later deployed-route smoke checks belong to the visual reviewer/coordinator. This focused pass does not independently assert a production deployment or browser refresh result.

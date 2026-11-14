@@ -15,6 +15,7 @@ export function initializeProjectDrawer() {
   document.body.append(dialog);
   const body=dialog.querySelector('.project-drawer__content');
   let trigger,previousOverflow,scrollController,restartScroll,closeTimer;
+  let sharedRoute=routePath(location.pathname,base).startsWith('/builders/');
   const animate=()=>typeof matchMedia==='function' && !matchMedia('(prefers-reduced-motion: reduce)').matches;
   const close=()=>{
     if(!dialog.open || dialog.dataset.motion==='exit')return;
@@ -33,6 +34,11 @@ export function initializeProjectDrawer() {
     const path=routePath(new URL(href,location.href).pathname,base);
     const page=builderDetailPage(path,'','');
     if(!page || page.title==='Builder story not found')return;
+    // Keep a shared story refreshable until the reader dismisses its drawer.
+    if(sharedRoute && routePath(location.pathname,base)!==path){
+      const url=new URL(href,location.href);
+      history.replaceState(history.state,'',url.pathname+url.search+url.hash);
+    }
     if(closeTimer){clearTimeout(closeTimer);closeTimer=undefined;}
     if(dialog.dataset.motion==='exit')delete dialog.dataset.motion;
     body.innerHTML=siteLinks(page.html.replace(/<main\b/,'<div').replace('</main>','</div>').replace(/<h2\b/g,'<h2 data-no-roll').replace(/<a\b/g,'<a data-transition-prevent'),base);
@@ -58,11 +64,10 @@ export function initializeProjectDrawer() {
     if(path.startsWith('/builders/')){event.preventDefault();event.stopPropagation();open(link.href);}
     else if(['#builder','#builders'].includes(new URL(link.href,location.href).hash)){event.preventDefault();event.stopPropagation();close();}
   });
-  dialog.addEventListener('close',()=>{clearTimeout(closeTimer);closeTimer=undefined;delete dialog.dataset.motion;dialog.style?.removeProperty('--drawer-exit-from');document.documentElement.style.overflow=previousOverflow || '';if(restartScroll)scrollController?.start?.();body.innerHTML='';trigger?.focus({preventScroll:true});});
+  dialog.addEventListener('close',()=>{if(sharedRoute){sharedRoute=false;history.replaceState(history.state,'',base+'#builders');}clearTimeout(closeTimer);closeTimer=undefined;delete dialog.dataset.motion;dialog.style?.removeProperty('--drawer-exit-from');document.documentElement.style.overflow=previousOverflow || '';if(restartScroll)scrollController?.start?.();body.innerHTML='';trigger?.focus({preventScroll:true});});
   // Existing shared project URLs still work, opening the same sidebar on home.
   if(routePath(location.pathname,base).startsWith('/builders/')) {
     const href=location.href;
-    history.replaceState(null,'',base+'#builders');
     open(href);
   }
 }

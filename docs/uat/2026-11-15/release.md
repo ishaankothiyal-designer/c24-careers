@@ -20,10 +20,12 @@ The user authorized three independent acceptance passes, fixes, and deployment o
 
 Intentional role entry points in the hero, navigation, openings section and final invitation are retained because they serve different points in the long-page journey. No unsupported application URL or fabricated content was introduced to remove a source dependency.
 
+- Preserve shared builder URLs while their drawer is open, including neighbor navigation, so refresh reopens the selected story. Dismissal returns to the homepage anchor; normal homepage-card opening remains non-navigating. Production smoke caught the earlier eager URL replacement; independent code review, 11 focused tests and local rendered refresh recheck passed after correction.
+
 ## Automated validation
 
 - `npm run build`: passed. Vercel output is `dist/client`. Existing lazy paper/Three.js chunk warning remains informational.
-- `npm test`: **160 passed, 0 failed**.
+- `npm test`: **161 passed, 0 failed**.
 - `git diff --check`: passed.
 - Skill frontmatter/scaffold validator: passed for installed and repository `uat-agent` copies. Independent brief reviewer forward-tested the no-deploy scenario and historical authorization boundary.
 
@@ -51,4 +53,4 @@ The repository is public. Original private Slack screenshots, the paired-page so
 
 Invoke **UAT agent**, **UAT**, or `$uat-agent`. The skill coordinates visual, copy and brief reviews, fixes/rechecks, and a scoped feedback log. It is installed at `~/.codex/skills/uat-agent` and mirrored at `.agents/skills/uat-agent`. `docs/uat/feedback.md` retains explicit corrections and acceptance rules. It does not run in the background or self-modify model weights.
 
-Deployment outcome is recorded in `deployment.md` after production verification.
+The initial source release `66eea95` passed Vercel and GitHub CI. Production smoke then found the shared-builder refresh issue described above; the follow-up fix ships with this record. The coordinator verifies the final redeployment before task completion. Final screenshots and route/refresh evidence are retained locally in `output/uat-2026-11-15/production-smoke.md`; the completion reply records the verified final revision and deployment. Current build state is also available through the Vercel check on the repository’s `main` commit.

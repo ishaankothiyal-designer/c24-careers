@@ -16,3 +16,5 @@ Check mobile, tablet and desktop responsiveness, consistent typography/padding b
 ## Verified Cars24 defects · 15 November 2026
 
 These are observed failures, not inferred user preferences. When a carousel can shrink during motion, verify every subsequent animation frame and re-expansion; an old target can escape newly clamped bounds. Inspect text at its normal mid-scroll reading position, since overflow checks do not reveal disassembled character-animation states. Check CTA promises against blocked/unavailable destinations. Evidence and fixes live in `docs/uat/2026-11-15/` and `tests/reel-collapse.test.mjs` in the Cars24 Careers project.
+
+A production smoke pass also found an existing shared-builder-link defect that the initial local checks missed: replacing the deep URL immediately made refresh lose the drawer. Future pre-release passes must directly load and refresh instructed route types, including shared-dialog neighbor/dismissal URL behaviour. An HTTP-200 app shell is not a semantic route check. This is an observed coverage improvement, not a new standing deployment approval.

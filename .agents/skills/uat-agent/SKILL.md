@@ -21,7 +21,7 @@ Give browser ownership to one reviewer at a time if they share browser state. Do
 
 ## Coverage and fixes
 
-Use a viewport matrix appropriate to the product. For Cars24 Careers, cover at least 320/375/390/414 phone, 768/834/1024 tablet, and 1280/1440 desktop widths, including a short-height/landscape case. Verify the viewport actually applied to the inspected tab. Inspect every changed section and representative related routes/dialogs. Save key screenshots with route, width and finding context.
+Use a viewport matrix appropriate to the product. For Cars24 Careers, cover at least 320/375/390/414 phone, 768/834/1024 tablet, and 1280/1440 desktop widths, including a short-height/landscape case. Verify the viewport actually applied to the inspected tab. Inspect every changed section and representative related routes/dialogs. Before release, directly load and refresh every route type required by the project instructions; for shared-link dialogs, verify that the address bar retains the selected entity across refresh, neighbor navigation and dismissal. HTTP 200 from an app shell does not prove route behaviour. Save key screenshots with route, width and finding context.
 
 Rank verified findings by user impact: broken flow/data, accessibility, responsive clipping/overlap, misleading or redundant action, then consistency/polish. Fix material issues within the authorized scope. Preserve real source content; do not invent people, outcomes, hiring stages, policy details or assets to fill a brief. Record genuine content dependencies rather than silently passing them.
 
@@ -29,7 +29,7 @@ After fixes, rerun affected checks and ask reviewers to recheck their findings. 
 
 ## Feedback-driven learning
 
-The user authorizes this skill to retain their UAT feedback and improve this workflow. On explicit correction, record the date, wording/intent, project scope, resulting acceptance rule, and evidence in `docs/uat/feedback.md`. Promote stable reusable preferences into [learned guidance](references/feedback.md); keep project-specific facts scoped to that project. Update this skill only when feedback demonstrates a useful change. Do not copy credentials or personal data into learning logs, overwrite history, or treat an agent hypothesis as a user preference. A later explicit correction supersedes an earlier rule and should be recorded as such.
+The user authorizes this skill to retain their UAT feedback and improve this workflow. On explicit correction, record the date, wording/intent, project scope, resulting acceptance rule, and evidence in `docs/uat/feedback.md`. Promote stable reusable preferences into [learned guidance](references/feedback.md); keep project-specific facts scoped to that project. Update this skill only when feedback demonstrates a useful change. Do not copy credentials or personal data into learning logs, overwrite history, or treat an agent hypothesis as a user preference. A later explicit correction supersedes an earlier rule and should be recorded as such. Before committing feedback evidence, check repository visibility; keep private source screenshots/documents local and publish only the non-sensitive acceptance summary needed by the project.
 
 ## Release
 

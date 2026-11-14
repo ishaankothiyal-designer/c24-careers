@@ -69,6 +69,8 @@ test('shared project URLs open the sidebar on home and initialization is idempot
   const f=fixture(t,'/','/builders/mayank/');
   assert.equal(f.dialog.open,true);
   assert.match(f.body.innerHTML,/Mayank/);
+  assert.equal(f.history.calls.length,0,'keep the incoming story URL so refresh reopens the drawer');
+  f.button.dispatchEvent(new Event('click'));
   assert.equal(f.history.calls[0][2],'/#builders');
   initializeProjectDrawer();assert.equal(f.appends,1);
 });
@@ -156,4 +158,15 @@ test('opening another project during exit cancels the pending dismissal',t=>{
   assert.equal(f.dialog.open,true);
   assert.match(f.body.innerHTML,/Ishaan Kothiyal/);
   f.dialog.close();
+});
+
+
+test('shared builder URLs retain the selected neighbor until dismissal, including subpath deployments',t=>{
+  const f=fixture(t,'/c24-careers/','/c24-careers/builders/manvi-mehrotra/');
+  assert.equal(f.dialog.open,true);assert.equal(f.history.calls.length,0);
+  requestProject('/c24-careers/builders/nishant-arora/');
+  assert.equal(f.dialog.open,true);assert.match(f.body.innerHTML,/Nishant Arora/);
+  assert.equal(f.history.calls.at(-1)[2],'/c24-careers/builders/nishant-arora/');
+  f.dialog.close();
+  assert.equal(f.history.calls.at(-1)[2],'/c24-careers/#builders');
 });
