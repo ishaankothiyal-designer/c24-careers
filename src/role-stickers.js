@@ -12,5 +12,5 @@ const subjects={
 
 export function roleSticker(job) {
   const title=String(job?.title||'').trim().replace(/\s+/g,' ').replace(/\s*[-–—]\s*/g,' - ').toLowerCase();
-  return `/img/stickers/roles/${subjects[title]||'work'}.svg`;
+  return `/img/stickers/roles/${Object.hasOwn(subjects,title)?subjects[title]:'work'}.svg`;
 }

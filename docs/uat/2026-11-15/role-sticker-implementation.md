@@ -9,3 +9,5 @@ The eight assets are original native SVG drawings with the existing Flatland pal
 The20-case route/viewport matrix checks all seven cards per case. Reported narrowest CTA clearance is29px and summary-to-painted-art clearance10.67px. At375/390/414px, landing-card heights remain336px, unchanged from the prior recorded baseline. No padding/type reduction or role-copy rewriting was used. See role-sticker-visual.md for the final visual evidence and limits.
 
 Three added regressions verify distinct mapping/assets on both surfaces, title normalization and safe neutral fallbacks. The complete build and188tests pass, with git diff --check clean. The user has authorized publishing this with all other pending reviewed updates to main and the existing Vercel project.
+
+Final fallback hardening uses an own-property check for the finite illustration registry. Unknown titles that match inherited object keys, including constructor and __proto__, receive the same neutral work illustration. The actual seven role mappings are unchanged; the fallback regression includes both cases. An independent recheck and the full188-test suite pass.

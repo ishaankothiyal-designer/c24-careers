@@ -40,7 +40,7 @@ test('normalization preserves job scope when departments overlap',()=>{
 });
 
 test('unreviewed and unsafe titles use a neutral local asset without guessing responsibilities',()=>{
-  for(const job of [null,{}, {title:'New Procurement Lead',department:'Procurement'}, {title:'../../secret'}, {title:'<svg onload=alert(1)>'}]){
+  for(const job of [null,{}, {title:'New Procurement Lead',department:'Procurement'}, {title:'../../secret'}, {title:'constructor'}, {title:'__proto__'}, {title:'<svg onload=alert(1)>'}]){
     assert.equal(roleSticker(job),'/img/stickers/roles/work.svg');
   }
   assert.ok(existsSync(new URL('../public/img/stickers/roles/work.svg',import.meta.url)));
