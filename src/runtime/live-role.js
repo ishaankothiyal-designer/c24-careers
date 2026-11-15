@@ -1,4 +1,4 @@
-import { apiJson, escape } from './live-jobs.js';
+import { apiJson, escape, roleMetadata } from './live-jobs.js';
 import { roleDetailLayout, roleLoadingHtml } from '../role-layout.js';
 import { roleCardContext } from '../role-labels.js';
 import { roleProblem } from '../role-problems.js';
@@ -91,7 +91,7 @@ export function liveRoleHtml(job, headingId = 'role-dialog-title') {
     header: `<header class="role-detail__hero" aria-labelledby="${headingId}">
       <h1 id="${headingId}" data-no-roll>${escape(roleProblem(job))}</h1>
       <p class="role-detail__official-title">${escape(job.title)}</p>
-      <p class="role-detail__summary">${escape([cities.length > 3 ? `${cities.slice(0, 3).join(', ')} + ${cities.length - 3} more` : cities.join(', '), job.employmentType, job.remote ? 'Remote' : ''].filter(Boolean).join(' · '))}</p>
+      <p class="role-detail__summary">${escape(roleMetadata(job))}</p>
       ${roleCardContext(job)}
       ${showForm ? '<button class="role-detail__application-jump role-detail__back" type="button" data-application-jump>Jump to application ↓</button>' : ''}
     </header>`,
@@ -130,7 +130,7 @@ export function formatDescription(root) {
   });
 }
 
-export async function loadLiveRole(root, id, signal) {
+export async function loadLiveRole(root, id, signal, { updateTitle = true, onLoaded } = {}) {
   if (!root) return;
   const headingId = root.querySelector('h1')?.id || 'role-dialog-title';
   root.setAttribute('aria-busy','true');
@@ -141,7 +141,7 @@ export async function loadLiveRole(root, id, signal) {
     if (!job?.application || !Array.isArray(job.application.fields)) throw new Error('We couldn’t load this role. Please try again.');
     if (signal.aborted) return;
     root.innerHTML = liveRoleHtml(job, headingId);
-    document.title = `${job.title} | Cars24 Careers`;
+    if (updateTitle) document.title = `${job.title} | Cars24 Careers`;
     formatDescription(root);
     const clearButtons = initializeCraftButtons(root);
     signal.addEventListener('abort', clearButtons, { once: true });
@@ -154,10 +154,12 @@ export async function loadLiveRole(root, id, signal) {
         form.scrollIntoView({ block: 'start', behavior: 'instant' });
       });
     }
+    onLoaded?.(job);
+    return job;
   } catch (error) {
     if (signal.aborted) return;
     root.innerHTML = `<section class="container role-detail__hero"><h1 id="${headingId}" data-no-roll>Role unavailable</h1><p role="status">${escape(error.message)}</p>${button('Try again', 'data-role-retry')}<a class="role-detail__back" href="/careers/">View all roles</a></section>`;
-    root.querySelector('[data-role-retry]').addEventListener('click', () => loadLiveRole(root, id, signal), { once: true });
+    root.querySelector('[data-role-retry]').addEventListener('click', () => loadLiveRole(root, id, signal, { updateTitle, onLoaded }), { once: true });
   } finally { if(!signal.aborted)root.setAttribute('aria-busy','false'); }
 }
 

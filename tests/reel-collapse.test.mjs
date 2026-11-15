@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {initializeCraftWork} from '../src/runtime/craft-work.js';
 
-test('collapsing builder stories during arrow motion stays within the smaller reel on every frame',t=>{
+test('reel bounds survive collapse during motion and continuation into newly revealed stories',t=>{
   const names=['requestAnimationFrame','cancelAnimationFrame','matchMedia','ResizeObserver','IntersectionObserver','document'];
   const saved=names.map(name=>[name,Object.getOwnPropertyDescriptor(globalThis,name)]);
   t.after(()=>{for(const [name,value] of saved)value?Object.defineProperty(globalThis,name,value):delete globalThis[name];});
@@ -26,4 +26,11 @@ test('collapsing builder stories during arrow motion stays within the smaller re
   const minX=viewport.clientWidth-track.scrollWidth;
   for(let i=0;i<150;i++){tick();assert.ok(x()>=minX-.01&&x()<=.01,`out of range after frame ${i}: ${x()}`);}
   assert.equal(next.disabled,true);assert.equal(frames.size,0);
+  cards.forEach(card=>{card.hidden=false;});root.dispatchEvent(new Event('reel-content-change'));
+  root.dispatchEvent(new CustomEvent('reel-reveal-card',{detail:{card:cards[4]}}));
+  assert.equal(x(),-4*328,'the newly revealed card replaces the inline action at the leading edge');
+  viewport.scrollLeft=999;viewport.dispatchEvent(new Event('scroll'));
+  assert.equal(viewport.scrollLeft,0,'native focus scrolling must not double the transform offset');
+  assert.equal(next.disabled,false);assert.equal(frames.size,0);
+
 });

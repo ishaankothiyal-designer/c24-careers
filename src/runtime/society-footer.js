@@ -1,3 +1,9 @@
+// Derive the reveal from current geometry, including short footers at document end.
+export function footerRevealProgress(rect,viewportHeight) {
+  const travel=Math.max(1,Math.min(viewportHeight,rect.height));
+  const visible=viewportHeight-rect.top;
+  return visible>=travel-1?1:Math.max(0,Math.min(1,visible/travel));
+}
 // Footer-specific source behavior from Design Society's Slater + Webflow IX3.
 // Reuse the existing GSAP/ScrollTrigger module; no second scrolling controller.
 export async function initializeSocietyFooter() {
@@ -48,9 +54,21 @@ export async function initializeSocietyFooter() {
     label.before(holder); holder.append(label,mask); return {label,holder,mask};
   });
 
-  // Published initFooterParallax: entire footer -55% -> 0, power1.in.
+  let previousReveal=-1;
+  const updateFooterReveal=()=>{
+    if(reduce.matches)return;
+    const progress=footerRevealProgress(wrap.getBoundingClientRect(),innerHeight);
+    if(Math.abs(progress-previousReveal)<.00001)return;
+    previousReveal=progress;
+    gsap.set(footer,{yPercent:-55*(1-progress*progress)});
+    gsap.set(dark,{opacity:.3*(1-progress*progress)});
+    footer.dataset.parallaxProgress=progress.toFixed(3);
+    if(progress===1){gsap.set(words,{y:0,yPercent:0,opacity:1});gsap.set(letters,{yPercent:0,opacity:1});}
+  };
+  // Keep the source -55% -> 0 curve, using live geometry after layout changes.
   // IX3 mapping is data-animation, not the unrelated initTitleReveal helper.
   function configureMotion() {
+    previousReveal=-1;
     triggers.forEach(tween => {tween.scrollTrigger?.kill();tween.kill();}); triggers = [];
     gsap.killTweensOf([footer, dark, title, ...words, ...letters]);
     if (reduce.matches) {
@@ -58,9 +76,7 @@ export async function initializeSocietyFooter() {
       gsap.set(words, {y:0,yPercent:0,opacity:1}); gsap.set(letters, {yPercent:0,opacity:1});
       gsap.set(title, {clearProps:'transform'}); labelReveals.forEach(({label,mask})=>{gsap.set(label,{autoAlpha:1});gsap.set(mask,{scaleX:0});}); footer.dataset.parallaxProgress = '1.000'; return;
     }
-    const parallax = gsap.timeline({scrollTrigger:{trigger:wrap,start:'clamp(top bottom)',end:'clamp(top top)',scrub:true,invalidateOnRefresh:true,onUpdate:self=>{footer.dataset.parallaxProgress=self.progress.toFixed(3);}}});
-    parallax.fromTo(footer,{yPercent:-55},{yPercent:0,ease:'power1.in'});
-    parallax.fromTo(dark,{opacity:.3},{opacity:0,ease:'power1.in'},'<'); triggers.push(parallax);
+    updateFooterReveal();
     triggers.push(gsap.fromTo(words,{opacity:0,y:0,yPercent:100},{opacity:1,y:0,yPercent:0,duration:.45,stagger:.05,ease:'power1.in',scrollTrigger:{trigger:title,start:'clamp(top bottom)',end:'clamp(bottom top)',scrub:.8,invalidateOnRefresh:true}}));
     if(compact.matches) gsap.set(letters,{yPercent:0,opacity:1});
     else letters.forEach(letter=>triggers.push(gsap.fromTo(letter,{opacity:1,yPercent:-40},{yPercent:0,duration:.45,ease:'power1.in',scrollTrigger:{trigger:letter,start:'clamp(top bottom)',end:'clamp(bottom top)',scrub:.8,invalidateOnRefresh:true}})));
@@ -79,8 +95,9 @@ export async function initializeSocietyFooter() {
   // Keep the revealing title intact inside the currently visible blue stage;
   // independent CSS translate leaves its trigger and source GSAP curve unchanged.
   function keepTitleWhole() {
+    updateFooterReveal();
     if (reduce.matches) { words.forEach(word=>{word.style.translate='';word.style.visibility='';word.dataset.visibleClearance='0';}); return; }
-    const bounds=wrap.getBoundingClientRect(),stage=footer.querySelector('.society-stage').getBoundingClientRect();
+    const bounds=wrap.getBoundingClientRect(),stage=footer.querySelector('.society-stage-inner').getBoundingClientRect();
     const top=Math.max(0,bounds.top,stage.top)+8,bottom=Math.min(innerHeight,bounds.bottom,stage.bottom)-8;
     words.forEach(word=>{
       const previous=Number(word.dataset.visibleClearance||0),rect=word.getBoundingClientRect();

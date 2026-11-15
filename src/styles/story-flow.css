@@ -92,7 +92,11 @@ html{overflow-x:clip}body{overflow-x:clip}
 .problem-grid,#support .craft-work__track,#builder .craft-work__track{gap:var(--career-card-gap)}
 #builder .craft-work__title,.problem-card h3,.policy-card h3{font-family:var(--font-title);font-size:var(--career-card-title-size);font-weight:500;line-height:var(--career-card-title-line);letter-spacing:var(--career-card-title-letter);margin:var(--career-card-title-gap) var(--career-card-inset) 0}
 #builder .craft-work__description,.problem-card>p,.policy-card__copy>p{font-size:var(--career-card-copy-size);line-height:var(--story-line);color:var(--career-card-copy-color);max-width:32ch;margin:var(--career-card-copy-gap) var(--career-card-inset) 0}
-.policy-card__copy{display:flex;flex-direction:column;align-items:center;padding:0}
+.policy-card__copy{display:flex;flex:1;flex-direction:column;align-items:stretch;padding:var(--career-card-inset)}
+#support .policy-card{padding-bottom:0}
+#support .policy-card__copy>h3{font-size:var(--career-card-title-size);line-height:var(--career-card-title-line);letter-spacing:var(--career-card-title-letter);margin:0;max-width:none}
+#support .policy-card__copy>p{margin:var(--career-card-copy-gap) 0 0;max-width:none}
+#support .policy-card__image{flex:none}
 .policy-card__image{height:var(--career-card-media-height);aspect-ratio:auto;border-radius:0;object-fit:cover}
 .problem-card h3{order:1}
 .problem-card>p{order:3;flex:1}

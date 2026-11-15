@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="597.500 598.000 355.000 332.500" width="355.0" height="332.5" fill="none"><g><g id="useful-change" transform="translate(608 608)" stroke-linecap="round" stroke-linejoin="round">
+<path d="M21 182 Q39 171 65 174 L100 174 L95 142 L123 114 Q112 91 130 61 Q165 4 203 14 L251 22 L281 5 Q292 0 300 17 L318 64 Q325 83 309 89 L278 103 L232 141 L214 174 L256 174 Q311 174 311 231 L311 250 Q307 295 260 295 L53 295 Q4 293 4 248 L4 225 Q4 194 21 182Z" fill="#201c36" opacity=".12" stroke="#201c36" stroke-width="19" transform="translate(3 6)" />
+<path d="M21 182 Q39 171 65 174 L100 174 L95 142 L123 114 Q112 91 130 61 Q165 4 203 14 L251 22 L281 5 Q292 0 300 17 L318 64 Q325 83 309 89 L278 103 L232 141 L214 174 L256 174 Q311 174 311 231 L311 250 Q307 295 260 295 L53 295 Q4 293 4 248 L4 225 Q4 194 21 182Z" fill="white" stroke="white" stroke-width="19" />
+<rect x="5" y="178" width="305" height="115" rx="48" fill="#95f75f" stroke="#201c36" stroke-width="7" />
+<path d="M119 231 A32 32 0 1 1 183 231 A32 32 0 1 1 119 231Z" fill="white" stroke="#201c36" stroke-width="6" />
+<path d="M42 222 L48 213 L46 204 L57 197 L64 202 L74 199 L78 192 L90 195 L92 205 L100 211 L109 211 L114 222 L108 230 L108 239 L113 245 L107 256 L98 255 L90 261 L88 270 L76 272 L71 264 L61 261 L53 264 L44 255 L47 247 L42 238 L34 235 L35 224Z" fill="#ece9e6" stroke="#201c36" stroke-width="5" />
+<circle cx="75" cy="232" r="12" fill="#95f75f" stroke="#201c36" stroke-width="5" />
+<path d="M227 202 L233 193 L245 193 L250 202 L260 205 L269 201 L278 211 L275 220 L281 229 L289 232 L288 245 L279 248 L274 258 L277 266 L267 275 L258 271 L247 274 L243 282 L231 280 L228 271 L218 266 L209 268 L202 257 L207 249 L205 238 L197 233 L200 221 L210 219 L216 210 L215 203Z" fill="#ece9e6" stroke="#201c36" stroke-width="5" />
+<circle cx="243" cy="238" r="12" fill="#95f75f" stroke="#201c36" stroke-width="5" />
+<path d="M111 123 L124 117 L134 125 L147 124 L155 114 L169 120 L171 133 L181 141 L194 140 L201 154 L193 165 L194 178 L204 186 L198 200 L184 202 L177 212 L177 225 L162 231 L152 221 L139 221 L129 231 L115 224 L114 211 L103 203 L91 202 L86 188 L95 178 L94 165 L85 156 L92 142 L105 141Z" fill="#442cfc" stroke="#201c36" stroke-width="6" />
+<circle cx="145" cy="174" r="19" fill="white" stroke="#201c36" stroke-width="6" />
+<path d="M252 23 L202 15 Q172 8 148 33 Q119 59 117 88 Q114 107 128 113 Q141 119 150 102 C160 85 173 71 189 76 Q211 83 193 103 L179 119 Q166 135 177 146 Q188 155 201 144 L237 114 L278 83Z" fill="white" stroke="#201c36" stroke-width="7" />
+<path d="M130 108 Q135 66 177 46" stroke="#201c36" stroke-width="6" />
+<path d="M252 23 L281 7 Q292 2 299 18 L317 66 Q322 79 309 85 L282 96 Q269 53 252 23Z" fill="#442cfc" stroke="#201c36" stroke-width="7" />
+<path d="M61 139 L44 133 M74 120 L62 106" stroke="#201c36" stroke-width="8" />
+</g>
+</g></svg>

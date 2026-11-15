@@ -21,19 +21,22 @@ test('programme details resolve by stable ID and render source images and useful
   assert.match(html,/&lt;script&gt;/);
 });
 
-test('builder selection can reveal and restore the full roster without removing stories',t=>{
+test('builder View more card reveals remaining stories once and continues without collapsing',t=>{
   const before=Object.getOwnPropertyDescriptor(globalThis,'document');
   t.after(()=>before?Object.defineProperty(globalThis,'document',before):delete globalThis.document);
-  const extra=Array.from({length:8},()=>({hidden:true}));
-  const button=Object.assign(new EventTarget(),{dataset:{},expanded:'false',getAttribute(){return this.expanded;},setAttribute(k,v){this.expanded=v;}});
+  let focused,options;
+  const extra=Array.from({length:8},()=>({hidden:true,focus(value){focused=this;options=value;}}));
+  const button=Object.assign(new EventTarget(),{dataset:{},expanded:'false',hidden:false,setAttribute(k,v){this.expanded=v;}});
   const root=Object.assign(new EventTarget(),{querySelector:()=>button,querySelectorAll:()=>extra});
   Object.defineProperty(globalThis,'document',{configurable:true,value:{querySelector:()=>root}});
-  let changed=0;root.addEventListener('reel-content-change',()=>changed++);
+  let changed=0,revealed;root.addEventListener('reel-content-change',()=>changed++);
+  root.addEventListener('reel-reveal-card',event=>{revealed=event.detail.card;assert.ok(extra.every(card=>!card.hidden));});
   initializeBuilderSelection();initializeBuilderSelection();
   button.dispatchEvent(new Event('click'));
-  assert.ok(extra.every(card=>!card.hidden));assert.equal(button.expanded,'true');assert.equal(changed,1);
+  assert.ok(extra.every(card=>!card.hidden));assert.equal(button.hidden,true);assert.equal(button.expanded,'true');assert.equal(changed,1);
+  assert.equal(revealed,extra[0]);assert.equal(focused,extra[0]);assert.deepEqual(options,{preventScroll:true});
   button.dispatchEvent(new Event('click'));
-  assert.ok(extra.every(card=>card.hidden));assert.equal(button.expanded,'false');assert.equal(changed,2);
+  assert.ok(extra.every(card=>!card.hidden));assert.equal(changed,1,'a hidden action cannot collapse or duplicate expansion');
 });
 
 test('sticker version carries live text, a static motion fallback and no unconfirmed company target',async()=>{

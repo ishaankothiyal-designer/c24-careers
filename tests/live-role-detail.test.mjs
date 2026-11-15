@@ -127,3 +127,20 @@ test('editable application fields have examples and submit uses the shared anima
   assert.match(html, /class="craft-button btn-bubble-arrow btn-bubble-arrow--black application-submit" type="submit"/);
   assert.doesNotMatch(html, /application-submit" data-craft-static/);
 });
+
+test('background role retry retains its loaded callback and cannot replace the active document title',async t=>{
+  const keys=['document','matchMedia','fetch'];const original=keys.map(key=>[key,Object.getOwnPropertyDescriptor(globalThis,key)]);
+  t.after(()=>{for(const [key,value] of original)value?Object.defineProperty(globalThis,key,value):delete globalThis[key];});
+  let retryHandler;
+  const retry={addEventListener(name,handler){retryHandler=handler;}};
+  const root={innerHTML:'',setAttribute(){},querySelectorAll:()=>[],querySelector:selector=>selector==='h1'?{id:'role-heading-unique'}:selector==='[data-role-retry]'?retry:null};
+  Object.defineProperty(globalThis,'document',{configurable:true,value:{title:'Active role title'}});
+  Object.defineProperty(globalThis,'matchMedia',{configurable:true,value:()=>({matches:true})});
+  globalThis.fetch=async()=>{throw new Error('Offline');};
+  const loaded=[],controller=new AbortController();
+  await loadLiveRole(root,job.id,controller.signal,{updateTitle:false,onLoaded:value=>loaded.push(value.id)});
+  assert.equal(typeof retryHandler,'function');assert.equal(loaded.length,0);
+  globalThis.fetch=async()=>Response.json({job:{...job,application:{...job.application,supported:false}}});
+  await retryHandler();assert.deepEqual(loaded,[job.id]);assert.equal(document.title,'Active role title');
+  controller.abort();
+});

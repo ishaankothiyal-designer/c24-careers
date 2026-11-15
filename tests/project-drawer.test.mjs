@@ -1,172 +1,145 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import stories from '../src/builder-stories.json' with {type:'json'};
 import {initializeProjectDrawer,requestProject} from '../src/runtime/project-drawer.js';
 
+// The adapter owns story data, link routing and shared-URL semantics. Native
+// dialog focus/scroll/motion and carousel mechanics belong to content-popup.
 function fixture(t,base='/',pathname='/') {
-  const keys=['document','location','history','matchMedia'];
-  const original=keys.map(key=>[key,Object.getOwnPropertyDescriptor(globalThis,key)]);
-  t.after(()=>{for(const [key,value] of original){if(value)Object.defineProperty(globalThis,key,value);else delete globalThis[key];}});
-  globalThis.matchMedia=()=>({matches:true});
-  class Node extends EventTarget {
-    constructor(){super();this.dataset={};this.innerHTML='';this.scrollTop=0;this.open=false;this.attributes={};}
-    setAttribute(name,value){this.attributes[name]=value;}
-    focus(){doc.activeElement=this;}
-    showModal(){this.open=true;}
-    close(){this.open=false;this.dispatchEvent(new Event('close'));}
-    getBoundingClientRect(){return {left:400,right:1000,top:0,bottom:800};}
-  }
-  const doc=new EventTarget(),button=new Node(),body=new Node(),opener=new Node();
-  let dialog,appends=0;
-  doc.activeElement=opener;doc.documentElement={style:{overflow:'auto'}};
-  doc.querySelector=selector=>selector.startsWith('meta')?{content:base}:dialog;
-  doc.body={append(node){dialog=node;appends++;}};
-  doc.createElement=()=>{const node=new Node();node.querySelector=selector=>selector==='button'?button:body;return node;};
-  const history={calls:[],replaceState(...args){this.calls.push(args);}};
-  Object.defineProperty(globalThis,'document',{value:doc,configurable:true});
-  Object.defineProperty(globalThis,'location',{value:{pathname,href:'https://example.test'+pathname},configurable:true});
-  Object.defineProperty(globalThis,'history',{value:history,configurable:true});
-  initializeProjectDrawer();
-  return {doc,button,body,opener,history,get dialog(){return dialog;},get appends(){return appends;}};
+  const names=['document','location','history'];
+  const saved=names.map(name=>[name,Object.getOwnPropertyDescriptor(globalThis,name)]);
+  t.after(()=>{for(const [name,value] of saved)value?Object.defineProperty(globalThis,name,value):delete globalThis[name];});
+  let current=new URL(pathname,'https://example.test'),options,popup,factories=0;
+  const classes=new Set();
+  const dialog=Object.assign(new EventTarget(),{dataset:{},classList:{add:name=>classes.add(name),contains:name=>classes.has(name)}});
+  const doc=Object.assign(new EventTarget(),{querySelector:selector=>selector.startsWith('meta')?{content:base}:Object.hasOwn(dialog.dataset,'projectDrawer')?dialog:null});
+  const location={get pathname(){return current.pathname;},get href(){return current.href;}};
+  const history={state:{keep:'existing-state'},calls:[],replaceState(state,title,url){this.state=state;this.calls.push([state,title,url]);current=new URL(url,current);}};
+  const opens=[];let closes=0,selected;
+  const createPopup=config=>{
+    factories++;options=config;
+    popup={dialog,open(id,trigger){
+      const item=config.items.find(entry=>entry.id===id);if(!item)return;
+      selected=item;dialog.open=true;opens.push({id,trigger});config.onSelect?.(item);
+    },close(){if(!dialog.open)return;dialog.open=false;closes++;config.onClose?.();}};
+    return popup;
+  };
+  for(const [name,value] of Object.entries({document:doc,location,history}))Object.defineProperty(globalThis,name,{configurable:true,value});
+  initializeProjectDrawer({createPopup});
+  const click=(href,extra={})=>{
+    const link={href,hasAttribute:name=>name==='download'&&!!extra.download,target:extra.target||''};
+    const event=new Event('click',{cancelable:true});
+    for(const [name,value] of Object.entries({button:0,target:{closest:()=>link},...Object.fromEntries(Object.entries(extra).filter(([name])=>!['download','target','prevented'].includes(name)))}))Object.defineProperty(event,name,{value});
+    if(extra.prevented)event.preventDefault();
+    dialog.dispatchEvent(event);return event;
+  };
+  return {doc,dialog,history,location,opens,click,createPopup,get popup(){return popup;},get options(){return options;},get factories(){return factories;},get closes(){return closes;},get selected(){return selected;}};
 }
 
-test('opens a builder project without navigating, closes and restores focus and scrolling',t=>{
+test('builder adapter supplies the complete landing-page collection to the shared popup',t=>{
   const f=fixture(t);
-  requestProject('/builders/manvi-mehrotra/',f.opener);
-  assert.equal(f.dialog.open,true);
-  assert.match(f.body.innerHTML,/A secure home for AI-built prototypes/);
-  assert.equal(f.doc.documentElement.style.overflow,'hidden');
-  assert.equal(f.doc.activeElement,f.button);
+  assert.equal(f.factories,1);assert.equal(f.dialog.dataset.projectDrawer,'');assert.equal(f.dialog.classList.contains('builder-popup'),true);
+  for(const key of ['label','title','closeLabel','previousLabel','nextLabel'])assert.ok(f.options[key]);
+  assert.equal(f.options.closeLabel,'Close project');assert.equal(f.options.previousLabel,'Previous project');assert.equal(f.options.nextLabel,'Next project');
+  const landingStories=stories.filter(story=>!['mayank','ishaan-kothiyal'].includes(story.slug));
+  assert.deepEqual(f.options.items.map(item=>[item.id,item.label]),landingStories.map(story=>[story.slug,story.name]));
+  assert.equal(f.options.items.length,12);
+  assert.equal(new Set(f.options.items.map(item=>item.id)).size,landingStories.length);
+  const manvi=f.options.items.find(item=>item.id==='manvi-mehrotra');
+  assert.equal(typeof manvi.html,'function','full project markup is rendered lazily');
+  assert.equal(manvi.headingId,'manvi-mehrotra-story-title');
+  const html=manvi.html();
+  assert.match(html,/A secure home for AI-built prototypes/);assert.match(html,/What Manvi built/);assert.match(html,/id="story-title"/);
+  assert.doesNotMatch(html,/<main\b/);assert.match(html,/data-no-roll/);
+});
+
+test('opening a valid project delegates its trigger without navigating and ignores missing or external projects',t=>{
+  const f=fixture(t),trigger={id:'originating-card'};
+  requestProject('/builders/manvi-mehrotra/',trigger);
+  assert.equal(f.selected.id,'manvi-mehrotra');assert.equal(f.dialog.open,true);assert.equal(f.opens[0].trigger,trigger);
   assert.equal(f.history.calls.length,0);
-  f.button.dispatchEvent(new Event('click'));
-  assert.equal(f.dialog.open,false);
-  assert.equal(f.doc.documentElement.style.overflow,'auto');
-  assert.equal(f.doc.activeElement,f.opener);
-  assert.equal(f.body.innerHTML,'');
+  const count=f.opens.length;
+  for(const path of ['/builders/missing/','/careers/','https://other.test/builders/manvi-mehrotra/'])requestProject(path,trigger);
+  assert.equal(f.opens.length,count);assert.equal(f.selected.id,'manvi-mehrotra');
 });
 
-test('project drawer uses the story heading as its accessible label and an icon-only close button',t=>{
+test('adapter initialization is idempotent with a shared popup marker',t=>{
   const f=fixture(t);
-  requestProject('/builders/ayush-upadhyay/');
-  assert.equal(f.dialog.attributes['aria-labelledby'],'story-title');
-  assert.match(f.body.innerHTML,/id="story-title"/);
-  assert.match(f.dialog.innerHTML,/aria-label="Close project"/);
-  assert.match(f.dialog.innerHTML,/<svg aria-hidden="true"/);
-  assert.doesNotMatch(f.dialog.innerHTML,/project-drawer__bar|Builder project|>Close /);
+  initializeProjectDrawer({createPopup:f.createPopup});
+  assert.equal(f.factories,1);
+  requestProject('/builders/manvi-mehrotra/');assert.equal(f.opens.length,1);
 });
 
-test('supports deployment subpaths and ignores missing projects',t=>{
+test('deployment subpaths are retained in lazy project links and project opening',t=>{
   const f=fixture(t,'/c24-careers/','/c24-careers/');
-  requestProject('/c24-careers/builders/ishaan-kothiyal/');
-  assert.equal(f.dialog.open,true);
-  assert.match(f.body.innerHTML,/Ishaan Kothiyal/);
-  assert.match(f.body.innerHTML,/href="\/c24-careers\/builders\//);
-  const previous=f.body.innerHTML;
-  requestProject('/c24-careers/builders/missing/');
-  assert.equal(f.body.innerHTML,previous);
-});
-
-test('shared project URLs open the sidebar on home and initialization is idempotent',t=>{
-  const f=fixture(t,'/','/builders/mayank/');
-  assert.equal(f.dialog.open,true);
-  assert.match(f.body.innerHTML,/Mayank/);
-  assert.equal(f.history.calls.length,0,'keep the incoming story URL so refresh reopens the drawer');
-  f.button.dispatchEvent(new Event('click'));
-  assert.equal(f.history.calls[0][2],'/#builders');
-  initializeProjectDrawer();assert.equal(f.appends,1);
-});
-
-test('closing through the native dialog event restores the page',t=>{
-  const f=fixture(t);
-  requestProject('/builders/manvi-mehrotra/');
-  f.dialog.close();
-  assert.equal(f.doc.documentElement.style.overflow,'auto');
-  assert.equal(f.doc.activeElement,f.opener);
-});
-
-test('next-project links update the open sidebar and All builders closes it',t=>{
-  const f=fixture(t);
-  requestProject('/builders/manvi-mehrotra/');
-  const click=href=>{
-    const event=new Event('click',{cancelable:true});
-    const link={href};
-    Object.defineProperty(event,'target',{value:{closest:()=>link}});
-    f.dialog.dispatchEvent(event);
-    assert.equal(event.defaultPrevented,true);
-  };
-  f.body.scrollTop=200;
-  click('https://example.test/builders/ishaan-kothiyal/');
-  assert.match(f.body.innerHTML,/Ishaan Kothiyal/);
-  assert.equal(f.body.scrollTop,0);
-  assert.equal(f.dialog.open,true);
-  click('https://example.test/#builders');
-  assert.equal(f.dialog.open,false);
-  assert.equal(f.doc.activeElement,f.opener);
-});
-
-test('modified next-project links preserve normal browser navigation', t => {
-  const f = fixture(t);
-  requestProject('/builders/manvi-mehrotra/');
-  const previous = f.body.innerHTML;
-  for (const modifier of ['ctrlKey', 'metaKey', 'shiftKey', 'altKey']) {
-    const event = new Event('click', { cancelable: true });
-    Object.defineProperty(event, modifier, { value: true });
-    Object.defineProperty(event, 'target', { value: { closest: () => ({ href: 'https://example.test/builders/mayank/' }) } });
-    f.dialog.dispatchEvent(event);
-    assert.equal(event.defaultPrevented, false);
-    assert.equal(f.body.innerHTML, previous);
-  }
-});
-
-
-test('animated exit retains modal and scroll lock until completion, then restores focus',t=>{
-  const f=fixture(t);globalThis.matchMedia=()=>({matches:false});
-  t.mock.timers.enable({apis:['setTimeout']});
-  requestProject('/builders/manvi-mehrotra/',f.opener);
-  assert.equal(f.dialog.dataset.motion,'enter');
-  f.button.dispatchEvent(new Event('click'));
-  assert.equal(f.dialog.dataset.motion,'exit');
-  assert.equal(f.dialog.open,true);
-  assert.equal(f.doc.documentElement.style.overflow,'hidden');
-  const end=new Event('animationend');Object.defineProperty(end,'animationName',{value:'project-drawer-out'});
-  f.dialog.dispatchEvent(end);
-  assert.equal(f.dialog.open,false);
-  assert.equal(f.doc.documentElement.style.overflow,'auto');
-  assert.equal(f.doc.activeElement,f.opener);
-  assert.equal(f.dialog.dataset.motion,undefined);
-  t.mock.timers.tick(500);assert.equal(f.dialog.open,false);
-});
-
-test('Escape animates dismissal and timer completes it if animationend is missing',t=>{
-  const f=fixture(t);globalThis.matchMedia=()=>({matches:false});
-  t.mock.timers.enable({apis:['setTimeout']});
-  requestProject('/builders/manvi-mehrotra/');
-  const cancel=new Event('cancel',{cancelable:true});f.dialog.dispatchEvent(cancel);
-  assert.equal(cancel.defaultPrevented,true);
-  assert.equal(f.dialog.open,true);
-  t.mock.timers.tick(300);
-  assert.equal(f.dialog.open,false);
-  assert.equal(f.doc.activeElement,f.opener);
-});
-
-test('opening another project during exit cancels the pending dismissal',t=>{
-  const f=fixture(t);globalThis.matchMedia=()=>({matches:false});
-  t.mock.timers.enable({apis:['setTimeout']});
-  requestProject('/builders/manvi-mehrotra/');
-  f.button.dispatchEvent(new Event('click'));
-  requestProject('/builders/ishaan-kothiyal/');
-  t.mock.timers.tick(500);
-  assert.equal(f.dialog.open,true);
-  assert.match(f.body.innerHTML,/Ishaan Kothiyal/);
-  f.dialog.close();
-});
-
-
-test('shared builder URLs retain the selected neighbor until dismissal, including subpath deployments',t=>{
-  const f=fixture(t,'/c24-careers/','/c24-careers/builders/manvi-mehrotra/');
-  assert.equal(f.dialog.open,true);assert.equal(f.history.calls.length,0);
   requestProject('/c24-careers/builders/nishant-arora/');
-  assert.equal(f.dialog.open,true);assert.match(f.body.innerHTML,/Nishant Arora/);
+  assert.equal(f.selected.id,'nishant-arora');
+  const html=f.selected.html();
+  assert.match(html,/Nishant Arora/);assert.match(html,/href="\/c24-careers\/builders\//);
+  assert.equal(f.history.calls.length,0);
+});
+
+test('incoming shared project route survives opening and resets only when the popup closes',t=>{
+  const f=fixture(t,'/','/builders/manvi-mehrotra/');
+  assert.equal(f.dialog.open,true);assert.equal(f.selected.id,'manvi-mehrotra');
+  assert.equal(f.location.pathname,'/builders/manvi-mehrotra/');assert.equal(f.history.calls.length,0,'refresh must retain the initial project route');
+  f.popup.close();
+  assert.equal(f.closes,1);assert.equal(f.history.calls.at(-1)[2],'/#builders');assert.deepEqual(f.history.calls.at(-1)[0],{keep:'existing-state'});
+  requestProject('/builders/nishant-arora/');
+  assert.equal(f.selected.id,'nishant-arora');assert.equal(f.history.calls.length,1,'ordinary homepage opening does not re-enable shared-route navigation');
+});
+
+test('selecting a neighboring shared project updates its refreshable URL, including subpaths',t=>{
+  const f=fixture(t,'/c24-careers/','/c24-careers/builders/manvi-mehrotra/');
+  const neighbor=f.options.items.find(item=>item.id==='nishant-arora');
+  f.options.onSelect(neighbor);
   assert.equal(f.history.calls.at(-1)[2],'/c24-careers/builders/nishant-arora/');
-  f.dialog.close();
-  assert.equal(f.history.calls.at(-1)[2],'/c24-careers/#builders');
+  assert.equal(f.location.pathname,'/c24-careers/builders/nishant-arora/');
+  const count=f.history.calls.length;f.options.onSelect(neighbor);assert.equal(f.history.calls.length,count,'selecting the same project does not rewrite history again');
+  f.popup.close();assert.equal(f.history.calls.at(-1)[2],'/c24-careers/#builders');
+});
+
+test('ordinary project neighbor links stay in the popup and All builders closes it',t=>{
+  const f=fixture(t);requestProject('/builders/manvi-mehrotra/');
+  const neighbor=f.click('https://example.test/builders/nishant-arora/');
+  assert.equal(neighbor.defaultPrevented,true);assert.equal(f.selected.id,'nishant-arora');assert.equal(f.dialog.open,true);
+  assert.equal(f.history.calls.length,0);
+  const close=f.click('https://example.test/#builders');
+  assert.equal(close.defaultPrevented,true);assert.equal(f.dialog.open,false);assert.equal(f.closes,1);
+});
+
+test('modified, download, new-window and external links preserve browser navigation',t=>{
+  const f=fixture(t);requestProject('/builders/manvi-mehrotra/');const count=f.opens.length;
+  for(const extra of [{ctrlKey:true},{metaKey:true},{shiftKey:true},{altKey:true},{button:1},{download:true},{target:'_blank'}]){
+    assert.equal(f.click('https://example.test/builders/nishant-arora/',extra).defaultPrevented,false);
+  }
+  for(const href of ['https://other.test/builders/nishant-arora/','https://other.test/#builders','https://example.test/#manvi-mehrotra-story-title'])assert.equal(f.click(href).defaultPrevented,false);
+  assert.equal(f.opens.length,count);assert.equal(f.closes,0);assert.equal(f.selected.id,'manvi-mehrotra');
+});
+
+test('links already handled by another control are not opened again',t=>{
+  const f=fixture(t);requestProject('/builders/manvi-mehrotra/');const count=f.opens.length;
+  const event=f.click('https://example.test/builders/nishant-arora/',{prevented:true});
+  assert.equal(event.defaultPrevented,true);assert.equal(f.opens.length,count);assert.equal(f.selected.id,'manvi-mehrotra');
+});
+
+
+for(const slug of ['mayank','ishaan-kothiyal']){
+  test(`legacy shared ${slug} URL remains valid without inserting other legacy stories`,t=>{
+    const f=fixture(t,'/c24-careers/',`/c24-careers/builders/${slug}/`);
+    assert.equal(f.dialog.open,true);assert.equal(f.selected.id,slug);
+    assert.equal(f.options.items.length,13);assert.ok(f.options.items.some(item=>item.id===slug));
+    assert.equal(f.options.items.some(item=>item.id===(['mayank','ishaan-kothiyal'].find(id=>id!==slug))),false);
+    assert.equal(f.history.calls.length,0);
+    f.popup.close();assert.equal(f.history.calls.at(-1)[2],'/c24-careers/#builders');
+  });
+}
+
+test('valid legacy links outside the default deck are not swallowed',t=>{
+  const f=fixture(t);requestProject('/builders/gaurav-saxena/');const count=f.opens.length;
+  for(const slug of ['mayank','ishaan-kothiyal']){
+    const event=f.click(`https://example.test/builders/${slug}/`);
+    assert.equal(event.defaultPrevented,false,'the browser must be allowed to open the retained shared route');
+  }
+  assert.equal(f.opens.length,count);assert.equal(f.dialog.open,true);
 });

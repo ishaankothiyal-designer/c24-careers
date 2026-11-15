@@ -1,0 +1,64 @@
+/* Shared card anatomy: intrinsic height, balanced spacing, no spacer rows. */
+:root{
+  --conviction-inset-block:28px;--conviction-inset-inline:36px;
+  --conviction-art-size:112px;--conviction-gap:12px;
+  --conviction-title-size:clamp(26px,2.4vw,34px);--conviction-copy-size:15px;
+  --principle-card-gap:16px;--principle-card-inset:20px;--principle-content-gap:12px;
+  --principle-art-size:112px;--principle-title-size:clamp(20px,1.7vw,25px);
+  --principle-paper:var(--white, #fff);--principle-tape:rgb(225 214 168 / .58);
+  --footer-monogram-height:clamp(180px,36svh,380px);
+}
+/* Sticker height is set by real content. Spare row height is shared above/below. */
+.ambition-stickers[data-illustration-version="stickers"] .ambition-stack__item{display:flex}
+.ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card{flex:1;width:100%;height:auto;min-height:0;padding:var(--conviction-inset-block) var(--conviction-inset-inline);display:flex;flex-direction:column;justify-content:center;gap:var(--conviction-gap);animation:none;transform:none}
+.ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card>.sticker-caption{flex:none;display:block;min-height:0;margin:0 auto;max-width:25ch;line-height:1.3}
+.ambition-stickers[data-illustration-version="stickers"] .ambition-stack__visual{display:flex;align-items:center;justify-content:center;flex:0 0 var(--conviction-art-size);height:var(--conviction-art-size);min-height:0;padding:0}
+.ambition-sticker-art{display:block;width:100%;height:100%;max-width:100%;max-height:100%;object-fit:contain}
+.ambition-stickers:not([data-illustration-version="stickers"]) .ambition-sticker-art{display:none}
+.ambition-stickers[data-illustration-version="stickers"] .ambition-stack__copy{flex:none;min-height:0;display:flex;flex-direction:column;gap:8px;padding:0;text-align:center}
+.ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card .ambition-stack__copy h3{font-size:var(--conviction-title-size);line-height:1.08;letter-spacing:-.045em;margin:0}
+.ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card .ambition-stack__copy>p{font-size:var(--conviction-copy-size);line-height:1.45;max-width:26ch;margin:0 auto}
+/* The point is decorative; keep the reading area above it, without a tall card. */
+.ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card--ambition{padding-bottom:56px}
+.ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card--ambition>.sticker-caption{max-width:18ch}
+.ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card--ambition .ambition-stack__copy>p{font-size:14.5px;max-width:20ch}
+/* Role summaries share their title inset; the specification remains in details. */
+.role-card .role-card__official-title{margin:var(--sp-2) 0 0;line-height:1.4}
+.role-card .role-card__summary{order:0;flex:1;font-family:var(--font-body);font-size:var(--career-card-copy-size);font-weight:400;line-height:1.5;color:var(--career-card-copy-color);max-width:none;margin:var(--sp-2) 0 var(--sp-3);overflow-wrap:normal;word-break:normal}
+.role-card .role-card__title{overflow-wrap:normal;word-break:normal}
+.role-card .role-card__link{padding-top:var(--sp-2)}
+/* Neutral, square cards: one centered content group, one gap, no empty slots. */
+.working-principles__steps{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:var(--principle-card-gap);margin-top:var(--layout-content-gap)}
+.working-principles__steps .principle-card{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:var(--principle-content-gap);min-width:0;padding:var(--principle-card-inset);border:var(--card-stroke);border-radius:0;background:var(--principle-paper);color:var(--sticker-edge);text-align:center}
+.principle-card__art{display:block;flex:none;width:var(--principle-art-size);height:var(--principle-art-size);object-fit:contain}
+.working-principles__steps .principle-card__title{position:relative;isolation:isolate;align-self:center;max-width:100%;margin:0;padding:6px 10px;background:none;border:0;border-radius:0;box-shadow:none;color:var(--sticker-edge);font-size:var(--principle-title-size);font-weight:550;line-height:1.15;letter-spacing:-.035em;text-align:center;overflow-wrap:normal;word-break:normal;--tape-angle:-1deg}
+.principle-card:nth-child(even) .principle-card__title{--tape-angle:1deg}
+.principle-card__title::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:var(--principle-tape);transform:rotate(var(--tape-angle));clip-path:polygon(1% 4%,99% 0,98% 15%,100% 27%,98% 40%,100% 54%,98% 70%,99% 96%,0 100%,1% 82%,0 66%,2% 49%,0 31%,2% 17%)}
+.principle-card__title::after{content:'';position:absolute;inset:2px 1px;z-index:-1;pointer-events:none;border-top:1px solid rgb(255 255 255 / .55);border-bottom:1px solid rgb(32 28 54 / .08);transform:rotate(var(--tape-angle))}
+.working-principles__steps .principle-card>p{font-size:var(--type-subtext);line-height:1.45;margin:0;max-width:28ch;text-align:center}
+#support .policy-card__image{height:auto;aspect-ratio:4/3;object-fit:cover;object-position:center top}
+/* The finite sticker cue belongs only to the active paper-letter scene. */
+#letter>.paper-letter__scroll-cue{display:flex;align-items:center;gap:var(--sp-2);padding:var(--sp-1) var(--sp-2);background:var(--sticker-cream);color:var(--sticker-edge);border:2px solid var(--sticker-edge);border-radius:16px;box-shadow:3px 4px 0 rgb(32 28 54 / .16);transform:rotate(-3deg)}
+#letter .paper-letter__scroll-mouse{width:30px;height:50px;flex:none}
+#letter .paper-letter__mouse-outline{fill:var(--white);stroke:var(--sticker-edge)}
+#letter .paper-letter__mouse-base{stroke:var(--sticker-violet)}
+#letter .paper-letter__mouse-dot{fill:var(--sticker-violet);animation:none}
+#letter .paper-letter__scroll-label{font-size:var(--story-small);font-weight:600;letter-spacing:0;max-width:8ch;line-height:1.25}
+#letter[data-paper-visible="true"] .paper-letter__mouse-dot{animation:paper-letter-mouse-scroll 1.6s ease-in-out 3}
+/* Oversized C24 is intentionally cropped inside its cells; endpoint stays flush. */
+.society-footer{grid-template-rows:minmax(0,1fr) var(--footer-monogram-height)}
+.society-monogram{height:var(--footer-monogram-height);min-height:0}
+.society-monogram>.society-monogram-cell{min-width:0;display:grid;place-items:center;padding:0;font-size:min(61.6vw,60.2svh);line-height:.82;overflow:hidden}
+.society-monogram-cell>span{display:block;max-width:100%}
+@media(max-width:1023px){.working-principles__steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:767px){
+  :root{--conviction-inset-block:24px;--conviction-inset-inline:28px;--conviction-art-size:100px;--conviction-copy-size:14.5px;--footer-monogram-height:clamp(110px,22svh,180px)}
+  .society-monogram>.society-monogram-cell{font-size:min(43vw,34svh)}
+  .ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card--ambition{padding-bottom:80px}
+  .ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card--ambition .ambition-stack__copy>p{max-width:17ch}
+}
+@media(max-width:600px){
+  :root{--principle-art-size:104px;--principle-title-size:21px}
+  .working-principles__steps{grid-template-columns:minmax(0,1fr)}
+}
+@media(prefers-reduced-motion:reduce){#letter[data-paper-visible="true"] .paper-letter__mouse-dot{animation:none}}

@@ -1,5 +1,4 @@
-import { roleCardContext } from '../role-labels.js';
-import { roleProblem } from '../role-problems.js';
+import { roleProblem, roleSummary } from '../role-problems.js';
 import { initializeProblemCarousel } from './problem-filters.js';
 import { initializeCraftButtons } from './craft-buttons.js';
 
@@ -44,6 +43,7 @@ const jobs = () => jobsPromise ||= apiJson('/api/jobs').then(body => {
   return body.jobs;
 }).catch(error => { jobsPromise = null; throw error; });
 // Keep long, valid location lists readable without suggesting a single primary city.
+export const getLiveJobs = jobs;
 export const roleMetadata = job => {
   const cities = [...new Set(job.cities || [])];
   const place = cities.length > 3 ? `${cities.length} locations` : cities.join(', ');
@@ -62,8 +62,7 @@ export function liveJobCard(job, listing = false) {
   const href = `/careers/roles/${encodeURIComponent(job.id)}/`;
   const title = escape(job.title), department = escape(job.department);
   const heading = listing ? 'h2' : 'h3';
-  const experience = roleExperience(job);
-  return `<a class="${listing ? 'careers-card' : 'problem-card'} role-card" href="${href}" data-transition-prevent aria-label="View role: ${escape(roleProblem(job))}. ${title}" data-job-id="${escape(job.id)}" ${listing ? 'data-department' : 'data-problem-craft'}="${department}"><${heading} class="role-card__title" data-no-roll>${escape(roleProblem(job))}</${heading}><p class="role-card__official-title">${title}</p><p class="role-card__metadata">${escape(roleMetadata(job))}</p>${experience ? `<p class="role-card__experience">${escape(experience)}</p>` : ''}${roleCardContext(job)}<span class="role-card__link" aria-hidden="true"><span class="role-card__link-label">View role details <span>↗</span></span></span></a>`;
+  return `<a class="${listing ? 'careers-card' : 'problem-card'} role-card" href="${href}" data-transition-prevent aria-label="View role: ${escape(roleProblem(job))}. ${title}" data-job-id="${escape(job.id)}" ${listing ? 'data-department' : 'data-problem-craft'}="${department}"><${heading} class="role-card__title" data-no-roll>${escape(roleProblem(job))}</${heading}><p class="role-card__official-title">${title}</p><p class="role-card__summary">${escape(roleSummary(job))}</p><span class="role-card__link" aria-hidden="true"><span class="role-card__link-label">View role details <span>↗</span></span></span></a>`;
 }
 
 export function jobsEmptyStateHtml() {

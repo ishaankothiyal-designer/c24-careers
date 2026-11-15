@@ -32,6 +32,19 @@ export async function createPaperLetterScene(root) {
   // Use the reference's actual directional/PCF floor shadow. The transparent
   // floor is angled for this front-facing camera and retains the white CSS floor.
   const shadowReceiver = new THREE.Mesh(new THREE.PlaneGeometry(12,12),new THREE.ShadowMaterial({opacity:0,depthWrite:false}));
+  // Fade only the floor shadow before the transparent canvas boundary. The
+  // paper stays crisp while the projected shadow cannot end in a hard rectangle.
+  const shadowViewport = {value:new THREE.Vector2(1,1)};
+  shadowReceiver.material.onBeforeCompile = shader => {
+    shader.uniforms.shadowViewport = shadowViewport;
+    shader.fragmentShader = 'uniform vec2 shadowViewport;\n' + shader.fragmentShader;
+    shader.fragmentShader = shader.fragmentShader.replace('#include <tonemapping_fragment>', `
+      vec2 shadowUv = gl_FragCoord.xy / shadowViewport;
+      vec2 edgeDistance = min(shadowUv, 1.0 - shadowUv);
+      gl_FragColor.a *= smoothstep(0.0, 0.12, min(edgeDistance.x, edgeDistance.y));
+      #include <tonemapping_fragment>
+    `);
+  };
   shadowReceiver.rotation.x=-Math.PI*.35;
   shadowReceiver.receiveShadow=true;scene.add(shadowReceiver);
   scene.add(new THREE.AmbientLight(0xffffff,1.25));
@@ -102,7 +115,7 @@ export async function createPaperLetterScene(root) {
     shadowReceiver.material.opacity=.24*amount*amount;
     renderer.render(scene,camera);
   }
-  function resize(){const width=stage.clientWidth,height=stage.clientHeight;if(!width||!height)return;const aspect=width/height;camera.left=-aspect;camera.right=aspect;camera.top=1;camera.bottom=-1;camera.updateProjectionMatrix();renderer.setSize(width,height);
+  function resize(){const width=stage.clientWidth,height=stage.clientHeight;if(!width||!height)return;const aspect=width/height;camera.left=-aspect;camera.right=aspect;camera.top=1;camera.bottom=-1;camera.updateProjectionMatrix();renderer.setSize(width,height);renderer.getDrawingBufferSize(shadowViewport.value);
     scale=Math.min(2*aspect*.9/data.flat.width,2*.9/data.flat.depth);
     // A fixed horizon crosses 70% of the closed silhouette. Calculate it once
     // per resize, never from the animated frame, so the floor cannot drift.

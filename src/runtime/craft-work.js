@@ -5,6 +5,17 @@ export function initializeCraftWork() {
   document.querySelectorAll('[data-craft-work]').forEach(initializeReel);
 }
 
+// Reserve the complete roster's height so revealing stories cannot move the page.
+function reserveBuilderHeight(root,track,cards) {
+  if(root.id!=='builder')return;
+  track.style.minHeight='';
+  const hidden=cards.filter(card=>card.hidden).map(card=>({card,position:card.style.position,visibility:card.style.visibility}));
+  hidden.forEach(({card})=>{card.style.position='absolute';card.style.visibility='hidden';card.hidden=false;});
+  const height=Math.max(0,...cards.map(card=>card.offsetHeight||0));
+  hidden.forEach(({card,position,visibility})=>{card.hidden=true;card.style.position=position||'';card.style.visibility=visibility||'';});
+  if(height)track.style.minHeight=`${Math.ceil(height)}px`;
+}
+
 function initializeReel(root) {
   if (!root || root.dataset.initialized) return;
   root.dataset.initialized = 'true';
@@ -51,6 +62,7 @@ function initializeReel(root) {
     viewport.setAttribute('data-carousel-after', String(!next.disabled));
   };
   const bounds = () => {
+    reserveBuilderHeight(root,track,cards);
     cardMetrics=cards.map(card=>({card,offset:card.offsetLeft,width:card.offsetWidth}));
     step = cards.length > 1 ? cards[1].offsetLeft - cards[0].offsetLeft : viewport.clientWidth;
     loopWidth = autoReel ? cards.length * step : 0;
@@ -139,7 +151,7 @@ function initializeReel(root) {
   };
   viewport.addEventListener('pointerup', event => release(event, true));
   viewport.addEventListener('pointercancel', event => release(event, false));
-  cards.forEach(card => card.addEventListener('click', event => {
+  cards.filter(card=>card.dataset.builderMore===undefined).forEach(card => card.addEventListener('click', event => {
     const control = event.target.closest('a[href], button, input, select, textarea, summary, [role="button"]');
     if (control && control !== card) return;
     if ((card.dataset.builderHref || card.dataset.supportProgram) && event.detail === 0) {event.preventDefault();activate(card);}
@@ -167,13 +179,20 @@ function initializeReel(root) {
     if(reduce.matches){cancelAnimationFrame(frame);frame=0;x=target;target=null;apply();}
     else if(!frame)startAnimation();
   }, { passive: false });
+  viewport.addEventListener('scroll',()=>{if(viewport.scrollLeft)viewport.scrollLeft=0;},{passive:true});
   viewport.addEventListener('focusin', event => {
+    viewport.scrollLeft=0;
     const card = event.target.closest('.craft-work__card'); if (!card) return;
     const rect = card.getBoundingClientRect(), area = viewport.getBoundingClientRect();
-    if (rect.left < area.left || rect.right > area.right) { x = clamp(-cards.indexOf(card) * step); target = null; cancelAnimationFrame(frame); frame=0; apply(); }
+    if (rect.left < area.left || rect.right > area.right) { x = clamp(-(card.offsetLeft-cards[0].offsetLeft)); target = null; cancelAnimationFrame(frame); frame=0; apply(); }
   });
   new ResizeObserver(bounds).observe(viewport);
   root.addEventListener?.('reel-content-change',bounds);
+  root.addEventListener?.('reel-reveal-card',event=>{
+    const card=event.detail?.card;if(!card||card.hidden)return;
+    manual();cancelAnimationFrame(frame);frame=0;velocity=0;target=null;viewport.scrollLeft=0;
+    x=clamp(-(card.offsetLeft-cards[0].offsetLeft));apply();
+  });
   bounds();
 
   if (autoReel || root.id === 'roles') {
@@ -282,7 +301,12 @@ function initializeNativeReel(root, viewport, track, cards, previous, next, redu
     if (event.key.startsWith('Arrow')) go(event.key === 'ArrowRight' ? 1 : -1);
     else viewport.scrollTo({left:event.key === 'Home' ? 0 : viewport.scrollWidth, behavior:'instant'});
   });
-  new ResizeObserver(update).observe(viewport);
-  root.addEventListener?.('reel-content-change',update);
-  update();
+  const refresh=()=>{reserveBuilderHeight(root,track,cards);update();};
+  new ResizeObserver(refresh).observe(viewport);
+  root.addEventListener?.('reel-content-change',refresh);
+  root.addEventListener?.('reel-reveal-card',event=>{
+    const card=event.detail?.card;if(!card||card.hidden)return;
+    viewport.scrollTo({left:card.offsetLeft-cards[0].offsetLeft,behavior:'instant'});update();
+  });
+  refresh();
 }

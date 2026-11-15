@@ -18,7 +18,10 @@
   #problems .problem-carousel__controls{margin-inline-start:auto}
   /* The decorative closing screen should not consume an extra phone screen. */
   .society-footer-wrap,.society-footer{height:min(100svh,var(--review-footer-mobile-height))}
-  .society-footer{grid-template-rows:minmax(0,1fr) auto 16svh}
+  .society-footer{grid-template-rows:minmax(0,1fr) 16svh}
+  .society-stage{display:flex;flex-direction:column}
+  .society-stage-inner{flex:1;min-height:0;padding:var(--sp-3) var(--pad-x)}
+  .society-legal{position:static;flex:none;padding:0 var(--pad-x) var(--sp-2);gap:var(--sp-1)}
 }
 
 /* Flatland references: PDF pages 18, 24, 30 and 32, archived in docs/references.
@@ -37,7 +40,7 @@
 .review-nav{display:flex;align-items:center;gap:var(--sp-3);font-size:var(--story-small)}
 .review-nav a{color:var(--ink);text-decoration:none;white-space:nowrap;min-height:var(--story-control);display:inline-flex;align-items:center}
 .review-nav a:last-child{color:var(--blue)}
-.review-nav a:focus-visible,.builder-selection__toggle:focus-visible{outline:var(--story-focus) solid var(--blue);outline-offset:var(--sp-1)}
+.review-nav a:focus-visible,.builder-more-card:focus-visible{outline:var(--story-focus) solid var(--blue);outline-offset:var(--sp-1)}
 /* Extra room is inside the horizontal track so outlines never clip. */
 .ambition-stickers[data-illustration-version="stickers"] .ambition-stack__list{padding-block:var(--sp-2);scroll-snap-type:x proximity}
 .ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card{background:transparent;border:0;border-radius:0;box-shadow:none;overflow:visible;min-height:var(--sticker-height);height:var(--sticker-height);padding:var(--sp-4) var(--sp-4) var(--sp-3);color:var(--sticker-edge);transform-origin:center;--sticker-fill:var(--sticker-cream);--sticker-tilt:-1deg}
@@ -55,12 +58,11 @@
 .sticker-mark{display:grid;place-items:center;font-family:var(--font-title);font-size:var(--sticker-mark-size);font-weight:850;line-height:1;color:var(--sticker-violet);transform:rotate(-10deg);letter-spacing:-.08em}
 .ambition-stack__card--builder .sticker-mark{color:var(--sticker-green);border:var(--sticker-outline) solid currentColor;border-radius:50%;padding:var(--sp-2);font-size:calc(var(--sticker-mark-size) * .7);transform:rotate(8deg)}
 .ambition-stack__card--ownership .sticker-mark{font-size:calc(var(--sticker-mark-size) * .8);color:var(--sticker-edge);text-decoration:underline;text-decoration-thickness:var(--sticker-outline);text-underline-offset:var(--sp-1)}
-.ambition-stack__card--ambition .sticker-mark{color:var(--sticker-green)}
+.ambition-stack__card--ambition .sticker-mark{color:var(--sticker-green);font-size:calc(var(--sticker-mark-size) * .5);transform:none}
 .sticker-caption{font-size:var(--story-small);font-weight:600;line-height:1.3;text-align:center;margin:0 auto var(--sp-1);max-width:23ch;position:relative}
-.ambition-stickers[data-illustration-version="stickers"] [data-art-visible="true"]{animation:sticker-settle var(--sticker-motion) ease-in-out infinite alternate}
+.ambition-stack__card--ambition .sticker-caption{max-width:18ch}
 .ambition-stickers[data-art-static="true"] .ambition-stack__card,.ambition-stickers[data-art-paused="true"] .ambition-stack__card{animation-play-state:paused}
 .ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card:hover{animation-play-state:paused}
-@keyframes sticker-settle{from{transform:rotate(var(--sticker-tilt)) translateY(0)}to{transform:rotate(calc(-1 * var(--sticker-tilt))) translateY(-3px)}}
 .ambition-stickers:not([data-illustration-version="stickers"]) :is(.sticker-silhouette,.sticker-caption,.sticker-edition){display:none}
 .working-principles{padding-block:var(--layout-section-space);border-block-start:1px solid var(--review-rule)}
 .working-principles__head{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:var(--sp-4);align-items:start}
@@ -72,10 +74,8 @@
 .working-principles__steps li>span{font-size:var(--story-small);color:var(--blue)}
 .working-principles__steps h3{font-size:var(--type-h3);margin:var(--sp-3) 0 var(--sp-2);max-width:15ch}
 .working-principles__steps p{font-size:var(--type-subtext);line-height:1.5;margin:0;max-width:28ch}
-.builder-selection{padding-top:var(--sp-3)}
-.builder-selection__toggle{font:inherit;font-size:var(--type-subtext);background:none;color:var(--blue);border:0;padding:var(--sp-1) 0;min-height:var(--story-control);cursor:pointer;text-decoration:underline;text-underline-offset:var(--sp-1)}
-#builder [data-additional-builder][hidden]{display:none!important}
-.support-card__action{display:block;color:var(--blue);font-size:var(--type-subtext);padding-top:var(--sp-3);margin-top:auto}
+#builder :is([data-additional-builder],[data-builder-more])[hidden]{display:none!important}
+.support-card__action{display:block;align-self:stretch;color:var(--blue);font-size:var(--type-subtext);line-height:var(--story-line);padding-top:var(--sp-2);margin-top:auto}
 #support .policy-card[role="button"]{cursor:pointer}
 #support .policy-card[role="button"]:is(:hover,:focus-visible){border-color:var(--blue)}
 .support-dialog{position:fixed;inset:0 0 0 auto;margin:0;width:min(100%,var(--programme-drawer-width));max-width:100%;height:100dvh;max-height:100dvh;border:0;padding:0;background:var(--white);color:var(--ink);overflow:visible}
@@ -106,10 +106,34 @@
 @media(prefers-reduced-motion:reduce){.ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card{animation:none;transform:none}}
 .support-dialog__gallery{display:grid;gap:var(--sp-2);margin-block:var(--sp-3)}
 .support-dialog__gallery img{width:100%;height:auto;display:block}
-.sticker-motion-toggle{font:inherit;font-size:var(--story-small);min-height:var(--story-control);color:var(--ink);background:none;border:0;text-decoration:underline;text-underline-offset:var(--sp-1);padding:0;cursor:pointer}
-.sticker-motion-toggle:focus-visible{outline:var(--story-focus) solid var(--blue);outline-offset:var(--sp-1)}
-.ambition-stickers:not([data-illustration-version="stickers"]) .sticker-motion-toggle{display:none}
 
 /* UAT 2026-11-15: readable controls and stable headings at phone sizes. */
 .navbar-v2__home{min-width:44px;min-height:44px;display:inline-flex;align-items:center}
 .society-legal,.society-legal>span,.society-legal a{font-size:12px;line-height:1.5}
+
+/* Keep the shield caption above its tapered point, after mobile padding resets. */
+.ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card--ambition{padding-block-end:calc(var(--sticker-height) * .2)}
+
+/* Match support introductions to the page's shared section-heading rhythm. */
+#support .support-section__head{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--layout-column-gap);align-items:start}
+#support .support-section__head :is(h2,p){margin:0}
+@media(max-width:767px){
+  #support .support-section__head{grid-template-columns:minmax(0,1fr);gap:var(--sp-3)}
+  .ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card--ambition{padding-block-start:var(--sp-3)}
+  .ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card--ambition .ambition-stack__copy>p:not(.sticker-edition){font-size:var(--story-small)}
+}
+.ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card--ambition .ambition-stack__copy{padding-block-start:0}
+
+/* Let the FAQ meet the animated letter's empty exit area sooner. */
+:root{--paper-exit-overlap:clamp(64px,12svh,128px)}
+#letter.is-paper-ready:not(.is-paper-short):not(.is-paper-reduced){margin-bottom:calc(-1 * var(--paper-exit-overlap))}
+#letter.is-paper-ready + #enterprise-faq{position:relative}
+
+/* More stories belong to the carousel, with the same card footprint. */
+#builder .builder-more-card{justify-content:center;align-items:flex-start;gap:var(--sp-3);padding:var(--career-card-inset);font:inherit;text-align:left;background:var(--sticker-lilac);color:var(--ink);cursor:pointer}
+.builder-more-card__mark{font-size:var(--sticker-mark-size);line-height:1;color:var(--blue)}
+.builder-more-card__title{font-family:var(--font-title);font-size:var(--career-card-title-size);font-weight:500;line-height:var(--career-card-title-line);letter-spacing:var(--career-card-title-letter)}
+.builder-more-card__copy{font-size:var(--career-card-copy-size);line-height:var(--story-line);max-width:27ch}
+
+/* Only the transform reel owns horizontal movement; focus must not add scrolling. */
+[data-craft-work]:not([data-native-reel="true"]) .craft-work__viewport{overflow:clip}

@@ -54,8 +54,14 @@ test('cards carry the mission and all five convictions without a separate intro'
   assert.equal((html.match(/<li\b/g)||[]).length,5);
   for(const [card] of html.matchAll(/<article\b[\s\S]*?<\/article>/g)){
     assert.equal((card.match(/data-hairline-figure=/g)||[]).length,1);
-    assert.match(card,/class="ambition-stack__visual"[^>]+role="img"[^>]+aria-label=/);
-    assert.ok(card.indexOf('ambition-stack__copy')<card.indexOf('ambition-stack__visual'));
+    assert.match(card,/class="ambition-stack__visual"[^>]+aria-hidden="true"/);
+    const artwork=card.match(/<img class="ambition-sticker-art" src="([^"]+)" alt=""/);
+    assert.ok(artwork,'illustration is decorative; the card message remains accessible text');
+    await readFile(new URL(`../public${artwork[1]}`,import.meta.url));
+    assert.doesNotMatch(card,/aria-label="(?:A bold arrow|A ten-times|A loop|A numbered ticket|A compass star)/);
+    assert.ok(card.indexOf('sticker-caption')<card.indexOf('ambition-stack__visual'));
+    assert.ok(card.indexOf('ambition-stack__visual')<card.indexOf('ambition-stack__copy'));
+    assert.doesNotMatch(card,/CARS24 · BUILDERS/);
     assert.doesNotMatch(card,/ambition-stack__rail/);
   }
   assert.deepEqual([...html.matchAll(/data-hairline-figure="([^"]+)"/g)].map(match=>match[1]),['vault','cursor-tab','funnel','slow','elevator']);
@@ -170,19 +176,16 @@ test('manual carousel navigates cards, honors boundaries and reduced motion, and
   assert.equal(previous.events.size+next.events.size+list.events.size,0);
 });
 
-test('whole-card stickers skip movie loading and give readers a pause/resume control',async t=>{
-  const {root,observers}=environment(t);
-  const toggle=Object.assign(new EventTarget(),{setAttribute(key,value){this[key]=value;}});
+test('whole-card stickers remain static without loading movies or requiring a pause control',async t=>{
+  const {root,observers,motion}=environment(t);
   root.hasAttribute=name=>name==='data-sticker-cards';
-  root.querySelector=selector=>selector==='[data-sticker-motion-toggle]'?toggle:null;
+  root.querySelector=()=>null;
   let loads=0;
   const cleanup=initializeAmbitionStack({loadFigures:async()=>{loads++;return {createAmbitionFigure(){}};}});
   assert.equal(root.dataset.illustrationVersion,'stickers');
   observers[1].callback([{isIntersecting:true}]);await new Promise(done=>setImmediate(done));
-  assert.equal(loads,0);
-  toggle.dispatchEvent(new Event('click'));
-  assert.equal(root.dataset.artStatic,'true');assert.equal(toggle['aria-pressed'],'true');
-  toggle.dispatchEvent(new Event('click'));
-  assert.equal(root.dataset.artStatic,'false');assert.equal(toggle['aria-pressed'],'false');
+  assert.equal(loads,0);assert.equal(root.dataset.artStatic,'true');
+  motion.matches=true;motion.change();assert.equal(root.dataset.artStatic,'true');
+  motion.matches=false;motion.change();assert.equal(root.dataset.artStatic,'true');
   cleanup();
 });

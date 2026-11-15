@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="55.000 411.953 248.333 234.633" width="248.333" height="234.633" fill="none"><g stroke="#201c36" stroke-width="5.5" stroke-linecap="round" stroke-linejoin="round"><g id="ownership">
+<path d="M76 549L91 520L104 502H137L157 510H183V481L201 467V420L239 430L249 442L222 458V474L245 484V510H262L277 547V574H259L271 616H239L225 578H122L109 616H78L91 576H75Z" fill="#ece9e6" stroke="#ece9e6" stroke-width="22" transform="translate(3 5)" />
+<path d="M76 549L91 520L104 502H137L157 510H183V481L201 467V420L239 430L249 442L222 458V474L245 484V510H262L277 547V574H259L271 616H239L225 578H122L109 616H78L91 576H75Z" fill="white" stroke="white" stroke-width="19" />
+<path d="M96 566L80 613H108L124 566M224 566L240 613H269L253 566" fill="#442cfc" />
+<path d="M76 547L96 514H257L276 547V572H76Z" fill="#dbd7fc" />
+<path d="M76 547H276" fill="none" />
+<path d="M182 505H249V533H182Z" fill="#442cfc" />
+<path d="M200 479H237L247 490V506H195V486Z" fill="#dbd7fc" />
+<path d="M211 483V426Q233 426 249 442Q233 455 211 454" fill="#95f75f" />
+<path d="M205 483H220" fill="none" />
+<path d="M133 509H164L176 519L166 529L158 524L151 531L143 525H133Q122 543 104 534Q87 527 92 511Q98 491 117 496Q128 499 133 509Z" fill="#95f75f" />
+<circle cx="111" cy="516" r="6" fill="#dbd7fc" />
+<path d="M141 459L130 449M160 450L157 435M143 479H129" fill="none" />
+</g>
+</g></svg>
