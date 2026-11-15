@@ -50,3 +50,10 @@ Cars24 popup gesture correction (15 November 2026): short deliberate horizontal 
 Cars24 ambition-motion correction (15 November 2026): the user now prefers a restrained one-time arrival scale and fine-pointer hover lift/sticker tilt. This supersedes wholly static card behavior, but not the ban on distracting loops/redundant pause controls. Keep reduced-motion still, touch free of sticky hover, and scale/rotation within paint gutters without layout movement.
 
 Cars24 role-card direction (15 November 2026): small consistent Flatland stickers should reflect the actual job context, match placement and visible scale across cards, and preserve existing card height, copy and CTA clearance. Map reviewed titles distinctly and use a neutral fallback instead of inventing future-role work.
+
+Cars24 role-art correction (15 November2026): the miniature dark-outline set was rejected as too small/stark. Start from clear job concepts; use larger colour shapes and softer restrained contours. Give art a real flow slot; avoid negative-margin overlays. Hide decorative art on compact phone/narrow cards rather than squeezing or overlapping the role text. This supersedes the all-width56px sticker treatment.
+
+
+### 15 November 2026 — Remove role-card stickers
+
+User correction: “Remove the stickers, fix the cards, the layout, everything else.” Scope: job cards on the landing page and careers listing. This supersedes the previous role-illustration sizing/redesign direction. Acceptance: text-only role cards at every width, compact footer with a single detail action, consistent insets and equal row heights, no reserved illustration space or overlapping artwork. Preserve approved role copy, filters and detail links. Other editorial sticker collections remain unchanged.

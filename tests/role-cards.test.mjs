@@ -75,3 +75,19 @@ test('role details retain location and experience helpers while cards show work 
   assert.doesNotMatch(html,/City 0|0–14|140 locations|Experience requirements|Permanent/);
   assert.ok(html.includes(roleSummary(job)));
 });
+
+
+test('all reviewed roles keep text-only cards and a single detail action on both surfaces', () => {
+  for (const title of ['Evaluation Engineer', 'Key Accounts', 'Retail Associate', 'Procurement Associate', 'Listing', 'Closure', 'Procurement']) {
+    const job = {id: 'reviewed-role', title: `Builder - ${title}`, department: 'Retail'};
+    for (const listing of [false, true]) {
+      const html = liveJobCard(job, listing);
+      assert.doesNotMatch(html, /<img\b|<svg\b|role-card__sticker/);
+      assert.ok(html.includes(roleSummary(job)));
+      assert.ok(html.includes(job.title));
+      assert.match(html, /href="\/careers\/roles\/reviewed-role\/"/);
+      assert.equal((html.match(/View role details/g) || []).length, 1);
+      assert.equal((html.match(/<a\b/g) || []).length, 1);
+    }
+  }
+});

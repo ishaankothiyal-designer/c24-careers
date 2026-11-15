@@ -335,3 +335,9 @@ body.society-footer-visible .badge-pin { visibility: hidden; pointer-events: non
   #Navbar-V2{background:rgba(255,255,255,.78);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
 }
 @media(max-width:767px){#Navbar-V2 .navbar-v2__inner{padding-block:8px}#Navbar-V2 .navbar-v2__brand{min-height:48px}}
+
+/* Shared with About Us: quiet, stable footer-link interaction. */
+.society-footer :is(.society-links,.society-window-links) a{
+ text-decoration:none;text-underline-offset:.3em;text-decoration-thickness:1px;
+}
+.society-footer :is(.society-links,.society-window-links) a:is(:hover,:focus-visible){text-decoration:underline;color:inherit}

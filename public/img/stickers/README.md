@@ -15,7 +15,3 @@ Generated through Higgsfield, using GPT Image 2.6, on 15 November 2026 for the C
 | useful-change.svg | A hand replaces a gear: change what matters. |
 
 Headlines and explanatory copy remain accessible HTML. These assets are decorative companions and use empty alt text.
-
-## Role-context collection
-
-The separate `roles/` collection contains eight original native SVG illustrations authored for the role-card follow-up, rather than cells from the generated sheets above. See `roles/README.md` for their meanings and provenance.

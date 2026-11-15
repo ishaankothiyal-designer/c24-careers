@@ -144,3 +144,18 @@ Latest user correction supersedes the earlier completely static card treatment: 
 User correction: put a small Flatland illustration on every job card, customized to the context of the work and placed consistently in the lower-right area. Apply the same renderer on the landing carousel and careers listing. Preserve all approved role copy, official titles, application restrictions and accessible link names. Use one consistent decorative canvas/placement with a neutral fallback for unreviewed titles; department alone must not conflate dealer auctions and technical inspection review. Keep the sticker clear of the summary and CTA and do not make cards taller just to accommodate art.
 
 The user subsequently authorized a complete responsive pass and publishing all accumulated popup, illustration and motion changes to main and the existing Vercel project. “Version” was clarified to “Vercel”; no package-version bump is required.
+
+## 2026-11-15 — Footer link hover consistency with About Us
+
+User requested the existing Careers stripe footer pattern on About Us, and simple underline footer-link interactions on both pages. Removed Careers footer text-scramble listeners, data attributes and unused ScrambleTextPlugin loading; footer text links now use a 1px underline at .3em offset for hover and keyboard focus. Existing stripes, footer reveal, monogram, links and destinations retained. Acceptance: stable readable labels during hover/focus, underline indicator and keyboard focus outline. npm test: 188 pass; npm run build: pass. Changes are local only. Comparison evidence: About us Page/docs/v2/evidence/footer9-careers-desktop.png.
+
+## 15 November 2026 · softer concept-led role art and compact-card fallback
+
+Latest correction supersedes the original miniature role-icon treatment: the56px artwork reads too small and its dark outlines are too stark. Define role-specific core concepts before creating a coherent new illustration family. Use larger colour-led Flatland shapes, muted thin contours and quiet paper edges, not dense black icon outlines. Preserve the actual job context and the distinction between the Procurement roles.
+
+Negative-margin placement is removed. Artwork has real space in the footer on wider cards; phone viewports through767px and card content areas260px or narrower hide the decorative image entirely, retaining the full text and action without reserving art space. Assess actual painting/copy clearance and card proportions rather than relying on equal image boxes. Readable copy, insets and role actions take priority over decorative art.
+
+
+### 15 November 2026 — Remove role-card stickers
+
+User correction: “Remove the stickers, fix the cards, the layout, everything else.” Scope: job cards on the landing page and careers listing. This supersedes the previous role-illustration sizing/redesign direction. Acceptance: text-only role cards at every width, compact footer with a single detail action, consistent insets and equal row heights, no reserved illustration space or overlapping artwork. Preserve approved role copy, filters and detail links. Other editorial sticker collections remain unchanged.

@@ -100,8 +100,3 @@
     .ambition-stickers[data-illustration-version="stickers"] .ambition-stack__item:nth-child(even) .ambition-stack__card:hover .ambition-sticker-art{rotate:2deg}
   }
 }
-
-/* Small job-specific paper stickers share the existing footer, without a tall row. */
-:root{--role-sticker-size:56px;--role-sticker-tilt:-5deg}
-.role-card .role-card__link{justify-content:space-between;gap:12px}
-.role-card__sticker{display:block;flex:0 0 var(--role-sticker-size);width:var(--role-sticker-size);height:var(--role-sticker-size);object-fit:contain;rotate:var(--role-sticker-tilt);margin-block-start:calc(var(--story-control) - var(--sp-2) - var(--role-sticker-size));pointer-events:none}

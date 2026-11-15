@@ -37,9 +37,8 @@ export async function initializeSocietyFooter() {
     if (!window.ScrollTrigger) window.ScrollTrigger = ScrollTrigger;
     await Promise.all([
       window.Draggable ? Promise.resolve() : addScript('/vendor/society-footer/Draggable.min.js'),
-      window.ScrambleTextPlugin ? Promise.resolve() : addScript('/vendor/society-footer/ScrambleTextPlugin.min.js'),
     ]);
-    Draggable = window.Draggable; gsap.registerPlugin(Draggable, window.ScrambleTextPlugin);
+    Draggable = window.Draggable; gsap.registerPlugin(Draggable);
   } catch (error) {
     footer.classList.add('society-motion-fallback'); dark.style.opacity='0';
     footer.dataset.motionState = 'fallback';
@@ -108,20 +107,7 @@ export async function initializeSocietyFooter() {
   }
   gsap.ticker.add(keepTitleWhole);
   keepTitleWhole();
-  // Original scramble plugin: enter 1.2s, leave 1s (rather than instant reset).
-  const scrambleLabels = [];
-  footer.querySelectorAll('[data-society-scramble]').forEach(link => {
-    const label = link.querySelector('span'), original = label.textContent;
-    scrambleLabels.push({label, original});
-    link.setAttribute('aria-label',original.replace(/[\[\]]/g,'')); label.setAttribute('aria-hidden','true');
-    const scramble = duration => {
-      gsap.killTweensOf(label);
-      if (reduce.matches) { label.textContent=original; return; }
-      gsap.to(label,{duration,scrambleText:{text:original,chars:'ABCDEFGHIJKLMNOPQRSTUVWXYZ&@#',...(duration===1?{speed:1}:{})}});
-    };
-    link.addEventListener('pointerenter',()=>scramble(1.2)); link.addEventListener('pointerleave',()=>scramble(1));
-    link.addEventListener('focus',()=>scramble(1.2)); link.addEventListener('blur',()=>scramble(1));
-  });
+  // Footer links use a CSS underline for hover and keyboard focus.
 
   // Source stickers drag as whole windows, with magnetism + lift + velocity tilt.
   footer.querySelectorAll('[data-society-window]:not([hidden])').forEach(panel => {
@@ -162,7 +148,7 @@ export async function initializeSocietyFooter() {
   }
   const footerObserver=new IntersectionObserver(entries=>{const visible=entries.some(e=>e.isIntersecting);footer.classList.toggle('is-in-view',visible);document.body.classList.toggle('society-footer-visible',visible);},{threshold:0});footerObserver.observe(wrap);
   document.addEventListener('visibilitychange',updateMarquee);
-  reduce.addEventListener('change',()=>{configureMotion();updateMarquee();scrambleLabels.forEach(({label,original})=>{gsap.killTweensOf(label);label.textContent=original;});});
+  reduce.addEventListener('change',()=>{configureMotion();updateMarquee();});
   document.fonts.ready.then(()=>{ScrollTrigger.refresh();updateMarquee();});
   addEventListener('resize',updateMarquee,{passive:true});
 }
