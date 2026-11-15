@@ -40,3 +40,5 @@ The user rejected the 520px fixed sticker height: it solved containment by addin
 The user explicitly prefers the large, slightly cropped C24 footer display. This supersedes a fully-contained-small-glyph acceptance criterion. Intentional glyph cropping inside the three monogram cells is approved; an unfinished whole-footer reveal leaving an unintended blank band is still a defect. Keep the legal row separate and verify true document-end completion.
 
 Latest Cars24 correction (15 November 2026): principle-card backgrounds should use shared white, matching other cards. This supersedes off-white neutral paper surfaces; retain tape labels and sharp corners.
+
+Cars24 typography correction (15 November 2026): audit actual line endings on landing, careers and shared popups. Preserve gutters and readable type; use available heading width, balanced short text and pretty prose, then narrowly scoped safe phrase guards for verified widows. Remove stale border exceptions so section boundaries use the shared divider. Do not force all text onto one line or shrink it to hide a rag.

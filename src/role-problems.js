@@ -12,7 +12,7 @@ export function roleProblem(job) {
     retail:'Help people find the right car',
     listing:'Make the right cars easier to discover',
     procurement:'Find the right cars at the right value',
-    closure:'Turn customer decisions into completed purchases',
+    closure:'Help buyers complete a purchase',
     sales:'Help more people find their next car',
     finance:'Make the numbers work for the business',
     legal:'Help the business navigate legal complexity',

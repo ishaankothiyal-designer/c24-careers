@@ -4,7 +4,7 @@
     "name": "Manvi Mehrotra",
     "team": "Founder’s Office",
     "asset": "/img/builders/manvi-mehrotra.webp",
-    "description": "Built HTMLHub so teammates can securely host and share the HTML prototypes they create with AI.",
+    "description": "Built HTMLHub so teammates can securely host and share AI-built HTML prototypes.",
     "title": "A secure home for AI-built prototypes.",
     "challengeTitle": "Sharing a prototype needs more than an HTML file.",
     "challenge": [
@@ -34,7 +34,7 @@
     "outcomes": [
       [
         "A platform people were using",
-        "In her 28 April 2026 update, Manvi reported 770+ users, 760+ documents and 850 share links since the V1 launch. The same update reported 461 new users and 507 uploads over the preceding 30 days."
+        "In her 28 April 2026 update, Manvi reported 770+ users, 760+ documents and 850 share links since the V1 launch. The same update reported 461 new users and 507 uploads over the preceding 30 days."
       ],
       [
         "A broader workflow in V2",
@@ -133,7 +133,7 @@
       ],
       [
         "Route unresolved work to its owner",
-        "Unresolved cases are directed to the correct team or owner under defined SOPs. Access changes are routed to a support mailbox or team and are never performed by the bot. Optional network diagnosis can use read-only device-status data."
+        "Unresolved cases are directed to the correct team or owner under defined SOPs. Access changes are routed to a support mailbox or team and are never performed by the bot. Optional network diagnosis can use read-only device-status data."
       ],
       [
         "Roll out channel by channel",
@@ -216,7 +216,7 @@
     "solutions": [
       [
         "Choose the dealer using context",
-        "The pilot scans previous conversations, new inventory and Zendesk information to identify eligible dealers. It prepares a short dealer-specific context for the voicebot to read before a call, rather than treating each outreach attempt as a fresh conversation."
+        "The pilot scans previous conversations, new inventory and Zendesk information to identify eligible dealers. It prepares a short dealer-specific context for the voicebot to read before a call, rather than treating each outreach attempt as a fresh conversation."
       ],
       [
         "Connect the calling workflow",
@@ -235,11 +235,11 @@
     "outcomes": [
       [
         "A pilot followed by an improvement loop",
-        "The Gujarat and Pune pilot was reported live on 27 June 2026. By the 12 July update, the outreach workflow was running automatically and the daily improvement agent was reviewing and testing changes."
+        "The Gujarat and Pune pilot was reported live on 27 June 2026. By the 12 July update, the outreach workflow was running automatically and the daily improvement agent was reviewing and testing changes."
       ],
       [
         "Early signals, with uncertainty kept visible",
-        "Ayush reported an early increase in bids per dealer in the called group, while explicitly saying the held-out control still had limited statistical significance. This was an early pilot signal, rather than a proven conversion uplift."
+        "Ayush reported an early increase in bids per dealer in the called group, while explicitly saying the held-out control still had limited statistical significance. This was an early pilot signal, rather than a proven conversion uplift."
       ]
     ],
     "facts": [
@@ -261,7 +261,7 @@
     "title": "Building an agent that builds and tests voice agents.",
     "challengeTitle": "The work continues after the first build.",
     "challenge": [
-      "An ElevenLabs voice agent needs more than an initial prompt. Its workflow and tools must be configured, tested and evaluated, and any issues need to be fixed and tested again before deployment.",
+      "An ElevenLabs voice agent needs more than an initial prompt. Its workflow and tools must be configured, tested and evaluated, and any issues need to be fixed and tested again before deployment.",
       "Ayush built an automation agent around that complete lifecycle. It starts from an agent’s purpose and required tools, builds the workflow, runs evaluations and repeats the fix-and-validation loop until the agent is ready to deploy.",
       "A later inbound-campaign update described the same direction of continuous improvement: analyse previous call transcriptions, identify issues and improve future calls. It also distinguished the measured campaign results from rollout experiments and future plans."
     ],
@@ -275,7 +275,7 @@
         "The agent runs evaluations, identifies issues, makes fixes and reruns the evaluations. The July update described this as a complete build–test–fix–validate loop supporting deployment readiness."
       ],
       [
-        "Deploy the follow-up campaigns",
+        "Deploy the follow-up campaigns",
         "The update reported the BC2V Missed Visit Long Follow-up agent and the workflow-based A2I Missed Inspection campaign deployed to production. A separate BI2BC Customer Finance flow was described as production-ready, rather than already deployed."
       ],
       [
@@ -291,7 +291,7 @@
       ],
       [
         "Campaign results reported with their measurement period",
-        "The 27 July update reported AI V2 visit conversion of 5.24% and delivery conversion of 0.66%, against human-calling figures of 5.12% and 0.62%. The data covered 27 April–20 July, and the latest delivery results were still maturing."
+        "The 27 July update reported AI V2 visit conversion of 5.24% and delivery conversion of 0.66%, against human-calling figures of 5.12% and 0.62%. The data covered 27 April–20 July, and the latest delivery results were still maturing."
       ]
     ],
     "facts": [
@@ -387,7 +387,7 @@
       ],
       [
         "Connect the hub to existing data",
-        "The follow-up described direct connections with the Cars24 data lake and Darwinbox. That places the hub alongside the employee systems teams already use, rather than treating the agents as a separate collection of experiments."
+        "The follow-up described direct connections with the Cars24 data lake and Darwinbox. That places the hub alongside the employee systems teams already use, rather than treating the agents as a separate collection of experiments."
       ],
       [
         "Organise a focused build session",
@@ -479,11 +479,11 @@
     "solutions": [
       [
         "Focus on recurring WeCare requests",
-        "Nikhil helped teams develop solutions around repeat employee-support requests. The work started from a named operational problem within the hackathon, rather than an abstract AI demonstration."
+        "Nikhil helped teams develop solutions around repeat employee-support requests. The work started from a named operational problem within the hackathon, rather than an abstract AI demonstration."
       ],
       [
         "Help teams turn the problem into solutions",
-        "The organiser credited Nikhil with sharing expertise and helping the People & Culture teams build. His contribution was part of the collaborative two-day effort alongside payroll, compliance and manager-workflow projects."
+        "The organiser credited Nikhil with sharing expertise and helping the People & Culture teams build. His contribution was part of the collaborative two-day effort alongside payroll, compliance and manager-workflow projects."
       ],
       [
         "Keep the goal separate from the result",
@@ -576,11 +576,11 @@
     "outcomes": [
       [
         "An in-house drafting and research agent",
-        "The 19 August 2026 war-room update credited Shyamal with building Barrister Babu and described its litigation-support capabilities."
+        "The 19 August 2026 war-room update credited Shyamal with building Barrister Babu and described its litigation-support capabilities."
       ],
       [
         "Drafting, research and rebuttals in one flow",
-        "Barrister Babu combines submission drafting, mapping to applicable law and citation-backed rebuttal support across the four named litigation areas, assisting the legal team’s preparation."
+        "Barrister Babu combines submission drafting, mapping to applicable law and citation-backed rebuttal support across the four named litigation areas, assisting the legal team’s preparation."
       ]
     ],
     "facts": [
@@ -608,11 +608,11 @@
         "The VAS RTO P&L Agent creates challan-level P&Ls and supports entry uploads. It was one of the three tools co-built by Suraj, Abhishek Singh and Hukam Sen."
       ],
       [
-        "Reconcile dealer-based receipts",
+        "Reconcile dealer-based receipts",
         "The group built a Razorpay dealer-based receipt-reconciliation solution. This is a separate contribution from the challan-based reconciliation work credited to other people in the same update."
       ],
       [
-        "Reconcile dealer-wallet records",
+        "Reconcile dealer-wallet records",
         "Dealer Wallet Reconciliation was the third tool attributed to the shared team. Together the three tools cover reporting, receipt reconciliation and wallet reconciliation."
       ]
     ],
@@ -623,8 +623,8 @@
         "The 19 August 2026 update credited Suraj, Abhishek and Hukam with the three named solutions."
       ],
       [
-        "Reporting and reconciliation, together",
-        "The shared build covers challan-level P&Ls and entry uploads, dealer-based Razorpay receipt reconciliation, and dealer-wallet reconciliation. Suraj, Abhishek Singh and Hukam Sen were credited together."
+        "Reporting and reconciliation",
+        "The shared build covers challan-level P&Ls and entry uploads, dealer-based Razorpay receipt reconciliation, and dealer-wallet reconciliation. Suraj, Abhishek Singh and Hukam Sen were credited together."
       ]
     ],
     "facts": [

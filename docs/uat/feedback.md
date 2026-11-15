@@ -116,3 +116,11 @@ These are observed implementation defects, not newly inferred user preferences.
 ## 15 November 2026 · white principle-card surfaces
 
 The latest user correction supersedes the off-white neutral surface: all four working-principle cards must use the shared white background, matching other page cards. Preserve sharp corners, centered content, tape headings and the existing responsive grid.
+
+## 15 November 2026 · principle-card body typography
+
+User correction: the four principle-card descriptions look oversized. Use the same body treatment as other card descriptions: shared body font and regular weight, career-card-copy-size (14.5px), and story line height (1.5). Preserve the headings, centered alignment, white surfaces and responsive grid.
+
+## 15 November 2026 · section boundaries and widow-free reading
+
+User correction: add the shared divider above the working-principle section; let the builder heading read cleanly across available desktop width. Audit landing/careers/popup text for isolated last words while retaining padding and readable type. Remove stale section-border exceptions, use available heading width and natural balanced/pretty wrapping, then safe short phrase guards or meaning-preserving copy tightening for verified remaining cases. Do not use global nowrap, clipping, smaller fonts or reduced gutters to hide text problems. Distinguish short labels and factual metadata from prose widows.

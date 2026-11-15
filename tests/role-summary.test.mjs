@@ -52,5 +52,5 @@ test('problem headlines retain existing intent while the auction role no longer 
   assert.equal(roleProblem(liveRoles[1]),'Build lasting relationships with key accounts');
   assert.equal(roleProblem(liveRoles[3]),'Help dealers buy through our auctions');
   assert.equal(roleProblem(liveRoles[4]),'Make the right cars easier to discover');
-  assert.equal(roleProblem(liveRoles[5]),'Turn customer decisions into completed purchases');
+  assert.equal(roleProblem(liveRoles[5]),'Help buyers complete a purchase');
 });

@@ -35,7 +35,7 @@
 .principle-card:nth-child(even) .principle-card__title{--tape-angle:1deg}
 .principle-card__title::before{content:'';position:absolute;inset:0;z-index:-1;pointer-events:none;background:var(--principle-tape);transform:rotate(var(--tape-angle));clip-path:polygon(1% 4%,99% 0,98% 15%,100% 27%,98% 40%,100% 54%,98% 70%,99% 96%,0 100%,1% 82%,0 66%,2% 49%,0 31%,2% 17%)}
 .principle-card__title::after{content:'';position:absolute;inset:2px 1px;z-index:-1;pointer-events:none;border-top:1px solid rgb(255 255 255 / .55);border-bottom:1px solid rgb(32 28 54 / .08);transform:rotate(var(--tape-angle))}
-.working-principles__steps .principle-card>p{font-size:var(--type-subtext);line-height:1.45;margin:0;max-width:28ch;text-align:center}
+.working-principles__steps .principle-card>p{font-family:var(--font-body);font-size:var(--career-card-copy-size);font-weight:var(--type-weight-body);line-height:var(--story-line);margin:0;max-width:28ch;text-align:center}
 #support .policy-card__image{height:auto;aspect-ratio:4/3;object-fit:cover;object-position:center top}
 /* The finite sticker cue belongs only to the active paper-letter scene. */
 #letter>.paper-letter__scroll-cue{display:flex;align-items:center;gap:var(--sp-2);padding:var(--sp-1) var(--sp-2);background:var(--sticker-cream);color:var(--sticker-edge);border:2px solid var(--sticker-edge);border-radius:16px;box-shadow:3px 4px 0 rgb(32 28 54 / .16);transform:rotate(-3deg)}
@@ -62,3 +62,19 @@
   .working-principles__steps{grid-template-columns:minmax(0,1fr)}
 }
 @media(prefers-reduced-motion:reduce){#letter[data-paper-visible="true"] .paper-letter__mouse-dot{animation:none}}
+
+/* Let headings use their available column and keep prose endings together. */
+#builder #builder-title{max-width:none;text-wrap:balance}
+.page-root main :is(h1,h2,h3,h4),.role-carousel-dialog :is(h1,h2,h3,h4),.role-application-dialog :is(h1,h2,h3,h4){text-wrap:balance}
+.page-root main :is(p,li,dd),.role-carousel-dialog :is(p,li,dd),.role-application-dialog :is(p,li,dd){text-wrap:pretty}
+
+/* Short editorial summaries benefit from even lines within their existing inset. */
+#builder .craft-work__description,.support-section__head p{text-wrap:balance}
+.role-card .role-card__summary,.builder-popup .builder-detail .out-card__text{text-wrap:balance}
+
+/* Keep short supplied job bullets balanced without editing their source text. */
+.role-carousel-dialog .job-description li{text-wrap:balance}
+
+.role-carousel-dialog .job-description .job-description__short-copy{text-wrap:balance}
+/* Leave breathing room between the carousel controls and the section rule. */
+.ambition-stack{padding-bottom:var(--layout-head-gap)}

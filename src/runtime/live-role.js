@@ -112,18 +112,44 @@ export function experienceLabel(job) {
 
 // Darwinbox descriptions mix semantic headings with Word-style bold paragraphs.
 // Normalize their structure without changing or summarizing the published copy.
+// Keep a short final phrase together without changing supplied words or markup.
+function guardDescriptionTail(paragraph) {
+  const walker = document.createTreeWalker(paragraph, NodeFilter.SHOW_TEXT);
+  const nodes = [];
+  while (walker.nextNode()) nodes.push(walker.currentNode);
+  const copy = nodes.map(node => node.data).join('');
+  const ending = /(\S+)([ \t\r\n]+)(\S+)\s*$/.exec(copy);
+  if (!ending) return;
+  const context = document.createElement('canvas').getContext('2d');
+  context.font = getComputedStyle(paragraph).font;
+  // The cap also protects this phrase when the popup is resized to a phone.
+  if (context.measureText(`${ending[1]} ${ending[3]}`).width > Math.min(180, paragraph.clientWidth - 8)) return;
+  let offset = ending.index + ending[1].length;
+  for (const node of nodes) {
+    if (offset >= node.length) { offset -= node.length; continue; }
+    // Never restructure inline links/emphasis to hold a phrase together.
+    if (offset + ending[2].length <= node.length) node.replaceData(offset, ending[2].length, '\u00a0');
+    break;
+  }
+}
+
 export function formatDescription(root) {
   const description = root.querySelector('.job-description');
   if (!description) return;
-  description.querySelectorAll('p, b, strong, h2, h3, h4').forEach(node => {
+  description.querySelectorAll('p, li, b, strong, h2, h3, h4').forEach(node => {
     if (!node.isConnected) return;
     const copy = node.textContent.trim();
+    // Balance short ATS paragraphs without rewriting the supplied job copy.
+    if (node.tagName === 'P' && copy.length <= 180) node.classList.add('job-description__short-copy');
     if (!copy && !node.querySelector('a, li')) { node.remove(); return; }
     const isParagraphHeading = node.tagName === 'P' && copy.length < 100 &&
       (/^(What drives us|What will you drive|Who are we looking for)\?$/i.test(copy) ||
         (node.children.length === 1 && ['B', 'STRONG'].includes(node.firstElementChild.tagName)));
     const isBareHeading = ['B', 'STRONG'].includes(node.tagName) && node.parentElement === description && copy.length < 100;
-    if (!isParagraphHeading && !isBareHeading) return;
+    if (!isParagraphHeading && !isBareHeading) {
+      if (node.tagName === 'P' || (node.tagName === 'LI' && !node.querySelector('p,li'))) guardDescriptionTail(node);
+      return;
+    }
     const heading = document.createElement('h2');
     heading.textContent = copy;
     node.replaceWith(heading);

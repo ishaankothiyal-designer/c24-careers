@@ -1,6 +1,5 @@
 /* Compact manual carousel. Hallmark · pre-emit critique: P4 H4 E4 S5 R5 V4 */
 .ambition-stack{padding-bottom:0;border-bottom:0;scroll-margin-top:var(--layout-anchor-clearance)}
-#ambition + section{border-block-start:0}
 .ambition-stack > .container{--ambition-carousel-inset:max(var(--pad-x),calc((100vw - var(--max-w)) / 2 + var(--pad-x)));width:100%;max-width:none;padding-inline:var(--ambition-carousel-inset);box-sizing:border-box}
 .ambition-stack__list{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;list-style:none;padding:0;margin:0}
 .ambition-stack__item{position:relative;min-width:0}
