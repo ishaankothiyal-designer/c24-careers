@@ -31,7 +31,7 @@ export function createContentPopup({label,title,closeLabel,previousLabel,nextLab
       entries.set(i,body);
     }
     previous.disabled=index===0;next.disabled=index===items.length-1;
-    position.textContent=`${index+1} of ${items.length} · ${items[index].label}`;
+    position.textContent=items[index].label;
     dialog.setAttribute('aria-labelledby',items[index].headingId);
     onSelect?.(items[index]);
   };

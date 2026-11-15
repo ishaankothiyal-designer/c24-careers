@@ -124,3 +124,23 @@ User correction: the four principle-card descriptions look oversized. Use the sa
 ## 15 November 2026 · section boundaries and widow-free reading
 
 User correction: add the shared divider above the working-principle section; let the builder heading read cleanly across available desktop width. Audit landing/careers/popup text for isolated last words while retaining padding and readable type. Remove stale section-border exceptions, use available heading width and natural balanced/pretty wrapping, then safe short phrase guards or meaning-preserving copy tightening for verified remaining cases. Do not use global nowrap, clipping, smaller fonts or reduced gutters to hide text problems. Distinguish short labels and factual metadata from prose widows.
+
+## 15 November 2026 · shared popup side controls and Flatland accents
+
+User corrections: reduce popup image height with centered focal content, use landing-page pixel arrows at the left/right viewport midpoint, remove page counts and blur inactive neighbors. Apply consistently to roles and content popups on all screen sizes. This supersedes the previous visible bottom navigation and unbounded natural-height hero images; complete source images still need to remain visible. Keep short full-image contain frames, clear 44px control lanes, independent reading/swipe, descriptive controls and current-item accessibility announcements. Check a failed deck load alongside a successful current role so retry cannot cover Apply.
+
+Additional corrections: give the dark ambition shield a contrasting bright green or blue offset shadow; the chosen exploration is the existing Flatland green at the same 5px depth. Give the View more stories card a more interesting Flatland graphic while retaining its copy and reveal behavior. Native decorative artwork is based on the reference’s pinched/pill shapes, bold ink edges, arrow/sparkle motifs and restrained grid. Preserve sharp outer card edges and accessible live wording.
+
+## 15 November 2026 · light shared-popup drag interactions
+
+User correction: subtle drag interactions should move the popup carousel smoothly on desktop, tablet and mobile. Do not require moving half a card before snapping forward. The implementation distinguishes horizontal intent from vertical reading, advances on a short deliberate flick, preserves native touch/pinch and excludes interactive/editable controls. Test small movements, deliberate short drags, cancellation, endpoints and interruption of a smooth snap. The final visible card must always be the active/accessibility-exposed card when scrolling settles.
+
+## 15 November 2026 · subtle ambition-sticker micro-motion
+
+Latest user correction supersedes the earlier completely static card treatment: add very subtle hover tilt/sticker movement and a small scale-up as cards enter the viewport. Keep arrival brief and one-time, hover limited to a fine pointer, all text visible throughout, and reduced-motion fully still. Preserve card dimensions/padding and the green shield shadow. Do not restore looping sticker motion or a pause CTA for these short interactions. Reserve paint clearance without changing the section’s layout footprint.
+
+## 15 November 2026 · consistent role-context stickers
+
+User correction: put a small Flatland illustration on every job card, customized to the context of the work and placed consistently in the lower-right area. Apply the same renderer on the landing carousel and careers listing. Preserve all approved role copy, official titles, application restrictions and accessible link names. Use one consistent decorative canvas/placement with a neutral fallback for unreviewed titles; department alone must not conflate dealer auctions and technical inspection review. Keep the sticker clear of the summary and CTA and do not make cards taller just to accommodate art.
+
+The user subsequently authorized a complete responsive pass and publishing all accumulated popup, illustration and motion changes to main and the existing Vercel project. “Version” was clarified to “Vercel”; no package-version bump is required.

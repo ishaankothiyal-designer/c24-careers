@@ -42,3 +42,11 @@ The user explicitly prefers the large, slightly cropped C24 footer display. This
 Latest Cars24 correction (15 November 2026): principle-card backgrounds should use shared white, matching other cards. This supersedes off-white neutral paper surfaces; retain tape labels and sharp corners.
 
 Cars24 typography correction (15 November 2026): audit actual line endings on landing, careers and shared popups. Preserve gutters and readable type; use available heading width, balanced short text and pretty prose, then narrowly scoped safe phrase guards for verified widows. Remove stale border exceptions so section boundaries use the shared divider. Do not force all text onto one line or shrink it to hide a rag.
+
+Cars24 popup direction (15 November 2026): use landing-style pixel arrows at viewport side centers, no visible page count/bottom footer, subtle blur only on inert neighboring cards, and shorter centered full-image frames. Preserve reading width and 44px control targets; test retry/Apply separation. Dark Flatland cards can use a contrasting palette-colour offset shadow when the ink shadow disappears. Decorative continuation-card graphics must retain live copy and the original reveal behavior.
+
+Cars24 popup gesture correction (15 November 2026): short deliberate horizontal drags should advance a card smoothly; vertical reading, controls, editable content and pinch gestures remain native. A cancelled or interrupted smooth snap must leave the actually visible card active. Verify both light drag behavior and final selection, not only arrow navigation.
+
+Cars24 ambition-motion correction (15 November 2026): the user now prefers a restrained one-time arrival scale and fine-pointer hover lift/sticker tilt. This supersedes wholly static card behavior, but not the ban on distracting loops/redundant pause controls. Keep reduced-motion still, touch free of sticky hover, and scale/rotation within paint gutters without layout movement.
+
+Cars24 role-card direction (15 November 2026): small consistent Flatland stickers should reflect the actual job context, match placement and visible scale across cards, and preserve existing card height, copy and CTA clearance. Map reviewed titles distinctly and use a neutral fallback instead of inventing future-role work.

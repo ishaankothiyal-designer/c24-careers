@@ -1,9 +1,8 @@
-/* Whole-role popup carousel, based on the supplied swipeable detail reference.
-   Hallmark · pre-emit critique: P5 H5 E5 S5 R5 V4 */
+/* Shared swipeable popup frame and viewport-centered landing-style controls. */
 :root{
   --role-carousel-card-width:min(920px,calc(100vw - 144px));
   --role-carousel-gap:20px;--role-carousel-inset:calc((100vw - var(--role-carousel-card-width))/2);
-  --role-carousel-radius:18px;--role-carousel-toolbar:56px;--role-carousel-navigation:68px;
+  --role-carousel-radius:18px;--role-carousel-toolbar:56px;--popup-media-height:clamp(140px,28dvh,260px);
   --role-carousel-sheet-inset:clamp(20px,4vw,48px);--role-carousel-shadow:0 12px 48px rgb(0 0 0 / .16);
   --role-carousel-stage:rgb(20 21 35 / .60);--popup-backdrop-blur:10px;--role-carousel-action-height:76px;--role-carousel-control:44px;
 }
@@ -14,12 +13,12 @@
 .role-carousel__topbar{display:flex;align-items:center;justify-content:space-between;gap:var(--sp-2);flex:0 0 var(--role-carousel-toolbar);width:var(--role-carousel-card-width);margin-inline:auto;color:var(--white)}
 .role-carousel__topbar>p{font-size:var(--type-subtext);font-weight:500;margin:0}
 .role-carousel-dialog .role-dialog__close{position:static;inset:auto;flex:0 0 var(--role-carousel-control);margin:0;width:var(--role-carousel-control);height:var(--role-carousel-control);box-shadow:none;padding:12px}
-.role-carousel__track{position:relative;display:flex;align-items:stretch;gap:var(--role-carousel-gap);padding-inline:var(--role-carousel-inset);box-sizing:border-box;flex:1;min-height:0;width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-padding-inline:var(--role-carousel-inset);scrollbar-width:none;overscroll-behavior-x:contain;touch-action:pan-x pan-y}
+.role-carousel__track{position:relative;display:flex;align-items:stretch;gap:var(--role-carousel-gap);padding-inline:var(--role-carousel-inset);box-sizing:border-box;flex:1;min-height:0;width:100%;overflow-x:auto;overflow-y:hidden;scroll-snap-type:x mandatory;scroll-padding-inline:var(--role-carousel-inset);scrollbar-width:none;overscroll-behavior-x:contain;touch-action:pan-x pan-y pinch-zoom}
 .role-carousel__track::-webkit-scrollbar{display:none}
 .role-carousel__track:focus-visible{outline:var(--story-focus) solid var(--white);outline-offset:-3px}
 .role-carousel__track.is-dragging{cursor:grabbing;user-select:none}
 .role-carousel__slide{flex:0 0 var(--role-carousel-card-width);width:var(--role-carousel-card-width);max-width:var(--role-carousel-card-width);min-width:0;height:100%;display:flex;flex-direction:column;background:var(--white);border-radius:var(--role-carousel-radius);overflow:hidden;scroll-snap-align:center;scroll-snap-stop:always;box-shadow:var(--role-carousel-shadow)}
-.role-carousel__reading{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;touch-action:pan-x pan-y;scrollbar-gutter:stable}
+.role-carousel__reading{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior-y:contain;touch-action:pan-x pan-y pinch-zoom;scrollbar-gutter:stable}
 .role-carousel-dialog .role-detail{min-height:0;padding:var(--role-carousel-sheet-inset) 0 0}
 .role-carousel-dialog .role-detail .role-detail__header,.role-carousel-dialog .role-detail .role-detail__layout{width:100%;max-width:none;margin:0;padding-inline:var(--role-carousel-sheet-inset)}
 .role-carousel-dialog .role-detail .role-detail__layout{padding-top:0;padding-bottom:var(--sp-3)}
@@ -35,16 +34,18 @@
 .role-carousel__availability{grid-column:1/-1;grid-row:2;font-size:var(--story-small);line-height:1.4;color:var(--story-muted)}
 .role-carousel__apply{min-height:48px;border:0;background:var(--blue);color:var(--white);padding:var(--sp-2) var(--sp-3);font:inherit;font-size:var(--type-subtext);font-weight:500;cursor:pointer;border-radius:var(--radius-sm)}
 .role-carousel__apply:disabled{cursor:default;color:var(--story-muted);background:var(--section-quiet-bg)}
-.role-carousel__navigation{display:flex;align-items:center;justify-content:center;gap:var(--sp-3);flex:0 0 var(--role-carousel-navigation);width:var(--role-carousel-card-width);margin-inline:auto;color:var(--white)}
-.role-carousel__navigation>div{min-width:0;text-align:center;flex:1}
-.role-carousel__navigation p{font-size:var(--story-small);line-height:1.4;margin:0;overflow-wrap:anywhere}
-.role-carousel__navigation .role-carousel__hint{margin-top:4px;opacity:1;font-size:12px}
-.role-carousel__arrow{display:grid;place-items:center;flex:0 0 var(--role-carousel-control);width:var(--role-carousel-control);height:var(--role-carousel-control);border:1px solid rgb(255 255 255 / .45);border-radius:50%;background:var(--white);color:var(--ink);font-size:24px;cursor:pointer}
-.role-carousel__arrow:disabled{opacity:.35;cursor:default}
-.role-carousel__retry{font:inherit;font-size:var(--story-small);color:var(--white);background:none;border:0;text-decoration:underline;cursor:pointer;min-height:44px}
+.role-carousel__navigation{position:absolute;inset:0;pointer-events:none;color:var(--white)}
+/* Status and gesture instructions remain available without a visible footer. */
+.role-carousel__navigation>div{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+.role-carousel__navigation>.role-carousel__arrow{position:absolute;top:50%;transform:translateY(-50%);inset-inline-start:max(2px,env(safe-area-inset-left),calc(var(--role-carousel-inset)/2 - var(--role-carousel-control)/2));inset-inline-end:auto;display:flex;align-items:center;justify-content:center;width:var(--role-carousel-control);height:var(--role-carousel-control);padding:0;border:0;border-radius:0;background:var(--black);color:var(--white);font-size:24px;cursor:pointer;pointer-events:auto;z-index:3}
+.role-carousel__navigation>[data-role-next]{inset-inline-start:auto;inset-inline-end:max(2px,env(safe-area-inset-right),calc(var(--role-carousel-inset)/2 - var(--role-carousel-control)/2))}
+.role-carousel__navigation>.role-carousel__arrow:hover{background:var(--blue)}
+.role-carousel__navigation>.role-carousel__arrow:disabled{opacity:.35;cursor:default;pointer-events:none}
+.role-carousel__slide[aria-hidden="true"]{filter:blur(3px);opacity:.68}
+.role-carousel__retry{position:absolute;bottom:max(16px,env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);pointer-events:auto;padding:8px 16px;border-radius:var(--radius-sm);font:inherit;font-size:var(--story-small);color:var(--white);background:var(--black);border:0;text-decoration:underline;cursor:pointer;min-height:44px}
 .role-carousel__retry[hidden]{display:none}
 :is(.role-carousel__apply,.role-carousel__arrow,.role-carousel__retry):focus-visible{outline:var(--story-focus) solid var(--blue);outline-offset:3px}
-.role-carousel__arrow:focus-visible{outline-color:var(--white)}
+.role-carousel__navigation>.role-carousel__arrow:focus-visible{outline:3px solid var(--white);outline-offset:-7px;background:var(--blue)}
 .role-application-dialog{position:fixed;inset:0;margin:auto;padding:0;width:min(680px,calc(100vw - 32px));max-width:100%;max-height:calc(100dvh - 40px);height:auto;border:0;border-radius:var(--role-carousel-radius);background:var(--white);color:var(--ink);overflow:hidden;box-shadow:var(--role-carousel-shadow)}
 .role-application-dialog[open]{display:flex;flex-direction:column}
 .role-application-dialog::backdrop{background:var(--role-carousel-stage);backdrop-filter:blur(var(--popup-backdrop-blur));-webkit-backdrop-filter:blur(var(--popup-backdrop-blur))}
@@ -60,7 +61,7 @@
 .role-application-dialog__close:focus-visible{outline:var(--story-focus) solid var(--blue);outline-offset:3px}
 @keyframes role-carousel-enter{from{opacity:0}to{opacity:1}}
 @media(max-width:767px){
-  :root{--role-carousel-card-width:calc(100vw - 32px);--role-carousel-gap:10px;--role-carousel-toolbar:44px;--role-carousel-navigation:64px;--role-carousel-sheet-inset:20px;--role-carousel-radius:14px}
+  :root{--role-carousel-card-width:calc(100vw - 64px);--role-carousel-gap:10px;--role-carousel-toolbar:44px;--role-carousel-sheet-inset:20px;--role-carousel-radius:14px;--popup-media-height:clamp(100px,18dvh,160px)}
   .role-carousel{padding-top:max(4px,env(safe-area-inset-top))}
   .role-carousel__topbar>p{font-size:var(--story-small)}
   .role-carousel-dialog .role-detail h1{font-size:28px}
@@ -69,15 +70,13 @@
   .role-carousel__action>p{display:none}
   .role-carousel__availability{grid-row:auto;text-align:center;font-size:12px}
   .role-carousel__apply{width:100%;min-height:44px;font-size:var(--story-small)}
-  .role-carousel__navigation{gap:var(--sp-2)}
   .role-application-dialog{width:calc(100vw - 24px);max-height:calc(100dvh - 24px)}
   .role-application-dialog .application-fields{grid-template-columns:1fr}
 }
 @media(max-height:500px) and (min-width:768px){
-  :root{--role-carousel-toolbar:44px;--role-carousel-navigation:52px;--role-carousel-sheet-inset:20px;--role-carousel-action-height:60px}
+  :root{--role-carousel-toolbar:44px;--role-carousel-sheet-inset:20px;--role-carousel-action-height:60px}
   .role-carousel{padding-block:4px}
   .role-carousel-dialog .role-detail h1{font-size:28px}
-  .role-carousel__navigation .role-carousel__hint{display:none}
 }
 @media(prefers-reduced-motion:reduce){.role-carousel-dialog[open]{animation:none}}
 
@@ -100,7 +99,10 @@
 .builder-popup .builder-detail .cs-stats{grid-template-columns:repeat(auto-fit,minmax(min(100%,160px),1fr))}
 .support-popup .support-dialog__copy{padding:var(--role-carousel-sheet-inset)}
 .support-popup .support-dialog__copy h2{font-size:clamp(28px,3vw,42px);line-height:1.12;letter-spacing:-.045em}
-.support-popup .support-dialog__media img{width:100%;height:auto;max-height:none;object-fit:contain;object-position:center top}
+/* The full source image stays centered inside a shorter responsive frame. */
+.support-popup .support-dialog__media,.builder-popup .builder-detail .cs-hero__media{height:var(--popup-media-height);min-height:0;display:flex;align-items:center;justify-content:center;background:var(--white);overflow:hidden}
+.support-popup .support-dialog__media img,.builder-popup .builder-detail .cs-hero__media img{display:block;width:100%;height:100%;max-height:100%;object-fit:contain;object-position:center}
+.support-popup .support-dialog__gallery img{height:var(--popup-media-height);object-fit:contain;object-position:center;background:var(--white)}
 
 /* A single light reading surface across the whole project, including outcomes. */
 .builder-popup .builder-detail,.builder-popup .builder-detail :is(.cs-hero,.challenge,.solution,.outcome){background:var(--white);color:var(--ink)}
@@ -114,3 +116,6 @@
 .support-popup .support-dialog__copy .support-benefits{list-style:none;padding:var(--sp-3);margin-block:var(--sp-3);display:grid;gap:var(--sp-2);background:var(--section-quiet-bg);border:var(--card-stroke);border-radius:var(--radius-sm)}
 .support-benefits li{display:grid;grid-template-columns:1em minmax(0,1fr);gap:var(--sp-2);align-items:start}
 .support-benefits li::before{content:'✓';font-weight:650;color:var(--blue)}
+
+/* An error-only retry row must not cover the supported role’s Apply action. */
+.role-carousel:has([data-role-list-retry]:not([hidden])){padding-bottom:calc(64px + env(safe-area-inset-bottom))}

@@ -38,7 +38,7 @@ export function initializeRoleDialog({base='/',initialPath=null,loadJobs=getLive
   const updateControls=()=>{
     previous.disabled=active<=0;next.disabled=active>=entries.length-1;
     const entry=entries[active];if(!entry)return;
-    position.textContent=`${active+1} of ${entries.length}${entry.job?.title?' · '+entry.job.title:''}`;
+    position.textContent=entry.job?.title||'Role details';
     hint.hidden=entries.length<2;
     dialog.setAttribute('aria-labelledby',entry.headingId);
     if(entry.job)document.title=`${entry.job.title} | Cars24 Careers`;

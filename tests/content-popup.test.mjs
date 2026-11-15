@@ -38,7 +38,7 @@ test('shared content popup opens selected panel, lazily loads neighbors and pres
   f.popup.open('item2',f.opener);
   assert.equal(f.dialog.open,true);assert.equal(f.track.children.length,5);
   assert.deepEqual(f.loads,[1,2,3]);assert.equal(f.track.children[2].inert,false);assert.equal(f.track.children[1].inert,true);
-  assert.equal(f.dialog.attributes['aria-labelledby'],'item2-title');assert.match(f.position.textContent,/3 of 5 · Item 2/);
+  assert.equal(f.dialog.attributes['aria-labelledby'],'item2-title');assert.equal(f.position.textContent,'Item 2');
   assert.equal(f.doc.documentElement.style.overflow,'hidden');assert.equal(f.lenis.stops,1);
   f.next.dispatchEvent(new Event('click'));
   assert.equal(f.selected.at(-1),'item3');assert.deepEqual(f.loads,[1,2,3,4]);

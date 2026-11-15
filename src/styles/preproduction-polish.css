@@ -78,3 +78,30 @@
 .role-carousel-dialog .job-description .job-description__short-copy{text-wrap:balance}
 /* Leave breathing room between the carousel controls and the section rule. */
 .ambition-stack{padding-bottom:var(--layout-head-gap)}
+
+/* A visible offset edge for the dark shield, using the existing Flatland green. */
+.ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card--ambition{--sticker-shadow:0 5px 0 var(--sticker-green)}
+/* Flatland story stack: fine paper grid, bold shapes, offset ink and a live label. */
+#builder .builder-more-card{background-color:var(--sticker-lilac);background-image:linear-gradient(rgb(32 28 54 / .045) 1px,transparent 1px),linear-gradient(90deg,rgb(32 28 54 / .045) 1px,transparent 1px);background-size:24px 24px;gap:20px}
+#builder .builder-more-card__mark{display:block;align-self:center;width:100%;max-width:300px;height:clamp(180px,22vw,250px);flex:none;color:var(--sticker-edge)}
+#builder .builder-more-card__title{position:relative;isolation:isolate;padding:8px 12px;margin-inline:-2px}
+#builder .builder-more-card__title::before{content:'';position:absolute;inset:0;z-index:-1;background:var(--sticker-cream);border:2px solid var(--sticker-edge);border-radius:999px;box-shadow:2px 3px 0 var(--sticker-edge);transform:rotate(-2deg)}
+#builder .builder-more-card__copy{text-wrap:pretty}
+
+/* Brief sticker interactions: one quiet arrival, then pointer-only hover. */
+@media(prefers-reduced-motion:no-preference){
+  .ambition-stickers[data-illustration-version="stickers"] .ambition-stack__list{padding-block:8px 10px;margin-block:-8px -10px}
+  .ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card{transform-origin:center;scale:1;translate:0 0;transition:scale 420ms cubic-bezier(.2,.8,.2,1),translate 320ms cubic-bezier(.2,.8,.2,1)}
+  .ambition-stickers[data-illustration-version="stickers"][data-reveal-ready="true"] .ambition-stack__card:not([data-revealed="true"]){scale:.985}
+  .ambition-stickers[data-illustration-version="stickers"] .ambition-sticker-art{rotate:0deg;scale:1;translate:0 0;transition:rotate 320ms cubic-bezier(.2,.8,.2,1),scale 320ms cubic-bezier(.2,.8,.2,1),translate 320ms cubic-bezier(.2,.8,.2,1)}
+  @media(hover:hover) and (pointer:fine){
+    .ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card:hover{scale:1.008;translate:0 -2px}
+    .ambition-stickers[data-illustration-version="stickers"] .ambition-stack__card:hover .ambition-sticker-art{rotate:-2deg;scale:1.025;translate:0 -1px}
+    .ambition-stickers[data-illustration-version="stickers"] .ambition-stack__item:nth-child(even) .ambition-stack__card:hover .ambition-sticker-art{rotate:2deg}
+  }
+}
+
+/* Small job-specific paper stickers share the existing footer, without a tall row. */
+:root{--role-sticker-size:56px;--role-sticker-tilt:-5deg}
+.role-card .role-card__link{justify-content:space-between;gap:12px}
+.role-card__sticker{display:block;flex:0 0 var(--role-sticker-size);width:var(--role-sticker-size);height:var(--role-sticker-size);object-fit:contain;rotate:var(--role-sticker-tilt);margin-block-start:calc(var(--story-control) - var(--sp-2) - var(--role-sticker-size));pointer-events:none}

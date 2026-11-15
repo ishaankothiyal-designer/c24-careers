@@ -79,7 +79,7 @@ test('browsing live roles replaces the current role URL instead of adding back-s
   assert.equal(f.track.children.length,3);assert.equal(f.prev.disabled,true);assert.equal(f.next.disabled,false);
   f.next.dispatchEvent(new Event('click'));
   assert.equal(f.history.pushes.length,1);assert.equal(f.history.replacements.at(-1),'/careers/roles/a2222222222222/');
-  assert.match(f.position.textContent,/2 of 3/);assert.equal(f.track.children[0].inert,true);assert.equal(f.track.children[1].inert,false);
+  assert.equal(f.position.textContent,'Role details');assert.equal(f.track.children[0].inert,true);assert.equal(f.track.children[1].inert,false);
   f.next.dispatchEvent(new Event('click'));assert.equal(f.next.disabled,true);
   f.close.dispatchEvent(new Event('click'));assert.equal(f.history.backs,1);
 });

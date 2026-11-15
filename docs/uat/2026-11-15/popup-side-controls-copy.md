@@ -1,0 +1,12 @@
+# Shared popup side controls · source UX and accessibility review
+
+**Accepted in source; no material copy/accessibility blocker found in this change.** No product edits or browser use by this reviewer. Rendered arrow reachability, blur, focus-ring contrast and image focal-point fit remain with the visual reviewer.
+
+- Numeric page counters are removed from the current-item status text in both role and editorial popup controllers. The polite, atomic live region now identifies only the actual current role title, builder name or programme title. The status/instructions use a visually hidden CSS technique, preserving assistive-technology access while removing the visible bottom navigation text.
+- Each popup remains named by its active real heading via `aria-labelledby`; the track retains its collection name and carousel role description. Shorter centered images remain decorative or retain their existing meaningful alternatives; body copy is not changed by these shell rules.
+- Previous/next buttons remain native buttons with context-specific accessible labels and collection-boundary disabled states. They now use the landing arrow class and side positions, without exposing an unexplained glyph as their accessible name. Visible keyboard focus rules remain present. Track keyboard handling retains ArrowLeft/ArrowRight/Home/End, and excludes inputs and reading content from unintended keyboard interception.
+- Opening focus remains on the named close button. Closing editorial and role popups restores the opener; the separate application dialog returns to its application trigger in the role popup. The side controls do not introduce an additional focus trap.
+- Inactive previews remain `inert` and `aria-hidden`; their blur is presentation rather than the mechanism that excludes their links and controls. Active content retains its headings and reading order.
+- Role-list failure still exposes the visible, keyboard-operable `Try loading other roles` button at the bottom. It has a 44px minimum height, safe-area clearance and a focus indicator. Its label explains exactly what retry loads. The existing current role remains readable; successful load resets the exploration hint and hides retry.
+
+`node --test tests/content-popup.test.mjs tests/role-dialog.test.mjs tests/role-carousel.test.mjs`: **12 passed, 0 failed**. No body-copy rewrite, claim change or additional CTA is recommended.
