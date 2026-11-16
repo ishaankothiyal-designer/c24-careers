@@ -1,10 +1,10 @@
 /* Scoped review: source graph paper belongs to the letter, never page surfaces. */
 @font-face{
-  font-family:"Pine Words";
-  src:url('/fonts/pine-words/PineWords-xRZZR.ttf') format('truetype');
-  font-style:normal;font-weight:400;font-display:swap;
+  font-family:"Caveat";
+  src:url('/fonts/caveat/Caveat-variable.ttf') format('truetype');
+  font-style:normal;font-weight:400 700;font-display:swap;
 }
-.paper-letter__sheet p{font-family:"Pine Words",cursive;font-weight:400}
+.paper-letter__sheet p{font-family:"Caveat",cursive;font-weight:500;font-size:1.2em;line-height:1.55}
 @font-face{
   font-family:"Motterdam";
   src:url('/fonts/motterdam/Motterdam-K74zp.ttf') format('truetype');

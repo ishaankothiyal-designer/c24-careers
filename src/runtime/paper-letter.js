@@ -49,7 +49,7 @@ export function initializePaperLetter() {
       try {
         const { createPaperLetterScene } = await import('./paper-letter-scene.js');
         await Promise.all([
-          document.fonts.load('400 20px "Pine Words"'),
+          document.fonts.load('500 24px "Caveat"'),
           document.fonts.load('400 34px "Motterdam"'),
         ]);
         await document.fonts.ready;

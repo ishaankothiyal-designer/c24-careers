@@ -159,3 +159,8 @@ Negative-margin placement is removed. Artwork has real space in the footer on wi
 ### 15 November 2026 — Remove role-card stickers
 
 User correction: “Remove the stickers, fix the cards, the layout, everything else.” Scope: job cards on the landing page and careers listing. This supersedes the previous role-illustration sizing/redesign direction. Acceptance: text-only role cards at every width, compact footer with a single detail action, consistent insets and equal row heights, no reserved illustration space or overlapping artwork. Preserve approved role copy, filters and detail links. Other editorial sticker collections remain unchanged.
+
+
+### 15 November 2026 — Letter handwriting trial
+
+User requests a different, more natural handwritten letter-body font while keeping it very legible and maintaining text contrast. Trial Caveat Medium (500), self-hosted with its OFL license, for both animated paper and HTML fallback. Keep the approved wording, signature and dark ink. Acceptance requires complete paragraphs and signature fitting the paper, comfortable line spacing and readable mobile fallback. This is a local font exploration; no new publication requested.

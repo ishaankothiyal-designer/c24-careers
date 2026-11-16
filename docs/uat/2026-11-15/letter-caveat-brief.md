@@ -1,0 +1,11 @@
+# Caveat letter typeface trial: brief/source review
+
+**Verdict:** Accepted as a local typeface trial with no source blocker identified. A more natural handwritten appearance is a visual preference; final readability and fit require the visual reviewer’s judgment. No deployment requested or performed.
+
+The diff is scoped to the letter paragraph font declaration, paragraph size/leading and matching font preload, plus the self-hosted Caveat files. Letter wording, signature/Motterdam declaration, dark ink, paper surface, animation timing, fold geometry and page section layout are unchanged. Caveat500 replaces Pine Words400 for paragraphs, at1.2em with1.55line height. The resulting declared size is24px for a20px sheet, with20.4–22.8px phone sizes from the existing17–19px base. Existing texture-fit logic can scale rendered ink, so those are declared sizes rather than a promise about every final canvas glyph.
+
+The CSS declares the variable400–700weight range with swap and a generic cursive fallback. Runtime waits for Caveat500 at24px and the unchanged signature face before scene creation, then waits for document.fonts.ready. The canvas reads each paragraph's computed font family, weight, size and leading, so it shares the fallback HTML styling instead of retaining a hardcoded old face. The existing loadingdone resize invalidates cached ink layout and redraws the same canvas. Font/scene errors retain the readable DOM fallback; phones/reduced-motion states use that existing fallback path.
+
+Caveat is self-hosted; no runtime third-party request is added. The font file identifies as TrueType Caveat, and the accompanying README links the Google Fonts distribution. OFL.txt includes the Caveat Project copyright and complete SIL Open Font License1.1 notice. The signature font/license assets remain untouched. No private data or external script is introduced.
+
+Independently ran paper-text-layout and paper-tablet-mode regressions:9passed,0failed. git diff --check passed. The source review confirms scope/loading/fallback consistency; it does not establish desktop texture sharpness, all-paragraph fitting, phone readability or the subjective handwriting quality. The repository Flatland reference remains the available design authority; no missing reference was invented. No product edits or browser actions performed by this reviewer.
